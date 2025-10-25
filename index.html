@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Oso | Cervezas Artesanales • Salsas Picantes • Conservas Caseras</title>
+    <meta name="description" content="El Oso - Cervezas artesanales premium, salsas picantes artesanales y conservas caseras. Productos únicos para eventos y consumo personal. Envíos en Argentina.">
+    <meta name="keywords" content="cervezas artesanales, salsas picantes, conservas caseras, El Oso, eventos, cerveza artesanal, picantes, conservas, combos cerveza">
+    <meta name="author" content="El Oso">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://elosocerveza.netlify.app/">
+    <meta property="og:title" content="El Oso | Cervezas Artesanales • Salsas Picantes • Conservas Caseras">
+    <meta property="og:description" content="Cervezas artesanales premium, salsas picantes artesanales y conservas caseras. Productos únicos para eventos y consumo personal.">
+    <meta property="og:image" content="https://elosocerveza.netlify.app/images/logo.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://elosocerveza.netlify.app/">
+    <meta property="twitter:title" content="El Oso | Cervezas Artesanales • Salsas Picantes • Conservas Caseras">
+    <meta property="twitter:description" content="Cervezas artesanales premium, salsas picantes artesanales y conservas caseras. Productos únicos para eventos y consumo personal.">
+    <meta property="twitter:image" content="https://elosocerveza.netlify.app/images/logo.png">
+    
+    <!-- Schema.org markup for Google -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Brewery",
+        "name": "El Oso - Cervezas Artesanales",
+        "description": "Cervezas artesanales premium, salsas picantes y conservas caseras elaboradas en Quilmes, Buenos Aires",
+        "url": "https://elosocerveza.netlify.app/",
+        "logo": "https://elosocerveza.netlify.app/images/logo.png",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Quilmes",
+            "addressRegion": "Buenos Aires",
+            "addressCountry": "AR"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-34.7242",
+            "longitude": "-58.2526"
+        },
+        "openingHours": "Mo-Su 09:00-20:00",
+        "telephone": "+5491123495971",
+        "priceRange": "$$",
+        "servesCuisine": "Cerveza Artesanal",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "156"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="canonical" href="https://elosocerveza.netlify.app/">
+    
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "tv065j3vw4");
+    </script>
+</head>
+<body>
+    <!-- Header con estructura semántica mejorada -->
+    <header role="banner">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo" aria-label="El Oso - Página de inicio">
+                    <img src="images/logo.png" alt="El Oso - Cervezas Artesanales • Salsas Picantes • Conservas Caseras" class="logo-image">
+                    <span>EL OSO</span>
+                </a>
+                
+                <div class="header-actions">
+                    <button class="cart-toggle" id="cartToggle" aria-label="Abrir carrito de compras">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navegación por categorías -->
+        <nav class="category-nav" aria-label="Categorías de productos">
+            <div class="category-list">
+                <a href="#cervezas" class="category-item active">
+                    <i class="fas fa-beer" aria-hidden="true"></i>
+                    <span>Cervezas</span>
+                </a>
+                <a href="#picantes" class="category-item">
+                    <i class="fas fa-pepper-hot" aria-hidden="true"></i>
+                    <span>Picantes</span>
+                </a>
+                <a href="#conservas" class="category-item">
+                    <i class="fas fa-jar" aria-hidden="true"></i>
+                    <span>Conservas</span>
+                </a>
+                <a href="#combos" class="category-item">
+                    <i class="fas fa-gift" aria-hidden="true"></i>
+                    <span>Combos</span>
+                </a>
+                <a href="#eventos" class="category-item">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    <span>Eventos</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero con etiqueta semántica -->
+    <section class="hero" id="hero" aria-label="Banner principal de El Oso">
+        <div class="hero-container">
+            <picture>
+                <!-- Imágenes optimizadas para diferentes breakpoints -->
+                <source media="(min-width: 1200px)" srcset="images/banner-large.jpg">
+                <source media="(min-width: 768px)" srcset="images/banner-medium.jpg">
+                <source media="(min-width: 480px)" srcset="images/banner-small.jpg">
+                <!-- Imagen por defecto -->
+                <img src="images/banner-large.jpg" alt="El Oso - Cervezas Artesanales, Salsas Picantes y Conservas Caseras" class="hero-image">
+            </picture>
+        </div>
+    </section>
+
+    <!-- Banner de Envío Gratis -->
+    <section class="shipping-banner" aria-label="Promoción de envío gratis">
+        <div class="container">
+            <div class="shipping-content">
+                <div class="shipping-text">
+                    <i class="fas fa-truck shipping-icon"></i>
+                    <strong>ENVÍO GRATIS</strong> - Jueves y Viernes en Quilmes, Bernal y Ezpeleta
+                    <i class="fas fa-truck shipping-icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de productos destacados -->
+    <section class="products-section" id="destacados">
+        <div class="container">
+            <div class="section-header">
+                <h1 class="section-title">Productos Destacados</h1>
+            </div>
+            
+            <div class="products-grid" id="featured-products">
+                <div class="loading-products">
+                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                    <p>Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de cervezas -->
+    <section class="products-section" id="cervezas">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Nuestras Cervezas</h2>
+            </div>
+            
+            <div class="products-grid" id="beer-products">
+                <div class="loading-products">
+                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                    <p>Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de salsas picantes -->
+    <section class="products-section" id="picantes">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Salsas Picantes</h2>
+            </div>
+            
+            <div class="products-grid" id="sauce-products">
+                <div class="loading-products">
+                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                    <p>Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de conservas -->
+    <section class="products-section" id="conservas">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Conservas Caseras</h2>
+            </div>
+            
+            <div class="products-grid" id="preserve-products">
+                <div class="loading-products">
+                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                    <p>Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de combos -->
+    <section class="products-section" id="combos">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Combos Especiales</h2>
+            </div>
+            
+            <div class="products-grid" id="combo-products">
+                <div class="loading-products">
+                    <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                    <p>Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Cotiza tu Evento -->
+    <section class="event-section" id="eventos">
+        <div class="container">
+            <div class="event-content">
+                <h2 class="event-main-title">¡TU EVENTO CON EL OSO!</h2>
+                <p class="event-subtitle">Contanos tu idea • Nosotros hacemos el resto</p>
+                
+                <div class="event-highlight">
+                    <h3>¿Planificando un evento especial?</h3>
+                    <p>Ofrecemos cotizaciones personalizadas para fiestas, reuniones y eventos corporativos. Precios especiales por volumen y servicio de entrega incluido.</p>
+                </div>
+                
+                <div class="event-features-grid">
+                    <div class="event-feature-card">
+                        <i class="fas fa-tags event-feature-icon" aria-hidden="true"></i>
+                        <h4>PRECIOS MAYORISTA</h4>
+                        <p>Descuentos especiales para eventos grandes</p>
+                    </div>
+                    <div class="event-feature-card">
+                        <i class="fas fa-shipping-fast event-feature-icon" aria-hidden="true"></i>
+                        <h4>ENVÍO INCLUIDO</h4>
+                        <p>Servicio de entrega para tu comodidad</p>
+                    </div>
+                    <div class="event-feature-card">
+                        <i class="fas fa-user-cog event-feature-icon" aria-hidden="true"></i>
+                        <h4>ASESORAMIENTO</h4>
+                        <p>Te ayudamos a elegir los mejores productos</p>
+                    </div>
+                </div>
+                
+                <button class="whatsapp-event-btn" onclick="contactEvent()">
+                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                    COTIZAR EVENTO GRATIS
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Nuestro Instagram -->
+    <section class="instagram-section" id="instagram">
+        <div class="container">
+            <div class="instagram-content">
+                <h2 class="instagram-main-title">Seguinos en Instagram</h2>
+                <div class="instagram-handle">@elosocerveza</div>
+                <p class="instagram-description">Descubrí nuestros últimos lanzamientos, eventos especiales y detrás de escena de nuestra producción artesanal. Compartí tus momentos #ConElOso</p>
+                
+                <div class="instagram-stats">
+                    <div class="instagram-stat">
+                        <div class="instagram-stat-number">1K+</div>
+                        <div class="instagram-stat-label">Seguidores</div>
+                    </div>
+                    <div class="instagram-stat">
+                        <div class="instagram-stat-number">150+</div>
+                        <div class="instagram-stat-label">Publicaciones</div>
+                    </div>
+                    <div class="instagram-stat">
+                        <div class="instagram-stat-number">24/7</div>
+                        <div class="instagram-stat-label">Activos</div>
+                    </div>
+                </div>
+                
+                <a href="https://instagram.com/elosocerveza" target="_blank" rel="noopener noreferrer" class="instagram-follow-btn">
+                    <i class="fab fa-instagram" aria-hidden="true"></i>
+                    SEGUIR EN INSTAGRAM
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer con información de contacto -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p><strong>El Oso - Cervezas Artesanales • Salsas Picantes • Conservas Caseras</strong></p>
+                <p>Contacto: <a href="https://wa.me/5491123495971" style="color: white;">+54 9 11 2349-5971</a></p>
+                <p>&copy; 2025 El Oso. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Navegación móvil fija -->
+    <nav class="mobile-nav" aria-label="Navegación móvil">
+        <button class="nav-item" id="mobileCartBtn">
+            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+            <span>Carrito</span>
+        </button>
+    </nav>
+
+    <!-- Modal de producto -->
+    <div class="product-modal" id="productModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal" aria-label="Cerrar modal">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido del modal se carga dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrito de compras -->
+    <aside class="cart-sidebar" id="cartSidebar" aria-label="Carrito de compras">
+        <div class="cart-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" id="closeCart" aria-label="Cerrar carrito"><i class="fas fa-times" aria-hidden="true"></i></button>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <!-- Los productos del carrito se cargan dinámicamente -->
+        </div>
+        
+        <div class="cart-summary">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Finalizar Compra</button>
+        </div>
+    </aside>
+
+    <!-- Overlay para carrito y modal -->
+    <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
