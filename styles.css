@@ -422,7 +422,8 @@ header {
 /* Garantías y Confianza */
 .guarantees-section {
     padding: 60px 0;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-color);
 }
 
 .guarantees-section h2 {
@@ -562,6 +563,17 @@ header {
     background: var(--primary-dark);
 }
 
+/* MEJORA: Mensaje de stock en modal */
+.stock-warning {
+    font-size: 12px;
+    color: #e74c3c;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
+
 /* Compra Rápida */
 .quick-buy-btn {
     width: 100%;
@@ -584,6 +596,20 @@ header {
 .quick-buy-btn:hover {
     background: #218838;
     transform: translateY(-2px);
+}
+
+/* MEJORA: Botones deshabilitados por stock */
+.quick-buy-btn:disabled,
+.add-to-cart-btn:disabled {
+    background: #ccc !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+.quick-buy-btn:disabled:hover,
+.add-to-cart-btn:disabled:hover {
+    background: #ccc !important;
+    transform: none !important;
 }
 
 .quick-buy-modal {
@@ -1116,7 +1142,8 @@ header {
 /* Calidad y Seguridad */
 .quality-security {
     padding: 60px 0;
-    background: var(--bg-color);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-color);
 }
 
 .quality-security h2 {
@@ -1200,7 +1227,6 @@ header {
 }
 
 .process-step:not(:last-child)::after {
-    content: '↓';
     position: absolute;
     bottom: -40px;
     left: 50%;
@@ -1598,6 +1624,18 @@ header {
     transform: translateY(-1px);
 }
 
+/* MEJORA: Botones de cantidad deshabilitados */
+.quantity-btn:disabled {
+    background: #ccc !important;
+    cursor: not-allowed !important;
+    border-color: #ccc !important;
+}
+
+.quantity-btn:disabled:hover {
+    background: #ccc !important;
+    transform: none !important;
+}
+
 /* Modal de producto */
 .product-modal {
     position: fixed;
@@ -1775,6 +1813,18 @@ header {
     transform: translateY(-2px);
 }
 
+/* MEJORA: Botón deshabilitado en modal */
+.modal-add-to-cart:disabled {
+    background: #ccc !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+.modal-add-to-cart:disabled:hover {
+    background: #ccc !important;
+    transform: none !important;
+}
+
 .product-features {
     margin-top: 20px;
     padding-top: 20px;
@@ -1831,7 +1881,6 @@ header {
 .event-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -1965,7 +2014,6 @@ header {
 .instagram-content {
     position: relative;
     z-index: 2;
-    max-width: 600px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -2187,6 +2235,13 @@ header {
     font-weight: bold;
     margin-bottom: 5px;
     font-size: 14px;
+}
+
+/* MEJORA: Información de stock en carrito */
+.cart-item-stock {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 5px;
 }
 
 .cart-item-actions {
@@ -2457,7 +2512,6 @@ header {
     }
     
     .process-steps .process-step:not(:last-child)::after {
-        content: '↓';
         position: absolute;
         bottom: -30px;
         left: 50%;
@@ -2465,7 +2519,6 @@ header {
     }
     
     .timeline-steps .timeline-step:not(:last-child)::after {
-        content: '↓';
         position: absolute;
         bottom: -20px;
         left: 50%;
@@ -2510,4 +2563,172 @@ header {
 .notification.info {
     background: var(--primary-color);
     color: var(--text-color);
+}
+
+/* Mejoras para la sección de garantías */
+.guarantees-section .section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.guarantee-card {
+    text-align: center;
+    padding: 30px 25px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.guarantee-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.guarantee-card:hover::before {
+    transform: scaleX(1);
+}
+
+.guarantee-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 25px rgba(244, 209, 68, 0.15);
+}
+
+.guarantee-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.guarantee-card:hover i {
+    transform: scale(1.1);
+}
+
+.guarantee-card h3 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-size: 1.3rem;
+}
+
+.guarantee-card p {
+    color: var(--text-light);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.guarantee-card strong {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin: 40px 0;
+}
+
+.trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    background: var(--card-bg);
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.trust-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.trust-badge i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.guarantee-cta {
+    text-align: center;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    padding: 30px;
+    border-radius: 12px;
+    margin-top: 40px;
+    color: var(--text-color);
+}
+
+.guarantee-cta h4 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+.guarantee-cta p {
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.whatsapp-guarantee-btn {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+}
+
+.whatsapp-guarantee-btn:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .guarantees-section .section-subtitle {
+        font-size: 1.1rem;
+        padding: 0 15px;
+    }
+    
+    .trust-badges {
+        gap: 15px;
+    }
+    
+    .trust-badge {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    
+    .guarantee-cta {
+        padding: 25px 20px;
+    }
+    
+    .guarantee-cta h4 {
+        font-size: 1.2rem;
+    }
 }

@@ -149,15 +149,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Mapeo de columnas CSV a propiedades
         const columnMap = {
-            'ID': 'id',
-            'Nombre': 'name', 
-            'Descripción': 'description',
-            'Precio': 'price',
-            'Imagen': 'image',
-            'Categoría': 'category',
+            'Id': 'id',
+            'Name': 'name', 
+            'Description': 'description',
+            'Price': 'price',
+            'Image': 'image',
+            'Category': 'category',
             'Badge': 'badge',
-            'Características': 'features',
-            'Activo': 'active',
+            'Features': 'features',
+            'Active': 'active',
             'Stock': 'stock',
             'StockLimit': 'stockLimit'
         };
@@ -352,15 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function generateStockInfo(product) {
-        if (product.stockLimit === false) {
-            return `
-                <div class="stock-status high-stock">
-                    <i class="fas fa-check-circle"></i>
-                    <span>Disponible</span>
-                </div>
-            `;
-        }
-        else if (!product.stock || product.stock === 0) {
+        if (!product.stock || product.stock === 0) {
             return `
                 <div class="stock-status out-of-stock">
                     <i class="fas fa-times-circle"></i>
@@ -409,6 +401,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function quickBuyProduct(productId) {
         const product = findProductById(productId);
+        
+        // MEJORA: Validar stock antes de abrir modal
+        if (!validateStock(productId, 1)) {
+            showNotification("❌ No hay suficiente stock disponible", "error");
+            return;
+        }
         
         const quickBuyModal = `
             <div class="quick-buy-modal active">
@@ -477,6 +475,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function addToCartFromQuickBuy(productId) {
         const product = findProductById(productId);
+        
+        // MEJORA: Validar stock antes de agregar
+        if (!validateStock(productId, 1)) {
+            showNotification("❌ No hay suficiente stock disponible", "error");
+            return;
+        }
+        
         addToCart(product, 1);
         
         // Cerrar modal
@@ -568,6 +573,30 @@ document.addEventListener('DOMContentLoaded', function() {
         return 'fas fa-beer';
     }
 
+    // MEJORA: Función para validar stock antes de cualquier acción
+    function validateStock(productId, requestedQuantity) {
+        const product = findProductById(productId);
+        if (!product) return false;
+        
+        const existingItem = cart.find(item => item.id === productId);
+        const currentInCart = existingItem ? existingItem.quantity : 0;
+        const availableStock = product.stock || 0;
+        
+        return (currentInCart + requestedQuantity) <= availableStock;
+    }
+
+    // MEJORA: Función para obtener stock disponible
+    function getAvailableStock(productId) {
+        const product = findProductById(productId);
+        if (!product) return 0;
+        
+        const existingItem = cart.find(item => item.id === productId);
+        const currentInCart = existingItem ? existingItem.quantity : 0;
+        const availableStock = product.stock || 0;
+        
+        return Math.max(0, availableStock - currentInCart);
+    }
+
     // Cargar productos en las secciones
     function loadProducts() {
         renderProducts('featured-products', products.featured);
@@ -593,7 +622,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        container.innerHTML = activeProducts.map(product => `
+        container.innerHTML = activeProducts.map(product => {
+            const availableStock = getAvailableStock(product.id);
+            const isOutOfStock = availableStock <= 0;
+            
+            return `
             <div class="product-card" data-id="${product.id}" data-category="${product.category}">
                 <div class="product-image">
                     ${product.image ? 
@@ -611,32 +644,41 @@ document.addEventListener('DOMContentLoaded', function() {
                     <!-- Información de stock mejorada -->
                     ${generateStockInfo(product)}
                     
-                    <button class="add-to-cart-btn" data-id="${product.id}">
-                        <i class="fas fa-cart-plus"></i> Agregar al carrito
+                    <button class="add-to-cart-btn" data-id="${product.id}" 
+                            ${isOutOfStock ? 'disabled' : ''}>
+                        <i class="fas fa-cart-plus"></i> 
+                        ${isOutOfStock ? 'Sin stock' : 'Agregar al carrito'}
                     </button>
                     
                     <!-- Botón de compra rápida -->
-                    <button class="quick-buy-btn" data-id="${product.id}">
-                        <i class="fas fa-bolt"></i> Comprar rápido
+                    <button class="quick-buy-btn" data-id="${product.id}" 
+                            ${isOutOfStock ? 'disabled' : ''}>
+                        <i class="fas fa-bolt"></i> 
+                        ${isOutOfStock ? 'No disponible' : 'Comprar rápido'}
                     </button>
                 </div>
             </div>
-        `).join('');
+        `}).join('');
 
         // Agregar event listeners a los botones de agregar al carrito
-        container.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        container.querySelectorAll('.add-to-cart-btn:not(:disabled)').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const productId = parseInt(this.dataset.id);
                 const product = findProductById(productId);
                 if (product) {
+                    // MEJORA: Validar stock antes de agregar
+                    if (!validateStock(productId, 1)) {
+                        showNotification("❌ No hay suficiente stock disponible", "error");
+                        return;
+                    }
                     addToCart(product, 1);
                 }
             });
         });
 
         // Agregar event listeners a los botones de compra rápida
-        container.querySelectorAll('.quick-buy-btn').forEach(btn => {
+        container.querySelectorAll('.quick-buy-btn:not(:disabled)').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const productId = parseInt(this.dataset.id);
@@ -672,6 +714,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const overlay = document.getElementById('overlay');
 
     function openProductModal(product) {
+        const availableStock = getAvailableStock(product.id);
+        const maxQuantity = Math.min(availableStock, 10);
+        
         modalBody.innerHTML = `
             <div class="modal-product">
                 <div class="modal-image">
@@ -691,17 +736,25 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${generateStockInfo(product)}
                     
                     <div class="quantity-selector">
-                        <button class="quantity-btn" id="decreaseQuantity">
+                        <button class="quantity-btn" id="decreaseQuantity" ${maxQuantity <= 1 ? 'disabled' : ''}>
                             <i class="fas fa-minus"></i>
                         </button>
-                        <input type="number" class="quantity-input" id="productQuantity" value="1" min="1" max="10">
-                        <button class="quantity-btn" id="increaseQuantity">
+                        <input type="number" class="quantity-input" id="productQuantity" 
+                               value="1" min="1" max="${maxQuantity}" ${maxQuantity === 0 ? 'disabled' : ''}>
+                        <button class="quantity-btn" id="increaseQuantity" ${maxQuantity <= 1 ? 'disabled' : ''}>
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
+                    ${maxQuantity > 0 && maxQuantity <= 5 ? `
+                        <div class="stock-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Máximo ${maxQuantity} unidad(es) por pedido
+                        </div>
+                    ` : ''}
                     
-                    <button class="modal-add-to-cart" id="modalAddToCart" data-id="${product.id}">
-                        Añadir al carrito - $${product.price.toLocaleString()}
+                    <button class="modal-add-to-cart" id="modalAddToCart" data-id="${product.id}" 
+                            ${maxQuantity === 0 ? 'disabled' : ''}>
+                        ${maxQuantity === 0 ? 'Sin stock disponible' : `Añadir al carrito - $${product.price.toLocaleString()}`}
                     </button>
                     
                     ${product.features && product.features.length > 0 ? `
@@ -722,48 +775,77 @@ document.addEventListener('DOMContentLoaded', function() {
         const quantityInput = document.getElementById('productQuantity');
         const addToCartBtn = document.getElementById('modalAddToCart');
 
-        decreaseBtn.addEventListener('click', function() {
-            let value = parseInt(quantityInput.value);
-            if (value > 1) {
-                quantityInput.value = value - 1;
+        if (decreaseBtn) {
+            decreaseBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
+                    updateAddToCartButton(product);
+                    updateQuantityButtons(maxQuantity, value - 1);
+                }
+            });
+        }
+
+        if (increaseBtn) {
+            increaseBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value < maxQuantity) {
+                    quantityInput.value = value + 1;
+                    updateAddToCartButton(product);
+                    updateQuantityButtons(maxQuantity, value + 1);
+                }
+            });
+        }
+
+        if (quantityInput) {
+            quantityInput.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                if (value < 1) this.value = 1;
+                if (value > maxQuantity) this.value = maxQuantity;
                 updateAddToCartButton(product);
-            }
-        });
+                updateQuantityButtons(maxQuantity, parseInt(this.value));
+            });
+        }
 
-        increaseBtn.addEventListener('click', function() {
-            let value = parseInt(quantityInput.value);
-            const max = 10;
-            if (value < max) {
-                quantityInput.value = value + 1;
-                updateAddToCartButton(product);
-            }
-        });
-
-        quantityInput.addEventListener('change', function() {
-            let value = parseInt(this.value);
-            const max = 10;
-            if (value < 1) this.value = 1;
-            if (value > max) this.value = max;
-            updateAddToCartButton(product);
-        });
-
-        addToCartBtn.addEventListener('click', function() {
-            const quantity = parseInt(quantityInput.value);
-            addToCart(product, quantity);
-            closeProductModal();
-            showAddToCartFeedback(quantity);
-        });
+        if (addToCartBtn && maxQuantity > 0) {
+            addToCartBtn.addEventListener('click', function() {
+                const quantity = parseInt(quantityInput.value);
+                // MEJORA: Validación final antes de agregar
+                if (!validateStock(product.id, quantity)) {
+                    showNotification("❌ No hay suficiente stock disponible", "error");
+                    return;
+                }
+                addToCart(product, quantity);
+                closeProductModal();
+                showAddToCartFeedback(quantity);
+            });
+        }
 
         productModal.classList.add('active');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
+    // MEJORA: Función para actualizar estado de botones de cantidad
+    function updateQuantityButtons(maxQuantity, currentValue) {
+        const decreaseBtn = document.getElementById('decreaseQuantity');
+        const increaseBtn = document.getElementById('increaseQuantity');
+        
+        if (decreaseBtn) {
+            decreaseBtn.disabled = currentValue <= 1;
+        }
+        if (increaseBtn) {
+            increaseBtn.disabled = currentValue >= maxQuantity;
+        }
+    }
+
     function updateAddToCartButton(product) {
         const quantity = parseInt(document.getElementById('productQuantity').value);
         const total = product.price * quantity;
         const addToCartBtn = document.getElementById('modalAddToCart');
-        addToCartBtn.textContent = `Añadir al carrito - $${total.toLocaleString()}`;
+        if (addToCartBtn) {
+            addToCartBtn.textContent = `Añadir al carrito - $${total.toLocaleString()}`;
+        }
     }
 
     function closeProductModal() {
@@ -788,13 +870,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Funciones del carrito
     function addToCart(product, quantity = 1) {
-        // Verificar stock disponible
-        if (product.stock && product.quantity + quantity > product.stock) {
-            showAddToCartFeedback(0, `❌ Solo quedan ${product.stock} unidades disponibles`);
+        // MEJORA: Validación robusta de stock
+        const currentStock = product.stock || 0;
+        const existingItem = cart.find(item => item.id === product.id);
+        const currentQuantity = existingItem ? existingItem.quantity : 0;
+        const totalAfterAdd = currentQuantity + quantity;
+        
+        if (currentStock > 0 && totalAfterAdd > currentStock) {
+            const available = currentStock - currentQuantity;
+            showAddToCartFeedback(0, `❌ Solo podés agregar ${available} unidad(es) más. Stock: ${currentStock}`);
             return;
         }
         
-        const existingItem = cart.find(item => item.id === product.id);
+        if (currentStock === 0) {
+            showAddToCartFeedback(0, `❌ Producto sin stock disponible`);
+            return;
+        }
         
         if (existingItem) {
             existingItem.quantity += quantity;
@@ -808,30 +899,18 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCart();
         saveCart();
         showAddToCartFeedback(quantity);
+        
+        // MEJORA: Actualizar productos en caso de que se agote el stock
+        if (currentStock - totalAfterAdd <= 0) {
+            setTimeout(() => {
+                loadProducts();
+            }, 100);
+        }
     }
 
     function showAddToCartFeedback(quantity, customMessage = null) {
         if (customMessage) {
-            // Mostrar notificación de error
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: var(--danger-color);
-                color: white;
-                padding: 15px 20px;
-                border-radius: 8px;
-                box-shadow: var(--shadow);
-                z-index: 3000;
-                font-weight: bold;
-            `;
-            notification.textContent = customMessage;
-            document.body.appendChild(notification);
-
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
+            showNotification(customMessage, "error");
             return;
         }
 
@@ -842,21 +921,25 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => cartCount.style.animation = '', 500);
         }
 
-        // Mostrar notificación de éxito
+        showNotification(`✅ ${quantity} producto(s) añadido(s) al carrito`, "success");
+    }
+
+    // MEJORA: Función de notificación mejorada
+    function showNotification(message, type = "info") {
         const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
         notification.style.cssText = `
             position: fixed;
             top: 100px;
             right: 20px;
-            background: var(--success-color);
-            color: white;
             padding: 15px 20px;
             border-radius: 8px;
             box-shadow: var(--shadow);
             z-index: 3000;
             font-weight: bold;
+            animation: slideIn 0.3s ease;
         `;
-        notification.textContent = `✅ ${quantity} producto(s) añadido(s) al carrito`;
+        notification.textContent = message;
         document.body.appendChild(notification);
 
         setTimeout(() => {
@@ -869,7 +952,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const cartTotal = document.getElementById('cartTotal');
 
         if (cartItems) {
-            cartItems.innerHTML = cart.map(item => `
+            cartItems.innerHTML = cart.map(item => {
+                const availableStock = item.stock || 0;
+                const canIncrease = item.quantity < availableStock;
+                
+                return `
                 <div class="cart-item">
                     <div class="cart-item-image">
                         ${item.image ? 
@@ -881,12 +968,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="cart-item-details">
                         <h3 class="cart-item-name">${item.name}</h3>
                         <div class="cart-item-price">$${item.price.toLocaleString()}</div>
+                        <div class="cart-item-stock">Stock disponible: ${availableStock}</div>
                         <div class="cart-item-actions">
-                            <button class="quantity-btn" data-id="${item.id}" data-action="decrease">
+                            <button class="quantity-btn" data-id="${item.id}" data-action="decrease" ${item.quantity <= 1 ? 'disabled' : ''}>
                                 <i class="fas fa-minus"></i>
                             </button>
                             <span class="cart-item-quantity">${item.quantity}</span>
-                            <button class="quantity-btn" data-id="${item.id}" data-action="increase">
+                            <button class="quantity-btn" data-id="${item.id}" data-action="increase" ${!canIncrease ? 'disabled' : ''}>
                                 <i class="fas fa-plus"></i>
                             </button>
                             <button class="remove-item" data-id="${item.id}">
@@ -895,7 +983,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                 </div>
-            `).join('');
+            `}).join('');
 
             // Agregar event listeners a los botones del carrito
             cartItems.querySelectorAll('.quantity-btn').forEach(btn => {
@@ -958,6 +1046,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!item) return;
 
         if (action === 'increase') {
+            // MEJORA: Validar que no exceda el stock
+            if (item.quantity >= (item.stock || 999)) {
+                showNotification(`❌ No hay más stock disponible`);
+                return;
+            }
             item.quantity += 1;
         } else if (action === 'decrease' && item.quantity > 1) {
             item.quantity -= 1;
@@ -965,12 +1058,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
         updateCart();
         saveCart();
+        
+        // MEJORA: Actualizar productos si el stock cambia
+        setTimeout(() => {
+            loadProducts();
+        }, 100);
     }
 
     function removeFromCart(productId) {
         cart = cart.filter(item => item.id !== productId);
         updateCart();
         saveCart();
+        
+        // MEJORA: Actualizar productos cuando se libera stock
+        setTimeout(() => {
+            loadProducts();
+        }, 100);
     }
 
     // FUNCIONES DE PERSISTENCIA DEL CARRITO
@@ -1000,7 +1103,12 @@ document.addEventListener('DOMContentLoaded', function() {
         cart = [];
         updateCart();
         saveCart();
-        showAddToCartFeedback(0, "🛒 Carrito vaciado");
+        showNotification("🛒 Carrito vaciado", "info");
+        
+        // MEJORA: Actualizar productos cuando se libera stock
+        setTimeout(() => {
+            loadProducts();
+        }, 100);
     }
 
     // Funcionalidad del carrito
@@ -1058,7 +1166,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function() {
             if (cart.length === 0) {
-                showAddToCartFeedback(0, "❌ Tu carrito está vacío");
+                showNotification("❌ Tu carrito está vacío", "error");
                 return;
             }
 
@@ -1116,6 +1224,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.completeQuickBuy = completeQuickBuy;
     window.addToCartFromQuickBuy = addToCartFromQuickBuy;
     window.openChatAssistant = openChatAssistant;
+    window.showNotification = showNotification;
 
     // Función principal inicializada
     async function init() {
