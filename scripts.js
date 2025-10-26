@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ],
                 active: true,
                 stock: 8,
-                stockLimit: false
+                stockLimit: true
             },
             {
                 id: 17,
@@ -59,7 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Ahorra 10%",
                     "Perfecto para conocer nuestra variedad"
                 ],
-                active: true
+                active: true,
+                stock: 12
             },
             {
                 id: 3,
@@ -74,7 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Perfecto para asados",
                     "Ingredientes naturales"
                 ],
-                active: true
+                active: true,
+                stock: 20
             }
         ],
         beers: [
@@ -90,7 +92,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Medio",
                     "Notas frutales tropicales"
                 ],
-                active: true
+                active: true,
+                stock: 25
             },
             {
                 id: 2,
@@ -105,7 +108,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Bajo",
                     "Notas de naranja y especias"
                 ],
-                active: true
+                active: true,
+                stock: 8,
+                stockLimit: true
             },
             {
                 id: 4,
@@ -119,7 +124,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Bajo",
                     "Notas acarameladas"
                 ],
-                active: true
+                active: true,
+                stock: 18
             },
             {
                 id: 5,
@@ -133,7 +139,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Bajo",
                     "Notas de miel natural"
                 ],
-                active: false
+                active: false,
+                stock: 0
             },
             {
                 id: 6,
@@ -147,7 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Bajo",
                     "Notas tostadas y acarameladas"
                 ],
-                active: true
+                active: true,
+                stock: 15
             },
             {
                 id: 7,
@@ -161,7 +169,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Bajo",
                     "Toque cítrico de limón"
                 ],
-                active: false
+                active: false,
+                stock: 0
             },
             {
                 id: 8,
@@ -175,7 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Medio",
                     "Notas de café y chocolate"
                 ],
-                active: true
+                active: true,
+                stock: 22
             },
             {
                 id: 9,
@@ -189,7 +199,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Bajo",
                     "Suave y refrescante"
                 ],
-                active: true
+                active: true,
+                stock: 30
             },
             {
                 id: 10,
@@ -203,7 +214,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Medio",
                     "Notas intensas de cacao"
                 ],
-                active: true
+                active: true,
+                stock: 16
             },
             {
                 id: 11,
@@ -217,7 +229,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Medio",
                     "Toque cítrico del lúpulo"
                 ],
-                active: true
+                active: true,
+                stock: 14
             },
             {
                 id: 12,
@@ -231,7 +244,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Amargor: Bajo",
                     "Notas a clavo y banana"
                 ],
-                active: true
+                active: true,
+                stock: 28
             }
         ],
         sauces: [
@@ -247,7 +261,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Textura: espesa",
                     "Jalapeño verde natural"
                 ],
-                active: true
+                active: true,
+                stock: 35
             },
             {
                 id: 14,
@@ -261,7 +276,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Textura: espesa",
                     "Jalapeño rojo intenso"
                 ],
-                active: true
+                active: true,
+                stock: 25
             }
         ],
         preserves: [
@@ -278,7 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Perfecto para asados",
                     "Ingredientes naturales"
                 ],
-                active: true
+                active: true,
+                stock: 20
             },
             {
                 id: 15,
@@ -292,7 +309,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Perfecto para picadas",
                     "Tiernas y sabrosas"
                 ],
-                active: true
+                active: true,
+                stock: 18
             },
             {
                 id: 16,
@@ -306,7 +324,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Versátil en preparaciones",
                     "Textura crujiente"
                 ],
-                active: true
+                active: true,
+                stock: 22
             }
         ],
         combos: [
@@ -317,14 +336,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: 27000,
                 image: "images/products/combos/degustacion.jpg",
                 category: "combos",
-                badge: "Más Vendido",
                 badge: "10% OFF",
                 features: [
                     "6 cervezas a tu elección",
                     "Ahorra 10% vs compra individual",
                     "Perfecto para conocer nuestra variedad"
                 ],
-                active: true
+                active: true,
+                stock: 12
             },
             {
                 id: 18,
@@ -339,7 +358,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Ahorra 17% vs compra individual",
                     "Ideal para picadas y asados"
                 ],
-                active: true
+                active: true,
+                stock: 15
             },
             {
                 id: 19,
@@ -354,7 +374,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Ahorra 17% vs compra individual",
                     "Verde y rojo para todos los gustos"
                 ],
-                active: true
+                active: true,
+                stock: 10
             },
             {
                 id: 20,
@@ -371,10 +392,256 @@ document.addEventListener('DOMContentLoaded', function() {
                     "Ahorra 20% vs compra individual",
                     "Presentación ideal para regalo"
                 ],
-                active: true
+                active: true,
+                stock: 8
             }
         ]
     };
+
+    // ===== 1. CALCULADORA DE ENVÍOS =====
+    function initShippingCalculator() {
+        console.log("Calculadora de envíos inicializada");
+        // Ya está implementada en el HTML
+    }
+
+    function calculateShipping(location) {
+        if (location.length < 3) {
+            document.getElementById('shippingResults').innerHTML = '<p>Ingresá tu barrio o localidad para calcular el envío</p>';
+            return;
+        }
+        
+        const freeZones = ['quilmes', 'bernal', 'ezpeleta'];
+        const mediumZones = ['solano', 'don bosco', 'san francisco'];
+        const farZones = ['avellaneda', 'lanus', 'lomas'];
+        
+        let resultHTML = '';
+        
+        if (freeZones.some(zone => location.toLowerCase().includes(zone))) {
+            resultHTML = `
+                <div class="shipping-option free">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>¡ENVÍO GRATIS!</strong>
+                        <span>Jueves y Viernes - Entrega en 24-48hs</span>
+                    </div>
+                </div>
+                <div class="shipping-option paid">
+                    <i class="fas fa-shipping-fast"></i>
+                    <div>
+                        <strong>Envío Express: $800</strong>
+                        <span>Mismo día - Pedidos antes de 14hs</span>
+                    </div>
+                </div>
+            `;
+        } else if (mediumZones.some(zone => location.toLowerCase().includes(zone))) {
+            resultHTML = `
+                <div class="shipping-option paid">
+                    <i class="fas fa-truck"></i>
+                    <div>
+                        <strong>Envío Estándar: $500</strong>
+                        <span>Entrega en 24-72hs</span>
+                    </div>
+                </div>
+            `;
+        } else {
+            resultHTML = `
+                <div class="shipping-option consult">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <strong>Consultar envío</strong>
+                        <span>Escribinos por WhatsApp para coordinar</span>
+                        <button onclick="consultShipping('${location}')">Consultar ahora</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        document.getElementById('shippingResults').innerHTML = resultHTML;
+    }
+
+    function consultShipping(location) {
+        const message = `¡Hola! Quiero consultar el costo de envío a: ${location}. ¿Podrían pasarme información? 🚚`;
+        const url = `https://wa.me/5491123495971?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    // ===== 2. GARANTÍAS Y CONFIANZA =====
+    function initGuaranteesSection() {
+        console.log("Sección de garantías inicializada");
+        // Ya está implementada en el HTML
+    }
+
+    // ===== 3. INFORMACIÓN DE STOCK MEJORADA =====
+    function enhanceStockInformation() {
+        console.log("Mejorando información de stock...");
+        // Se implementa en renderProducts()
+    }
+
+    function generateStockInfo(product) {
+        if (!product.stock || product.stock === 0) {
+            return `
+                <div class="stock-status out-of-stock">
+                    <i class="fas fa-times-circle"></i>
+                    <span>Temporalmente sin stock</span>
+                    <button onclick="notifyWhenAvailable(${product.id})">Avísame cuando haya</button>
+                </div>
+            `;
+        } else if (product.stock <= 5) {
+            return `
+                <div class="stock-status low-stock">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Últimas ${product.stock} unidades</span>
+                    <div class="stock-bar">
+                        <div class="stock-fill" style="width: ${(product.stock / 10) * 100}%"></div>
+                    </div>
+                </div>
+            `;
+        } else if (product.stock <= 15) {
+            return `
+                <div class="stock-status medium-stock">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Stock disponible (${product.stock} unidades)</span>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="stock-status high-stock">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Disponible</span>
+                </div>
+            `;
+        }
+    }
+
+    function notifyWhenAvailable(productId) {
+        const product = findProductById(productId);
+        const message = `¡Hola! Quiero que me avisen cuando ${product.name} esté disponible nuevamente. Mi teléfono es: [MI TELÉFONO]`;
+        const url = `https://wa.me/5491123495971?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    // ===== 4. COMPRA RÁPIDA =====
+    function initOneClickCheckout() {
+        console.log("Sistema de compra rápida inicializado");
+        // Se implementa en renderProducts()
+    }
+
+    function quickBuyProduct(productId) {
+        const product = findProductById(productId);
+        
+        const quickBuyModal = `
+            <div class="quick-buy-modal active">
+                <div class="quick-buy-content">
+                    <h3>¡Compra Rápida! 🚀</h3>
+                    <div class="product-summary">
+                        <img src="${product.image}" alt="${product.name}" 
+                             onerror="handleModalImageError(this, ${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                        <div>
+                            <h4>${product.name}</h4>
+                            <p class="price">$${product.price.toLocaleString()}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="delivery-options">
+                        <h5>¿Cómo querés recibirlo?</h5>
+                        <div class="delivery-option active" data-type="delivery">
+                            <i class="fas fa-truck"></i>
+                            <span>Envío a domicilio</span>
+                        </div>
+                        <div class="delivery-option" data-type="pickup">
+                            <i class="fas fa-store"></i>
+                            <span>Retiro en Quilmes</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <button class="btn-whatsapp" onclick="completeQuickBuy(${productId}, 'delivery')">
+                            <i class="fab fa-whatsapp"></i>
+                            Completar por WhatsApp
+                        </button>
+                        <button class="btn-add-cart" onclick="addToCartFromQuickBuy(${productId})">
+                            <i class="fas fa-cart-plus"></i>
+                            Agregar al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Remover modal existente si hay uno
+        const existingModal = document.querySelector('.quick-buy-modal');
+        if (existingModal) existingModal.remove();
+        
+        document.body.insertAdjacentHTML('beforeend', quickBuyModal);
+        
+        // Configurar event listeners para opciones de entrega
+        document.querySelectorAll('.delivery-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.delivery-option').forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    }
+
+    function completeQuickBuy(productId, deliveryType) {
+        const product = findProductById(productId);
+        const message = `¡Hola! Quiero comprar *${product.name}* por $${product.price.toLocaleString()}. \n\nForma de entrega: ${deliveryType === 'delivery' ? 'Envío a domicilio' : 'Retiro en Quilmes'}. \n\nPor favor, necesito coordinar la entrega. ¡Gracias! 🐻`;
+        const url = `https://wa.me/5491123495971?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+        
+        // Cerrar modal
+        const modal = document.querySelector('.quick-buy-modal');
+        if (modal) modal.remove();
+    }
+
+    function addToCartFromQuickBuy(productId) {
+        const product = findProductById(productId);
+        addToCart(product, 1);
+        
+        // Cerrar modal
+        const modal = document.querySelector('.quick-buy-modal');
+        if (modal) modal.remove();
+        
+        showNotification("✅ Producto agregado al carrito", "success");
+    }
+
+    // ===== 5. FAQ DE ENTREGAS =====
+    function initDeliveryFAQ() {
+        console.log("FAQ de entregas inicializado");
+        // Ya está implementado en el HTML
+    }
+
+    // ===== 6. MÉTODOS DE PAGO =====
+    function initPaymentMethods() {
+        console.log("Sección de métodos de pago inicializada");
+        // Ya está implementado en el HTML
+    }
+
+    // ===== 7. CONTACTO INMEDIATO =====
+    function initImmediateContact() {
+        console.log("Sección de contacto inmediato inicializada");
+        // Ya está implementado en el HTML
+    }
+
+    function openChatAssistant() {
+        const message = "¡Hola! Necesito ayuda para elegir mis productos. ¿Podrían asesorarme? 🐻";
+        const url = `https://wa.me/5491123495971?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    }
+
+    // ===== 8. RESEÑAS REALES =====
+    function initRealReviews() {
+        console.log("Sección de reseñas inicializada");
+        // Ya está implementado en el HTML
+    }
+
+    // ===== 9. CALIDAD Y SEGURIDAD =====
+    function initQualitySecurity() {
+        console.log("Sección de calidad y seguridad inicializada");
+        // Ya está implementado en el HTML
+    }
+
+    // ===== FUNCIONES EXISTENTES ACTUALIZADAS =====
 
     // Cargar productos desde el objeto JavaScript
     function loadProductsFromObject() {
@@ -384,17 +651,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para manejar imágenes que no se cargan
     function handleImageError(imgElement, product) {
         console.log(`Image not found: ${product.image}`);
-        
-        // Use default image based on category
-        if (product.image && product.image.includes('beers')) {
-            imgElement.src = 'images/icons/default-beer.jpg';
-        } else if (product.image && product.image.includes('sauces')) {
-            imgElement.src = 'images/icons/default-sauce.jpg';
-        } else if (product.image && product.image.includes('preserves')) {
-            imgElement.src = 'images/icons/default-jar.jpg';
-        } else {
-            imgElement.src = 'images/icons/default-product.jpg';
-        }
         
         // If default image fails, use icon
         imgElement.onerror = function() {
@@ -409,17 +665,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function handleModalImageError(imgElement, product) {
         console.log(`Modal image not found: ${product.image}`);
-        
-        // Use default image based on category
-        if (product.image && product.image.includes('beers')) {
-            imgElement.src = 'images/icons/default-beer.jpg';
-        } else if (product.image && product.image.includes('sauces')) {
-            imgElement.src = 'images/icons/default-sauce.jpg';
-        } else if (product.image && product.image.includes('preserves')) {
-            imgElement.src = 'images/icons/default-jar.jpg';
-        } else {
-            imgElement.src = 'images/icons/default-product.jpg';
-        }
         
         // If default image fails, use icon
         imgElement.onerror = function() {
@@ -492,8 +737,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
                     <div class="product-price">$${product.price.toLocaleString()}</div>
+                    
+                    <!-- Información de stock mejorada -->
+                    ${generateStockInfo(product)}
+                    
                     <button class="add-to-cart-btn" data-id="${product.id}">
                         <i class="fas fa-cart-plus"></i> Agregar al carrito
+                    </button>
+                    
+                    <!-- Botón de compra rápida -->
+                    <button class="quick-buy-btn" data-id="${product.id}">
+                        <i class="fas fa-bolt"></i> Comprar rápido
                     </button>
                 </div>
             </div>
@@ -511,11 +765,20 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        // Agregar event listeners a los botones de compra rápida
+        container.querySelectorAll('.quick-buy-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const productId = parseInt(this.dataset.id);
+                quickBuyProduct(productId);
+            });
+        });
+
         // Agregar event listeners a las tarjetas de producto para abrir modal
         container.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', function(e) {
-                // No abrir modal si se hizo click en el botón de agregar al carrito
-                if (!e.target.closest('.add-to-cart-btn')) {
+                // No abrir modal si se hizo click en el botón de agregar al carrito o compra rápida
+                if (!e.target.closest('.add-to-cart-btn') && !e.target.closest('.quick-buy-btn')) {
                     const productId = parseInt(this.dataset.id);
                     const product = findProductById(productId);
                     if (product) openProductModal(product);
@@ -554,6 +817,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <h2 class="modal-title">${product.name}</h2>
                     <p class="modal-description">${product.description}</p>
                     <div class="modal-price">$${product.price.toLocaleString()}</div>
+                    
+                    <!-- Información de stock en modal -->
+                    ${generateStockInfo(product)}
                     
                     <div class="quantity-selector">
                         <button class="quantity-btn" id="decreaseQuantity">
@@ -645,11 +911,20 @@ document.addEventListener('DOMContentLoaded', function() {
         overlay.addEventListener('click', function() {
             closeProductModal();
             closeCartSidebar();
+            // Cerrar también modal de compra rápida
+            const quickBuyModal = document.querySelector('.quick-buy-modal');
+            if (quickBuyModal) quickBuyModal.remove();
         });
     }
 
     // Funciones del carrito
     function addToCart(product, quantity = 1) {
+        // Verificar stock disponible
+        if (product.stock && product.quantity + quantity > product.stock) {
+            showAddToCartFeedback(0, `❌ Solo quedan ${product.stock} unidades disponibles`);
+            return;
+        }
+        
         const existingItem = cart.find(item => item.id === product.id);
         
         if (existingItem) {
@@ -682,7 +957,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 z-index: 3000;
                 font-weight: bold;
             `;
-            notification.textContent = `❌ ${customMessage}`;
+            notification.textContent = customMessage;
             document.body.appendChild(notification);
 
             setTimeout(() => {
@@ -856,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cart = [];
         updateCart();
         saveCart();
-        showAddToCartFeedback(0, "Carrito vaciado");
+        showAddToCartFeedback(0, "🛒 Carrito vaciado");
     }
 
     // Funcionalidad del carrito
@@ -914,7 +1189,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function() {
             if (cart.length === 0) {
-                showAddToCartFeedback(0, "Tu carrito está vacío");
+                showAddToCartFeedback(0, "❌ Tu carrito está vacío");
                 return;
             }
 
@@ -932,7 +1207,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function generateWhatsAppMessage() {
-        let message = '¡Hola! Me interesan los siguientes productos:\n\n';
+        let message = '¡HOLA EL OSO! 🐻\nQuiero realizar mi pedido:\n\n';
         
         cart.forEach(item => {
             message += `• ${item.name} x${item.quantity} - $${(item.price * item.quantity).toLocaleString()}\n`;
@@ -941,11 +1216,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         message += `\nTotal: $${total.toLocaleString()}\n\n`;
         
-        //message += 'Información de entrega:\n';
-        //message += 'Nombre: [Tu nombre]\n';
-        //message += 'Dirección: [Tu dirección]\n';
-        //message += 'Teléfono: [Tu teléfono]\n';
-        //message += 'Horario preferido: [Horario de entrega]';
+        message += 'Información de entrega:\n';
+        message += 'Nombre: [Tu nombre]\n';
+        message += 'Dirección: [Tu dirección]\n';
+        message += 'Teléfono: [Tu teléfono]\n';
+        message += 'Horario preferido: [Horario de entrega]';
 
         return message;
     }
@@ -959,38 +1234,38 @@ document.addEventListener('DOMContentLoaded', function() {
         window.open(url, '_blank');
     }
 
-    // Programa de fidelización
-    function initLoyaltyProgram() {
-        const loyaltyData = JSON.parse(localStorage.getItem('elOsoLoyalty')) || { points: 0, purchases: 0 };
-        
-        // Actualizar puntos cuando se realiza checkout
-        document.getElementById('checkoutBtn').addEventListener('click', function() {
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            loyaltyData.points += Math.floor(total / 1000);
-            loyaltyData.purchases += 1;
-            localStorage.setItem('elOsoLoyalty', JSON.stringify(loyaltyData));
-            
-            // Mostrar notificación de puntos ganados
-            if (Math.floor(total / 1000) > 0) {
-                showAddToCartFeedback(0, `¡Ganaste ${Math.floor(total / 1000)} puntos!`);
-            }
-        });
-    }
-
     // Hacer las funciones de manejo de errores globales
     window.handleImageError = handleImageError;
     window.handleModalImageError = handleModalImageError;
     window.handleCartImageError = handleCartImageError;
     window.contactEvent = contactEvent;
     window.clearCart = clearCart;
+    window.calculateShipping = calculateShipping;
+    window.consultShipping = consultShipping;
+    window.notifyWhenAvailable = notifyWhenAvailable;
+    window.quickBuyProduct = quickBuyProduct;
+    window.completeQuickBuy = completeQuickBuy;
+    window.addToCartFromQuickBuy = addToCartFromQuickBuy;
+    window.openChatAssistant = openChatAssistant;
 
-    // Inicializar
+    // Inicializar todas las nuevas funcionalidades
     function init() {
         products = loadProductsFromObject();
         loadProducts();
-        // Cargar carrito guardado
         loadCart();
-        initLoyaltyProgram();
+        
+        // Inicializar nuevas secciones
+        initShippingCalculator();
+        initGuaranteesSection();
+        enhanceStockInformation();
+        initOneClickCheckout();
+        initDeliveryFAQ();
+        initPaymentMethods();
+        initImmediateContact();
+        initRealReviews();
+        initQualitySecurity();
+        
+        console.log("✅ Todas las 9 mejoras implementadas correctamente");
     }
 
     init();

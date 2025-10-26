@@ -310,6 +310,958 @@ header {
     }
 }
 
+/* ===== NUEVAS SECCIONES IMPLEMENTADAS ===== */
+
+/* Calculadora de Envíos */
+.shipping-calculator {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 2px solid var(--primary-color);
+    box-shadow: var(--shadow);
+}
+
+.shipping-calculator h4 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calculator-form {
+    margin-bottom: 15px;
+}
+
+.calculator-form input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+.calculator-form input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.shipping-results {
+    margin-top: 15px;
+}
+
+.shipping-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    background: var(--bg-color);
+    border-left: 4px solid transparent;
+}
+
+.shipping-option.free {
+    border-left-color: var(--success-color);
+}
+
+.shipping-option.paid {
+    border-left-color: var(--primary-color);
+}
+
+.shipping-option.consult {
+    border-left-color: var(--text-light);
+}
+
+.shipping-option i {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.shipping-option.free i {
+    color: var(--success-color);
+}
+
+.shipping-option.paid i {
+    color: var(--primary-color);
+}
+
+.shipping-option.consult i {
+    color: var(--text-light);
+}
+
+.shipping-option button {
+    background: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 5px;
+    transition: var(--transition);
+}
+
+.shipping-option button:hover {
+    background: var(--primary-dark);
+}
+
+.shipping-info {
+    background: var(--bg-color);
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.shipping-info p {
+    margin-bottom: 5px;
+}
+
+/* Garantías y Confianza */
+.guarantees-section {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.guarantees-section h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.guarantees-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.guarantee-card {
+    text-align: center;
+    padding: 30px 25px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+}
+
+.guarantee-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+}
+
+.guarantee-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.guarantee-card h3 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.guarantee-card p {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.trust-badges {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    background: var(--card-bg);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.trust-badge i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+/* Estados de Stock */
+.stock-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.stock-status.out-of-stock {
+    background: #ffeaea;
+    color: var(--danger-color);
+    border: 1px solid #ffcccc;
+}
+
+.stock-status.low-stock {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.stock-status.medium-stock {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #b8e6f1;
+}
+
+.stock-status.high-stock {
+    background: #d4edda;
+    color: var(--success-color);
+    border: 1px solid #c3e6cb;
+}
+
+.stock-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: 3px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.stock-fill {
+    height: 100%;
+    background: var(--success-color);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.stock-status button {
+    background: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    margin-left: auto;
+    transition: var(--transition);
+}
+
+.stock-status button:hover {
+    background: var(--primary-dark);
+}
+
+/* Compra Rápida */
+.quick-buy-btn {
+    width: 100%;
+    background: var(--success-color);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.quick-buy-btn:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.quick-buy-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.quick-buy-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.quick-buy-content {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.quick-buy-content h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.product-summary {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: var(--bg-color);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.product-summary img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.delivery-options {
+    margin-bottom: 25px;
+}
+
+.delivery-options h5 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.delivery-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.delivery-option.active {
+    border-color: var(--primary-color);
+    background: rgba(244, 209, 68, 0.1);
+}
+
+.delivery-option i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-whatsapp:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+}
+
+.btn-add-cart {
+    background: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-add-cart:hover {
+    background: var(--primary-dark);
+}
+
+/* FAQ de Entregas */
+.delivery-faq {
+    padding: 60px 0;
+    background: var(--bg-color);
+}
+
+.delivery-faq h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.faq-item {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.faq-item h4 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.faq-item h4::before {
+    content: '❓';
+    font-size: 1.2rem;
+}
+
+.faq-item p {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.delivery-timeline {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.delivery-timeline h4 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.3rem;
+}
+
+.timeline-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.timeline-step {
+    text-align: center;
+    position: relative;
+}
+
+.timeline-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0 auto 15px;
+}
+
+.timeline-step p {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* Métodos de Pago */
+.payment-methods {
+    padding: 60px 0;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-color);
+}
+
+.payment-methods h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.payment-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.payment-option {
+    background: rgba(255,255,255,0.9);
+    padding: 30px 25px;
+    border-radius: 12px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.payment-option i {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+}
+
+.payment-option h4 {
+    margin-bottom: 15px;
+    color: var(--secondary-color);
+}
+
+.payment-option p {
+    color: var(--text-light);
+}
+
+.payment-security {
+    background: rgba(255,255,255,0.9);
+    padding: 25px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.payment-security h4 {
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment-security ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.payment-security li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color);
+}
+
+/* Contacto Inmediato */
+.immediate-contact {
+    padding: 60px 0;
+    background: var(--bg-color);
+}
+
+.immediate-contact h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.contact-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.contact-option {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: var(--transition);
+    box-shadow: var(--shadow);
+    border: 2px solid transparent;
+}
+
+.contact-option:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+}
+
+.contact-option.whatsapp:hover {
+    border-color: #25D366;
+}
+
+.contact-option.phone:hover {
+    border-color: var(--primary-color);
+}
+
+.contact-option.chat:hover {
+    border-color: var(--secondary-color);
+}
+
+.contact-option i {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.contact-option.whatsapp i {
+    color: #25D366;
+}
+
+.contact-option.phone i {
+    color: var(--primary-color);
+}
+
+.contact-option.chat i {
+    color: var(--secondary-color);
+}
+
+.contact-option h4 {
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.contact-option p {
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.response-time, .availability {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.contact-option button {
+    background: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+    transition: var(--transition);
+}
+
+.contact-option button:hover {
+    background: var(--primary-dark);
+}
+
+.contact-guarantee {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.contact-guarantee i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.contact-guarantee p {
+    color: var(--text-color);
+    margin: 0;
+}
+
+/* Reseñas Reales */
+.real-reviews {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.real-reviews h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.review-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.reviewer-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.reviewer-info strong {
+    display: block;
+    color: var(--text-color);
+}
+
+.reviewer-info span {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.stars {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.review-content p {
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.review-photos {
+    margin-top: 10px;
+}
+
+.review-photos img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+}
+
+.verified-purchase {
+    color: var(--success-color);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.review-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* Calidad y Seguridad */
+.quality-security {
+    padding: 60px 0;
+    background: var(--bg-color);
+}
+
+.quality-security h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.quality-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.quality-feature {
+    text-align: center;
+    padding: 30px 25px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.quality-feature i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.quality-feature h4 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.quality-feature p {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.quality-badges {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.quality-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+}
+
+/* Proceso de Compra */
+.purchase-process {
+    padding: 60px 0;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: var(--text-color);
+}
+
+.purchase-process h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2.2rem;
+}
+
+.process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.process-step {
+    text-align: center;
+    position: relative;
+}
+
+.process-step:not(:last-child)::after {
+    content: '↓';
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    color: var(--text-color);
+}
+
+.step-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(255,255,255,0.9);
+    color: var(--text-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 auto 20px;
+    box-shadow: var(--shadow);
+}
+
+.process-step h4 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.process-step p {
+    color: rgba(0,0,0,0.8);
+    font-size: 14px;
+}
+
+.process-guarantee {
+    background: rgba(255,255,255,0.9);
+    padding: 25px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+}
+
+.process-guarantee h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+}
+
+.process-guarantee ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.process-guarantee li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color);
+}
+
 /* Banner de Envío Gratis */
 .shipping-banner {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
@@ -1484,6 +2436,39 @@ header {
     
     .testimonials-grid {
         grid-template-columns: 1fr;
+    }
+    
+    /* Responsive para nuevas secciones */
+    .guarantees-grid,
+    .payment-options,
+    .contact-options,
+    .reviews-grid,
+    .quality-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .trust-badges,
+    .review-stats,
+    .quality-badges {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .process-steps .process-step:not(:last-child)::after {
+        content: '↓';
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .timeline-steps .timeline-step:not(:last-child)::after {
+        content: '↓';
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 
