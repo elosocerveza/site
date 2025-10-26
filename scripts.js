@@ -9,399 +9,275 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let cart = [];
 
-    // Productos cargados directamente en el script
-    const productData = {
-        featured: [
-            {
-                id: 6,
-                name: "Roja con Caramelo - 500ml",
-                description: "Dulce y de textura sedosa, con notas acarameladas y un dejo tostado",
-                price: 5000,
-                image: "images/products/beers/ember.jpg",
-                category: "beers",
-                badge: "Más Vendida",
-                features: [
-                    "Alcohol: 5.0%",
-                    "Amargor: Bajo",
-                    "Notas tostadas y acarameladas"
-                ],
-                active: true,
-                stock: 15,
-                stockLimit: false
-            },
-            {
-                id: 2,
-                name: "Trigo Especiada - 500ml",
-                description: "Ligeramente turbia, liviana y dulce, con notas a naranja, coriandro y menta",
-                price: 5000,
-                image: "images/products/beers/kuma.jpg",
-                category: "beers",
-                badge: "Nueva",
-                features: [
-                    "Alcohol: 4,5%",
-                    "Amargor: Bajo",
-                    "Notas de naranja y especias"
-                ],
-                active: true,
-                stock: 8,
-                stockLimit: true
-            },
-            {
-                id: 17,
-                name: "Combo Degustación",
-                description: "6 cervezas artesanales a elección para explorar todos nuestros sabores",
-                price: 27000,
-                image: "images/products/combos/degustacion.jpg",
-                category: "combos",
-                badge: "10% OFF",
-                features: [
-                    "6 cervezas a tu elección",
-                    "Ahorra 10%",
-                    "Perfecto para conocer nuestra variedad"
-                ],
-                active: true,
-                stock: 12
-            },
-            {
-                id: 3,
-                name: "Chimichurri Tradicional - 330ml",
-                description: "Sabor intenso y bien criollo. El clásico condimento argentino para acompañar tus asados",
-                price: 6000,
-                image: "images/products/preserves/chimi.jpg",
-                category: "preserves",
-                badge: "Nuevo",
-                features: [
-                    "Sabor intenso y criollo",
-                    "Perfecto para asados",
-                    "Ingredientes naturales"
-                ],
-                active: true,
-                stock: 20
+    // ===== MEJOR SOLUCIÓN - PROXY CORS CON FALLBACKS =====
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTy8faJa3rHsf2msyB-OH5zyOD9WTD40Ry1O_Jng3p29Z6-58SCNw2KH14y1mr66JoDAkBVQDIXZv8q/pub?gid=477181&single=true&output=csv';
+
+    async function loadProductsFromGoogleSheets() {
+        console.log('🔄 Iniciando carga de productos...');
+        
+        // 1. PRIMERO: Intentar con proxy CORS más confiable
+        try {
+            const products = await tryWithCorsProxy();
+            if (products) {
+                console.log('✅ Productos cargados via CORS proxy');
+                return products;
             }
-        ],
-        beers: [
-            {
-                id: 1,
-                name: "IPA Frutada - 500ml",
-                description: "Amargor característico y muy aromática, con notas a frutas tropicales",
-                price: 5000,
-                image: "images/products/beers/vika.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 5,0%",
-                    "Amargor: Medio",
-                    "Notas frutales tropicales"
-                ],
-                active: true,
-                stock: 25
-            },
-            {
-                id: 2,
-                name: "Trigo Especiada - 500ml",
-                description: "Ligeramente turbia, liviana y dulce, con notas a naranja, coriandro y menta",
-                price: 5000,
-                image: "images/products/beers/kuma.jpg",
-                category: "beers",
-                badge: "Nueva",
-                features: [
-                    "Alcohol: 4,5%",
-                    "Amargor: Bajo",
-                    "Notas de naranja y especias"
-                ],
-                active: true,
-                stock: 8,
-                stockLimit: true
-            },
-            {
-                id: 4,
-                name: "Rubia con Caramelo - 500ml",
-                description: "Dulce y de textura sedosa, con notas acarameladas",
-                price: 5000,
-                image: "images/products/beers/arun.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 4,5%",
-                    "Amargor: Bajo",
-                    "Notas acarameladas"
-                ],
-                active: true,
-                stock: 18
-            },
-            {
-                id: 5,
-                name: "Trigo con Miel - 500ml",
-                description: "Ligera, refrescante y levemente dulce, con notas sutiles a miel",
-                price: 5000,
-                image: "images/products/beers/bennu.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 4,5%",
-                    "Amargor: Bajo",
-                    "Notas de miel natural"
-                ],
-                active: false,
-                stock: 0
-            },
-            {
-                id: 6,
-                name: "Roja con Caramelo - 500ml",
-                description: "Dulce y de textura sedosa, con notas acarameladas y un dejo tostado",
-                price: 5000,
-                image: "images/products/beers/ember.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 5.0%",
-                    "Amargor: Bajo",
-                    "Notas tostadas y acarameladas"
-                ],
-                active: true,
-                stock: 15
-            },
-            {
-                id: 7,
-                name: "Trigo con Limón - 500ml",
-                description: "Liviana y muy refrescante, con un toque cítrico del limón",
-                price: 5000,
-                image: "images/products/beers/zora.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 4,5%",
-                    "Amargor: Bajo",
-                    "Toque cítrico de limón"
-                ],
-                active: false,
-                stock: 0
-            },
-            {
-                id: 8,
-                name: "Negra Dulce y Cremosa - 500ml",
-                description: "Carácter maltoso y espuma cremosa, con notas a café y chocolate",
-                price: 5000,
-                image: "images/products/beers/onyx.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 6,0%",
-                    "Amargor: Medio",
-                    "Notas de café y chocolate"
-                ],
-                active: true,
-                stock: 22
-            },
-            {
-                id: 9,
-                name: "Rubia de arroz - 500ml",
-                description: "Refrescante, ligera y seca. Una lager con arroz que la hace más suave y tomable",
-                price: 5000,
-                image: "images/products/beers/mizu.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 4,5%",
-                    "Amargor: Bajo",
-                    "Suave y refrescante"
-                ],
-                active: true,
-                stock: 30
-            },
-            {
-                id: 10,
-                name: "Negra con Cacao - 500ml",
-                description: "Oscura y seca, con notas intensas de cacao y café tostado",
-                price: 5000,
-                image: "images/products/beers/ndala.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 6,0%",
-                    "Amargor: Medio",
-                    "Notas intensas de cacao"
-                ],
-                active: true,
-                stock: 16
-            },
-            {
-                id: 11,
-                name: "Roja Lupulada - 500ml",
-                description: "Combina lo maltoso tostado con un toque cítrico del lúpulo",
-                price: 5000,
-                image: "images/products/beers/riad.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 5,0%",
-                    "Amargor: Medio",
-                    "Toque cítrico del lúpulo"
-                ],
-                active: true,
-                stock: 14
-            },
-            {
-                id: 12,
-                name: "Trigo - 500ml",
-                description: "Ligeramente turbia, liviana y muy refrescante, con notas a clavo y banana",
-                price: 5000,
-                image: "images/products/beers/tsia.jpg",
-                category: "beers",
-                features: [
-                    "Alcohol: 4,5%",
-                    "Amargor: Bajo",
-                    "Notas a clavo y banana"
-                ],
-                active: true,
-                stock: 28
+        } catch (error) {
+            console.warn('❌ Proxy CORS falló:', error.message);
+        }
+        
+        // 2. SEGUNDO: Intentar carga directa (puede funcionar en algunos entornos)
+        try {
+            const products = await tryDirectLoad();
+            if (products) {
+                console.log('✅ Productos cargados directamente');
+                return products;
             }
-        ],
-        sauces: [
-            {
-                id: 13,
-                name: "Jalapeño Verde - 100ml",
-                description: "Espesa, sabrosa y balanceada. Perfecta para los aventureros del sabor",
-                price: 6000,
-                image: "images/products/sauces/picate-verde.jpg",
-                category: "sauces",
-                features: [
-                    "Picor: medio",
-                    "Textura: espesa",
-                    "Jalapeño verde natural"
-                ],
-                active: true,
-                stock: 35
-            },
-            {
-                id: 14,
-                name: "Jalapeño Rojo - 100ml",
-                description: "Espesa, sabrosa y explosiva. Solo para valientes que buscan intensidad",
-                price: 6000,
-                image: "images/products/sauces/picate-rojo.jpg",
-                category: "sauces",
-                features: [
-                    "Picor: Alto",
-                    "Textura: espesa",
-                    "Jalapeño rojo intenso"
-                ],
-                active: true,
-                stock: 25
+        } catch (error) {
+            console.warn('❌ Carga directa falló:', error.message);
+        }
+        
+        // 3. TERCERO: Usar datos locales
+        console.log('🔄 Usando datos locales de respaldo...');
+        return loadLocalProductData();
+    }
+
+    // Proxy CORS principal - EL MÁS CONFIABLE
+    async function tryWithCorsProxy() {
+        // Lista de proxies CORS ordenados por confiabilidad
+        const proxies = [
+            'https://corsproxy.io/?',        // Muy confiable
+            'https://api.allorigins.win/raw?url=', // Buen respaldo
+            'https://cors-anywhere.herokuapp.com/' // Alternativa
+        ];
+        
+        for (const proxy of proxies) {
+            try {
+                const proxyUrl = proxy + encodeURIComponent(CSV_URL);
+                console.log(`🔧 Probando proxy: ${proxy.split('/')[2]}`);
+                
+                const response = await fetchWithTimeout(proxyUrl, 8000);
+                
+                if (response.ok) {
+                    const csvText = await response.text();
+                    const products = parseCSVData(csvText);
+                    
+                    // Validar que se cargaron productos reales
+                    if (isValidProductsData(products)) {
+                        return products;
+                    }
+                }
+            } catch (error) {
+                console.warn(`Proxy ${proxy.split('/')[2]} falló:`, error.message);
+                continue;
             }
-        ],
-        preserves: [
-            {
-                id: 3,
-                name: "Chimichurri Tradicional - 330ml",
-                description: "Sabor intenso y bien criollo. El clásico condimento argentino para acompañar tus asados",
-                price: 6000,
-                image: "images/products/preserves/chimi.jpg",
-                category: "preserves",
-                badge: "Nuevo",
-                features: [
-                    "Sabor intenso y criollo",
-                    "Perfecto para asados",
-                    "Ingredientes naturales"
-                ],
-                active: true,
-                stock: 20
-            },
-            {
-                id: 15,
-                name: "Berenjenas en Escabeche - 330ml",
-                description: "Tiernas, sabor intenso y especiado. El clásico antipasto argentino",
-                price: 6000,
-                image: "images/products/preserves/beren.jpg",
-                category: "preserves",
-                features: [
-                    "Sabor intenso y especiado",
-                    "Perfecto para picadas",
-                    "Tiernas y sabrosas"
-                ],
-                active: true,
-                stock: 18
-            },
-            {
-                id: 16,
-                name: "Pepinos agridulces - 330ml",
-                description: "Dulces y con un toque ácido. Ideal para sándwiches, ensaladas o directo del frasco",
-                price: 6000,
-                image: "images/products/preserves/peppi.jpg",
-                category: "preserves",
-                features: [
-                    "Dulce con toque ácido",
-                    "Versátil en preparaciones",
-                    "Textura crujiente"
-                ],
-                active: true,
-                stock: 22
+        }
+        
+        throw new Error('Todos los proxies fallaron');
+    }
+
+    // Intento directo (sin proxy)
+    async function tryDirectLoad() {
+        try {
+            const response = await fetchWithTimeout(CSV_URL, 5000);
+            
+            if (response.ok) {
+                const csvText = await response.text();
+                const products = parseCSVData(csvText);
+                
+                if (isValidProductsData(products)) {
+                    return products;
+                }
             }
-        ],
-        combos: [
-            {
-                id: 17,
-                name: "Combo Degustación",
-                description: "6 cervezas artesanales a elección para explorar todos nuestros sabores",
-                price: 27000,
-                image: "images/products/combos/degustacion.jpg",
-                category: "combos",
-                badge: "10% OFF",
-                features: [
-                    "6 cervezas a tu elección",
-                    "Ahorra 10% vs compra individual",
-                    "Perfecto para conocer nuestra variedad"
-                ],
-                active: true,
-                stock: 12
-            },
-            {
-                id: 18,
-                name: "Combo Gourmet",
-                description: "2 conservas artesanales a elección para realzar tus comidas",
-                price: 10000,
-                image: "images/products/combos/gourmet.jpg",
-                category: "combos",
-                badge: "17% OFF",
-                features: [
-                    "2 conservas a tu elección",
-                    "Ahorra 17% vs compra individual",
-                    "Ideal para picadas y asados"
-                ],
-                active: true,
-                stock: 15
-            },
-            {
-                id: 19,
-                name: "Combo Explosión",
-                description: "2 salsas picantes a elección para los amantes del picante",
-                price: 10000,
-                image: "images/products/combos/explosion.jpg",
-                category: "combos",
-                badge: "17% OFF",
-                features: [
-                    "2 salsas picantes a elección",
-                    "Ahorra 17% vs compra individual",
-                    "Verde y rojo para todos los gustos"
-                ],
-                active: true,
-                stock: 10
-            },
-            {
-                id: 20,
-                name: "Combo Para Regalar",
-                description: "2 cervezas a elección, 1 conserva y 1 salsa picante - Perfecto para regalo",
-                price: 20000,
-                image: "images/products/combos/regalo.jpg",
-                category: "combos",
-                badge: "20% OFF",
-                features: [
-                    "2 cervezas artesanales a elección",
-                    "1 conserva casera a elección", 
-                    "1 salsa picante a elección",
-                    "Ahorra 20% vs compra individual",
-                    "Presentación ideal para regalo"
-                ],
-                active: true,
-                stock: 8
+        } catch (error) {
+            throw new Error('Carga directa falló: ' + error.message);
+        }
+    }
+
+    // Helper para fetch con timeout
+    function fetchWithTimeout(url, timeout = 10000) {
+        return new Promise((resolve, reject) => {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => {
+                controller.abort();
+                reject(new Error(`Timeout después de ${timeout}ms`));
+            }, timeout);
+            
+            fetch(url, { 
+                signal: controller.signal,
+                mode: 'cors',
+                headers: {
+                    'Accept': 'text/csv',
+                    'Content-Type': 'text/csv'
+                }
+            })
+            .then(response => {
+                clearTimeout(timeoutId);
+                resolve(response);
+            })
+            .catch(error => {
+                clearTimeout(timeoutId);
+                reject(error);
+            });
+        });
+    }
+
+    // Validar que los datos de productos sean correctos
+    function isValidProductsData(products) {
+        if (!products || typeof products !== 'object') return false;
+        
+        const categories = ['featured', 'beers', 'sauces', 'preserves', 'combos'];
+        const hasProducts = categories.some(cat => 
+            Array.isArray(products[cat]) && products[cat].length > 0
+        );
+        
+        return hasProducts;
+    }
+
+    // Función para parsear CSV
+    function parseCSVData(csvText) {
+        const lines = csvText.split('\n').filter(line => line.trim() !== '');
+        const headers = parseCSVLine(lines[0]).map(h => h.trim());
+        
+        const products = {
+            featured: [],
+            beers: [],
+            sauces: [],
+            preserves: [],
+            combos: []
+        };
+        
+        // Mapeo de columnas CSV a propiedades
+        const columnMap = {
+            'ID': 'id',
+            'Nombre': 'name', 
+            'Descripción': 'description',
+            'Precio': 'price',
+            'Imagen': 'image',
+            'Categoría': 'category',
+            'Badge': 'badge',
+            'Características': 'features',
+            'Activo': 'active',
+            'Stock': 'stock',
+            'StockLimit': 'stockLimit'
+        };
+        
+        console.log('📋 Headers encontrados:', headers);
+        
+        // Procesar cada línea (empezando desde línea 1, saltando encabezados)
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+            
+            try {
+                const values = parseCSVLine(lines[i]);
+                const product = {};
+                
+                console.log(`📦 Procesando línea ${i}:`, values);
+                
+                // Mapear cada valor a su propiedad
+                values.forEach((value, index) => {
+                    if (index < headers.length && value !== undefined && value !== '') {
+                        const header = headers[index];
+                        const property = columnMap[header];
+                        
+                        if (property) {
+                            // Convertir tipos de datos
+                            let processedValue = value.toString().trim();
+                            
+                            if (property === 'price' || property === 'stock' || property === 'id') {
+                                processedValue = Number(processedValue) || 0;
+                            } else if (property === 'active' || property === 'stockLimit') {
+                                processedValue = processedValue === 'TRUE' || processedValue === 'true' || processedValue === '1' || processedValue === 'Sí';
+                            } else if (property === 'features') {
+                                processedValue = processedValue ? processedValue.split(';').map(f => f.trim()) : [];
+                            }
+                            
+                            product[property] = processedValue;
+                        }
+                    }
+                });
+                
+                // Validar producto mínimo
+                if (product.id && product.name && product.category) {
+                    // Convertir categoría a minúsculas para coincidir con las keys
+                    const categoryKey = product.category.toLowerCase();
+                    
+                    // Agregar a categoría principal
+                    if (products[categoryKey]) {
+                        products[categoryKey].push(product);
+                        console.log(`✅ Producto agregado a ${categoryKey}:`, product.name);
+                    } else {
+                        console.warn(`❌ Categoría no válida: ${product.category}`);
+                    }
+                    
+                    // Si tiene badge, agregar a destacados
+                    if (product.badge && product.badge !== 'FALSE' && product.badge !== 'false') {
+                        products.featured.push(product);
+                        console.log(`⭐ Producto destacado:`, product.name);
+                    }
+                } else {
+                    console.warn('❌ Producto inválido (falta ID, nombre o categoría):', product);
+                }
+                
+            } catch (error) {
+                console.error(`❌ Error procesando línea ${i}:`, error);
             }
-        ]
-    };
+        }
+        
+        console.log('✅ Productos finales cargados desde CSV:', products);
+        return products;
+    }
+
+    // Función para parsear líneas CSV correctamente (maneja comas dentro de comillas)
+    function parseCSVLine(line) {
+        const values = [];
+        let current = '';
+        let inQuotes = false;
+        
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+                values.push(current);
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        
+        values.push(current);
+        return values.map(v => v.trim().replace(/^"|"$/g, ''));
+    }
+
+    // Datos locales como fallback
+    function loadLocalProductData() {
+        console.log('🔄 Cargando datos locales como fallback...');
+        return {
+            featured: [
+                {
+                    id: 1,
+                    name: "IPA Frutada - 500ml",
+                    description: "Amargor característico y muy aromática, con notas a frutas tropicales",
+                    price: 5000,
+                    image: "images/products/beers/vika.jpg",
+                    category: "beers",
+                    features: ["Alcohol: 5,0%", "Amargor: Medio", "Notas frutales tropicales"],
+                    active: true,
+                    stock: 25
+                }
+            ],
+            beers: [],
+            sauces: [],
+            preserves: [],
+            combos: []
+        };
+    }
 
     // ===== 1. CALCULADORA DE ENVÍOS =====
     function initShippingCalculator() {
         console.log("Calculadora de envíos inicializada");
-        // Ya está implementada en el HTML
     }
 
     function calculateShipping(location) {
@@ -468,17 +344,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== 2. GARANTÍAS Y CONFIANZA =====
     function initGuaranteesSection() {
         console.log("Sección de garantías inicializada");
-        // Ya está implementada en el HTML
     }
 
     // ===== 3. INFORMACIÓN DE STOCK MEJORADA =====
     function enhanceStockInformation() {
         console.log("Mejorando información de stock...");
-        // Se implementa en renderProducts()
     }
 
     function generateStockInfo(product) {
-        if (!product.stock || product.stock === 0) {
+        if (product.stockLimit === false) {
+            return `
+                <div class="stock-status high-stock">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Disponible</span>
+                </div>
+            `;
+        }
+        else if (!product.stock || product.stock === 0) {
             return `
                 <div class="stock-status out-of-stock">
                     <i class="fas fa-times-circle"></i>
@@ -523,7 +405,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== 4. COMPRA RÁPIDA =====
     function initOneClickCheckout() {
         console.log("Sistema de compra rápida inicializado");
-        // Se implementa en renderProducts()
     }
 
     function quickBuyProduct(productId) {
@@ -608,19 +489,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== 5. FAQ DE ENTREGAS =====
     function initDeliveryFAQ() {
         console.log("FAQ de entregas inicializado");
-        // Ya está implementado en el HTML
     }
 
     // ===== 6. MÉTODOS DE PAGO =====
     function initPaymentMethods() {
         console.log("Sección de métodos de pago inicializada");
-        // Ya está implementado en el HTML
     }
 
     // ===== 7. CONTACTO INMEDIATO =====
     function initImmediateContact() {
         console.log("Sección de contacto inmediato inicializada");
-        // Ya está implementado en el HTML
     }
 
     function openChatAssistant() {
@@ -632,21 +510,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== 8. RESEÑAS REALES =====
     function initRealReviews() {
         console.log("Sección de reseñas inicializada");
-        // Ya está implementado en el HTML
     }
 
     // ===== 9. CALIDAD Y SEGURIDAD =====
     function initQualitySecurity() {
         console.log("Sección de calidad y seguridad inicializada");
-        // Ya está implementado en el HTML
     }
 
     // ===== FUNCIONES EXISTENTES ACTUALIZADAS =====
-
-    // Cargar productos desde el objeto JavaScript
-    function loadProductsFromObject() {
-        return productData;
-    }
 
     // Función para manejar imágenes que no se cargan
     function handleImageError(imgElement, product) {
@@ -731,7 +602,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         `<i class="fas ${getProductIcon(product)}"></i>`
                     }
                     ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
-                    ${product.stockLimit ? `<div class="stock-badge">Solo ${product.stock} unidades</div>` : ''}
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
@@ -811,7 +681,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         `<i class="fas ${getProductIcon(product)}"></i>`
                     }
                     ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
-                    ${product.stockLimit ? `<div class="stock-badge">Solo ${product.stock} unidades</div>` : ''}
                 </div>
                 <div class="modal-details">
                     <h2 class="modal-title">${product.name}</h2>
@@ -1248,24 +1117,35 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addToCartFromQuickBuy = addToCartFromQuickBuy;
     window.openChatAssistant = openChatAssistant;
 
-    // Inicializar todas las nuevas funcionalidades
-    function init() {
-        products = loadProductsFromObject();
-        loadProducts();
-        loadCart();
-        
-        // Inicializar nuevas secciones
-        initShippingCalculator();
-        initGuaranteesSection();
-        enhanceStockInformation();
-        initOneClickCheckout();
-        initDeliveryFAQ();
-        initPaymentMethods();
-        initImmediateContact();
-        initRealReviews();
-        initQualitySecurity();
-        
-        console.log("✅ Todas las 9 mejoras implementadas correctamente");
+    // Función principal inicializada
+    async function init() {
+        try {
+            // Cargar productos desde Google Sheets
+            products = await loadProductsFromGoogleSheets();
+            loadProducts();
+            loadCart();
+            
+            // Inicializar todas las nuevas funcionalidades
+            initShippingCalculator();
+            initGuaranteesSection();
+            enhanceStockInformation();
+            initOneClickCheckout();
+            initDeliveryFAQ();
+            initPaymentMethods();
+            initImmediateContact();
+            initRealReviews();
+            initQualitySecurity();
+            
+            console.log("✅ Todas las 9 mejoras implementadas correctamente");
+            console.log("📊 Productos cargados desde Google Sheets");
+            
+        } catch (error) {
+            console.error('❌ Error en inicialización:', error);
+            // Fallback a datos locales
+            products = loadLocalProductData();
+            loadProducts();
+            loadCart();
+        }
     }
 
     init();
