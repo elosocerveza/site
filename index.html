@@ -69,11 +69,11 @@
 </head>
 <body>
     <!-- Banner de envío gratis -->
+    <!-- Banner de envío gratis -->
     <div class="shipping-banner">
         <div class="container">
             <div class="shipping-content">
-                <span class="shipping-icon">🚚</span>
-                <span class="shipping-text">¡ENVÍO GRATIS en Quilmes, Bernal y Ezpeleta los Jueves y Viernes!</span>
+                <span class="shipping-text">🚚 ¡ENVÍO GRATIS en Quilmes, Bernal y Ezpeleta los <strong>Jueves y Viernes</strong>! 🚚</span>
             </div>
         </div>
     </div>
@@ -98,31 +98,45 @@
         
         <!-- Navegación por categorías -->
         <nav class="category-nav" aria-label="Categorías de productos">
-            <div class="category-list">
-                <a href="#destacados" class="category-item active">
-                    <i class="fas fa-star" aria-hidden="true"></i>
-                    <span>Destacados</span>
-                </a>
-                <a href="#cervezas" class="category-item">
-                    <i class="fas fa-beer" aria-hidden="true"></i>
-                    <span>Cervezas</span>
-                </a>
-                <a href="#picantes" class="category-item">
-                    <i class="fas fa-pepper-hot" aria-hidden="true"></i>
-                    <span>Picantes</span>
-                </a>
-                <a href="#conservas" class="category-item">
-                    <i class="fas fa-jar" aria-hidden="true"></i>
-                    <span>Conservas</span>
-                </a>
-                <a href="#combos" class="category-item">
-                    <i class="fas fa-gift" aria-hidden="true"></i>
-                    <span>Combos</span>
-                </a>
-                <a href="#eventos" class="category-item">
-                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                    <span>Eventos</span>
-                </a>
+            <div class="container">
+                <div class="category-nav-container">
+                    <button class="category-nav-arrow" id="categoryArrowLeft" aria-label="Categorías anteriores">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    
+                    <div class="category-nav-scroll">
+                        <div class="category-list">
+                            <a href="#destacados" class="category-item active">
+                                <i class="fas fa-star" aria-hidden="true"></i>
+                                <span>Destacados</span>
+                            </a>
+                            <a href="#cervezas" class="category-item">
+                                <i class="fas fa-beer" aria-hidden="true"></i>
+                                <span>Cervezas</span>
+                            </a>
+                            <a href="#picantes" class="category-item">
+                                <i class="fas fa-pepper-hot" aria-hidden="true"></i>
+                                <span>Picantes</span>
+                            </a>
+                            <a href="#conservas" class="category-item">
+                                <i class="fas fa-jar" aria-hidden="true"></i>
+                                <span>Conservas</span>
+                            </a>
+                            <a href="#combos" class="category-item">
+                                <i class="fas fa-gift" aria-hidden="true"></i>
+                                <span>Combos</span>
+                            </a>
+                            <a href="#contacto" class="category-item">
+                                <i class="fas fa-phone" aria-hidden="true"></i>
+                                <span>Contacto</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <button class="category-nav-arrow" id="categoryArrowRight" aria-label="Siguientes categorías">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
         </nav>
     </header>
@@ -170,33 +184,25 @@
                     <p>Pagás al recibir y... ¡a disfrutar! 🍻</p>
                 </div>
             </div>
-            
-            <div class="process-guarantee">
-                <h4>💪 Sin complicaciones</h4>
-                <ul>
-                    <li>✅ Sin registros ni contraseñas</li>
-                    <li>✅ Sin cargos sorpresa</li>
-                    <li>✅ Sin letra chica</li>
-                    <li>✅ Cambios y devoluciones fáciles</li>
-                </ul>
-            </div>
         </div>
     </section>
 
     <!-- 1. CALCULADORA DE ENVÍOS -->
-    <section class="shipping-calculator" id="calculadora-envios">
+    <section class="shipping-calculator-section" id="calculadora-envios">
         <div class="container">
-            <h4><i class="fas fa-calculator"></i> ¿Cuánto sale el envío a tu zona?</h4>
-            <div class="calculator-form">
-                <input type="text" id="zipCode" placeholder="Ej: Quilmes, Bernal, Ezpeleta..." 
-                       oninput="calculateShipping(this.value)">
-                <div class="shipping-results" id="shippingResults">
-                    <p>Ingresá tu barrio o localidad para calcular el envío</p>
+            <div class="shipping-calculator">
+                <h4><i class="fas fa-calculator"></i> ¿Cuánto sale el envío a tu zona?</h4>
+                <div class="calculator-form">
+                    <input type="text" id="zipCode" placeholder="Ej: Quilmes, Bernal, Ezpeleta..." 
+                        oninput="calculateShipping(this.value)">
+                    <div class="shipping-results" id="shippingResults">
+                        <p>Ingresá tu barrio o localidad para calcular el envío</p>
+                    </div>
                 </div>
-            </div>
-            <div class="shipping-info">
-                <p><strong>Zonas con envío gratis:</strong> Quilmes, Bernal, Ezpeleta (Jueves-Viernes)</p>
-                <p><strong>Otras zonas:</strong> Consultá el costo exacto según tu ubicación</p>
+                <div class="shipping-info">
+                    <p><strong>¡Jueves y Viernes ENVÍO GRATIS!</strong> Quilmes, Bernal, Ezpeleta</p>
+                    <p><strong>Otros días y zonas:</strong> Consultá el costo exacto según tu ubicación</p>
+                </div>
             </div>
         </div>
     </section>
@@ -308,7 +314,7 @@
                 <div class="guarantee-card">
                     <i class="fas fa-shield-alt"></i>
                     <h3>Pago Seguro</h3>
-                    <p><strong>Múltiples opciones de pago protegidas.</strong> Transferencia, Mercado Pago o efectivo al recibir. Tu dinero está 100% seguro con nosotros.</p>
+                    <p><strong>Múltiples opciones de pago protegidas.</strong> Transferencia o efectivo al recibir. Tu dinero está 100% seguro con nosotros.</p>
                 </div>
             </div>
             
@@ -332,7 +338,7 @@
     <!-- 8. RESEÑAS REALES -->
     <section class="real-reviews" id="reseñas">
         <div class="container">
-            <h2>⭐ Lo que dicen clientes reales</h2>
+            <h2>⭐ Lo que dicen Clientes Reales</h2>
             <div class="reviews-grid">
                 <div class="review-card">
                     <div class="reviewer-info">
@@ -379,8 +385,8 @@
                             <i class="fas fa-user"></i>
                         </div>
                         <div>
-                            <strong>Sebastían R.</strong>
-                            <span>Quilmes</span>
+                            <strong>Ailin R.</strong>
+                            <span>F. Varela</span>
                         </div>
                     </div>
                     <div class="review-content">
@@ -396,45 +402,49 @@
     <!-- 9. CALIDAD Y SEGURIDAD -->
     <section class="quality-security" id="calidad">
         <div class="container">
-            <h2>🔬 Calidad y Seguridad Garantizada</h2>
+            <h2>🌿 Calidad Artesanal y Natural</h2>
             <div class="quality-features">
                 <div class="quality-feature">
-                    <i class="fas fa-temperature-low"></i>
-                    <h4>Cadena de Frío</h4>
-                    <p>Todas nuestras cervezas mantienen cadena de frío desde la elaboración hasta tu puerta.</p>
-                </div>
-                
-                <div class="quality-feature">
-                    <i class="fas fa-calendar-alt"></i>
-                    <h4>Fechas Claras</h4>
-                    <p>Cada producto muestra fecha de elaboración y vencimiento visible.</p>
-                </div>
-                
-                <div class="quality-feature">
                     <i class="fas fa-hand-sparkles"></i>
-                    <h4>Procesos Higiénicos</h4>
-                    <p>Elaboramos con los más altos estándares de limpieza y seguridad alimentaria.</p>
+                    <h4>100% Hecho a Mano</h4>
+                    <p>Cada producto es elaborado artesanalmente con procesos tradicionales, sin producción en masa. Amor y dedicación en cada botella.</p>
+                </div>
+                
+                <div class="quality-feature">
+                    <i class="fas fa-leaf"></i>
+                    <h4>Ingredientes Naturales</h4>
+                    <p>Utilizamos solo ingredientes frescos y naturales. Sin conservantes artificiales, colorantes ni químicos añadidos.</p>
+                </div>
+                
+                <div class="quality-feature">
+                    <i class="fas fa-seedling"></i>
+                    <h4>Procesos Tradicionales</h4>
+                    <p>Respetamos los métodos de elaboración tradicionales que garantizan sabores auténticos y texturas únicas en cada producto.</p>
                 </div>
                 
                 <div class="quality-feature">
                     <i class="fas fa-recycle"></i>
-                    <h4>Embalaje Sustentable</h4>
-                    <p>Usamos materiales reciclables y reutilizables en todos nuestros envíos.</p>
+                    <h4>Envases Sustentables</h4>
+                    <p>Priorizamos envases reciclables y reutilizables. Nuestros frascos y botellas pueden tener una segunda vida en tu hogar.</p>
                 </div>
             </div>
             
             <div class="quality-badges">
                 <div class="quality-badge">
-                    <i class="fas fa-certificate"></i>
-                    <span>Elaboración artesanal</span>
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>100% Artesanal</span>
                 </div>
                 <div class="quality-badge">
-                    <i class="fas fa-seedling"></i>
-                    <span>Ingredientes naturales</span>
+                    <i class="fas fa-leaf"></i>
+                    <span>Ingredientes Naturales</span>
                 </div>
                 <div class="quality-badge">
-                    <i class="fas fa-award"></i>
-                    <span>Calidad premium</span>
+                    <i class="fas fa-recycle"></i>
+                    <span>Envases Sustentables</span>
+                </div>
+                <div class="quality-badge">
+                    <i class="fas fa-ban"></i>
+                    <span>Sin Conservantes</span>
                 </div>
             </div>
         </div>
@@ -447,22 +457,27 @@
             <div class="faq-grid">
                 <div class="faq-item">
                     <h4>¿En qué horarios entregan?</h4>
-                    <p>Entregamos de <strong>Jueves a Domingo de 10 a 20hs</strong>. Podés elegir franja horaria cuando hagas tu pedido.</p>
+                    <p>Entregamos de <strong>Lunes a Viernes de 10 a 20hs</strong>. Podés elegir franja horaria cuando hagas tu pedido.</p>
                 </div>
                 
                 <div class="faq-item">
                     <h4>¿Hacen envíos el mismo día?</h4>
-                    <p>Sí, para pedidos confirmados <strong>antes de las 14hs</strong> podemos coordinar entrega el mismo día (sujeto a disponibilidad).</p>
+                    <p><strong>¡Sí!</strong> Para pedidos confirmados <strong>antes de las 14hs</strong> coordinamos entrega el mismo día (sujeto a disponibilidad).</p>
                 </div>
                 
                 <div class="faq-item">
-                    <h4>¿Qué pasa si no estoy en casa?</h4>
-                    <p>Dejamos el pedido con un vecino o te contactamos para reprogramar. <strong>No te cobramos reintentos</strong>.</p>
+                    <h4>¿Puedo reprogramar la entrega?</h4>
+                    <p><strong>¡Sí!</strong> Podés reprogramar tu entrega hasta 2 horas antes del horario pactado. <strong>No te cobramos reintentos</strong>.</p>
                 </div>
                 
                 <div class="faq-item">
-                    <h4>¿Puedo cambiar la dirección de entrega?</h4>
-                    <p>Sí, podés cambiarla hasta 2 horas antes de la entrega programada.</p>
+                    <h4>¿Qué zonas cubren?</h4>
+                    <p>Cubrimos <strong>Quilmes, Bernal, Ezpeleta y zonas aledañas</strong>. Consultá por tu zona específica.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h4>¿Hay costo de envío?</h4>
+                    <p><strong>¡Jueves y Viernes ENVÍO GRATIS!</strong> en Quilmes, Bernal y Ezpeleta. Otros días y zonas consultar costo.</p>
                 </div>
             </div>
         </div>
@@ -471,73 +486,19 @@
     <!-- 6. MÉTODOS DE PAGO -->
     <section class="payment-methods" id="metodos-pago">
         <div class="container">
-            <h2>💳 Pagá como más te convenga</h2>
+            <h2>💳 Métodos de Pago Disponibles</h2>
             <div class="payment-options">
                 <div class="payment-option">
                     <i class="fas fa-money-bill-wave"></i>
                     <h4>Efectivo</h4>
-                    <p>Pagá cuando recibís tu pedido. Tené el monto exacto.</p>
+                    <p>Pagá al recibir tu pedido en la puerta de tu casa</p>
                 </div>
                 
                 <div class="payment-option">
-                    <i class="fas fa-mobile-alt"></i>
+                    <i class="fas fa-university"></i>
                     <h4>Transferencia</h4>
-                    <p>Te enviamos los datos por WhatsApp. Fácil y seguro.</p>
+                    <p>Transferencia bancaria con comprobante inmediato</p>
                 </div>
-                
-                <div class="payment-option">
-                    <i class="fab fa-mercadopago"></i>
-                    <h4>Mercado Pago</h4>
-                    <p>Pagá con tarjeta, link de pago o QR.</p>
-                </div>
-            </div>
-            
-            <div class="payment-security">
-                <h4>💪 Tu pago está 100% protegido</h4>
-                <ul>
-                    <li>✅ No guardamos datos de tu tarjeta</li>
-                    <li>✅ Transferencias con comprobante</li>
-                    <li>✅ Factura C por cada compra</li>
-                    <li>✅ Reembolsos ágiles si hay inconvenientes</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección Cotiza tu Evento -->
-    <section class="event-section" id="eventos">
-        <div class="container">
-            <div class="event-content">
-                <h2 class="event-main-title">¡TU EVENTO CON EL OSO!</h2>
-                <p class="event-subtitle">Contanos tu idea • Nosotros hacemos el resto</p>
-                
-                <div class="event-highlight">
-                    <h3>¿Planificando un evento especial?</h3>
-                    <p>Ofrecemos cotizaciones personalizadas para fiestas, reuniones y eventos corporativos. Precios especiales por volumen y servicio de entrega incluido.</p>
-                </div>
-                
-                <div class="event-features-grid">
-                    <div class="event-feature-card">
-                        <i class="fas fa-tags event-feature-icon" aria-hidden="true"></i>
-                        <h4>PRECIOS MAYORISTA</h4>
-                        <p>Descuentos especiales para eventos grandes</p>
-                    </div>
-                    <div class="event-feature-card">
-                        <i class="fas fa-shipping-fast event-feature-icon" aria-hidden="true"></i>
-                        <h4>ENVÍO INCLUIDO</h4>
-                        <p>Servicio de entrega para tu comodidad</p>
-                    </div>
-                    <div class="event-feature-card">
-                        <i class="fas fa-user-cog event-feature-icon" aria-hidden="true"></i>
-                        <h4>ASESORAMIENTO</h4>
-                        <p>Te ayudamos a elegir los mejores productos</p>
-                    </div>
-                </div>
-                
-                <button class="whatsapp-event-btn" onclick="contactEvent()">
-                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
-                    COTIZAR EVENTO GRATIS
-                </button>
             </div>
         </div>
     </section>
@@ -545,34 +506,46 @@
     <!-- 7. CONTACTO INMEDIATO -->
     <section class="immediate-contact" id="contacto">
         <div class="container">
-            <h2>📞 ¿Tenés dudas? Hablá directamente</h2>
+            <h2>📞 ¿Tenés dudas? Te ayudamos al instante</h2>
             <div class="contact-options">
-                <a href="https://wa.me/5491123495971" class="contact-option whatsapp">
+                <!-- WhatsApp General -->
+                <a href="https://wa.me/5491123495971" 
+                class="contact-option whatsapp"
+                target="_blank" 
+                rel="noopener noreferrer">
                     <i class="fab fa-whatsapp"></i>
                     <div>
-                        <h4>WhatsApp</h4>
-                        <p>Respondemos en minutos</p>
-                        <span class="response-time">⏱️ 5-15 min de respuesta</span>
+                        <h4>WhatsApp General</h4>
+                        <p>Consultas de productos y envíos</p>
+                        <span class="response-time">⏱️ Respuesta en 5-15 min</span>
                     </div>
                 </a>
                 
-                <a href="tel:+5491123495971" class="contact-option phone">
-                    <i class="fas fa-phone"></i>
+                <!-- Cotizar Evento -->
+                <a href="https://wa.me/5491123495971?text=¡Hola! Estoy interesado/a en cotizar productos para un evento. ¿Podrían pasarme información?" 
+                class="contact-option event"
+                target="_blank" 
+                rel="noopener noreferrer">
+                    <i class="fas fa-calendar-alt"></i>
                     <div>
-                        <h4>Llamada</h4>
-                        <p>Hablá directamente</p>
-                        <span class="availability">🕒 9 a 21hs</span>
+                        <h4>Cotizar Evento</h4>
+                        <p>Presupuestos para fiestas</p>
+                        <span class="availability">🎉 Precios especiales</span>
                     </div>
                 </a>
                 
-                <div class="contact-option chat">
-                    <i class="fas fa-comments"></i>
+                <!-- Ser Revendedor -->
+                <a href="https://wa.me/5491123495971?text=¡Hola! Me interesa revender sus productos. ¿Podrían enviarme información sobre precios mayoristas y condiciones?" 
+                class="contact-option reseller"
+                target="_blank" 
+                rel="noopener noreferrer">
+                    <i class="fas fa-store"></i>
                     <div>
-                        <h4>Chat aquí mismo</h4>
-                        <p>Asistencia instantánea</p>
-                        <button onclick="openChatAssistant()">Abrir chat</button>
+                        <h4>Ser Revendedor</h4>
+                        <p>Precios mayoristas</p>
+                        <span class="availability">📦 Condiciones especiales</span>
                     </div>
-                </div>
+                </a>
             </div>
             
             <div class="contact-guarantee">
@@ -582,7 +555,7 @@
         </div>
     </section>
 
-    <!-- Sección Nuestro Instagram -->
+    <!-- 8. NUESTRO INSTAGRAM -->
     <section class="instagram-section" id="instagram">
         <div class="container">
             <div class="instagram-content">
@@ -605,7 +578,10 @@
                     </div>
                 </div>
                 
-                <a href="https://instagram.com/elosocerveza" target="_blank" rel="noopener noreferrer" class="instagram-follow-btn">
+                <a href="https://instagram.com/elosocerveza" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="instagram-follow-btn">
                     <i class="fab fa-instagram" aria-hidden="true"></i>
                     SEGUIR EN INSTAGRAM
                 </a>

@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="shipping-option paid">
                     <i class="fas fa-shipping-fast"></i>
                     <div>
-                        <strong>Envío Express: $800</strong>
+                        <strong>Envío Express: $1,800</strong>
                         <span>Mismo día - Pedidos antes de 14hs</span>
                     </div>
                 </div>
@@ -357,7 +357,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="stock-status out-of-stock">
                     <i class="fas fa-times-circle"></i>
                     <span>Temporalmente sin stock</span>
-                    <button onclick="notifyWhenAvailable(${product.id})">Avísame cuando haya</button>
                 </div>
             `;
         } else if (product.stock <= 5) {
@@ -1184,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function generateWhatsAppMessage() {
-        let message = '¡HOLA EL OSO! 🐻\nQuiero realizar mi pedido:\n\n';
+        let message = '¡Hola! \nQuiero realizar mi pedido:\n\n';
         
         cart.forEach(item => {
             message += `• ${item.name} x${item.quantity} - $${(item.price * item.quantity).toLocaleString()}\n`;
@@ -1193,11 +1192,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         message += `\nTotal: $${total.toLocaleString()}\n\n`;
         
-        message += 'Información de entrega:\n';
-        message += 'Nombre: [Tu nombre]\n';
-        message += 'Dirección: [Tu dirección]\n';
-        message += 'Teléfono: [Tu teléfono]\n';
-        message += 'Horario preferido: [Horario de entrega]';
+        //message += 'Información de entrega:\n';
+        //message += 'Nombre: [Tu nombre]\n';
+        //message += 'Dirección: [Tu dirección]\n';
+        //message += 'Teléfono: [Tu teléfono]\n';
+        //message += 'Horario preferido: [Horario de entrega]';
 
         return message;
     }
@@ -1209,6 +1208,52 @@ document.addEventListener('DOMContentLoaded', function() {
         const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         
         window.open(url, '_blank');
+    }
+
+    // ===== FLECHAS DE NAVEGACIÓN PARA CATEGORÍAS =====
+    function initCategoryNavigation() {
+        const categoryScroll = document.querySelector('.category-nav-scroll');
+        const categoryList = document.querySelector('.category-list');
+        const arrowLeft = document.getElementById('categoryArrowLeft');
+        const arrowRight = document.getElementById('categoryArrowRight');
+        
+        if (!categoryScroll || !arrowLeft || !arrowRight) return;
+        
+        // Actualizar estado de las flechas
+        function updateArrows() {
+            const scrollLeft = categoryScroll.scrollLeft;
+            const scrollWidth = categoryScroll.scrollWidth;
+            const clientWidth = categoryScroll.clientWidth;
+            
+            arrowLeft.disabled = scrollLeft <= 0;
+            arrowRight.disabled = scrollLeft >= scrollWidth - clientWidth - 5;
+        }
+        
+        // Navegación con flechas
+        arrowLeft.addEventListener('click', function() {
+            categoryScroll.scrollBy({
+                left: -200,
+                behavior: 'smooth'
+            });
+        });
+        
+        arrowRight.addEventListener('click', function() {
+            categoryScroll.scrollBy({
+                left: 200,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Actualizar flechas al hacer scroll
+        categoryScroll.addEventListener('scroll', updateArrows);
+        
+        // Actualizar flechas al redimensionar la ventana
+        window.addEventListener('resize', updateArrows);
+        
+        // Inicializar estado de flechas
+        setTimeout(updateArrows, 100);
+        
+        console.log("✅ Navegación con flechas para categorías inicializada");
     }
 
     // Hacer las funciones de manejo de errores globales
@@ -1244,6 +1289,7 @@ document.addEventListener('DOMContentLoaded', function() {
             initImmediateContact();
             initRealReviews();
             initQualitySecurity();
+            initCategoryNavigation();
             
             console.log("✅ Todas las 9 mejoras implementadas correctamente");
             console.log("📊 Productos cargados desde Google Sheets");
@@ -1254,6 +1300,7 @@ document.addEventListener('DOMContentLoaded', function() {
             products = loadLocalProductData();
             loadProducts();
             loadCart();
+            initCategoryNavigation();
         }
     }
 

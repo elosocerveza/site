@@ -1204,8 +1204,6 @@ header {
 /* Proceso de Compra */
 .purchase-process {
     padding: 60px 0;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: var(--text-color);
 }
 
 .purchase-process h2 {
@@ -1463,7 +1461,7 @@ header {
 .product-card[data-category="sauces"] .product-image,
 .product-card[data-category="preserves"] .product-image,
 .product-card[data-category="combos"] .product-image {
-    height: 220px; /* Más alto para botellas */
+    height: 220px;
     padding: 0px;
     background-color: white;
 }
@@ -1504,10 +1502,6 @@ header {
         padding: 12px;
     }
     
-    .product-card[data-category="beers"] .product-image {
-        height: 200px;
-    }
-    
     .modal-image {
         height: 350px;
         padding: 25px;
@@ -1518,10 +1512,6 @@ header {
     .product-image {
         height: 140px;
         padding: 10px;
-    }
-    
-    .product-card[data-category="beers"] .product-image {
-        height: 160px;
     }
     
     .modal-image {
@@ -1539,10 +1529,6 @@ header {
     .product-image {
         height: 120px;
         padding: 8px;
-    }
-    
-    .product-card[data-category="beers"] .product-image {
-        height: 140px;
     }
     
     .modal-image {
@@ -1890,7 +1876,6 @@ header {
     font-weight: 900;
     color: var(--text-color);
     margin-bottom: 10px;
-    text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
 }
@@ -2019,10 +2004,8 @@ header {
 }
 
 .instagram-main-title {
-    font-size: 2.2rem;
     font-weight: 900;
     margin-bottom: 10px;
-    text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
 }
@@ -2435,10 +2418,6 @@ header {
         grid-template-columns: 1fr 1fr;
     }
     
-    .event-main-title {
-        font-size: 3rem;
-    }
-    
     .instagram-main-title {
         font-size: 2.5rem;
     }
@@ -2730,5 +2709,287 @@ header {
     
     .guarantee-cta h4 {
         font-size: 1.2rem;
+    }
+}
+
+/* Flechas de navegación para categorías */
+.category-nav-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.category-nav-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    flex: 1;
+}
+
+.category-nav-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.category-nav-arrows {
+    display: flex;
+    gap: 5px;
+    padding: 0 10px;
+}
+
+.category-nav-arrow {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.category-nav-arrow:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.category-nav-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.category-nav-arrow:disabled:hover {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+/* Ocultar flechas en móviles pequeños */
+@media (max-width: 480px) {
+    .category-nav-arrows {
+        display: none;
+    }
+    
+    .category-nav-scroll {
+        padding: 12px 0;
+    }
+}
+
+/* Estilos específicos para las opciones de contacto */
+.contact-option.whatsapp {
+    border-left: 4px solid #25D366;
+}
+
+.contact-option.whatsapp:hover {
+    border-color: #25D366;
+}
+
+.contact-option.whatsapp i {
+    color: #25D366;
+}
+
+.contact-option.event {
+    border-left: 4px solid #E1306C;
+}
+
+.contact-option.event:hover {
+    border-color: #E1306C;
+}
+
+.contact-option.event i {
+    color: #E1306C;
+}
+
+.contact-option.reseller {
+    border-left: 4px solid #27ae60;
+}
+
+.contact-option.reseller:hover {
+    border-color: #27ae60;
+}
+
+.contact-option.reseller i {
+    color: #27ae60;
+}
+
+.contact-option .availability {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+/* Estilo para método de pago próximamente */
+.payment-option.coming-soon {
+    opacity: 0.7;
+    position: relative;
+    overflow: hidden;
+}
+
+.payment-option.coming-soon::before {
+    content: 'PRÓXIMAMENTE';
+    position: absolute;
+    top: 10px;
+    right: -30px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    padding: 5px 30px;
+    font-size: 10px;
+    font-weight: bold;
+    transform: rotate(45deg);
+    z-index: 2;
+}
+
+.payment-option.coming-soon i {
+    opacity: 0.5;
+}
+
+/* Estilos para la lista de información */
+.payment-security ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+}
+
+.payment-security li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-color);
+    padding: 8px 0;
+}
+
+/* Timeline de entrega mejorado */
+.delivery-timeline {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-top: 40px;
+}
+
+.delivery-timeline h4 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.3rem;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.timeline-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.timeline-step {
+    text-align: center;
+    position: relative;
+}
+
+.timeline-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    color: var(--text-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0 auto 15px;
+    box-shadow: 0 4px 8px rgba(244, 209, 68, 0.3);
+}
+
+.timeline-step p {
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Responsive para timeline */
+@media (max-width: 768px) {
+    .timeline-step:not(:last-child)::after {
+        position: absolute;
+        bottom: -20px;
+        left: 50%;
+        transform: translateX(-50%) rotate(90deg);
+        right: auto;
+        top: auto;
+    }
+    
+    .timeline-steps {
+        gap: 40px;
+    }
+}
+
+/* Actualización para los nuevos iconos de calidad */
+.quality-feature i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.quality-feature:hover i {
+    transform: scale(1.1);
+    color: var(--success-color);
+}
+
+.quality-badges {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.quality-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.9);
+    color: var(--text-color);
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.quality-badge i {
+    color: var(--success-color);
+}
+
+/* Responsive para badges de calidad */
+@media (max-width: 768px) {
+    .quality-badges {
+        gap: 10px;
+    }
+    
+    .quality-badge {
+        padding: 10px 15px;
+        font-size: 0.8rem;
     }
 }
