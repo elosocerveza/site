@@ -1166,6 +1166,7 @@ body {
     overflow-y: auto;
     padding-bottom: 140px; /* Espacio suficiente para el botón fijo */
     -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+    padding-bottom: 140px; /* Espacio suficiente para el botón fijo */
 }
 
 /* Store Section */
@@ -2021,7 +2022,6 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding-bottom: 80px; /* Espacio para el botón fijo */
 }
 
 /* Sección de imagen fija */
@@ -2404,10 +2404,7 @@ body {
     position: sticky;
     bottom: 0;
     padding: 12px 16px;
-    padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); /* Seguridad para móviles con notch */
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    background: white;
-    z-index: 10;
 }
 
 .action-buttons-container {
@@ -2432,7 +2429,6 @@ body {
     border: 2px solid var(--primary-gold);
     box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4) !important;
     animation: goldPulse 2s infinite;
-    min-height: 54px; /* Altura mínima consistente */
 }
 
 .add-to-cart-btn-fixed:active {
@@ -3040,14 +3036,6 @@ body {
     display: none !important;
 }
 
-
-
-
-
-
-
-/* ===== CARRITO DE COMPRAS CORREGIDO PARA MOBILE ===== */
-
 /* Media queries específicas para móviles */
 @media (max-width: 767px) {
     .cart-summary-temu {
@@ -3092,40 +3080,5 @@ body {
 @supports (padding: max(0px)) {
     .temu-cart {
         padding-bottom: env(safe-area-inset-bottom);
-    }
-}
-
-/* Media queries específicas para diferentes tamaños de pantalla */
-@media (max-width: 380px) {
-    .action-buttons-fixed-mobile {
-        padding: 10px 12px;
-        padding-bottom: max(10px, env(safe-area-inset-bottom, 10px));
-    }
-    
-    .action-buttons-container .add-to-cart-btn {
-        padding: 14px;
-        font-size: 15px;
-        min-height: 50px;
-    }
-    
-    .product-details-body {
-        padding-bottom: 70px;
-    }
-}
-
-@media (max-width: 320px) {
-    .action-buttons-fixed-mobile {
-        padding: 8px 10px;
-        padding-bottom: max(8px, env(safe-area-inset-bottom, 8px));
-    }
-    
-    .action-buttons-container .add-to-cart-btn {
-        padding: 12px;
-        font-size: 14px;
-        min-height: 46px;
-    }
-    
-    .product-details-body {
-        padding-bottom: 65px;
     }
 }
