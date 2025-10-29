@@ -2174,23 +2174,42 @@ document.addEventListener('DOMContentLoaded', function() {
         return null;
     }
 
-    // Countdown timer
+    // Reemplazar la función startCountdown() existente con esta versión mejorada
     function startCountdown() {
         const countdownElement = document.getElementById('countdown');
         const miniCountdown = document.getElementById('miniCountdown');
         
         if (!countdownElement) return;
 
-        let timeLeft = 2 * 60 * 60 + 45 * 60 + 30; // 2 hours, 45 minutes, 30 seconds
+        // Clave para almacenar en localStorage
+        const countdownEndKey = 'elOsoCountdownEnd';
+        
+        // Obtener o establecer el tiempo de finalización
+        let countdownEnd = localStorage.getItem(countdownEndKey);
+        
+        if (!countdownEnd) {
+            // Si no existe, establecer 24 horas desde ahora
+            countdownEnd = Date.now() + (24 * 60 * 60 * 1000);
+            localStorage.setItem(countdownEndKey, countdownEnd);
+        } else {
+            countdownEnd = parseInt(countdownEnd);
+        }
 
         function updateCountdown() {
+            const now = Date.now();
+            const timeLeft = Math.max(0, countdownEnd - now);
+            
+            // Si el tiempo se agotó, reiniciar por 24 horas más
             if (timeLeft <= 0) {
-                timeLeft = 24 * 60 * 60; // Reset to 24 hours
+                countdownEnd = Date.now() + (24 * 60 * 60 * 1000);
+                localStorage.setItem(countdownEndKey, countdownEnd);
+                updateCountdown();
+                return;
             }
 
-            const hours = Math.floor(timeLeft / 3600);
-            const minutes = Math.floor((timeLeft % 3600) / 60);
-            const seconds = timeLeft % 60;
+            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
             // Update main countdown
             if (countdownElement) {
@@ -2204,15 +2223,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (miniCountdown) {
                 miniCountdown.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
-
-            timeLeft--;
         }
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
     }
 
-    // Shipping Countdown Timer - CORREGIDA
+    // También reemplazar la función startShippingCountdown() para mejorarla
     function startShippingCountdown() {
         const countdownElement = document.getElementById('shippingCountdown');
         if (!countdownElement) return;
