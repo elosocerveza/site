@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let cart = [];
     let currentSearchTerm = '';
 
+    // Nuevas variables para funcionalidades Temu/Shein
+    let referralSystem, discountWheel, pushNotifications, loyaltyProgram, chatbot, clubElOso, socialProof;
+
     // URL de tu Google Sheet (ACTUALIZA ESTE ID)
     const YOUR_SHEET_ID = '2PACX-1vTy8faJa3rHsf2msyB-OH5zyOD9WTD40Ry1O_Jng3p29Z6-58SCNw2KH14y1mr66JoDAkBVQDIXZv8q';
     const YOUR_GID = '1302727963';
@@ -26,6 +29,824 @@ document.addEventListener('DOMContentLoaded', function() {
     // URL base de Google Sheets
     const BASE_SHEET_URL = `https://docs.google.com/spreadsheets/d/e/${YOUR_SHEET_ID}/pub?gid=${YOUR_GID}&single=true&output=csv`;
 
+    // ===== MANEJO DE ERRORES DE IMAGEN UNIFICADO =====
+    function handleImageError(img) {
+        const imageElement = img.target || img;
+        let category = 'beer'; // categoría por defecto
+        
+        // Intentar obtener la categoría del elemento padre
+        const productCard = imageElement.closest('.product-card');
+        if (productCard) {
+            category = productCard.dataset.category || 'beer';
+        }
+        
+        // Intentar obtener la categoría del contexto actual
+        const contextCategory = imageElement.closest('[data-category]');
+        if (contextCategory) {
+            category = contextCategory.dataset.category || category;
+        }
+        
+        imageElement.style.display = 'none';
+        
+        // Crear elemento de icono de categoría
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'image-error-fallback';
+        iconContainer.style.cssText = `
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: #f8f8f8;
+            color: #ccc;
+        `;
+        
+        const iconHTML = getCategoryIcon(category);
+        iconContainer.innerHTML = iconHTML;
+        
+        imageElement.parentNode.appendChild(iconContainer);
+    }
+
+    // Función específica para el modal de detalles (usa handleImageError internamente)
+    function handleProductImageError(img) {
+        handleImageError(img);
+    }
+
+    // ===== CLASES NUEVAS TEMU/SHEIN =====
+
+    // 1. Sistema de Referidos
+    class ReferralSystem {
+        constructor() {
+            this.referralCode = this.generateReferralCode();
+            this.referralDiscount = 500;
+            this.init();
+        }
+
+        generateReferralCode() {
+            let code = localStorage.getItem('elOsoReferralCode');
+            if (!code) {
+                code = 'ELOSO' + Math.random().toString(36).substr(2, 6).toUpperCase();
+                localStorage.setItem('elOsoReferralCode', code);
+            }
+            return code;
+        }
+
+        init() {
+            this.checkFirstPurchase();
+            this.setupEventListeners();
+        }
+
+        checkFirstPurchase() {
+            const hasPurchased = localStorage.getItem('elOsoFirstPurchase');
+            if (!hasPurchased) {
+                setTimeout(() => {
+                    this.showReferralModal();
+                }, 10000);
+            }
+        }
+
+        showReferralModal() {
+            const modal = document.getElementById('referralModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+                document.getElementById('referralCode').textContent = this.referralCode;
+            }
+        }
+
+        hideReferralModal() {
+            const modal = document.getElementById('referralModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.getElementById('overlay').classList.remove('active');
+            }
+        }
+
+        setupEventListeners() {
+            const closeButton = document.getElementById('closeReferralModal');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    this.hideReferralModal();
+                });
+            }
+
+            const copyButton = document.getElementById('copyReferralCode');
+            if (copyButton) {
+                copyButton.addEventListener('click', () => {
+                    this.copyToClipboard(this.referralCode);
+                    showNotification('Código copiado al portapapeles', 'success');
+                });
+            }
+
+            const whatsappShare = document.getElementById('whatsappShare');
+            if (whatsappShare) {
+                const message = `¡Hola! Te invito a comprar en El Oso Cerveza. Usa mi código ${this.referralCode} y obtén $${this.referralDiscount} de descuento en tu primera compra. ¡Visita el sitio!`;
+                const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                whatsappShare.setAttribute('href', url);
+            }
+
+            const copyLink = document.getElementById('copyLink');
+            if (copyLink) {
+                copyLink.addEventListener('click', () => {
+                    const message = `¡Hola! Te invito a comprar en El Oso Cerveza. Usa mi código ${this.referralCode} y obtén $${this.referralDiscount} de descuento. Visita: ${window.location.href}`;
+                    this.copyToClipboard(message);
+                    showNotification('Mensaje copiado al portapapeles', 'success');
+                });
+            }
+        }
+
+        copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+        }
+    }
+
+    // 2. Ruleta de Descuentos
+    class DiscountWheel {
+        constructor() {
+            this.wheel = document.getElementById('discountWheel');
+            this.spinButton = document.getElementById('spinWheel');
+            this.isSpinning = false;
+            this.lastSpin = localStorage.getItem('lastWheelSpin');
+            this.init();
+        }
+
+        init() {
+            this.setupEventListeners();
+            this.checkDailySpin();
+        }
+
+        setupEventListeners() {
+            if (this.spinButton) {
+                this.spinButton.addEventListener('click', () => {
+                    if (!this.isSpinning) {
+                        this.spin();
+                    }
+                });
+            }
+        }
+
+        checkDailySpin() {
+            const today = new Date().toDateString();
+            if (this.lastSpin === today && this.spinButton) {
+                this.spinButton.disabled = true;
+                this.spinButton.textContent = 'Ya girado hoy';
+            }
+        }
+
+        spin() {
+            this.isSpinning = true;
+            this.spinButton.disabled = true;
+
+            const extraSpins = 2;
+            const segmentAngle = 60;
+            const randomSegment = Math.floor(Math.random() * 6);
+            const targetAngle = 360 * extraSpins + (segmentAngle * randomSegment);
+
+            this.wheel.style.transform = `rotate(${targetAngle}deg)`;
+
+            const today = new Date().toDateString();
+            localStorage.setItem('lastWheelSpin', today);
+
+            setTimeout(() => {
+                this.showResult(randomSegment);
+                this.isSpinning = false;
+            }, 4000);
+        }
+
+        showResult(segmentIndex) {
+            const prizes = [
+                '5% OFF',
+                '10% OFF',
+                '15% OFF',
+                '20% OFF',
+                'ENVÍO GRATIS',
+                '$500 OFF'
+            ];
+            
+            const prize = prizes[segmentIndex];
+            showNotification(`🎉 ¡Ganaste: ${prize}! Válido por 24 horas`, 'success');
+            
+            this.saveDiscount(prize);
+            
+            // Agregar puntos por girar la ruleta
+            if (loyaltyProgram) {
+                loyaltyProgram.addPoints(10, 'Por girar la ruleta');
+            }
+        }
+
+        saveDiscount(prize) {
+            const discount = {
+                type: this.getDiscountType(prize),
+                value: this.getDiscountValue(prize),
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
+            };
+            localStorage.setItem('wheelDiscount', JSON.stringify(discount));
+        }
+
+        getDiscountType(prize) {
+            if (prize.includes('%')) return 'percentage';
+            if (prize.includes('ENVÍO')) return 'shipping';
+            return 'fixed';
+        }
+
+        getDiscountValue(prize) {
+            if (prize.includes('%')) return parseInt(prize);
+            if (prize.includes('ENVÍO')) return 0;
+            return 500;
+        }
+    }
+
+    // 3. Notificaciones Push
+    class PushNotifications {
+        constructor() {
+            this.permissionGranted = false;
+            this.init();
+        }
+
+        async init() {
+            if ('Notification' in window) {
+                this.permissionGranted = Notification.permission === 'granted';
+                
+                if (!this.permissionGranted && Notification.permission !== 'denied') {
+                    setTimeout(() => {
+                        this.showPermissionRequest();
+                    }, 30000);
+                }
+            }
+        }
+
+        showPermissionRequest() {
+            const modal = document.getElementById('pushPermissionModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.getElementById('overlay').classList.add('active');
+                this.setupPermissionEventListeners();
+            }
+        }
+
+        setupPermissionEventListeners() {
+            const allowButton = document.getElementById('allowNotifications');
+            const denyButton = document.getElementById('denyNotifications');
+            const closeButton = document.getElementById('closePushPermission');
+            const modal = document.getElementById('pushPermissionModal');
+
+            const closeModal = () => {
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.getElementById('overlay').classList.remove('active');
+                }
+            };
+
+            if (allowButton) {
+                allowButton.addEventListener('click', async () => {
+                    const permission = await Notification.requestPermission();
+                    this.permissionGranted = permission === 'granted';
+                    closeModal();
+                    
+                    if (this.permissionGranted) {
+                        showNotification('🔔 Notificaciones permitidas', 'success');
+                    }
+                });
+            }
+
+            if (denyButton) denyButton.addEventListener('click', closeModal);
+            if (closeButton) closeButton.addEventListener('click', closeModal);
+        }
+
+        sendOfferNotification(title, message) {
+            if (this.permissionGranted) {
+                new Notification(title, {
+                    body: message,
+                    icon: 'images/logo-blanco.png'
+                });
+            }
+        }
+
+        sendFlashSaleNotification(product) {
+            this.sendOfferNotification(
+                '🔥 Oferta Flash Activa',
+                `${product.name} - ${product.discount}% OFF - Solo por tiempo limitado!`
+            );
+        }
+    }
+
+    // 4. Sistema de Puntos y Recompensas
+    class LoyaltyProgram {
+        constructor() {
+            this.points = parseInt(localStorage.getItem('elOsoPoints')) || 0;
+            this.updatePointsDisplay();
+        }
+
+        addPoints(amount, reason) {
+            this.points += amount;
+            localStorage.setItem('elOsoPoints', this.points.toString());
+            
+            this.showPointsNotification(amount, reason);
+            this.updatePointsDisplay();
+            
+            // Actualizar Club El Oso
+            if (clubElOso) {
+                clubElOso.updateDisplay();
+            }
+        }
+
+        showPointsNotification(amount, reason) {
+            const notification = document.createElement('div');
+            notification.className = 'points-notification';
+            notification.innerHTML = `
+                <div class="points-icon">⭐</div>
+                <div class="points-content">
+                    <strong>+${amount} puntos</strong>
+                    <span>${reason}</span>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: white;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                z-index: 10000;
+                animation: slideInRight 0.3s ease;
+                border-left: 4px solid var(--primary-gold);
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        updatePointsDisplay() {
+            const pointsDisplay = document.getElementById('loyaltyPoints');
+            if (pointsDisplay) {
+                pointsDisplay.textContent = this.points.toLocaleString();
+            }
+        }
+
+        redeemPoints(pointsToRedeem) {
+            if (pointsToRedeem > this.points) {
+                showNotification('No tienes suficientes puntos', 'error');
+                return false;
+            }
+
+            this.points -= pointsToRedeem;
+            localStorage.setItem('elOsoPoints', this.points.toString());
+            this.updatePointsDisplay();
+            
+            showNotification(`Canjeaste ${pointsToRedeem} puntos`, 'success');
+            return true;
+        }
+    }
+
+    // 5. Chatbot de Recomendaciones
+    class ProductRecommender {
+        constructor() {
+            this.currentStep = 0;
+            this.answers = {};
+            this.questions = [
+                {
+                    question: "¿Qué tipo de cerveza te gusta?",
+                    options: ["Lager", "IPA", "Stout", "Trigo", "No sé"]
+                },
+                {
+                    question: "¿Prefieres sabores suaves o intensos?",
+                    options: ["Suaves", "Intensos", "Equilibrados"]
+                },
+                {
+                    question: "¿Algún ingrediente favorito?",
+                    options: ["Cítricos", "Frutos rojos", "Chocolate", "Café", "No prefiero"]
+                }
+            ];
+            this.init();
+        }
+
+        init() {
+            this.setupEventListeners();
+        }
+
+        setupEventListeners() {
+            const toggle = document.getElementById('chatbotToggle');
+            const close = document.getElementById('chatbotClose');
+            const container = document.getElementById('chatbotContainer');
+            const sendButton = document.getElementById('chatbotSend');
+            const input = document.getElementById('chatbotInput');
+
+            if (toggle) {
+                toggle.addEventListener('click', () => {
+                    container.classList.toggle('active');
+                });
+            }
+
+            if (close) {
+                close.addEventListener('click', () => {
+                    container.classList.remove('active');
+                });
+            }
+
+            if (sendButton) {
+                sendButton.addEventListener('click', () => {
+                    this.handleUserInput();
+                });
+            }
+
+            if (input) {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.handleUserInput();
+                    }
+                });
+            }
+        }
+
+        handleUserInput() {
+            const input = document.getElementById('chatbotInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                this.addUserMessage(message);
+                input.value = '';
+                
+                setTimeout(() => {
+                    this.processAnswer(message);
+                }, 500);
+            }
+        }
+
+        addUserMessage(message) {
+            const messagesContainer = document.getElementById('chatbotMessages');
+            if (!messagesContainer) return;
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message user-message';
+            messageElement.innerHTML = `<p>${message}</p>`;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        addBotMessage(message) {
+            const messagesContainer = document.getElementById('chatbotMessages');
+            if (!messagesContainer) return;
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message bot-message';
+            messageElement.innerHTML = `<p>${message}</p>`;
+            messagesContainer.appendChild(messageElement);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        processAnswer(answer) {
+            this.answers[this.currentStep] = answer;
+            this.currentStep++;
+
+            if (this.currentStep < this.questions.length) {
+                this.askQuestion();
+            } else {
+                this.provideRecommendation();
+            }
+        }
+
+        askQuestion() {
+            const question = this.questions[this.currentStep];
+            this.addBotMessage(question.question);
+            
+            const optionsHTML = question.options.map(option => 
+                `<button class="quick-option" onclick="chatbot.selectOption('${option}')">${option}</button>`
+            ).join('');
+            
+            this.addBotMessage(`Puedes elegir: ${optionsHTML}`);
+        }
+
+        selectOption(option) {
+            const input = document.getElementById('chatbotInput');
+            input.value = option;
+            this.handleUserInput();
+        }
+
+        provideRecommendation() {
+            let recommendedProducts = [];
+            
+            if (this.answers[0] === 'IPA') {
+                recommendedProducts = products.beers.filter(p => 
+                    p.name && (p.name.toLowerCase().includes('ipa') || 
+                    p.description.toLowerCase().includes('ipa'))
+                );
+            } else if (this.answers[0] === 'Stout') {
+                recommendedProducts = products.beers.filter(p => 
+                    p.name && (p.name.toLowerCase().includes('stout') || 
+                    p.description.toLowerCase().includes('stout'))
+                );
+            } else {
+                recommendedProducts = products.beers.slice(0, 3);
+            }
+
+            if (recommendedProducts.length > 0) {
+                this.addBotMessage("Basándome en tus preferencias, te recomiendo:");
+                
+                recommendedProducts.forEach(product => {
+                    this.addBotMessage(
+                        `🍺 ${product.name} - $${product.price.toLocaleString()} - ` +
+                        `<button class="product-link" onclick="showProductDetails(${product.id})">Ver detalles</button>`
+                    );
+                });
+            } else {
+                this.addBotMessage("Te recomiendo explorar nuestra sección de cervezas artesanales.");
+            }
+
+            this.addBotMessage("¿Te gustaría que te recomiende algo más?");
+            this.currentStep = 0;
+            this.answers = {};
+        }
+    }
+
+    // 6. Club El Oso - Programa de Fidelidad
+    class ClubElOso {
+        constructor() {
+            this.levels = {
+                bronze: { minPoints: 0, benefits: ['5% descuento'] },
+                silver: { minPoints: 1000, benefits: ['10% descuento', 'Envío gratis'] },
+                gold: { minPoints: 2500, benefits: ['15% descuento', 'Envío gratis', 'Acceso anticipado'] }
+            };
+            this.init();
+        }
+
+        init() {
+            this.updateDisplay();
+            this.setupEventListeners();
+        }
+
+        updateDisplay() {
+            const points = loyaltyProgram ? loyaltyProgram.points : 0;
+            const level = this.getCurrentLevel(points);
+            const progress = this.getLevelProgress(points, level);
+
+            const levelElement = document.getElementById('loyaltyLevel');
+            const pointsElement = document.getElementById('loyaltyPoints');
+            const progressElement = document.getElementById('loyaltyProgressFill');
+
+            if (levelElement) levelElement.textContent = `Nivel ${this.capitalizeFirstLetter(level)}`;
+            if (pointsElement) pointsElement.textContent = points.toLocaleString();
+            if (progressElement) progressElement.style.width = `${progress}%`;
+        }
+
+        getCurrentLevel(points) {
+            if (points >= this.levels.gold.minPoints) return 'gold';
+            if (points >= this.levels.silver.minPoints) return 'silver';
+            return 'bronze';
+        }
+
+        getLevelProgress(points, level) {
+            const currentLevel = this.levels[level];
+            const nextLevel = this.getNextLevel(level);
+            
+            if (!nextLevel) return 100;
+
+            const pointsInLevel = points - currentLevel.minPoints;
+            const levelRange = nextLevel.minPoints - currentLevel.minPoints;
+            
+            return Math.min((pointsInLevel / levelRange) * 100, 100);
+        }
+
+        getNextLevel(level) {
+            const levelKeys = Object.keys(this.levels);
+            const currentIndex = levelKeys.indexOf(level);
+            return levelKeys[currentIndex + 1] ? this.levels[levelKeys[currentIndex + 1]] : null;
+        }
+
+        capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        setupEventListeners() {
+            const detailsBtn = document.getElementById('loyaltyDetailsBtn');
+            if (detailsBtn) {
+                detailsBtn.addEventListener('click', () => {
+                    this.showLevelDetails();
+                });
+            }
+        }
+
+        // En la clase ClubElOso, reemplaza el método showLevelDetails:
+        showLevelDetails() {
+            const points = loyaltyProgram ? loyaltyProgram.points : 0;
+            const currentLevel = this.getCurrentLevel(points);
+            
+            let detailsHTML = `
+                <div class="level-details">
+                    <h3>🥇 Detalles del Club El Oso</h3>
+                    <div class="levels-list">
+            `;
+
+            Object.entries(this.levels).forEach(([level, data]) => {
+                const isCurrent = level === currentLevel;
+                const isUnlocked = points >= data.minPoints;
+                
+                detailsHTML += `
+                    <div class="level-item ${isCurrent ? 'current' : ''} ${isUnlocked ? 'unlocked' : 'locked'}">
+                        <div class="level-header">
+                            <span class="level-name">${this.capitalizeFirstLetter(level)}</span>
+                            <span class="level-points">${data.minPoints} puntos</span>
+                        </div>
+                        <div class="level-benefits">
+                            ${data.benefits.map(benefit => `<span class="benefit">✓ ${benefit}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            detailsHTML += `
+                    </div>
+                    <div class="current-points-info">
+                        <p><strong>Tus puntos actuales:</strong> ${points.toLocaleString()}</p>
+                        <p class="points-help">Gana puntos realizando compras y actividades en el sitio</p>
+                    </div>
+                </div>
+            `;
+
+            // Crear modal con la misma estructura que los demás
+            const modal = document.createElement('div');
+            modal.className = 'why-choose-modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="modal-close" onclick="this.closest('.why-choose-modal').remove(); document.getElementById('overlay').classList.remove('active');">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <h2 class="modal-title">🥇 Club El Oso - Programa de Fidelidad</h2>
+                        <p class="modal-subtitle">Acumula puntos y disfruta de beneficios exclusivos</p>
+                    </div>
+                    <div class="modal-body">
+                        ${detailsHTML}
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-cta" onclick="this.closest('.why-choose-modal').remove(); document.getElementById('overlay').classList.remove('active');">
+                            <i class="fas fa-check"></i>
+                            Entendido
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            document.getElementById('overlay').classList.add('active');
+        }
+    }
+
+    // 7. Fotos de Clientes UGC
+    class SocialProof {
+        constructor() {
+            this.photos = [
+                {
+                    image: 'images/ugc/photo1.jpg',
+                    user: '@rosturmer',
+                    caption: 'Acompañamos las tostadas'
+                },
+                {
+                    image: 'images/ugc/photo2.jpg', 
+                    user: '@adannmartinez_',
+                    caption: 'Una parada técnica'
+                },
+                {
+                    image: 'images/ugc/photo3.jpg',
+                    user: '@marcebon395',
+                    caption: 'Vas a compartir los trafeos cerveceros'
+                },
+                {
+                    image: 'images/ugc/photo4.jpg',
+                    user: '@manuu.soria',
+                    caption: 'De méxican'
+                }
+            ];
+            this.init();
+        }
+
+        init() {
+            this.loadUGCPhotos();
+        }
+
+        loadUGCPhotos() {
+            const grid = document.getElementById('ugcGrid');
+            if (!grid) return;
+
+            // Limpiar grid
+            grid.innerHTML = '';
+
+            this.photos.forEach(photo => {
+                const photoElement = document.createElement('div');
+                photoElement.className = 'ugc-item';
+                photoElement.innerHTML = `
+                    <img src="${photo.image}" alt="${photo.caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="ugc-fallback" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; background: #f8f8f8; color: #ccc;">
+                        <i class="fas fa-camera" style="font-size: 2rem;"></i>
+                    </div>
+                    <div class="ugc-user">
+                        <div>${photo.user}</div>
+                        <div>${photo.caption}</div>
+                    </div>
+                `;
+                grid.appendChild(photoElement);
+            });
+        }
+    }
+
+    // ===== FUNCIONES GLOBALES NUEVAS =====
+
+    // Barra de progreso envío gratis
+    function updateShippingProgress() {
+        const freeShippingThreshold = 15000;
+        const subtotal = calculateSubtotal();
+        const remaining = Math.max(0, freeShippingThreshold - subtotal);
+        
+        const shippingProgress = document.getElementById('shippingProgress');
+        const shippingRemaining = document.getElementById('shippingRemaining');
+        const shippingProgressFill = document.getElementById('shippingProgressFill');
+        
+        // Si no existen los elementos, salir
+        if (!shippingRemaining || !shippingProgressFill) return;
+        
+        if (subtotal >= freeShippingThreshold) {
+            // Envío gratis alcanzado
+            shippingRemaining.textContent = '¡Envío gratis en Quilmes desbloqueado!';
+            shippingProgressFill.style.width = '100%';
+        } else {
+            // Aún no alcanza el envío gratis
+            shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis en Quilmes!`;
+            
+            const progress = (subtotal / freeShippingThreshold) * 100;
+            shippingProgressFill.style.width = `${progress}%`;
+        }
+        
+        // Si el carrito está vacío, resetear completamente
+        if (cart.length === 0) {
+            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis en Quilmes!`;
+            shippingProgressFill.style.width = '0%';
+        }
+    }
+
+    function calculateSubtotal() {
+        return cart.reduce((total, item) => {
+            const price = item.discountPrice || item.price || 0;
+            const quantity = item.quantity || 1;
+            return total + (price * quantity);
+        }, 0);
+    }
+
+    // Contador de personas viendo producto
+    function updateProductViewers() {
+        document.querySelectorAll('.product-card').forEach(card => {
+            const existingBadge = card.querySelector('.viewers-badge');
+            if (existingBadge) {
+                existingBadge.remove();
+            }
+
+            const viewers = Math.floor(Math.random() * 10) + 1;
+            const viewersBadge = `
+                <div class="viewers-badge">
+                    <i class="fas fa-eye"></i>
+                    <span>${viewers} VISTAS</span>
+                </div>
+            `;
+            
+            const badgesContainer = card.querySelector('.product-badges');
+            if (badgesContainer) {
+                badgesContainer.insertAdjacentHTML('beforeend', viewersBadge);
+            }
+        });
+    }
+
+    // Modo compra rápida
+    function setupQuickBuy() {
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('quick-buy-btn')) {
+                const productId = parseInt(e.target.dataset.id);
+                const product = findProductById(productId);
+                
+                if (product) {
+                    addToCart(productId);
+                    
+                    showNotification(`✅ ${product.name} agregado`, 'success');
+                    
+                    setTimeout(() => {
+                        checkoutViaWhatsAppTemu();
+                    }, 1000);
+                }
+            }
+        });
+    }
+
     // Initialize everything
     async function init() {
         await loadProducts();
@@ -37,87 +858,17 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCartUI();
         startShippingCountdown();
         
-        console.log('🛒 El Oso - Ecommerce inicializado');
-    }
-
-    // Shipping Countdown Timer - CORREGIDA
-    function startShippingCountdown() {
-        const countdownElement = document.getElementById('shippingCountdown');
-        if (!countdownElement) return;
-
-        function updateShippingCountdown() {
-            const now = new Date();
-            const currentDay = now.getDay(); // 0 = Domingo, 1 = Lunes, ..., 4 = Jueves, 5 = Viernes, 6 = Sábado
-            const currentHour = now.getHours();
-            const currentMinutes = now.getMinutes();
-            
-            let nextShippingDay;
-            let daysUntilNextShipping;
-            let targetDate;
-            
-            // Determinar el próximo día de envío gratis
-            if (currentDay === 4 || currentDay === 5) { // Jueves o Viernes
-                if (currentHour < 18) {
-                    // Si es jueves o viernes antes de las 18:00, el envío es hoy
-                    nextShippingDay = currentDay;
-                    targetDate = new Date(now);
-                    targetDate.setHours(18, 0, 0, 0);
-                } else {
-                    // Si es jueves o viernes después de las 18:00, el próximo es el próximo jueves
-                    nextShippingDay = 4; // Jueves
-                    daysUntilNextShipping = (4 - currentDay + 7) % 7;
-                    if (daysUntilNextShipping === 0) daysUntilNextShipping = 7;
-                    targetDate = new Date(now);
-                    targetDate.setDate(now.getDate() + daysUntilNextShipping);
-                    targetDate.setHours(18, 0, 0, 0);
-                }
-            } else {
-                // Si no es jueves ni viernes
-                if (currentDay < 4) { // Domingo (0) a Miércoles (3)
-                    nextShippingDay = 4; // Próximo jueves
-                    daysUntilNextShipping = 4 - currentDay;
-                } else { // Sábado (6)
-                    nextShippingDay = 4; // Próximo jueves
-                    daysUntilNextShipping = 4 + (7 - currentDay); // 4 + 1 = 5 días
-                }
-                targetDate = new Date(now);
-                targetDate.setDate(now.getDate() + daysUntilNextShipping);
-                targetDate.setHours(18, 0, 0, 0);
-            }
-            
-            // Calcular diferencia de tiempo
-            const timeDiff = targetDate - now;
-            
-            if (timeDiff <= 0) {
-                countdownElement.textContent = "¡ENVÍO GRATIS DISPONIBLE AHORA!";
-                countdownElement.style.color = '#FFD700';
-                countdownElement.style.fontWeight = '700';
-                return;
-            }
-            
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            
-            // Formatear el mensaje
-            let message = "";
-            if (days > 0) {
-                message = `Próximo envío gratis en: ${days}d ${hours}h`;
-            } else if (hours > 0) {
-                message = `¡ENVÍO GRATIS HOY! Termina en: ${hours}h ${minutes}m`;
-                countdownElement.style.color = '#FFD700';
-                countdownElement.style.fontWeight = '700';
-            } else {
-                message = `¡ENVÍO GRATIS HOY! Termina en: ${minutes}m`;
-                countdownElement.style.color = '#FFD700';
-                countdownElement.style.fontWeight = '700';
-            }
-            
-            countdownElement.textContent = message;
-        }
-
-        updateShippingCountdown();
-        setInterval(updateShippingCountdown, 60000); // Actualizar cada minuto
+        // Inicializar nuevas funcionalidades
+        //referralSystem = new ReferralSystem();
+        discountWheel = new DiscountWheel();
+        //pushNotifications = new PushNotifications();
+        loyaltyProgram = new LoyaltyProgram();
+        //chatbot = new ProductRecommender();
+        clubElOso = new ClubElOso();
+        socialProof = new SocialProof();
+        setupQuickBuy();
+        
+        console.log('🛒 El Oso - Ecommerce con funcionalidades Temu/Shein inicializado');
     }
 
     // WhatsApp Menu Functions
@@ -486,8 +1237,8 @@ document.addEventListener('DOMContentLoaded', function() {
         renderProductsSection('preserve-products', products.preserves);
         renderProductsSection('combo-products', products.combos);
 
-        // Update cart recommendations
         updateTemuRecommendations();
+        updateProductViewers();
     }
 
     // Render products in a specific section
@@ -522,7 +1273,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Determine badge
         let badgeType = product.badge || '';
         if (!badgeType && discount > 20) badgeType = 'flash';
-        if (!badgeType && product.sold > 50) badgeType = 'popular';
+        if (!badgeType && product.sold > 100) badgeType = 'popular';
         
         // Build badges HTML
         let badgesHTML = '';
@@ -548,13 +1299,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         return `
-            <div class="product-card" data-id="${product.id}" data-category="${product.category}">
+            <div class="product-card" data-id="${product.id}" data-category="${product.category || 'beer'}">
                 <div class="product-badges">
                     ${badgesHTML}
                 </div>
                 
                 <div class="product-image">
-                    ${product.image ? `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="handleImageError(this)">` : getCategoryIcon(product.category)}
+                    ${product.image ? 
+                        `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="handleImageError(this)">` : 
+                        getCategoryIcon(product.category || 'beer')
+                    }
                     ${product.stock && !isOutOfStock ? `
                         <div class="stock-bar">
                             <div class="stock-fill" style="width: ${stockPercentage}%"></div>
@@ -577,7 +1331,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${qualifiesForFreeShipping ? `
                         <div class="free-shipping-info">
                             <i class="fas fa-shipping-fast"></i>
-                            <span>Envío gratis jueves y viernes</span>
+                            <span>Envío gratis en Quilmes Jueves y Viernes</span>
                         </div>
                     ` : ''}
                     
@@ -597,10 +1351,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         ` : ''}
                     </div>
                     
-                    <button class="add-to-cart-btn" data-id="${product.id}" ${isOutOfStock ? 'disabled' : ''}>
-                        <i class="fas fa-cart-plus"></i>
-                        ${isOutOfStock ? 'SIN STOCK' : 'AGREGAR AL CARRITO'}
-                    </button>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" data-id="${product.id}" ${isOutOfStock ? 'disabled' : ''}>
+                            <i class="fas fa-cart-plus"></i>
+                            ${isOutOfStock ? 'SIN STOCK' : 'AGREGAR AL CARRITO'}
+                        </button>
+                        <button class="quick-buy-btn" data-id="${product.id}" ${isOutOfStock ? 'disabled' : ''}>
+                            <i class="fas fa-bolt"></i>
+                            COMPRAR RÁPIDO
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -624,20 +1384,25 @@ document.addEventListener('DOMContentLoaded', function() {
     function getCategoryIcon(category) {
         const icons = {
             'beer': 'fas fa-beer',
+            'beers': 'fas fa-beer',
+            'cerveza': 'fas fa-beer',
+            'cervezas': 'fas fa-beer',
             'sauce': 'fas fa-pepper-hot',
+            'sauces': 'fas fa-pepper-hot',
+            'salsa': 'fas fa-pepper-hot',
+            'salsas': 'fas fa-pepper-hot',
             'preserve': 'fas fa-jar',
-            'combo': 'fas fa-gift'
+            'preserves': 'fas fa-jar',
+            'conserva': 'fas fa-jar',
+            'conservas': 'fas fa-jar',
+            'combo': 'fas fa-gift',
+            'combos': 'fas fa-gift'
         };
         
-        const iconClass = icons[category] || 'fas fa-beer';
+        const normalizedCategory = (category || '').toLowerCase();
+        const iconClass = icons[normalizedCategory] || 'fas fa-beer';
+        
         return `<i class="${iconClass}" style="font-size: 48px; color: #ccc;"></i>`;
-    }
-
-    // Handle image errors
-    function handleImageError(img) {
-        img.style.display = 'none';
-        const category = img.closest('.product-card').dataset.category;
-        img.parentElement.innerHTML += getCategoryIcon(category);
     }
 
     // Attach event listeners to products
@@ -707,36 +1472,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Crear y configurar la imagen principal
         if (fixedImageContainer) {
-            const img = document.createElement('img');
-            img.src = product.image || '';
-            img.alt = product.name;
-            img.onerror = function() {
-                this.style.display = 'none';
-                const category = (product.category || '').toLowerCase();
-                const iconHTML = getCategoryIcon(category);
-                fixedImageContainer.innerHTML += iconHTML;
-            };
-            
-            fixedImageContainer.appendChild(img);
+            if (product.image) {
+                const img = document.createElement('img');
+                img.src = product.image;
+                img.alt = product.name;
+                img.onerror = handleImageError;
+                fixedImageContainer.appendChild(img);
+            } else {
+                // Si no hay imagen, mostrar ícono de categoría
+                const category = product.category || 'beer';
+                fixedImageContainer.innerHTML = getCategoryIcon(category);
+            }
         }
         
-        // Setup badges (usando el mismo estilo que en listado principal)
+        // Setup badges
         if (badgesContainer) {
             setupProductBadges(product, badgesContainer);
         }
-    }
-
-    // Función auxiliar para obtener ícono de categoría
-    function getCategoryIcon(category) {
-        const icons = {
-            'beer': 'fas fa-beer',
-            'sauce': 'fas fa-pepper-hot', 
-            'preserve': 'fas fa-jar',
-            'combo': 'fas fa-gift'
-        };
-        
-        const iconClass = icons[category] || 'fas fa-beer';
-        return `<i class="${iconClass}" style="font-size: 64px; color: #ccc;"></i>`;
     }
 
     // Setup badges igual que en listado principal - CORREGIDA
@@ -785,14 +1537,6 @@ document.addEventListener('DOMContentLoaded', function() {
             shippingBadge.textContent = '🚚 ENVÍO GRATIS';
             container.appendChild(shippingBadge);
         }
-    }
-
-    // Handle product image errors
-    function handleProductImageError(img) {
-        const category = img.closest('.product-details-modal')?.querySelector('.product-title-mobile')?.textContent || '';
-        img.style.display = 'none';
-        const iconHTML = getCategoryIcon(category);
-        img.parentElement.innerHTML += iconHTML;
     }
 
     // Setup product info for mobile
@@ -1145,6 +1889,11 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCartUI();
         saveCart();
         showNotification('✅ Producto agregado al carrito', 'success');
+        
+        // Agregar puntos por agregar al carrito
+        if (loyaltyProgram) {
+            loyaltyProgram.addPoints(5, 'Por agregar al carrito');
+        }
     }
 
     function removeFromCart(productId) {
@@ -1178,6 +1927,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // TEMU/SHEIN CART FUNCTIONS
     function updateCartUI() {
         updateTemuCartUI();
+        updateShippingProgress();
     }
 
     function updateTemuCartUI() {
@@ -1210,9 +1960,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     const totalOriginalPrice = originalPrice * item.quantity;
 
                     return `
-                        <div class="cart-item-temu" data-id="${item.id}">
+                        <div class="cart-item-temu" data-id="${item.id}" data-category="${item.category || 'beer'}">
                             <div class="cart-item-image-temu">
-                                ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="handleImageError(this)">` : getCategoryIcon(item.category)}
+                                ${item.image ? 
+                                    `<img src="${item.image}" alt="${item.name}" onerror="handleImageError(this)">` : 
+                                    getCategoryIcon(item.category || 'beer')
+                                }
                             </div>
                             <div class="cart-item-details-temu">
                                 <div class="cart-item-name-temu">${item.name}</div>
@@ -1255,7 +2008,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => cartCount.style.transform = 'scale(1)', 300);
         }
 
-        // Update summary and savings - CALCULO CORREGIDO
+        // Update summary and savings
         let subtotal = 0;
         let totalSavings = 0;
 
@@ -1273,6 +2026,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (summaryTotal) summaryTotal.textContent = `$${subtotal.toLocaleString()}`;
         if (savingsAmount) savingsAmount.textContent = totalSavings.toLocaleString();
 
+        // Actualizar la barra de progreso
+        updateShippingProgress();
+        
         // Update recommendations
         updateTemuRecommendations();
     }
@@ -1301,9 +2057,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 Math.round(((originalPrice - displayPrice) / originalPrice) * 100) : 0;
 
             return `
-                <div class="recommendation-item-temu">
+                <div class="recommendation-item-temu" data-category="${product.category || 'beer'}">
                     <div class="recommendation-image-temu">
-                        ${product.image ? `<img src="${product.image}" alt="${product.name}" onerror="handleImageError(this)">` : getCategoryIcon(product.category)}
+                        ${product.image ? 
+                            `<img src="${product.image}" alt="${product.name}" onerror="handleImageError(this)">` : 
+                            getCategoryIcon(product.category || 'beer')
+                        }
                     </div>
                     <div class="recommendation-name-temu">${product.name}</div>
                     <div class="recommendation-price-temu">$${displayPrice.toLocaleString()}</div>
@@ -1348,9 +2107,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         message += `\n*Total: $${subtotal.toLocaleString()}*\n\n`;
-        message += `Por favor, necesito coordinar la entrega. ¡Gracias! 🐻`;
+        message += `Por favor, necesito coordinar la entrega. ¡Gracias!`;
 
         openWhatsApp(message);
+        
+        // Agregar puntos por compra
+        if (loyaltyProgram) {
+            const pointsEarned = Math.floor(subtotal / 100); // 1 punto cada $100
+            loyaltyProgram.addPoints(pointsEarned, 'Por tu compra');
+            
+            // Marcar primera compra para referidos
+            localStorage.setItem('elOsoFirstPurchase', 'true');
+        }
         
         // Clear cart after successful checkout
         setTimeout(() => {
@@ -1387,7 +2155,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const product = findProductById(productId);
         if (!product) return;
 
-        const message = `¡Hola! Quiero comprar *${product.name}* por $${product.price.toLocaleString()}. ¿Podrían ayudarme con el proceso?`;
+        const message = `¡Hola! Quiero comprar *${product.name}* por $${product.price.toLocaleString()}. Por favor, necesito coordinar la entrega. ¡Gracias!`;
         openWhatsApp(message);
     }
 
@@ -1442,6 +2210,86 @@ document.addEventListener('DOMContentLoaded', function() {
 
         updateCountdown();
         setInterval(updateCountdown, 1000);
+    }
+
+    // Shipping Countdown Timer - CORREGIDA
+    function startShippingCountdown() {
+        const countdownElement = document.getElementById('shippingCountdown');
+        if (!countdownElement) return;
+
+        function updateShippingCountdown() {
+            const now = new Date();
+            const currentDay = now.getDay(); // 0 = Domingo, 1 = Lunes, ..., 4 = Jueves, 5 = Viernes, 6 = Sábado
+            const currentHour = now.getHours();
+            const currentMinutes = now.getMinutes();
+            
+            let nextShippingDay;
+            let daysUntilNextShipping;
+            let targetDate;
+            
+            // Determinar el próximo día de envío gratis
+            if (currentDay === 4 || currentDay === 5) { // Jueves o Viernes
+                if (currentHour < 18) {
+                    // Si es jueves o viernes antes de las 18:00, el envío es hoy
+                    nextShippingDay = currentDay;
+                    targetDate = new Date(now);
+                    targetDate.setHours(18, 0, 0, 0);
+                } else {
+                    // Si es jueves o viernes después de las 18:00, el próximo es el próximo jueves
+                    nextShippingDay = 4; // Jueves
+                    daysUntilNextShipping = (4 - currentDay + 7) % 7;
+                    if (daysUntilNextShipping === 0) daysUntilNextShipping = 7;
+                    targetDate = new Date(now);
+                    targetDate.setDate(now.getDate() + daysUntilNextShipping);
+                    targetDate.setHours(18, 0, 0, 0);
+                }
+            } else {
+                // Si no es jueves ni viernes
+                if (currentDay < 4) { // Domingo (0) a Miércoles (3)
+                    nextShippingDay = 4; // Próximo jueves
+                    daysUntilNextShipping = 4 - currentDay;
+                } else { // Sábado (6)
+                    nextShippingDay = 4; // Próximo jueves
+                    daysUntilNextShipping = 4 + (7 - currentDay); // 4 + 1 = 5 días
+                }
+                targetDate = new Date(now);
+                targetDate.setDate(now.getDate() + daysUntilNextShipping);
+                targetDate.setHours(18, 0, 0, 0);
+            }
+            
+            // Calcular diferencia de tiempo
+            const timeDiff = targetDate - now;
+            
+            if (timeDiff <= 0) {
+                countdownElement.textContent = "¡ENVÍO GRATIS DISPONIBLE AHORA!";
+                countdownElement.style.color = '#FFD700';
+                countdownElement.style.fontWeight = '700';
+                return;
+            }
+            
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            // Formatear el mensaje
+            let message = "";
+            if (days > 0) {
+                message = `Próximo envío gratis en: ${days}d ${hours}h`;
+            } else if (hours > 0) {
+                message = `¡ENVÍO GRATIS HOY! Termina en: ${hours}h ${minutes}m`;
+                countdownElement.style.color = '#FFD700';
+                countdownElement.style.fontWeight = '700';
+            } else {
+                message = `¡ENVÍO GRATIS HOY! Termina en: ${minutes}m`;
+                countdownElement.style.color = '#FFD700';
+                countdownElement.style.fontWeight = '700';
+            }
+            
+            countdownElement.textContent = message;
+        }
+
+        updateShippingCountdown();
+        setInterval(updateShippingCountdown, 60000); // Actualizar cada minuto
     }
 
     // Notifications Temu Style
@@ -1536,6 +2384,29 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 
+    // Funciones para controlar la ruleta modal
+    function openRuletaModal() {
+        const modal = document.getElementById('ruletaModal');
+        const overlay = document.getElementById('overlay');
+        
+        if (modal) {
+            modal.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeRuletaModal() {
+        const modal = document.getElementById('ruletaModal');
+        const overlay = document.getElementById('overlay');
+        
+        if (modal) {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
     // Event listeners setup
     function setupEventListeners() {
         // Menu toggle
@@ -1547,7 +2418,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (menuToggle) {
             menuToggle.addEventListener('click', () => {
                 mobileMenu.classList.add('active');
-                //overlay.classList.add('active');
+                overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
         }
@@ -1635,6 +2506,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // Ruleta modal events
+        const closeRuletaModalBtn = document.getElementById('closeRuletaModal');
+        if (closeRuletaModalBtn) {
+            closeRuletaModalBtn.addEventListener('click', closeRuletaModal);
+        }
+
         // Overlay click
         if (overlay) {
             overlay.addEventListener('click', () => {
@@ -1643,11 +2520,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 searchBar.classList.remove('active');
                 whyChooseModal.classList.remove('active');
                 closeProductDetailsModal();
+                closeRuletaModal();
                 
                 // Close WhatsApp menu
                 const whatsappMenu = document.getElementById('whatsappMenu');
                 if (whatsappMenu) {
                     whatsappMenu.classList.remove('active');
+                }
+                
+                // Close referral modal
+                const referralModal = document.getElementById('referralModal');
+                if (referralModal) {
+                    referralModal.classList.remove('active');
+                }
+                
+                // Close push permission modal
+                const pushPermissionModal = document.getElementById('pushPermissionModal');
+                if (pushPermissionModal) {
+                    pushPermissionModal.classList.remove('active');
                 }
                 
                 overlay.classList.remove('active');
@@ -1693,6 +2583,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 const whatsappMenu = document.getElementById('whatsappMenu');
                 if (whatsappMenu) {
                     whatsappMenu.classList.remove('active');
+                }
+                
+                // Close referral modal
+                const referralModal = document.getElementById('referralModal');
+                if (referralModal) {
+                    referralModal.classList.remove('active');
+                }
+                
+                // Close push permission modal
+                const pushPermissionModal = document.getElementById('pushPermissionModal');
+                if (pushPermissionModal) {
+                    pushPermissionModal.classList.remove('active');
                 }
                 
                 overlay.classList.remove('active');
@@ -1783,6 +2685,12 @@ document.addEventListener('DOMContentLoaded', function() {
             whatsappMenu.classList.remove('active');
         }
     };
+
+    // Chatbot functions
+    window.chatbot = chatbot;
+
+    window.openRuletaModal = openRuletaModal;
+    window.closeRuletaModal = closeRuletaModal;
 
     // Initialize the app
     init();

@@ -11,8 +11,8 @@
     <!-- Open Graph para redes sociales -->
     <meta property="og:title" content="El Oso | Cervezas Artesanales • Salsas Picantes • Conservas">
     <meta property="og:description" content="Cervezas artesanales premium, salsas picantes y conservas caseras. Ofertas exclusivas y envío gratis en Quilmes.">
-    <meta property="og:image" content="https://elosocerveza.github.io/site/images/logo-blanco.png">
-    <meta property="og:url" content="https://elosocerveza.github.io/site/">
+    <meta property="og:image" content="https://eloso.ar/images/logo-blanco.png">
+    <meta property="og:url" content="https://eloso.ar/">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card -->
@@ -248,7 +248,7 @@
                 <i class="fas fa-star"></i>
                 <span>¿Por Qué Elegirnos?</span>
             </a>
-            <a href="https://wa.me/5491123495971" class="mobile-nav-item whatsapp">
+            <a href="https://wa.me/5491123495971" target="_blank" class="mobile-nav-item whatsapp">
                 <i class="fab fa-whatsapp"></i>
                 <span>Contactar por WhatsApp</span>
             </a>
@@ -281,6 +281,10 @@
                         Ver Ofertas
                         <i class="fas fa-arrow-right"></i>
                     </button>
+                    <button class="hero-cta secondary hide" onclick="openRuletaModal()">
+                        <i class="fas fa-gift"></i>
+                        Girar Ruleta de Descuentos
+                    </button>
                 </div>
             </div>
         </div>
@@ -308,10 +312,6 @@
                         <i class="fas fa-bolt"></i>
                         OFERTAS FLASH
                     </h2>
-                    <div class="viewers-count">
-                        <i class="fas fa-eye"></i>
-                        <span>128 personas están viendo</span>
-                    </div>
                 </div>
             </div>
             
@@ -364,7 +364,7 @@
                     NUESTRAS CERVEZAS
                 </h2>
                 <div class="category-badge">
-                    <span>+20 variedades</span>
+                    <span>+10 variedades</span>
                 </div>
             </div>
             
@@ -443,42 +443,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <img src="images/logo-blanco.png" alt="El Oso" class="logo-img" onerror="this.style.display='none'">
-                        <span>EL OSO</span>
-                    </div>
-                    <p>Cervezas artesanales, salsas picantes y conservas caseras de la mejor calidad.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <a href="https://wa.me/5491123495971" target="_blank">
-                        <i class="fab fa-whatsapp"></i> +54 9 11 2349-5971
-                    </a>
-                    <a href="https://instagram.com/elosocerveza" target="_blank">
-                        <i class="fab fa-instagram"></i> @elosocerveza
-                    </a>
-                </div>
-                <div class="footer-section">
-                    <h4>Zonas de Entrega</h4>
-                    <p>Quilmes, Bernal, Ezpeleta y alrededores</p>
-                    <div class="shipping-info">
-                        <i class="fas fa-shipping-fast"></i>
-                        <span>Envío gratis jueves y viernes</span>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 El Oso. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Reemplaza todo el aside del carrito con este código -->
+    <!-- Carrito de Compras -->
     <aside class="cart-page temu-cart" id="cartPage">
         <div class="cart-page-header">
             <button class="back-button" id="backButtonCart">
@@ -494,12 +459,6 @@
             <div class="cart-scrollable-content">
                 <!-- Store Section -->
                 <div class="store-section">
-                    <div class="store-header">
-                        <span class="store-icon">🍀</span>
-                        <span class="store-name">El Oso <span class="store-badge">Trends</span></span>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-
                     <div class="cart-items-list" id="cartItemsList">
                         <!-- Los items del carrito se generarán aquí -->
                     </div>
@@ -524,6 +483,16 @@
                     <span class="total-label">Total</span>
                     <span class="total-amount" id="summaryTotal">$0</span>
                 </div>
+
+                <!-- En el cart-summary-temu, después del primer summary-row-temu -->
+                <div class="shipping-progress" id="shippingProgress">
+                    <div class="progress-info">
+                        <span id="shippingRemaining">¡Faltan $5.000 para envío gratis!</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="shippingProgressFill"></div>
+                    </div>
+                </div>
                 
                 <div class="savings-banner">
                     <i class="fas fa-tag"></i>
@@ -538,7 +507,7 @@
         </div>
     </aside>
 
-    <!-- Product Details Modal - Optimizado para Mobile -->
+    <!-- Detalle del Producto -->
     <div class="product-details-modal" id="productDetailsModal">
         <div class="modal-content product-details-content">
             <!-- Header Móvil Mejorado -->
@@ -670,7 +639,7 @@
         </div>
     </div>
 
-    <!-- Why Choose Us Modal -->
+    <!-- ¿Por qué elegir El Oso? -->
     <div class="why-choose-modal" id="whyChooseModal">
         <div class="modal-content">
 
@@ -697,7 +666,7 @@
                             <i class="fas fa-shipping-fast"></i>
                         </div>
                         <h3>Envío Express</h3>
-                        <p>Recibí tus productos en 24-48hs con envío gratis en Quilmes y zonas aledañas</p>
+                        <p>Recibí tus productos en 24-48hs con envío gratis los jueves y viernes en Quilmes y zonas aledañas</p>
                     </div>
                     
                     <div class="feature-card-modal">
@@ -735,6 +704,200 @@
             </div>
         </div>
     </div>
+
+    <!-- Sistema de Referidos -->
+    <div class="referral-modal" id="referralModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closeReferralModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title">🎁 Invita a amigos y gana $500</h2>
+                <p class="modal-subtitle">Comparte tu código y ambos reciben $500 de descuento</p>
+            </div>
+            <div class="modal-body">
+                <div class="referral-code-container">
+                    <div class="referral-code" id="referralCode">ELOSO12345</div>
+                    <button class="copy-referral-code" id="copyReferralCode">Copiar Código</button>
+                </div>
+                <div class="referral-share-buttons">
+                    <a href="#" class="share-button whatsapp-share" id="whatsappShare">
+                        <i class="fab fa-whatsapp"></i> Compartir por WhatsApp
+                    </a>
+                    <button class="share-button copy-link" id="copyLink">Copiar Enlace</button>
+                </div>
+                <div class="referral-terms">
+                    <p>Tu amigo debe usar el código al hacer su primera compra</p>
+                    <p>El descuento se aplicará en su próxima compra</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ruleta de Descuentos -->
+    <div class="ruleta-modal" id="ruletaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closeRuletaModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title">🎡 Gira la ruleta y gana descuentos</h2>
+                <p class="modal-subtitle">¡Gira y descubre tu premio sorpresa!</p>
+            </div>
+            <div class="modal-body">
+                <div class="wheel-container">
+                    <div class="wheel" id="discountWheel">
+                        <div class="wheel-item">5% OFF</div>
+                        <div class="wheel-item">10% OFF</div>
+                        <div class="wheel-item">15% OFF</div>
+                        <div class="wheel-item">20% OFF</div>
+                        <div class="wheel-item">ENVÍO GRATIS</div>
+                        <div class="wheel-item">$500 OFF</div>
+                    </div>
+                    <button class="spin-button" id="spinWheel">GIRAR</button>
+                </div>
+                <div class="game-terms">
+                    <p><i class="fas fa-info-circle"></i> 1 giro por día • Válido por 24hs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificaciones Push Modal -->
+    <div class="push-permission-modal" id="pushPermissionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closePushPermission">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title">🔔 No te pierdas las ofertas</h2>
+                <p class="modal-subtitle">Recibe notificaciones de ofertas flash y descuentos exclusivos</p>
+            </div>
+            <div class="modal-body">
+                <div class="permission-buttons">
+                    <button class="allow-notifications" id="allowNotifications">Permitir Notificaciones</button>
+                    <button class="deny-notifications" id="denyNotifications">Ahora no</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Club El Oso Programa Fidelidad -->
+    <section class="loyalty-program-section hide">
+        <div class="container">
+            <div class="loyalty-card">
+                <div class="loyalty-header">
+                    <h3>🥇 Club El Oso</h3>
+                    <div class="loyalty-level" id="loyaltyLevel">Nivel Bronce</div>
+                </div>
+                <div class="loyalty-progress">
+                    <div class="progress-fill" id="loyaltyProgressFill"></div>
+                </div>
+                <div class="loyalty-points">
+                    <span id="loyaltyPoints">0</span> puntos
+                </div>
+                <div class="loyalty-benefits">
+                    <div class="benefit">
+                        <i class="fas fa-truck"></i>
+                        <span>Envío gratis siempre</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-gift"></i>
+                        <span>Descuentos exclusivos</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-star"></i>
+                        <span>Acceso anticipado</span>
+                    </div>
+                </div>
+                <button class="loyalty-details-btn" id="loyaltyDetailsBtn">
+                    Ver detalles del programa
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot Automatizado -->
+    <div class="chatbot-widget hide" id="chatbotWidget">
+        <div class="chatbot-toggle" id="chatbotToggle">
+            <i class="fas fa-comment"></i>
+        </div>
+        <div class="chatbot-container" id="chatbotContainer">
+            <div class="chatbot-header">
+                <h4>🤖 Asistente El Oso</h4>
+                <span>Te ayudo a elegir</span>
+                <button class="chatbot-close" id="chatbotClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    <p>¡Hola! Soy tu asistente de cervezas. ¿Qué tipo de cerveza te gusta?</p>
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="Escribe tu respuesta...">
+                <button id="chatbotSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fotos de Clientes UGC -->
+    <section class="ugc-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-camera"></i>
+                    Fotos de Nuestros Clientes
+                </h2>
+                <p>Comparte tus fotos usando #ElOsoCerveza</p>
+            </div>
+            <div class="ugc-grid" id="ugcGrid">
+                <!-- Las fotos se cargarán dinámicamente -->
+            </div>
+            <div class="ugc-cta">
+                <p>¿Ya probaste nuestros productos?</p>
+                <a href="https://instagram.com/elosocerveza" target="_blank" class="ugc-button">
+                    <i class="fab fa-instagram"></i>
+                    Etiquétanos en Instagram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="images/logo-blanco.png" alt="El Oso" class="logo-img" onerror="this.style.display='none'">
+                        <span>EL OSO</span>
+                    </div>
+                    <p>Cervezas artesanales, salsas picantes y conservas caseras de la mejor calidad.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <a href="https://wa.me/5491123495971" target="_blank">
+                        <i class="fab fa-whatsapp"></i> +54 9 11 2349-5971
+                    </a>
+                    <a href="https://instagram.com/elosocerveza" target="_blank">
+                        <i class="fab fa-instagram"></i> @elosocerveza
+                    </a>
+                </div>
+                <div class="footer-section">
+                    <h4>Zonas de Entrega</h4>
+                    <p><strong>Envío gratis:</strong> Quilmes, Bernal, Ezpeleta y alrededores</p>
+                    <p><strong>Días de envío gratis:</strong> Jueves y viernes</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 El Oso. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
