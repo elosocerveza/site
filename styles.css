@@ -955,7 +955,7 @@ body {
 }
 
 .product-discount {
-    background: var(--primary-gold);
+    background: var(--success-green);
     color: white;
     padding: 2px 6px;
     border-radius: 8px;
@@ -2149,8 +2149,8 @@ body {
 }
 
 .discount-badge-mobile {
-    background: var(--primary-gold) !important;
-    color: var(--primary-black) !important;
+    background: var(--success-green) !important;
+    color: var(--background-white) !important;
     padding: 2px 6px;
     border-radius: 4px;
     font-size: 12px;
@@ -3993,4 +3993,9 @@ body {
 
 .hide {
     display: none;
+}
+
+.free-shipping-info {
+    color: var(--success-green);
+    margin-bottom: 10px;
 }
