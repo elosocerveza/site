@@ -29,6 +29,188 @@ document.addEventListener('DOMContentLoaded', function() {
     // URL base de Google Sheets
     const BASE_SHEET_URL = `https://docs.google.com/spreadsheets/d/e/${YOUR_SHEET_ID}/pub?gid=${YOUR_GID}&single=true&output=csv`;
 
+    // ===== GOOGLE ANALYTICS EVENT TRACKING =====
+
+    class GoogleAnalyticsTracker {
+        constructor() {
+            this.initialized = false;
+            this.init();
+        }
+
+        init() {
+            // Verificar que gtag esté disponible
+            if (typeof gtag !== 'undefined') {
+                this.initialized = true;
+                console.log('✅ Google Analytics Tracker inicializado');
+                
+                // Track página vista inicial
+                gtag('event', 'page_view', {
+                    'page_title': document.title,
+                    'page_location': window.location.href
+                });
+            } else {
+                console.warn('❌ gtag no está disponible');
+                // Reintentar después de un tiempo
+                setTimeout(() => this.init(), 2000);
+            }
+        }
+
+        // Track evento genérico
+        trackEvent(category, action, label, value = null) {
+            if (!this.initialized) {
+                console.warn('Google Analytics no está inicializado');
+                return;
+            }
+
+            const eventParams = {
+                'event_category': category,
+                'event_label': label
+            };
+
+            if (value !== null) {
+                eventParams['value'] = value;
+            }
+
+            gtag('event', action, eventParams);
+            console.log(`📊 GA Event: ${category} - ${action} - ${label}`, value ? `Value: ${value}` : '');
+        }
+
+        // Eventos específicos de ecommerce
+        trackProductView(product) {
+            this.trackEvent('Ecommerce', 'view_item', product.name, product.price);
+            
+            // Enhanced ecommerce para view_item
+            gtag('event', 'view_item', {
+                'items': [{
+                    'item_id': product.id.toString(),
+                    'item_name': product.name,
+                    'category': product.category || 'beer',
+                    'price': product.price,
+                    'quantity': 1
+                }]
+            });
+        }
+
+        trackAddToCart(product, quantity = 1) {
+            this.trackEvent('Ecommerce', 'add_to_cart', product.name, product.price * quantity);
+            
+            // Enhanced ecommerce para add_to_cart
+            gtag('event', 'add_to_cart', {
+                'currency': 'ARS',
+                'value': product.price * quantity,
+                'items': [{
+                    'item_id': product.id.toString(),
+                    'item_name': product.name,
+                    'category': product.category || 'beer',
+                    'price': product.price,
+                    'quantity': quantity
+                }]
+            });
+        }
+
+        trackRemoveFromCart(product, quantity = 1) {
+            this.trackEvent('Ecommerce', 'remove_from_cart', product.name, product.price * quantity);
+        }
+
+        trackBeginCheckout(cartItems, totalValue) {
+            this.trackEvent('Ecommerce', 'begin_checkout', `Items: ${cartItems.length}`, totalValue);
+            
+            // Enhanced ecommerce para begin_checkout
+            gtag('event', 'begin_checkout', {
+                'currency': 'ARS',
+                'value': totalValue,
+                'items': cartItems.map(item => ({
+                    'item_id': item.id.toString(),
+                    'item_name': item.name,
+                    'category': item.category || 'beer',
+                    'price': item.discountPrice || item.price,
+                    'quantity': item.quantity
+                }))
+            });
+        }
+
+        trackPurchase(orderId, cartItems, totalValue) {
+            this.trackEvent('Ecommerce', 'purchase', orderId, totalValue);
+            
+            // Enhanced ecommerce para purchase
+            gtag('event', 'purchase', {
+                'transaction_id': orderId,
+                'currency': 'ARS',
+                'value': totalValue,
+                'items': cartItems.map(item => ({
+                    'item_id': item.id.toString(),
+                    'item_name': item.name,
+                    'category': item.category || 'beer',
+                    'price': item.discountPrice || item.price,
+                    'quantity': item.quantity
+                }))
+            });
+        }
+
+        trackProductClick(product, listName = 'Product Grid') {
+            this.trackEvent('Ecommerce', 'select_item', product.name, product.price);
+            
+            // Enhanced ecommerce para select_item
+            gtag('event', 'select_item', {
+                'item_list_name': listName,
+                'items': [{
+                    'item_id': product.id.toString(),
+                    'item_name': product.name,
+                    'category': product.category || 'beer',
+                    'price': product.price,
+                    'quantity': 1
+                }]
+            });
+        }
+
+        trackSearch(searchTerm) {
+            this.trackEvent('Search', 'search', searchTerm);
+        }
+
+        trackShare(method, productName = '') {
+            this.trackEvent('Social', 'share', `${method} - ${productName}`);
+        }
+
+        trackWhatsAppClick(option = 'general') {
+            this.trackEvent('Contact', 'whatsapp_click', option);
+        }
+
+        trackViewCategory(category) {
+            this.trackEvent('Navigation', 'view_category', category);
+        }
+
+        trackScrollToSection(section) {
+            this.trackEvent('Navigation', 'scroll_to_section', section);
+        }
+
+        trackMenuInteraction(menuType) {
+            this.trackEvent('UI', 'menu_interaction', menuType);
+        }
+
+        trackError(errorType, description) {
+            this.trackEvent('Error', errorType, description);
+        }
+
+        trackTimeSpentOnPage(page) {
+            this.trackEvent('Engagement', 'time_spent', page);
+        }
+
+        trackViewSection(sectionId) {
+            this.trackEvent('Engagement', 'view_section', sectionId);
+        }
+
+        trackQuickBuy(product) {
+            this.trackEvent('Ecommerce', 'quick_buy', product.name, product.price);
+        }
+
+        trackViewCart(cartItems, totalValue) {
+            this.trackEvent('Ecommerce', 'view_cart', `Items: ${cartItems.length}`, totalValue);
+        }
+    }
+
+    // Instancia global del tracker
+    let gaTracker;
+
     // ===== MANEJO DE ERRORES DE IMAGEN UNIFICADO =====
     function handleImageError(img) {
         const imageElement = img.target || img;
@@ -111,6 +293,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.classList.add('active');
                 document.getElementById('overlay').classList.add('active');
                 document.getElementById('referralCode').textContent = this.referralCode;
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackEvent('Referral', 'show_modal', this.referralCode);
+                }
             }
         }
 
@@ -135,6 +322,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 copyButton.addEventListener('click', () => {
                     this.copyToClipboard(this.referralCode);
                     showNotification('Código copiado al portapapeles', 'success');
+                    
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Referral', 'copy_code', this.referralCode);
+                    }
                 });
             }
 
@@ -143,6 +335,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const message = `¡Hola! Te invito a comprar en El Oso Cerveza. Usa mi código ${this.referralCode} y obtén $${this.referralDiscount} de descuento en tu primera compra. ¡Visita el sitio!`;
                 const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
                 whatsappShare.setAttribute('href', url);
+                
+                whatsappShare.addEventListener('click', () => {
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Referral', 'share_whatsapp', this.referralCode);
+                    }
+                });
             }
 
             const copyLink = document.getElementById('copyLink');
@@ -151,6 +350,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     const message = `¡Hola! Te invito a comprar en El Oso Cerveza. Usa mi código ${this.referralCode} y obtén $${this.referralDiscount} de descuento. Visita: ${window.location.href}`;
                     this.copyToClipboard(message);
                     showNotification('Mensaje copiado al portapapeles', 'success');
+                    
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Referral', 'copy_link', this.referralCode);
+                    }
                 });
             }
         }
@@ -185,6 +389,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.spinButton.addEventListener('click', () => {
                     if (!this.isSpinning) {
                         this.spin();
+                        
+                        // Track Google Analytics
+                        if (gaTracker) {
+                            gaTracker.trackEvent('Game', 'spin_wheel', 'daily_spin');
+                        }
                     }
                 });
             }
@@ -230,6 +439,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const prize = prizes[segmentIndex];
             showNotification(`🎉 ¡Ganaste: ${prize}! Válido por 24 horas`, 'success');
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                gaTracker.trackEvent('Game', 'wheel_result', prize);
+            }
             
             this.saveDiscount(prize);
             
@@ -286,6 +500,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.classList.add('active');
                 document.getElementById('overlay').classList.add('active');
                 this.setupPermissionEventListeners();
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackEvent('Notification', 'show_permission_modal', 'push_notifications');
+                }
             }
         }
 
@@ -306,6 +525,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 allowButton.addEventListener('click', async () => {
                     const permission = await Notification.requestPermission();
                     this.permissionGranted = permission === 'granted';
+                    
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Notification', 'permission_response', permission);
+                    }
+                    
                     closeModal();
                     
                     if (this.permissionGranted) {
@@ -314,7 +539,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
 
-            if (denyButton) denyButton.addEventListener('click', closeModal);
+            if (denyButton) {
+                denyButton.addEventListener('click', () => {
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Notification', 'permission_denied', 'push_notifications');
+                    }
+                    closeModal();
+                });
+            }
+
             if (closeButton) closeButton.addEventListener('click', closeModal);
         }
 
@@ -345,6 +579,11 @@ document.addEventListener('DOMContentLoaded', function() {
         addPoints(amount, reason) {
             this.points += amount;
             localStorage.setItem('elOsoPoints', this.points.toString());
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                gaTracker.trackEvent('Loyalty', 'earn_points', reason, amount);
+            }
             
             this.showPointsNotification(amount, reason);
             this.updatePointsDisplay();
@@ -407,6 +646,11 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('elOsoPoints', this.points.toString());
             this.updatePointsDisplay();
             
+            // Track Google Analytics
+            if (gaTracker) {
+                gaTracker.trackEvent('Loyalty', 'redeem_points', 'points_redemption', pointsToRedeem);
+            }
+            
             showNotification(`Canjeaste ${pointsToRedeem} puntos`, 'success');
             return true;
         }
@@ -436,6 +680,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         init() {
             this.setupEventListeners();
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                gaTracker.trackEvent('Chatbot', 'init', 'product_recommender');
+            }
         }
 
         setupEventListeners() {
@@ -448,6 +697,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (toggle) {
                 toggle.addEventListener('click', () => {
                     container.classList.toggle('active');
+                    
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Chatbot', 'toggle', container.classList.contains('active') ? 'open' : 'close');
+                    }
                 });
             }
 
@@ -479,6 +733,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (message) {
                 this.addUserMessage(message);
                 input.value = '';
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackEvent('Chatbot', 'user_message', message);
+                }
                 
                 setTimeout(() => {
                     this.processAnswer(message);
@@ -534,6 +793,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const input = document.getElementById('chatbotInput');
             input.value = option;
             this.handleUserInput();
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                gaTracker.trackEvent('Chatbot', 'quick_option', option);
+            }
         }
 
         provideRecommendation() {
@@ -562,6 +826,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         `<button class="product-link" onclick="showProductDetails(${product.id})">Ver detalles</button>`
                     );
                 });
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackEvent('Chatbot', 'provide_recommendations', `Products: ${recommendedProducts.length}`);
+                }
             } else {
                 this.addBotMessage("Te recomiendo explorar nuestra sección de cervezas artesanales.");
             }
@@ -635,11 +904,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (detailsBtn) {
                 detailsBtn.addEventListener('click', () => {
                     this.showLevelDetails();
+                    
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Loyalty', 'view_details', 'level_details');
+                    }
                 });
             }
         }
 
-        // En la clase ClubElOso, reemplaza el método showLevelDetails:
         showLevelDetails() {
             const points = loyaltyProgram ? loyaltyProgram.points : 0;
             const currentLevel = this.getCurrentLevel(points);
@@ -835,6 +1108,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const product = findProductById(productId);
                 
                 if (product) {
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        gaTracker.trackQuickBuy(product);
+                    }
+                    
                     addToCart(productId);
                     
                     showNotification(`✅ ${product.name} agregado`, 'success');
@@ -931,6 +1209,9 @@ document.addEventListener('DOMContentLoaded', function() {
         startShippingCountdown();
         startCompactShippingCountdown();
         
+        // Inicializar Google Analytics Tracker
+        gaTracker = new GoogleAnalyticsTracker();
+        
         // Inicializar nuevas funcionalidades
         //referralSystem = new ReferralSystem();
         //discountWheel = new DiscountWheel();
@@ -941,7 +1222,39 @@ document.addEventListener('DOMContentLoaded', function() {
         socialProof = new SocialProof();
         setupQuickBuy();
         
-        console.log('🛒 El Oso - Ecommerce con funcionalidades Temu/Shein inicializado');
+        // Configurar observer para secciones
+        setupSectionObserver();
+        
+        console.log('🛒 El Oso - Ecommerce con Google Analytics inicializado');
+    }
+
+    // Observer para tracking de secciones
+    function setupSectionObserver() {
+        let viewedSections = new Set();
+
+        function trackSectionView(sectionId) {
+            if (!viewedSections.has(sectionId) && gaTracker) {
+                viewedSections.add(sectionId);
+                gaTracker.trackViewSection(sectionId);
+            }
+        }
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const sectionId = entry.target.id;
+                    if (sectionId) {
+                        trackSectionView(sectionId);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        // Observar todas las secciones principales
+        const sections = document.querySelectorAll('section[id]');
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
     }
 
     // WhatsApp Menu Functions
@@ -955,6 +1268,11 @@ document.addEventListener('DOMContentLoaded', function() {
             whatsappMenuToggle.addEventListener('click', (e) => {
                 e.stopPropagation();
                 whatsappMenu.classList.toggle('active');
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackMenuInteraction('whatsapp_menu');
+                }
             });
         }
 
@@ -963,6 +1281,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 whatsappMenu.classList.remove('active');
             });
         }
+
+        // Track clicks en opciones específicas de WhatsApp
+        document.querySelectorAll('.whatsapp-menu-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const option = item.querySelector('.whatsapp-title')?.textContent || 'general';
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackWhatsAppClick(option);
+                }
+            });
+        });
 
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
@@ -1005,8 +1335,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 text: `Mira este producto de El Oso: ${productName} - ${productPrice}`,
                 url: window.location.href,
             })
-            .then(() => showNotification('✅ Producto compartido', 'success'))
-            .catch((error) => console.log('Error sharing:', error));
+            .then(() => {
+                showNotification('✅ Producto compartido', 'success');
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackShare('native_share', productName);
+                }
+            })
+            .catch((error) => {
+                console.log('Error sharing:', error);
+                
+                // Track Google Analytics Error
+                if (gaTracker) {
+                    gaTracker.trackError('share_failed', error.message);
+                }
+            });
         }
     }
 
@@ -1023,12 +1367,23 @@ document.addEventListener('DOMContentLoaded', function() {
             wishlistBtn.classList.add('active');
             wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>';
             showNotification('❤️ Agregado a favoritos', 'success');
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                const productName = document.getElementById('detailsProductNameMobile')?.textContent || 'Unknown Product';
+                gaTracker.trackEvent('Ecommerce', 'add_to_wishlist', productName);
+            }
         }
     }
 
     // Load products from Google Sheets with CORS proxy
     async function loadProducts() {
         console.log('📥 Cargando productos desde Google Sheets...');
+        
+        // Track Google Analytics - Start loading products
+        if (gaTracker) {
+            gaTracker.trackEvent('Products', 'load_start', 'google_sheets');
+        }
         
         // Intentar con diferentes proxies
         for (const proxy of PROXIES) {
@@ -1044,16 +1399,33 @@ document.addEventListener('DOMContentLoaded', function() {
                     const parsedData = parseCSV(csvText);
                     organizeProducts(parsedData);
                     renderAllProducts();
+                    
+                    // Track Google Analytics - Success
+                    if (gaTracker) {
+                        gaTracker.trackEvent('Products', 'load_success', `Products: ${parsedData.length}`);
+                    }
+                    
                     return; // Éxito, salir del bucle
                 }
             } catch (error) {
                 console.warn(`❌ Proxy falló: ${error.message}`);
+                
+                // Track Google Analytics Error
+                if (gaTracker) {
+                    gaTracker.trackError('proxy_failed', error.message);
+                }
                 continue; // Intentar con el siguiente proxy
             }
         }
         
         // Si todos los proxies fallan, usar datos de respaldo
         console.error('❌ Todos los proxies fallaron, usando datos locales');
+        
+        // Track Google Analytics Error
+        if (gaTracker) {
+            gaTracker.trackError('all_proxies_failed', 'Usando datos de respaldo');
+        }
+        
         loadFallbackProducts();
     }
 
@@ -1148,6 +1520,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             } catch (error) {
                 console.warn(`❌ Error procesando línea ${i}:`, error);
+                
+                // Track Google Analytics Error
+                if (gaTracker) {
+                    gaTracker.trackError('csv_parse_error', `Line ${i}: ${error.message}`);
+                }
             }
         }
         
@@ -1498,11 +1875,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Product card clicks
+        // Product card clicks - Track select_item
         container.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 if (!e.target.closest('button')) {
                     const productId = parseInt(card.dataset.id);
+                    const product = findProductById(productId);
+                    
+                    // Track Google Analytics - select_item
+                    if (product && gaTracker) {
+                        const listName = card.closest('[id]')?.id || 'Product Grid';
+                        gaTracker.trackProductClick(product, listName);
+                    }
+                    
                     showProductDetails(productId);
                 }
             });
@@ -1513,6 +1898,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function showProductDetails(productId) {
         const product = findProductById(productId);
         if (!product) return;
+
+        // Track Google Analytics
+        if (gaTracker) {
+            gaTracker.trackProductView(product);
+        }
 
         const modal = document.getElementById('productDetailsModal');
         const overlay = document.getElementById('overlay');
@@ -1953,6 +2343,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // Track Google Analytics
+        if (gaTracker) {
+            gaTracker.trackAddToCart(product, 1);
+        }
+
         // Add animation to button
         if (button) {
             button.classList.add('added');
@@ -1970,6 +2365,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function removeFromCart(productId) {
+        const product = findProductById(productId);
+        if (!product) return;
+
+        // Track Google Analytics
+        const item = cart.find(item => item.id === productId);
+        if (item && gaTracker) {
+            gaTracker.trackRemoveFromCart(product, item.quantity);
+        }
+
         cart = cart.filter(item => item.id !== productId);
         updateCartUI();
         saveCart();
@@ -2172,6 +2576,11 @@ document.addEventListener('DOMContentLoaded', function() {
             message += `• ${item.name} x${item.quantity} - $${(displayPrice * item.quantity).toLocaleString()}\n`;
         });
 
+        // Track Google Analytics - Begin Checkout
+        if (gaTracker) {
+            gaTracker.trackBeginCheckout(cart, subtotal);
+        }
+
         message += `\n*Resumen del pedido:*`;
         message += `\nSubtotal: $${subtotal.toLocaleString()}`;
         
@@ -2184,9 +2593,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         openWhatsApp(message);
         
+        // Track Google Analytics - Purchase (asumimos que la compra se completa al enviar por WhatsApp)
+        if (gaTracker) {
+            const orderId = 'ELOSO_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            gaTracker.trackPurchase(orderId, cart, subtotal);
+        }
+        
         // Agregar puntos por compra
         if (loyaltyProgram) {
-            const pointsEarned = Math.floor(subtotal / 100); // 1 punto cada $100
+            const pointsEarned = Math.floor(subtotal / 100);
             loyaltyProgram.addPoints(pointsEarned, 'Por tu compra');
             
             // Marcar primera compra para referidos
@@ -2201,6 +2616,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function clearCart() {
+        // Track Google Analytics
+        if (gaTracker && cart.length > 0) {
+            gaTracker.trackEvent('Ecommerce', 'clear_cart', `Items: ${cart.length}`);
+        }
+        
         cart = [];
         updateCartUI();
         saveCart();
@@ -2228,6 +2648,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const product = findProductById(productId);
         if (!product) return;
 
+        // Track Google Analytics
+        if (gaTracker) {
+            gaTracker.trackQuickBuy(product);
+        }
+
         const message = `¡Hola! Quiero comprar *${product.name}* por $${product.price.toLocaleString()}. Por favor, necesito coordinar la entrega. ¡Gracias!`;
         openWhatsApp(message);
     }
@@ -2236,6 +2661,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const encodedMessage = encodeURIComponent(message);
         const url = `https://wa.me/5491123495971?text=${encodedMessage}`;
         window.open(url, '_blank');
+        
+        // Track Google Analytics
+        if (gaTracker) {
+            gaTracker.trackEvent('Contact', 'whatsapp_message', 'checkout');
+        }
     }
 
     // Find product by ID
@@ -2431,6 +2861,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const cartPage = document.getElementById('cartPage');
         const overlay = document.getElementById('overlay');
         
+        // Track Google Analytics
+        if (gaTracker) {
+            gaTracker.trackViewCart(cart, calculateSubtotal());
+        }
+        
         cartPage.classList.add('active');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -2450,6 +2885,11 @@ document.addEventListener('DOMContentLoaded', function() {
     function openWhyChooseModal() {
         const modal = document.getElementById('whyChooseModal');
         const overlay = document.getElementById('overlay');
+        
+        // Track Google Analytics
+        if (gaTracker) {
+            gaTracker.trackEvent('UI', 'open_modal', 'why_choose_us');
+        }
         
         modal.classList.add('active');
         overlay.classList.add('active');
@@ -2483,6 +2923,11 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.classList.add('active');
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                gaTracker.trackEvent('Game', 'open_modal', 'discount_wheel');
+            }
         }
     }
 
@@ -2510,6 +2955,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 mobileMenu.classList.add('active');
                 overlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackMenuInteraction('mobile_menu');
+                }
             });
         }
 
@@ -2531,6 +2981,11 @@ document.addEventListener('DOMContentLoaded', function() {
             searchToggle.addEventListener('click', () => {
                 searchBar.classList.add('active');
                 setTimeout(() => searchInput.focus(), 300);
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackMenuInteraction('search_bar');
+                }
             });
         }
 
@@ -2593,6 +3048,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (loginBtnTemu) {
             loginBtnTemu.addEventListener('click', () => {
                 showNotification('🔐 Funcionalidad de login en desarrollo', 'info');
+                
+                // Track Google Analytics
+                if (gaTracker) {
+                    gaTracker.trackEvent('Auth', 'login_click', 'feature_development');
+                }
             });
         }
 
@@ -2639,6 +3099,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
                 currentSearchTerm = e.target.value.toLowerCase();
+                
+                // Track Google Analytics después de un pequeño delay
+                clearTimeout(window.searchTrackingTimeout);
+                window.searchTrackingTimeout = setTimeout(() => {
+                    if (currentSearchTerm && gaTracker) {
+                        gaTracker.trackSearch(currentSearchTerm);
+                    }
+                }, 1000);
+                
                 filterProducts(currentSearchTerm);
             });
         }
@@ -2652,6 +3121,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (targetSection) {
                     targetSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Track Google Analytics
+                    if (gaTracker) {
+                        const categorySections = ['cervezas', 'picantes', 'conservas', 'combos', 'ofertas', 'mas-vendidos'];
+                        if (categorySections.includes(targetId)) {
+                            gaTracker.trackViewCategory(targetId);
+                        }
+                        gaTracker.trackScrollToSection(targetId);
+                    }
                 }
                 
                 // Update active category
@@ -2691,6 +3169,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.style.overflow = '';
             }
         });
+
+        // Track tiempo en página cuando el usuario se va
+        window.addEventListener('beforeunload', () => {
+            if (gaTracker) {
+                gaTracker.trackTimeSpentOnPage(document.title);
+            }
+        });
+
+        // Track engagement cada 30 segundos
+        setInterval(() => {
+            if (gaTracker && document.visibilityState === 'visible') {
+                gaTracker.trackEvent('Engagement', 'active_user', '30s_interval');
+            }
+        }, 30000);
     }
 
     // Filter products by search term
@@ -2746,6 +3238,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const section = document.getElementById(sectionId);
         if (section) {
             section.scrollIntoView({ behavior: 'smooth' });
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                const categorySections = ['cervezas', 'picantes', 'conservas', 'combos', 'ofertas', 'mas-vendidos'];
+                if (categorySections.includes(sectionId)) {
+                    gaTracker.trackViewCategory(sectionId);
+                }
+                gaTracker.trackScrollToSection(sectionId);
+            }
+            
             // Update active category
             document.querySelectorAll('.category-item').forEach(item => {
                 item.classList.remove('active');
@@ -2767,6 +3269,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const whatsappMenu = document.getElementById('whatsappMenu');
         if (whatsappMenu) {
             whatsappMenu.classList.add('active');
+            
+            // Track Google Analytics
+            if (gaTracker) {
+                gaTracker.trackMenuInteraction('whatsapp_menu');
+            }
         }
     };
     window.closeWhatsAppMenu = function() {
