@@ -4005,10 +4005,6 @@ body {
     margin-bottom: 10px;
 }
 
-
-
-
-
 /* ===== BANNER DE ENVÍO GRATIS COMPACTO - VERDE (CORREGIDO) ===== */
 .compact-shipping-banner {
     background: linear-gradient(135deg, #25D366 0%, #128C7E 50%, #075E54 100%);
@@ -4149,8 +4145,4 @@ body {
         gap: 15px;
         animation-duration: 15s;
     }
-}
-
-.compact-shipping-banner {
-    border: 2px solid red !important; /* Para verificar si se renderiza */
 }
