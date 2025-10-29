@@ -1036,6 +1036,11 @@ body {
     animation: addToCart 0.5s ease;
 }
 
+.add-to-cart-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
 .quick-buy-btn {
     width: 100%;
     background: var(--primary-gold);

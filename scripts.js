@@ -860,11 +860,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Inicializar nuevas funcionalidades
         //referralSystem = new ReferralSystem();
-        discountWheel = new DiscountWheel();
+        //discountWheel = new DiscountWheel();
         //pushNotifications = new PushNotifications();
-        loyaltyProgram = new LoyaltyProgram();
+        //loyaltyProgram = new LoyaltyProgram();
         //chatbot = new ProductRecommender();
-        clubElOso = new ClubElOso();
+        //clubElOso = new ClubElOso();
         socialProof = new SocialProof();
         setupQuickBuy();
         
@@ -1499,7 +1499,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!badgeType && product.oldPrice && product.oldPrice > product.price) {
             badgeType = 'flash';
         }
-        if (!badgeType && (product.sold || product.salesCount) > 50) {
+        if (!badgeType && (product.sold || product.salesCount) > 100) {
             badgeType = 'popular';
         }
         if (!badgeType && product.stock && product.stock < 10) {
