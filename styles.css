@@ -4150,3 +4150,7 @@ body {
         animation-duration: 15s;
     }
 }
+
+.compact-shipping-banner {
+    border: 2px solid red !important; /* Para verificar si se renderiza */
+}
