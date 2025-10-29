@@ -4004,3 +4004,149 @@ body {
     color: var(--success-green);
     margin-bottom: 10px;
 }
+
+
+
+
+
+/* ===== BANNER DE ENVÍO GRATIS COMPACTO - VERDE (CORREGIDO) ===== */
+.compact-shipping-banner {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 50%, #075E54 100%);
+    color: white;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.compact-shipping-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.1)"><circle cx="50" cy="50" r="2"/></svg>') repeat;
+    animation: floatBackground 20s infinite linear;
+}
+
+.compact-shipping-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Texto fijo ENVÍO GRATIS */
+.shipping-fixed {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    border: 1px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
+}
+
+.shipping-fixed i {
+    font-size: 0.9rem;
+}
+
+/* Contenedor de desplazamiento - CORREGIDO */
+.shipping-scroll-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 24px;
+    display: flex;
+    align-items: center; /* Centrado vertical añadido */
+}
+
+.shipping-scroll-content {
+    display: flex;
+    gap: 30px;
+    animation: scrollShipping 25s linear infinite;
+    white-space: nowrap;
+    align-items: center;
+    line-height: 1; /* Asegura que no haya altura extra */
+}
+
+.scroll-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    opacity: 0.9;
+    flex-shrink: 0;
+    line-height: 1; /* Elimina altura extra */
+    padding: 0; /* Elimina cualquier padding que cause desplazamiento */
+    margin: 0; /* Elimina cualquier margen que cause desplazamiento */
+}
+
+.scroll-item i {
+    opacity: 0.8;
+}
+
+/* Animación de desplazamiento */
+@keyframes scrollShipping {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Pausar animación al hacer hover */
+.shipping-scroll-container:hover .shipping-scroll-content {
+    animation-play-state: paused;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .compact-shipping-content {
+        gap: 10px;
+    }
+    
+    .shipping-fixed {
+        padding: 5px 10px;
+    }
+    
+    .shipping-scroll-container {
+        height: 20px;
+    }
+    
+    .scroll-item {
+        gap: 4px;
+    }
+    
+    .shipping-scroll-content {
+        gap: 20px;
+        animation-duration: 15s;
+    }
+}
+
+@media (max-width: 480px) {
+    .compact-shipping-banner {
+        padding: 6px 0;
+    }
+    
+    .shipping-fixed {
+        padding: 6px 8px;
+    }
+    
+    .shipping-fixed i {
+        margin: 0;
+    }
+    
+    .shipping-scroll-content {
+        gap: 15px;
+        animation-duration: 15s;
+    }
+}

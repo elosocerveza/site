@@ -847,6 +847,78 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Función para el contador compacto de envío gratis
+    function startCompactShippingCountdown() {
+        const countdownElement = document.getElementById('compactShippingCountdown');
+        if (!countdownElement) return;
+
+        function updateCompactShippingCountdown() {
+            const now = new Date();
+            const currentDay = now.getDay(); // 0 = Domingo, 1 = Lunes, ..., 4 = Jueves, 5 = Viernes, 6 = Sábado
+            const currentHour = now.getHours();
+            
+            let nextShippingDay;
+            let daysUntilNextShipping;
+            let targetDate;
+            
+            // Determinar el próximo día de envío gratis
+            if (currentDay === 4 || currentDay === 5) { // Jueves o Viernes
+                if (currentHour < 18) {
+                    // Si es jueves o viernes antes de las 18:00, el envío es hoy
+                    targetDate = new Date(now);
+                    targetDate.setHours(18, 0, 0, 0);
+                } else {
+                    // Si es jueves o viernes después de las 18:00, el próximo es el próximo jueves
+                    nextShippingDay = 4; // Jueves
+                    daysUntilNextShipping = (4 - currentDay + 7) % 7;
+                    if (daysUntilNextShipping === 0) daysUntilNextShipping = 7;
+                    targetDate = new Date(now);
+                    targetDate.setDate(now.getDate() + daysUntilNextShipping);
+                    targetDate.setHours(18, 0, 0, 0);
+                }
+            } else {
+                // Si no es jueves ni viernes
+                if (currentDay < 4) { // Domingo (0) a Miércoles (3)
+                    nextShippingDay = 4; // Próximo jueves
+                    daysUntilNextShipping = 4 - currentDay;
+                } else { // Sábado (6)
+                    nextShippingDay = 4; // Próximo jueves
+                    daysUntilNextShipping = 4 + (7 - currentDay); // 4 + 1 = 5 días
+                }
+                targetDate = new Date(now);
+                targetDate.setDate(now.getDate() + daysUntilNextShipping);
+                targetDate.setHours(18, 0, 0, 0);
+            }
+            
+            // Calcular diferencia de tiempo
+            const timeDiff = targetDate - now;
+            
+            if (timeDiff <= 0) {
+                countdownElement.textContent = "¡HOY!";
+                return;
+            }
+            
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            // Formatear el contador
+            let countdownText = "";
+            if (days > 0) {
+                countdownText = `Próximo: ${days}d ${hours}h`;
+            } else if (hours > 0) {
+                countdownText = `Próximo: ${hours}h ${minutes}m`;
+            } else {
+                countdownText = `Próximo: ${minutes}m`;
+            }
+            
+            countdownElement.textContent = countdownText;
+        }
+
+        updateCompactShippingCountdown();
+        setInterval(updateCompactShippingCountdown, 60000); // Actualizar cada minuto
+    }
+
     // Initialize everything
     async function init() {
         await loadProducts();
@@ -857,6 +929,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadCart();
         updateCartUI();
         startShippingCountdown();
+        startCompactShippingCountdown();
         
         // Inicializar nuevas funcionalidades
         //referralSystem = new ReferralSystem();
