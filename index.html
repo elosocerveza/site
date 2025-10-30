@@ -6,6 +6,11 @@
     <meta name="description" content="El Oso - Cervezas artesanales premium, salsas picantes y conservas caseras en Quilmes. Envío gratis los jueves y viernes. Ofertas exclusivas y productos de calidad.">
     <title>El Oso | Cervezas Artesanales • Salsas Picantes • Conservas</title>
 
+    <!-- Preconexión temprana a recursos críticos -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://wa.me">
+
     <!-- Open Graph para redes sociales -->
     <meta property="og:title" content="El Oso | Cervezas Artesanales • Salsas Picantes • Conservas">
     <meta property="og:description" content="Cervezas artesanales premium, salsas picantes y conservas caseras. Ofertas exclusivas y envío gratis en Quilmes.">
@@ -69,82 +74,7 @@
     <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
 </head>
 <body>
-    <!-- WhatsApp Float Button with Menu -->
-    <div class="whatsapp-float">
-        <button class="whatsapp-btn" id="whatsappMenuToggle">
-            <i class="fab fa-whatsapp"></i>
-            <span class="pulse"></span>
-        </button>
-        <div class="whatsapp-menu" id="whatsappMenu">
-            <div class="whatsapp-menu-header">
-                <h4>¿En qué podemos ayudarte?</h4>
-                <button class="whatsapp-close" id="whatsappClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="whatsapp-menu-items">
-                <a href="https://wa.me/5491123495971?text=¡Hola! Quiero hacer un pedido personalizado. ¿Podrían ayudarme?" 
-                   class="whatsapp-menu-item" target="_blank">
-                    <div class="whatsapp-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="whatsapp-text">
-                        <span class="whatsapp-title">Pedido Personalizado</span>
-                        <span class="whatsapp-desc">Solicita productos especiales</span>
-                    </div>
-                </a>
-                
-                <a href="https://wa.me/5491123495971?text=¡Hola! Me interesa revender sus productos. ¿Podrían enviarme info de mayoristas?" 
-                   class="whatsapp-menu-item" target="_blank">
-                    <div class="whatsapp-icon">
-                        <i class="fas fa-store"></i>
-                    </div>
-                    <div class="whatsapp-text">
-                        <span class="whatsapp-title">Quiero Revender</span>
-                        <span class="whatsapp-desc">Información para mayoristas</span>
-                    </div>
-                </a>
-                
-                <a href="https://wa.me/5491123495971?text=¡Hola! Necesito asesoramiento para elegir mis productos." 
-                   class="whatsapp-menu-item" target="_blank">
-                    <div class="whatsapp-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <div class="whatsapp-text">
-                        <span class="whatsapp-title">Asesoramiento</span>
-                        <span class="whatsapp-desc">Te ayudamos a elegir</span>
-                    </div>
-                </a>
-                
-                <a href="https://wa.me/5491123495971?text=¡Hola! Tengo una consulta sobre mis productos." 
-                   class="whatsapp-menu-item" target="_blank">
-                    <div class="whatsapp-icon">
-                        <i class="fas fa-question-circle"></i>
-                    </div>
-                    <div class="whatsapp-text">
-                        <span class="whatsapp-title">Consulta General</span>
-                        <span class="whatsapp-desc">Resolvemos tus dudas</span>
-                    </div>
-                </a>
-                
-                <a href="https://wa.me/5491123495971?text=¡Hola! Quiero conocer las promociones actuales." 
-                   class="whatsapp-menu-item" target="_blank">
-                    <div class="whatsapp-icon">
-                        <i class="fas fa-tags"></i>
-                    </div>
-                    <div class="whatsapp-text">
-                        <span class="whatsapp-title">Promociones</span>
-                        <span class="whatsapp-desc">Ofertas especiales</span>
-                    </div>
-                </a>
-            </div>
-            <div class="whatsapp-menu-footer">
-                <span>Te respondemos en minutos</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Temu Style -->
+    <!-- Header -->
     <header class="temu-header">
         <div class="header-top">
             <div class="container">
@@ -218,7 +148,7 @@
         </nav>
     </header>
 
-    <!-- Mobile Menu -->
+    <!-- Menu Celular -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
             <div class="mobile-logo">
@@ -265,7 +195,7 @@
         </nav>
     </div>
 
-    <!-- Hero Banner with Countdown -->
+    <!-- Banner -->
     <section class="hero" id="hero">
         <div class="hero-slider">
             <div class="hero-slide active">
@@ -300,7 +230,7 @@
         </div>
     </section>
 
-    <!-- Sección de Envío Gratis Compacta - Verde con Desplazamiento -->
+    <!-- Envío Gratis Compacta -->
     <section class="compact-shipping-banner">
         <div class="container">
             <div class="compact-shipping-content">
@@ -335,7 +265,7 @@
         </div>
     </section>
 
-    <!-- Why Choose Us Button -->
+    <!-- ¿Por qué elegir El Oso? -->
     <section class="why-choose-button-section">
         <div class="container">
             <div class="why-choose-btn-wrapper">
@@ -348,7 +278,7 @@
         </div>
     </section>
 
-    <!-- Flash Sales Section -->
+    <!-- Promociones Flash -->
     <section class="flash-sales" id="ofertas">
         <div class="container">
             <div class="section-header">
@@ -369,7 +299,7 @@
         </div>
     </section>
 
-    <!-- Most Sold Products -->
+    <!-- Más Vendidos -->
     <section class="most-sold" id="mas-vendidos">
         <div class="container">
             <div class="section-header">
@@ -400,7 +330,7 @@
         </div>
     </section>
 
-    <!-- Beers Section -->
+    <!-- Cervezas -->
     <section class="products-section" id="cervezas">
         <div class="container">
             <div class="section-header">
@@ -422,7 +352,7 @@
         </div>
     </section>
 
-    <!-- Sauces Section -->
+    <!-- Picantes -->
     <section class="products-section" id="picantes">
         <div class="container">
             <div class="section-header">
@@ -444,7 +374,7 @@
         </div>
     </section>
 
-    <!-- Preserves Section -->
+    <!-- Conservas -->
     <section class="products-section" id="conservas">
         <div class="container">
             <div class="section-header">
@@ -466,7 +396,7 @@
         </div>
     </section>
 
-    <!-- Combos Section -->
+    <!-- Combos -->
     <section class="products-section" id="combos">
         <div class="container">
             <div class="section-header">
@@ -744,145 +674,6 @@
         </div>
     </div>
 
-    <!-- Sistema de Referidos -->
-    <div class="referral-modal" id="referralModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="modal-close" id="closeReferralModal">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2 class="modal-title">🎁 Invita a amigos y gana $500</h2>
-                <p class="modal-subtitle">Comparte tu código y ambos reciben $500 de descuento</p>
-            </div>
-            <div class="modal-body">
-                <div class="referral-code-container">
-                    <div class="referral-code" id="referralCode">ELOSO12345</div>
-                    <button class="copy-referral-code" id="copyReferralCode">Copiar Código</button>
-                </div>
-                <div class="referral-share-buttons">
-                    <a href="#" class="share-button whatsapp-share" id="whatsappShare">
-                        <i class="fab fa-whatsapp"></i> Compartir por WhatsApp
-                    </a>
-                    <button class="share-button copy-link" id="copyLink">Copiar Enlace</button>
-                </div>
-                <div class="referral-terms">
-                    <p>Tu amigo debe usar el código al hacer su primera compra</p>
-                    <p>El descuento se aplicará en su próxima compra</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ruleta de Descuentos -->
-    <div class="ruleta-modal" id="ruletaModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="modal-close" id="closeRuletaModal">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2 class="modal-title">🎡 Gira la ruleta y gana descuentos</h2>
-                <p class="modal-subtitle">¡Gira y descubre tu premio sorpresa!</p>
-            </div>
-            <div class="modal-body">
-                <div class="wheel-container">
-                    <div class="wheel" id="discountWheel">
-                        <div class="wheel-item">5% OFF</div>
-                        <div class="wheel-item">10% OFF</div>
-                        <div class="wheel-item">15% OFF</div>
-                        <div class="wheel-item">20% OFF</div>
-                        <div class="wheel-item">ENVÍO GRATIS</div>
-                        <div class="wheel-item">$500 OFF</div>
-                    </div>
-                    <button class="spin-button" id="spinWheel">GIRAR</button>
-                </div>
-                <div class="game-terms">
-                    <p><i class="fas fa-info-circle"></i> 1 giro por día • Válido por 24hs</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Notificaciones Push Modal -->
-    <div class="push-permission-modal" id="pushPermissionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="modal-close" id="closePushPermission">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2 class="modal-title">🔔 No te pierdas las ofertas</h2>
-                <p class="modal-subtitle">Recibe notificaciones de ofertas flash y descuentos exclusivos</p>
-            </div>
-            <div class="modal-body">
-                <div class="permission-buttons">
-                    <button class="allow-notifications" id="allowNotifications">Permitir Notificaciones</button>
-                    <button class="deny-notifications" id="denyNotifications">Ahora no</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Club El Oso Programa Fidelidad -->
-    <section class="loyalty-program-section hide">
-        <div class="container">
-            <div class="loyalty-card">
-                <div class="loyalty-header">
-                    <h3>🥇 Club El Oso</h3>
-                    <div class="loyalty-level" id="loyaltyLevel">Nivel Bronce</div>
-                </div>
-                <div class="loyalty-progress">
-                    <div class="progress-fill" id="loyaltyProgressFill"></div>
-                </div>
-                <div class="loyalty-points">
-                    <span id="loyaltyPoints">0</span> puntos
-                </div>
-                <div class="loyalty-benefits">
-                    <div class="benefit">
-                        <i class="fas fa-truck"></i>
-                        <span>Envío gratis siempre</span>
-                    </div>
-                    <div class="benefit">
-                        <i class="fas fa-gift"></i>
-                        <span>Descuentos exclusivos</span>
-                    </div>
-                    <div class="benefit">
-                        <i class="fas fa-star"></i>
-                        <span>Acceso anticipado</span>
-                    </div>
-                </div>
-                <button class="loyalty-details-btn" id="loyaltyDetailsBtn">
-                    Ver detalles del programa
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Chatbot Automatizado -->
-    <div class="chatbot-widget hide" id="chatbotWidget">
-        <div class="chatbot-toggle" id="chatbotToggle">
-            <i class="fas fa-comment"></i>
-        </div>
-        <div class="chatbot-container" id="chatbotContainer">
-            <div class="chatbot-header">
-                <h4>🤖 Asistente El Oso</h4>
-                <span>Te ayudo a elegir</span>
-                <button class="chatbot-close" id="chatbotClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="chatbot-messages" id="chatbotMessages">
-                <div class="message bot-message">
-                    <p>¡Hola! Soy tu asistente de cervezas. ¿Qué tipo de cerveza te gusta?</p>
-                </div>
-            </div>
-            <div class="chatbot-input">
-                <input type="text" id="chatbotInput" placeholder="Escribe tu respuesta...">
-                <button id="chatbotSend">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Fotos de Clientes UGC -->
     <section class="ugc-section">
         <div class="container">
@@ -891,7 +682,7 @@
                     <i class="fas fa-camera"></i>
                     Fotos de Nuestros Clientes
                 </h2>
-                <p>Comparte tus fotos usando #ElOsoCerveza</p>
+                <p>Compartí tus fotos usando #ElOsoCerveza</p>
             </div>
             <div class="ugc-grid" id="ugcGrid">
                 <!-- Las fotos se cargarán dinámicamente -->
@@ -905,6 +696,81 @@
             </div>
         </div>
     </section>
+
+    <!-- Botón de WhatsApp -->
+    <div class="whatsapp-float">
+        <button class="whatsapp-btn" id="whatsappMenuToggle">
+            <i class="fab fa-whatsapp"></i>
+            <span class="pulse"></span>
+        </button>
+        <div class="whatsapp-menu" id="whatsappMenu">
+            <div class="whatsapp-menu-header">
+                <h4>¿En qué podemos ayudarte?</h4>
+                <button class="whatsapp-close" id="whatsappClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="whatsapp-menu-items">
+                <a href="https://wa.me/5491123495971?text=¡Hola! Quiero hacer un pedido personalizado. ¿Podrían ayudarme?" 
+                   class="whatsapp-menu-item" target="_blank">
+                    <div class="whatsapp-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="whatsapp-text">
+                        <span class="whatsapp-title">Pedido Personalizado</span>
+                        <span class="whatsapp-desc">Solicita productos especiales</span>
+                    </div>
+                </a>
+                
+                <a href="https://wa.me/5491123495971?text=¡Hola! Me interesa revender sus productos. ¿Podrían enviarme info de mayoristas?" 
+                   class="whatsapp-menu-item" target="_blank">
+                    <div class="whatsapp-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="whatsapp-text">
+                        <span class="whatsapp-title">Quiero Revender</span>
+                        <span class="whatsapp-desc">Información para mayoristas</span>
+                    </div>
+                </a>
+                
+                <a href="https://wa.me/5491123495971?text=¡Hola! Necesito asesoramiento para elegir mis productos." 
+                   class="whatsapp-menu-item" target="_blank">
+                    <div class="whatsapp-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="whatsapp-text">
+                        <span class="whatsapp-title">Asesoramiento</span>
+                        <span class="whatsapp-desc">Te ayudamos a elegir</span>
+                    </div>
+                </a>
+                
+                <a href="https://wa.me/5491123495971?text=¡Hola! Tengo una consulta sobre mis productos." 
+                   class="whatsapp-menu-item" target="_blank">
+                    <div class="whatsapp-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="whatsapp-text">
+                        <span class="whatsapp-title">Consulta General</span>
+                        <span class="whatsapp-desc">Resolvemos tus dudas</span>
+                    </div>
+                </a>
+                
+                <a href="https://wa.me/5491123495971?text=¡Hola! Quiero conocer las promociones actuales." 
+                   class="whatsapp-menu-item" target="_blank">
+                    <div class="whatsapp-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <div class="whatsapp-text">
+                        <span class="whatsapp-title">Promociones</span>
+                        <span class="whatsapp-desc">Ofertas especiales</span>
+                    </div>
+                </a>
+            </div>
+            <div class="whatsapp-menu-footer">
+                <span>Te respondemos en minutos</span>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="main-footer">

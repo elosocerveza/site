@@ -1,0 +1,139 @@
+
+    <!-- Chatbot Automatizado -->
+    <div class="chatbot-widget hide" id="chatbotWidget">
+        <div class="chatbot-toggle" id="chatbotToggle">
+            <i class="fas fa-comment"></i>
+        </div>
+        <div class="chatbot-container" id="chatbotContainer">
+            <div class="chatbot-header">
+                <h4>🤖 Asistente El Oso</h4>
+                <span>Te ayudo a elegir</span>
+                <button class="chatbot-close" id="chatbotClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    <p>¡Hola! Soy tu asistente de cervezas. ¿Qué tipo de cerveza te gusta?</p>
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chatbotInput" placeholder="Escribe tu respuesta...">
+                <button id="chatbotSend">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <!-- Sistema de Referidos -->
+    <div class="referral-modal" id="referralModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closeReferralModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title">🎁 Invita a amigos y gana $500</h2>
+                <p class="modal-subtitle">Comparte tu código y ambos reciben $500 de descuento</p>
+            </div>
+            <div class="modal-body">
+                <div class="referral-code-container">
+                    <div class="referral-code" id="referralCode">ELOSO12345</div>
+                    <button class="copy-referral-code" id="copyReferralCode">Copiar Código</button>
+                </div>
+                <div class="referral-share-buttons">
+                    <a href="#" class="share-button whatsapp-share" id="whatsappShare">
+                        <i class="fab fa-whatsapp"></i> Compartir por WhatsApp
+                    </a>
+                    <button class="share-button copy-link" id="copyLink">Copiar Enlace</button>
+                </div>
+                <div class="referral-terms">
+                    <p>Tu amigo debe usar el código al hacer su primera compra</p>
+                    <p>El descuento se aplicará en su próxima compra</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ruleta de Descuentos -->
+    <div class="ruleta-modal" id="ruletaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closeRuletaModal">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title">🎡 Gira la ruleta y gana descuentos</h2>
+                <p class="modal-subtitle">¡Gira y descubre tu premio sorpresa!</p>
+            </div>
+            <div class="modal-body">
+                <div class="wheel-container">
+                    <div class="wheel" id="discountWheel">
+                        <div class="wheel-item">5% OFF</div>
+                        <div class="wheel-item">10% OFF</div>
+                        <div class="wheel-item">15% OFF</div>
+                        <div class="wheel-item">20% OFF</div>
+                        <div class="wheel-item">ENVÍO GRATIS</div>
+                        <div class="wheel-item">$500 OFF</div>
+                    </div>
+                    <button class="spin-button" id="spinWheel">GIRAR</button>
+                </div>
+                <div class="game-terms">
+                    <p><i class="fas fa-info-circle"></i> 1 giro por día • Válido por 24hs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificaciones Push Modal -->
+    <div class="push-permission-modal" id="pushPermissionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="closePushPermission">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title">🔔 No te pierdas las ofertas</h2>
+                <p class="modal-subtitle">Recibe notificaciones de ofertas flash y descuentos exclusivos</p>
+            </div>
+            <div class="modal-body">
+                <div class="permission-buttons">
+                    <button class="allow-notifications" id="allowNotifications">Permitir Notificaciones</button>
+                    <button class="deny-notifications" id="denyNotifications">Ahora no</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Club El Oso Programa Fidelidad -->
+    <section class="loyalty-program-section hide">
+        <div class="container">
+            <div class="loyalty-card">
+                <div class="loyalty-header">
+                    <h3>🥇 Club El Oso</h3>
+                    <div class="loyalty-level" id="loyaltyLevel">Nivel Bronce</div>
+                </div>
+                <div class="loyalty-progress">
+                    <div class="progress-fill" id="loyaltyProgressFill"></div>
+                </div>
+                <div class="loyalty-points">
+                    <span id="loyaltyPoints">0</span> puntos
+                </div>
+                <div class="loyalty-benefits">
+                    <div class="benefit">
+                        <i class="fas fa-truck"></i>
+                        <span>Envío gratis siempre</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-gift"></i>
+                        <span>Descuentos exclusivos</span>
+                    </div>
+                    <div class="benefit">
+                        <i class="fas fa-star"></i>
+                        <span>Acceso anticipado</span>
+                    </div>
+                </div>
+                <button class="loyalty-details-btn" id="loyaltyDetailsBtn">
+                    Ver detalles del programa
+                </button>
+            </div>
+        </div>
+    </section>
