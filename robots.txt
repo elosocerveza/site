@@ -1,5 +1,7 @@
 User-agent: *
-Disallow: /admin/
-Disallow: /private/
+Disallow: /admin
+
+User-agent: *
+Disallow: /private
 
 Sitemap: https://eloso.ar/sitemap.xml
