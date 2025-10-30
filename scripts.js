@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSearchTerm = '';
 
     // Nuevas variables para funcionalidades Temu/Shein
-    let referralSystem, discountWheel, pushNotifications, loyaltyProgram, chatbot, clubElOso, socialProof;
+    let gaTracker, referralSystem, discountWheel, pushNotifications, loyaltyProgram, chatbot, clubElOso, socialProof;
 
     // URL de tu Google Sheet (ACTUALIZA ESTE ID)
     const YOUR_SHEET_ID = '2PACX-1vTy8faJa3rHsf2msyB-OH5zyOD9WTD40Ry1O_Jng3p29Z6-58SCNw2KH14y1mr66JoDAkBVQDIXZv8q';
@@ -29,7 +29,50 @@ document.addEventListener('DOMContentLoaded', function() {
     // URL base de Google Sheets
     const BASE_SHEET_URL = `https://docs.google.com/spreadsheets/d/e/${YOUR_SHEET_ID}/pub?gid=${YOUR_GID}&single=true&output=csv`;
 
-    // ===== GOOGLE ANALYTICS EVENT TRACKING =====
+    // ===== MANEJO DE ERRORES DE IMAGEN UNIFICADO =====
+    function handleImageError(img) {
+        const imageElement = img.target || img;
+        let category = 'beer'; // categoría por defecto
+        
+        // Intentar obtener la categoría del elemento padre
+        const productCard = imageElement.closest('.product-card');
+        if (productCard) {
+            category = productCard.dataset.category || 'beer';
+        }
+        
+        // Intentar obtener la categoría del contexto actual
+        const contextCategory = imageElement.closest('[data-category]');
+        if (contextCategory) {
+            category = contextCategory.dataset.category || category;
+        }
+        
+        imageElement.style.display = 'none';
+        
+        // Crear elemento de icono de categoría
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'image-error-fallback';
+        iconContainer.style.cssText = `
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: #f8f8f8;
+            color: #ccc;
+        `;
+        
+        const iconHTML = getCategoryIcon(category);
+        iconContainer.innerHTML = iconHTML;
+        
+        imageElement.parentNode.appendChild(iconContainer);
+    }
+
+    // Función específica para el modal de detalles (usa handleImageError internamente)
+    function handleProductImageError(img) {
+        handleImageError(img);
+    }
+
+    // ===== CLASES NUEVAS TEMU/SHEIN =====
 
     class GoogleAnalyticsTracker {
         constructor() {
@@ -207,54 +250,6 @@ document.addEventListener('DOMContentLoaded', function() {
             this.trackEvent('Ecommerce', 'view_cart', `Items: ${cartItems.length}`, totalValue);
         }
     }
-
-    // Instancia global del tracker
-    let gaTracker;
-
-    // ===== MANEJO DE ERRORES DE IMAGEN UNIFICADO =====
-    function handleImageError(img) {
-        const imageElement = img.target || img;
-        let category = 'beer'; // categoría por defecto
-        
-        // Intentar obtener la categoría del elemento padre
-        const productCard = imageElement.closest('.product-card');
-        if (productCard) {
-            category = productCard.dataset.category || 'beer';
-        }
-        
-        // Intentar obtener la categoría del contexto actual
-        const contextCategory = imageElement.closest('[data-category]');
-        if (contextCategory) {
-            category = contextCategory.dataset.category || category;
-        }
-        
-        imageElement.style.display = 'none';
-        
-        // Crear elemento de icono de categoría
-        const iconContainer = document.createElement('div');
-        iconContainer.className = 'image-error-fallback';
-        iconContainer.style.cssText = `
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            background: #f8f8f8;
-            color: #ccc;
-        `;
-        
-        const iconHTML = getCategoryIcon(category);
-        iconContainer.innerHTML = iconHTML;
-        
-        imageElement.parentNode.appendChild(iconContainer);
-    }
-
-    // Función específica para el modal de detalles (usa handleImageError internamente)
-    function handleProductImageError(img) {
-        handleImageError(img);
-    }
-
-    // ===== CLASES NUEVAS TEMU/SHEIN =====
 
     // 1. Sistema de Referidos
     class ReferralSystem {
@@ -1021,7 +1016,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const photoElement = document.createElement('div');
                 photoElement.className = 'ugc-item';
                 photoElement.innerHTML = `
-                    <img src="${photo.image}" alt="${photo.caption}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <img src="${photo.image}" alt="${photo.caption}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                     <div class="ugc-fallback" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; background: #f8f8f8; color: #ccc;">
                         <i class="fas fa-camera" style="font-size: 2rem;"></i>
                     </div>
@@ -2622,7 +2617,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="recommendation-item-temu" data-category="${product.category || 'beer'}">
                     <div class="recommendation-image-temu">
                         ${product.image ? 
-                            `<img src="${product.image}" alt="${product.name}" onerror="handleImageError(this)">` : 
+                            `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="handleImageError(this)">` : 
                             getCategoryIcon(product.category || 'beer')
                         }
                     </div>
