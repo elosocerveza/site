@@ -1035,6 +1035,88 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // En scripts.js - Google Forms Manager
+    class GoogleFormsManager {
+        constructor() {
+            // Obtén esta URL del action de tu Google Form
+            this.formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSfzeikLeqEpynefbJUHflddYRAxLmdoDX7FfUrSFxlgmKLYTw/formResponse';
+            
+            // IDs de campo (los obtienes inspeccionando el HTML del form)
+            this.fieldIds = {
+                orderId: 'entry.1095488305', // Reemplaza con tus IDs reales
+                products: 'entry.20852365',
+                total: 'entry.1234569827',
+                phone: 'entry.812641126',
+                address: 'entry.777911329',
+                status: 'entry.34761081'
+            };
+        }
+
+        async submitOrderToGoogleForm(orderData) {
+            // Construir los datos del formulario
+            const formData = new FormData();
+            
+            formData.append(this.fieldIds.orderId, orderData.orderId);
+            formData.append(this.fieldIds.products, this.formatProducts(orderData.items));
+            formData.append(this.fieldIds.total, orderData.total.toString());
+            formData.append(this.fieldIds.phone, orderData.phone || 'No proporcionado');
+            formData.append(this.fieldIds.address, orderData.address || 'A confirmar');
+            formData.append(this.fieldIds.status, 'Pendiente');
+
+            try {
+                // Enviar al Google Form
+                await fetch(this.formUrl, {
+                    method: 'POST',
+                    mode: 'no-cors', // Importante para evitar CORS
+                    body: formData
+                });
+                
+                console.log('✅ Pedido enviado a Google Forms');
+                return true;
+            } catch (error) {
+                console.log('⚠️ Pedido guardado localmente (fallback)');
+                this.saveLocalBackup(orderData);
+                return false;
+            }
+        }
+
+        formatProducts(items) {
+            return items.map(item => 
+                `${item.quantity}x ${item.name} - $${(item.discountPrice || item.price) * item.quantity}`
+            ).join('\n');
+        }
+
+        saveLocalBackup(orderData) {
+            const backups = JSON.parse(localStorage.getItem('formBackups') || '[]');
+            backups.push({
+                ...orderData,
+                timestamp: new Date().toISOString(),
+                submitted: false
+            });
+            localStorage.setItem('formBackups', JSON.stringify(backups));
+        }
+
+        // Para reenviar pedidos fallidos
+        async retryFailedSubmissions() {
+            const backups = JSON.parse(localStorage.getItem('formBackups') || '[]');
+            const successful = [];
+            
+            for (const order of backups) {
+                if (await this.submitOrderToGoogleForm(order)) {
+                    successful.push(order);
+                }
+            }
+            
+            // Remover los exitosos
+            const remaining = backups.filter(order => 
+                !successful.some(s => s.orderId === order.orderId)
+            );
+            
+            localStorage.setItem('formBackups', JSON.stringify(remaining));
+            return successful.length;
+        }
+    }
+
     // ===== FUNCIONES GLOBALES NUEVAS =====
 
     // Barra de progreso envío gratis
@@ -1211,6 +1293,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Inicializar Google Analytics Tracker
         gaTracker = new GoogleAnalyticsTracker();
+
+        // INICIALIZAR GOOGLE FORMS MANAGER
+        googleFormsManager = new GoogleFormsManager();
         
         // Inicializar nuevas funcionalidades
         //referralSystem = new ReferralSystem();
@@ -2591,11 +2676,56 @@ document.addEventListener('DOMContentLoaded', function() {
         message += `\n*Total: $${subtotal.toLocaleString()}*\n\n`;
         message += `Por favor, necesito coordinar la entrega. ¡Gracias!`;
 
-        openWhatsApp(message);
+        // Generar ID único para el pedido
+        const orderId = 'ELOSO_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
         
-        // Track Google Analytics - Purchase (asumimos que la compra se completa al enviar por WhatsApp)
+        // ENVIAR PEDIDO A GOOGLE FORMS
+        if (googleFormsManager) {
+            const orderData = {
+                orderId: orderId,
+                items: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: item.discountPrice || item.price,
+                    total: (item.discountPrice || item.price) * item.quantity
+                })),
+                total: subtotal,
+                phone: 'A confirmar por WhatsApp',
+                address: 'A coordinar por WhatsApp',
+                notes: `Pedido web - ${cart.length} productos`
+            };
+            
+            googleFormsManager.submitOrderToGoogleForm(orderData)
+                .then(success => {
+                    if (success) {
+                        console.log('✅ Pedido enviado a Google Forms correctamente');
+                        
+                        // Track Google Analytics - Form Submission Success
+                        if (gaTracker) {
+                            gaTracker.trackEvent('Forms', 'submission_success', orderId);
+                        }
+                    } else {
+                        console.log('📦 Pedido guardado localmente para reintentar');
+                        
+                        // Track Google Analytics - Form Submission Fallback
+                        if (gaTracker) {
+                            gaTracker.trackEvent('Forms', 'submission_fallback', orderId);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Error en envío a Forms:', error);
+                    
+                    // Track Google Analytics - Form Submission Error
+                    if (gaTracker) {
+                        gaTracker.trackError('forms_submission', error.message);
+                    }
+                });
+        }
+
+        // Track Google Analytics - Purchase
         if (gaTracker) {
-            const orderId = 'ELOSO_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
             gaTracker.trackPurchase(orderId, cart, subtotal);
         }
         
@@ -2607,6 +2737,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Marcar primera compra para referidos
             localStorage.setItem('elOsoFirstPurchase', 'true');
         }
+        
+        // Abrir WhatsApp
+        openWhatsApp(message);
         
         // Clear cart after successful checkout
         setTimeout(() => {

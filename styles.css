@@ -4146,3 +4146,26 @@ body {
         animation-duration: 15s;
     }
 }
+
+/* Agregar al final del CSS */
+img {
+    width: auto;
+    max-height: 100%;
+}
+
+.product-image img,
+.cart-item-image-temu img,
+.recommendation-image-temu img,
+.ugc-item img {
+    width: auto;
+    height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+}
+
+.fixed-image-container img {
+    width: auto;
+    height: 100%;
+    max-height: 400px;
+    object-fit: contain;
+}
