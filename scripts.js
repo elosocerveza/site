@@ -2520,7 +2520,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="cart-item-temu" data-id="${item.id}" data-category="${item.category || 'beer'}">
                             <div class="cart-item-image-temu">
                                 ${item.image ? 
-                                    `<img src="${item.image}" alt="${item.name}" onerror="handleImageError(this)">` : 
+                                    `<img src="${item.image}" alt="${item.name}" loading="lazy" onerror="handleImageError(this)">` : 
                                     getCategoryIcon(item.category || 'beer')
                                 }
                             </div>
