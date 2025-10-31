@@ -8,10 +8,9 @@
     --text-light: #666666;
     --border-light: #E8E8E8;
     --success-green: #0a8800;
-    --warning-orange: #f39c12;
-    --temu-red: #8B0000;
-    --temu-pink: #D4AF37;
-    --temu-purple: #5D4037;
+    --warning-orange: #fb7701;
+    --temu-purple: #9462FF;
+    --temu-blue: #0086ff;
     --shadow: 0 2px 12px rgba(0,0,0,0.1);
     --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
     --shadow-temu: 0 2px 8px rgba(139, 0, 0, 0.15);
@@ -324,7 +323,7 @@ body {
     position: absolute;
     top: -5px;
     right: -5px;
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
     border-radius: 50%;
     width: 18px;
@@ -344,7 +343,7 @@ body {
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: var(--temu-red);
+    background: var(--accent-red);
     animation: cartPulse 2s infinite;
     z-index: -1;
 }
@@ -456,7 +455,7 @@ body {
 }
 
 .search-close:hover {
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 /* Category Navigation */
@@ -491,9 +490,9 @@ body {
 }
 
 .category-item.active, .category-item:hover {
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
-    border-color: var(--temu-red);
+    border-color: var(--accent-red);
     transform: translateY(-1px);
     box-shadow: var(--shadow-temu);
 }
@@ -570,7 +569,7 @@ body {
 }
 
 .mobile-nav-item:hover {
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .mobile-nav-item.whatsapp {
@@ -663,7 +662,7 @@ body {
 
 .hero-cta {
     background: white;
-    color: var(--temu-red);
+    color: var(--accent-red);
     border: none;
     padding: 15px 30px;
     border-radius: 25px;
@@ -718,7 +717,7 @@ body {
 }
 
 .section-title i {
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .section-subtitle {
@@ -730,7 +729,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
     padding: 8px 15px;
     border-radius: 20px;
@@ -779,7 +778,7 @@ body {
     display: block;
     font-size: 1.2rem;
     font-weight: bold;
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .stat-label {
@@ -847,7 +846,7 @@ body {
 }
 
 .badge-flash {
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
     animation: pulse-badge 2s infinite;
 }
@@ -858,12 +857,12 @@ body {
 }
 
 .badge-popular {
-    background: var(--primary-gold);
+    background-color: var(--temu-blue);
     color: white;
 }
 
 .badge-stock {
-    background: var(--warning-orange);
+    background-color: var(--warning-orange);
     color: white;
 }
 
@@ -944,7 +943,7 @@ body {
 .product-price {
     font-weight: bold;
     font-size: 1.2rem;
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .product-old-price {
@@ -975,7 +974,7 @@ body {
     display: flex;
     align-items: center;
     gap: 4px;
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .product-rating {
@@ -992,7 +991,7 @@ body {
 /* Add to Cart Button */
 .add-to-cart-btn {
     width: 100%;
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
     border: none;
     padding: 12px;
@@ -1059,7 +1058,7 @@ body {
 }
 
 .quick-buy-btn:hover {
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
 }
 
@@ -1312,7 +1311,7 @@ body {
 .cart-item-current-price-temu {
     font-weight: 700;
     font-size: 1.1rem;
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .cart-item-old-price-temu {
@@ -1361,7 +1360,7 @@ body {
 
 .quantity-btn-temu:hover:not(:disabled) {
     background: #f5f5f5;
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .quantity-btn-temu:disabled {
@@ -1379,7 +1378,7 @@ body {
 .remove-item-temu {
     background: none;
     border: none;
-    color: var(--temu-red);
+    color: var(--accent-red);
     cursor: pointer;
     padding: 6px;
     border-radius: 6px;
@@ -1455,7 +1454,7 @@ body {
 }
 
 .recommendation-price-temu {
-    color: var(--temu-red);
+    color: var(--accent-red);
     font-weight: 700;
     font-size: 0.95rem;
     margin-bottom: 10px;
@@ -1463,7 +1462,7 @@ body {
 
 .recommendation-add-btn-temu {
     width: 100%;
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
     border: none;
     padding: 8px;
@@ -1520,7 +1519,7 @@ body {
 .total-amount {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 .savings-banner {
@@ -1543,7 +1542,7 @@ body {
 }
 
 .checkout-btn-temu {
-    background: linear-gradient(135deg, var(--temu-red) 0%, var(--accent-dark-red) 100%);
+    background: linear-gradient(135deg, var(--accent-red) 0%, var(--accent-dark-red) 100%);
     color: white;
     width: 100%;
     padding: 16px;
@@ -1606,7 +1605,7 @@ body {
 .feature-icon {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, var(--temu-red), var(--primary-gold));
+    background: linear-gradient(135deg, var(--accent-red), var(--primary-gold));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -2136,7 +2135,7 @@ body {
 .current-price-mobile {
     font-size: 24px;
     font-weight: 800 !important;
-    color: var(--temu-red) !important;
+    color: var(--accent-red) !important;
 }
 
 .price-comparison-mobile {
@@ -2190,7 +2189,7 @@ body {
     display: flex;
     align-items: center;
     gap: 4px;
-    background: linear-gradient(135deg, var(--temu-red), var(--primary-gold)) !important;
+    background: linear-gradient(135deg, var(--accent-red), var(--primary-gold)) !important;
     color: white !important;
     padding: 4px 8px;
     border-radius: 6px;
@@ -2308,7 +2307,7 @@ body {
 }
 
 .stock-low {
-    color: var(--temu-red);
+    color: var(--accent-red);
     font-weight: 600;
 }
 
@@ -2449,17 +2448,6 @@ body {
     border-color: #ccc !important;
     box-shadow: none !important;
     animation: none;
-}
-
-/* Badges actualizados con branding El Oso */
-.badge-flash {
-    background: var(--temu-red) !important;
-    color: white !important;
-}
-
-.badge-stock {
-    background: var(--warning-orange) !important;
-    color: white !important;
 }
 
 /* Scrollbar personalizado */
@@ -3011,7 +2999,7 @@ body {
 /* ===== ESTILOS ESPECÍFICOS PARA CERVEZA ===== */
 
 .beer-specs .abv-value, .beer-specs .ibu-value {
-    color: var(--temu-red);
+    color: var(--accent-red);
     font-weight: bold;
 }
 
@@ -3022,14 +3010,14 @@ body {
 }
 
 .heat-pepper {
-    color: var(--temu-red);
+    color: var(--accent-red);
     font-size: 0.8rem;
 }
 
 .heat-pepper.mild { color: #8B7500; }
 .heat-pepper.medium { color: #B8860B; }
 .heat-pepper.hot { color: #D4AF37; }
-.heat-pepper.extreme { color: var(--temu-red); }
+.heat-pepper.extreme { color: var(--accent-red); }
 
 /* Ocultar secciones no utilizadas */
 #comboSectionMobile {
@@ -3427,7 +3415,7 @@ body {
 }
 
 .loyalty-details-btn:hover {
-    background: var(--temu-red);
+    background: var(--accent-red);
 }
 
 /* ===== CHATBOT ===== */
@@ -3564,7 +3552,7 @@ body {
 }
 
 .product-link {
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
     border: none;
     padding: 2px 8px;
@@ -3930,7 +3918,7 @@ body {
 }
 
 .ruleta-modal .spin-button:hover:not(:disabled) {
-    background: var(--temu-red);
+    background: var(--accent-red);
     color: white;
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
@@ -3974,7 +3962,7 @@ body {
 
 .hero-cta.secondary:hover {
     background: white;
-    color: var(--temu-red);
+    color: var(--accent-red);
 }
 
 /* Estilos para niveles de fidelidad */

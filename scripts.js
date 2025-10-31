@@ -508,16 +508,34 @@ class ProductManager {
                 this.app.products.flash.push(product);
             }
             
-            // Agregar a más vendidos si tiene ventas altas
-            if (product.sold && parseInt(product.sold) > 20) {
-                this.app.products.mostSold.push(product);
-            }
-            
             // Agregar a categoría correspondiente
             this.addToCategory(product, category);
         });
 
+        // PROCESAR MÁS VENDIDOS - SOLO LOS 4 MÁS ALTOS
+        this.processMostSoldProducts(productsArray);
+
         this.ensureMinimumProducts();
+    }
+
+    // Agregar este nuevo método a la clase ProductManager
+    processMostSoldProducts(productsArray) {
+        // Filtrar productos activos con ventas
+        const activeProductsWithSales = productsArray.filter(product => 
+            product.active !== 'false' && product.sold && parseInt(product.sold) > 0
+        );
+        
+        // Ordenar por número de ventas (descendente)
+        const sortedBySales = activeProductsWithSales.sort((a, b) => {
+            const salesA = parseInt(a.sold) || 0;
+            const salesB = parseInt(b.sold) || 0;
+            return salesB - salesA;
+        });
+        
+        // Tomar solo los 4 primeros
+        this.app.products.mostSold = sortedBySales.slice(0, 4);
+        
+        console.log(`✅ ${this.app.products.mostSold.length} productos más vendidos cargados`);
     }
 
     addToCategory(product, category) {
@@ -530,6 +548,11 @@ class ProductManager {
         
         const targetCategory = categoryMap[category] || 'beers';
         this.app.products[targetCategory].push(product);
+
+        // NO agregar a más vendidos aquí, ya que se procesa separadamente
+        if (targetCategory !== 'mostSold') {
+            this.app.products[targetCategory].push(product);
+        }
     }
 
     ensureMinimumProducts() {
@@ -544,12 +567,16 @@ class ProductManager {
             });
         }
 
-        // Asegurar que haya productos en más vendidos
+        // Asegurar que haya productos en más vendidos (máximo 4)
         if (this.app.products.mostSold.length === 0) {
-            this.app.products.mostSold = this.app.products.beers.slice(0, 6).map(p => ({
+            // Tomar solo 4 productos para más vendidos
+            this.app.products.mostSold = this.app.products.beers.slice(0, 4).map(p => ({
                 ...p,
                 sold: Math.floor(Math.random() * 100) + 50
             }));
+        } else if (this.app.products.mostSold.length > 4) {
+            // Asegurar que nunca haya más de 4 productos en más vendidos
+            this.app.products.mostSold = this.app.products.mostSold.slice(0, 4);
         }
     }
 
