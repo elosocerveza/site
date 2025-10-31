@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +35,7 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.min.css?v=3">
+    <link rel="stylesheet" href="styles.min.css?v=5">
 
     <!-- Preload para Font Awesome con carga optimizada -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -87,26 +87,29 @@
     <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
 </head>
 <body>
+    <!-- Anunciador para lectores de pantalla -->
+    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
     <!-- Header -->
-    <header class="temu-header">
+    <header class="temu-header" role="banner">
         <div class="header-top">
             <div class="container">
                 <div class="header-content">
-                    <button class="menu-toggle" id="menuToggle" alt="">
-                        <i class="fas fa-bars"></i>
+                    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú de navegación">
+                        <i class="fas fa-bars" aria-hidden="true"></i>
                     </button>
                     
                     <a href="#" class="logo">
-                        <img src="images/logo-blanco.png" class="logo-img" alt="" onerror="this.style.display='none'" width="24" height="24">
+                        <img src="images/logo-blanco.png" class="logo-img" alt="Logo El Oso" width="24" height="24">
                         <span>EL OSO</span>
                     </a>
                     
                     <div class="header-actions">
-                        <button class="search-toggle" id="searchToggle" alt="">
-                            <i class="fas fa-search"></i>
+                        <button class="search-toggle" id="searchToggle" aria-label="Buscar productos">
+                            <i class="fas fa-search" aria-hidden="true"></i>
                         </button>
-                        <button class="cart-toggle temu-cart-toggle" id="cartToggle" alt="">
-                            <i class="fas fa-shopping-cart"></i>
+                        <button class="cart-toggle temu-cart-toggle" id="cartToggle" aria-label="Abrir carrito de compras">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                             <span class="cart-count">0</span>
                             <div class="cart-pulse"></div>
                         </button>
@@ -119,41 +122,41 @@
         <div class="search-bar" id="searchBar">
             <div class="container">
                 <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="searchInput" placeholder="Buscar cervezas, salsas, conservas...">
-                    <button class="search-close" id="searchClose" alr="Cerrar">
-                        <i class="fas fa-times"></i>
+                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar cervezas, salsas, conservas..." aria-label="Buscar productos">
+                    <button class="search-close" id="searchClose" aria-label="Cerrar búsqueda">
+                        <i class="fas fa-times" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Category Navigation -->
-        <nav class="category-nav">
+        <nav class="category-nav" aria-label="Categorías de productos">
             <div class="container">
                 <div class="category-scroll">
                     <a href="#ofertas" class="category-item active" data-category="flash">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-bolt" aria-hidden="true"></i>
                         <span>Ofertas Flash</span>
                     </a>
                     <a href="#mas-vendidos" class="category-item" data-category="mostSold">
-                        <i class="fas fa-crown"></i>
+                        <i class="fas fa-crown" aria-hidden="true"></i>
                         <span>Más Vendidos</span>
                     </a>
                     <a href="#cervezas" class="category-item" data-category="beers">
-                        <i class="fas fa-beer"></i>
+                        <i class="fas fa-beer" aria-hidden="true"></i>
                         <span>Cervezas</span>
                     </a>
                     <a href="#picantes" class="category-item" data-category="sauces">
-                        <i class="fas fa-pepper-hot"></i>
+                        <i class="fas fa-pepper-hot" aria-hidden="true"></i>
                         <span>Salsas</span>
                     </a>
                     <a href="#conservas" class="category-item" data-category="preserves">
-                        <i class="fas fa-jar"></i>
+                        <i class="fas fa-jar" aria-hidden="true"></i>
                         <span>Conservas</span>
                     </a>
                     <a href="#combos" class="category-item" data-category="combos">
-                        <i class="fas fa-gift"></i>
+                        <i class="fas fa-gift" aria-hidden="true"></i>
                         <span>Combos</span>
                     </a>
                 </div>
@@ -162,280 +165,306 @@
     </header>
 
     <!-- Menu Celular -->
-    <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-labelledby="mobileMenuTitle">
         <div class="mobile-menu-header">
             <div class="mobile-logo">
-                <img src="images/logo-blanco.png" class="logo-img" alt="" onerror="this.style.display='none'" width="24" height="24">
-                <span>EL OSO</span>
+                <img src="images/logo-blanco.png" class="logo-img" alt="Logo El Oso" width="24" height="24">
+                <span id="mobileMenuTitle">EL OSO</span>
             </div>
-            <button class="close-menu" id="closeMenu" alt="">
-                <i class="fas fa-times"></i>
+            <button class="close-menu" id="closeMenu" aria-label="Cerrar menú">
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
-        <nav class="mobile-nav">
+        <nav class="mobile-nav" aria-label="Navegación móvil">
             <a href="#ofertas" class="mobile-nav-item">
-                <i class="fas fa-bolt"></i>
+                <i class="fas fa-bolt" aria-hidden="true"></i>
                 <span>Ofertas Flash</span>
             </a>
             <a href="#mas-vendidos" class="mobile-nav-item">
-                <i class="fas fa-crown"></i>
+                <i class="fas fa-crown" aria-hidden="true"></i>
                 <span>Más Vendidos</span>
             </a>
             <a href="#cervezas" class="mobile-nav-item">
-                <i class="fas fa-beer"></i>
+                <i class="fas fa-beer" aria-hidden="true"></i>
                 <span>Cervezas</span>
             </a>
             <a href="#picantes" class="mobile-nav-item">
-                <i class="fas fa-pepper-hot"></i>
+                <i class="fas fa-pepper-hot" aria-hidden="true"></i>
                 <span>Salsas Picantes</span>
             </a>
             <a href="#conservas" class="mobile-nav-item">
-                <i class="fas fa-jar"></i>
+                <i class="fas fa-jar" aria-hidden="true"></i>
                 <span>Conservas Caseras</span>
             </a>
             <a href="#combos" class="mobile-nav-item">
-                <i class="fas fa-gift"></i>
+                <i class="fas fa-gift" aria-hidden="true"></i>
                 <span>Combos</span>
             </a>
             <a href="#" class="mobile-nav-item why-choose-btn-mobile">
-                <i class="fas fa-star"></i>
+                <i class="fas fa-star" aria-hidden="true"></i>
                 <span>¿Por Qué Elegirnos?</span>
             </a>
             <a href="https://wa.me/5491123495971" target="_blank" class="mobile-nav-item whatsapp">
-                <i class="fab fa-whatsapp"></i>
+                <i class="fab fa-whatsapp" aria-hidden="true"></i>
                 <span>Contactar por WhatsApp</span>
             </a>
         </nav>
     </div>
 
-    <!-- Banner -->
-    <section class="hero" id="hero">
-        <div class="hero-slider">
-            <div class="hero-slide active">
-                <div class="hero-content">
-                    <div class="hero-badge">🔥 OFERTA FLASH</div>
-                    <h1 class="hero-title">HASTA 50% OFF</h1>
-                    <p class="hero-subtitle">En cervezas artesanales seleccionadas</p>
-                    <div class="countdown" id="countdown">
-                        <div class="countdown-item">
-                            <span class="countdown-number">02</span>
-                            <span class="countdown-label">Horas</span>
+    <!-- Contenido Principal -->
+    <main role="main">
+        <!-- Banner -->
+        <section class="hero" id="hero">
+            <div class="hero-slider">
+                <div class="hero-slide active">
+                    <div class="hero-content">
+                        <div class="hero-badge" role="status">🔥 OFERTA FLASH</div>
+                        <h1 class="hero-title">HASTA 50% OFF</h1>
+                        <p class="hero-subtitle">En cervezas artesanales seleccionadas</p>
+                        <div class="countdown" id="countdown" aria-label="Tiempo restante para ofertas flash">
+                            <div class="countdown-item">
+                                <span class="countdown-number">02</span>
+                                <span class="countdown-label">Horas</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-number">45</span>
+                                <span class="countdown-label">Minutos</span>
+                            </div>
+                            <div class="countdown-item">
+                                <span class="countdown-number">30</span>
+                                <span class="countdown-label">Segundos</span>
+                            </div>
                         </div>
-                        <div class="countdown-item">
-                            <span class="countdown-number">45</span>
-                            <span class="countdown-label">Minutos</span>
-                        </div>
-                        <div class="countdown-item">
-                            <span class="countdown-number">30</span>
-                            <span class="countdown-label">Segundos</span>
+                        <button class="hero-cta" onclick="scrollToSection('ofertas')">
+                            Ver Ofertas
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Envío Gratis Compacta -->
+        <section class="compact-shipping-banner" aria-label="Información de envío gratis">
+            <div class="container">
+                <div class="compact-shipping-content">
+                    <!-- Texto fijo ENVÍO GRATIS -->
+                    <div class="shipping-fixed">
+                        <i class="fas fa-shipping-fast" aria-hidden="true"></i>
+                        <span>ENVÍO GRATIS</span>
+                    </div>
+                    
+                    <!-- Información en desplazamiento -->
+                    <div class="shipping-scroll-container">
+                        <div class="shipping-scroll-content">
+                            <div class="scroll-item">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>Quilmes y Zonas Aledañas</span>
+                            </div>
+                            <div class="scroll-item">
+                                <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                <span>Jueves y Viernes</span>
+                            </div>
+                            <div class="scroll-item">
+                                <i class="fas fa-tag" aria-hidden="true"></i>
+                                <span>Compra Mínima: $15.000</span>
+                            </div>
+                            <div class="scroll-item">
+                                <i class="fas fa-clock" aria-hidden="true"></i>
+                                <span id="compactShippingCountdown">Próximo envío: 00:00:00</span>
+                            </div>
                         </div>
                     </div>
-                    <button class="hero-cta" onclick="scrollToSection('ofertas')">
-                        Ver Ofertas
-                        <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- ¿Por qué elegir El Oso? -->
+        <section class="why-choose-button-section">
+            <div class="container">
+                <div class="why-choose-btn-wrapper">
+                    <button class="why-choose-btn temu-style-btn" id="whyChooseBtn">
+                        <i class="fas fa-star" aria-hidden="true"></i>
+                        <span>¿POR QUÉ ELEGIR EL OSO?</span>
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Envío Gratis Compacta -->
-    <section class="compact-shipping-banner">
-        <div class="container">
-            <div class="compact-shipping-content">
-                <!-- Texto fijo ENVÍO GRATIS -->
-                <div class="shipping-fixed">
-                    <i class="fas fa-shipping-fast"></i>
-                    <span>ENVÍO GRATIS</span>
+        <!-- Promociones Flash -->
+        <section class="flash-sales" id="ofertas" aria-labelledby="ofertas-titulo">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-title-wrapper">
+                        <h2 id="ofertas-titulo" class="section-title">
+                            <i class="fas fa-bolt" aria-hidden="true"></i>
+                            OFERTAS FLASH
+                        </h2>
+                    </div>
                 </div>
                 
-                <!-- Información en desplazamiento -->
-                <div class="shipping-scroll-container">
-                    <div class="shipping-scroll-content">
-                        <div class="scroll-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Quilmes y Zonas Aledañas</span>
-                        </div>
-                        <div class="scroll-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Jueves y Viernes</span>
-                        </div>
-                        <div class="scroll-item">
-                            <i class="fas fa-tag"></i>
-                            <span>Compra Mínima: $15.000</span>
-                        </div>
-                        <div class="scroll-item">
-                            <i class="fas fa-clock"></i>
-                            <span id="compactShippingCountdown">Próximo envío: 00:00:00</span>
-                        </div>
+                <div class="products-grid flash-grid" id="flash-products">
+                    <div class="loading-products">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        <p>Cargando ofertas...</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ¿Por qué elegir El Oso? -->
-    <section class="why-choose-button-section">
-        <div class="container">
-            <div class="why-choose-btn-wrapper">
-                <button class="why-choose-btn temu-style-btn" id="whyChooseBtn">
-                    <i class="fas fa-star"></i>
-                    <span>¿POR QUÉ ELEGIR EL OSO?</span>
-                    <i class="fas fa-chevron-right"></i>
-                </button>
+        <!-- Más Vendidos -->
+        <section class="most-sold" id="mas-vendidos" aria-labelledby="mas-vendidos-titulo">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-title-wrapper">
+                        <h2 id="mas-vendidos-titulo" class="section-title">
+                            <i class="fas fa-crown" aria-hidden="true"></i>
+                            MÁS VENDIDOS
+                        </h2>
+                        <div class="trending-badge">
+                            <i class="fas fa-chart-line" aria-hidden="true"></i>
+                            <span>Trending</span>
+                        </div>
+                    </div>
+                    <div class="sold-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">vendidos</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="products-grid" id="most-sold-products">
+                    <div class="loading-products">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        <p>Cargando productos...</p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Promociones Flash -->
-    <section class="flash-sales" id="ofertas">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-title-wrapper">
-                    <h2 class="section-title">
-                        <i class="fas fa-bolt"></i>
-                        OFERTAS FLASH
+        <!-- Cervezas -->
+        <section class="products-section" id="cervezas" aria-labelledby="cervezas-titulo">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="cervezas-titulo" class="section-title">
+                        <i class="fas fa-beer" aria-hidden="true"></i>
+                        NUESTRAS CERVEZAS
                     </h2>
+                    <div class="category-badge">
+                        <span>+10 variedades</span>
+                    </div>
+                </div>
+                
+                <div class="products-grid" id="beer-products">
+                    <div class="loading-products">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        <p>Cargando cervezas...</p>
+                    </div>
                 </div>
             </div>
-            
-            <div class="products-grid flash-grid" id="flash-products">
-                <div class="loading-products">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Cargando ofertas...</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Más Vendidos -->
-    <section class="most-sold" id="mas-vendidos">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-title-wrapper">
-                    <h2 class="section-title">
-                        <i class="fas fa-crown"></i>
-                        MÁS VENDIDOS
+        <!-- Picantes -->
+        <section class="products-section" id="picantes" aria-labelledby="picantes-titulo">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="picantes-titulo" class="section-title">
+                        <i class="fas fa-pepper-hot" aria-hidden="true"></i>
+                        SALSAS PICANTES
                     </h2>
-                    <div class="trending-badge">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Trending</span>
+                    <div class="category-badge">
+                        <span>Artesanales</span>
                     </div>
                 </div>
-                <div class="sold-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">500+</span>
-                        <span class="stat-label">vendidos</span>
+                
+                <div class="products-grid" id="sauce-products">
+                    <div class="loading-products">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        <p>Cargando salsas...</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="products-grid" id="most-sold-products">
-                <div class="loading-products">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Cargando productos...</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Cervezas -->
-    <section class="products-section" id="cervezas">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-beer"></i>
-                    NUESTRAS CERVEZAS
-                </h2>
-                <div class="category-badge">
-                    <span>+10 variedades</span>
+        <!-- Conservas -->
+        <section class="products-section" id="conservas" aria-labelledby="conservas-titulo">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="conservas-titulo" class="section-title">
+                        <i class="fas fa-jar" aria-hidden="true"></i>
+                        CONSERVAS CASERAS
+                    </h2>
+                    <div class="category-badge">
+                        <span>Artesanales</span>
+                    </div>
+                </div>
+                
+                <div class="products-grid" id="preserve-products">
+                    <div class="loading-products">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        <p>Cargando conservas...</p>
+                    </div>
                 </div>
             </div>
-            
-            <div class="products-grid" id="beer-products">
-                <div class="loading-products">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Cargando cervezas...</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Picantes -->
-    <section class="products-section" id="picantes">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-pepper-hot"></i>
-                    SALSAS PICANTES
-                </h2>
-                <div class="category-badge">
-                    <span>Artesanales</span>
+        <!-- Combos -->
+        <section class="products-section" id="combos" aria-labelledby="combos-titulo">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="combos-titulo" class="section-title">
+                        <i class="fas fa-gift" aria-hidden="true"></i>
+                        COMBOS ESPECIALES
+                    </h2>
+                    <div class="category-badge">
+                        <span>+Ahorro</span>
+                    </div>
+                </div>
+                
+                <div class="products-grid" id="combo-products">
+                    <div class="loading-products">
+                        <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
+                        <p>Cargando combos...</p>
+                    </div>
                 </div>
             </div>
-            
-            <div class="products-grid" id="sauce-products">
-                <div class="loading-products">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Cargando salsas...</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Conservas -->
-    <section class="products-section" id="conservas">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-jar"></i>
-                    CONSERVAS CASERAS
-                </h2>
-                <div class="category-badge">
-                    <span>Artesanales</span>
+        <!-- Fotos de Clientes UGC -->
+        <section class="ugc-section" aria-labelledby="ugc-titulo">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="ugc-titulo" class="section-title">
+                        <i class="fas fa-camera" aria-hidden="true"></i>
+                        Fotos de Nuestros Clientes
+                    </h2>
+                    <p>Compartí tus fotos usando #ElOsoCerveza</p>
+                </div>
+                <div class="ugc-grid" id="ugcGrid">
+                    <!-- Las fotos se cargarán dinámicamente -->
+                </div>
+                <div class="ugc-cta">
+                    <p>¿Ya probaste nuestros productos?</p>
+                    <a href="https://instagram.com/elosocerveza" target="_blank" class="ugc-button">
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                        Etiquétanos en Instagram
+                    </a>
                 </div>
             </div>
-            
-            <div class="products-grid" id="preserve-products">
-                <div class="loading-products">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Cargando conservas...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Combos -->
-    <section class="products-section" id="combos">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-gift"></i>
-                    COMBOS ESPECIALES
-                </h2>
-                <div class="category-badge">
-                    <span>+Ahorro</span>
-                </div>
-            </div>
-            
-            <div class="products-grid" id="combo-products">
-                <div class="loading-products">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Cargando combos...</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Carrito de Compras -->
-    <aside class="cart-page temu-cart" id="cartPage">
+    <aside class="cart-page temu-cart" id="cartPage" aria-label="Carrito de compras" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
         <div class="cart-page-header">
-            <button class="back-button" id="backButtonCart">
-                <i class="fas fa-arrow-left"></i>
+            <button class="back-button" id="backButtonCart" aria-label="Cerrar carrito">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i>
             </button>
-            <h2>Carrito (<span id="cartItemsCount">0</span>)</h2>
+            <h2 id="cartTitle">Carrito (<span id="cartItemsCount">0</span>)</h2>
             <div class="header-actions">
-
+                <!-- Espacio para acciones adicionales -->
             </div>
         </div>
 
@@ -451,7 +480,7 @@
                 <!-- Recommendations Section -->
                 <div class="recommendations-section-temu">
                     <div class="section-header-temu">
-                        <span class="section-icon">🍀</span>
+                        <span class="section-icon" aria-hidden="true">🍀</span>
                         <span>Te Gustaría Llenar el Carrito Con</span>
                     </div>
                     
@@ -468,7 +497,7 @@
                     <span class="total-amount" id="summaryTotal">$0</span>
                 </div>
 
-                <!-- En el cart-summary-temu, después del primer summary-row-temu -->
+                <!-- Barra de progreso de envío gratis -->
                 <div class="shipping-progress" id="shippingProgress">
                     <div class="progress-info">
                         <span id="shippingRemaining">¡Faltan $5.000 para envío gratis!</span>
@@ -479,9 +508,9 @@
                 </div>
                 
                 <div class="savings-banner">
-                    <i class="fas fa-tag"></i>
+                    <i class="fas fa-tag" aria-hidden="true"></i>
                     <span>Ahorro $<span id="savingsAmount">0</span></span>
-                    <i class="fas fa-chevron-right"></i>
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
                 </div>
 
                 <button class="checkout-btn-temu" id="checkoutBtnTemu">
@@ -492,17 +521,17 @@
     </aside>
 
     <!-- Detalle del Producto -->
-    <div class="product-details-modal" id="productDetailsModal">
+    <div class="product-details-modal" id="productDetailsModal" role="dialog" aria-modal="true" aria-labelledby="detailsProductNameMobile">
         <div class="modal-content product-details-content">
             <!-- Header Móvil Mejorado -->
             <div class="modal-header product-details-header">
                 <div class="mobile-header-actions">
-                    <button class="back-btn" id="mobileBackBtn">
-                        <i class="fas fa-arrow-left"></i>
+                    <button class="back-btn" id="mobileBackBtn" aria-label="Volver atrás">
+                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
                     </button>
                 </div>
-                <button class="modal-close" id="closeProductDetails">
-                    <i class="fas fa-times"></i>
+                <button class="modal-close" id="closeProductDetails" aria-label="Cerrar detalles del producto">
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
             
@@ -526,7 +555,7 @@
                             <div class="product-rating-mobile">
                                 <div class="stars" id="detailsRatingStarsMobile"></div>
                                 <span class="rating-text" id="detailsRatingTextMobile"></span>
-                                <span class="divider">•</span>
+                                <span class="divider" aria-hidden="true">•</span>
                                 <span class="sold-count" id="detailsSoldMobile"></span>
                             </div>
                         </div>
@@ -548,7 +577,7 @@
                     
                     <!-- Envío y Promociones -->
                     <div class="free-shipping-info">
-                        <i class="fas fa-shipping-fast"></i>
+                        <i class="fas fa-shipping-fast" aria-hidden="true"></i>
                         <span>Envío gratis en Quilmes en compras > $15.000</span>
                     </div>
 
@@ -556,12 +585,12 @@
                     <div class="quantity-section-mobile">
                         <div class="quantity-label-mobile">Cantidad:</div>
                         <div class="quantity-selector-mobile">
-                            <button class="quantity-btn-mobile decrease">
-                                <i class="fas fa-minus"></i>
+                            <button class="quantity-btn-mobile decrease" aria-label="Disminuir cantidad">
+                                <i class="fas fa-minus" aria-hidden="true"></i>
                             </button>
                             <span class="quantity-display-mobile">1</span>
-                            <button class="quantity-btn-mobile increase">
-                                <i class="fas fa-plus"></i>
+                            <button class="quantity-btn-mobile increase" aria-label="Aumentar cantidad">
+                                <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
                         <div class="stock-info-mobile" id="detailsStockInfoMobile"></div>
@@ -571,15 +600,15 @@
                     <div class="features-highlights-mobile">
                         <div class="features-scroll-mobile">
                             <div class="feature-item-mobile">
-                                <i class="fas fa-award"></i>
+                                <i class="fas fa-award" aria-hidden="true"></i>
                                 <span>Calidad Premium</span>
                             </div>
                             <div class="feature-item-mobile">
-                                <i class="fas fa-leaf"></i>
+                                <i class="fas fa-leaf" aria-hidden="true"></i>
                                 <span>100% Natural</span>
                             </div>
                             <div class="feature-item-mobile">
-                                <i class="fas fa-shield-alt"></i>
+                                <i class="fas fa-shield-alt" aria-hidden="true"></i>
                                 <span>Garantía</span>
                             </div>
                         </div>
@@ -588,7 +617,7 @@
                     <!-- Sección de Descripción -->
                     <div class="description-section-mobile">
                         <div class="section-title-mobile">
-                            <i class="fas fa-file-alt"></i>
+                            <i class="fas fa-file-alt" aria-hidden="true"></i>
                             <span>Descripción</span>
                         </div>
                         <p class="product-description-mobile" id="detailsDescriptionMobile"></p>
@@ -597,7 +626,7 @@
                     <!-- Sección de Especificaciones -->
                     <div class="specs-section-mobile">
                         <div class="section-title-mobile">
-                            <i class="fas fa-list-alt"></i>
+                            <i class="fas fa-list-alt" aria-hidden="true"></i>
                             <span>Especificaciones</span>
                         </div>
                         <div class="specs-grid-mobile" id="productSpecsMobile"></div>
@@ -609,7 +638,7 @@
             <div class="action-buttons-fixed-mobile">
                 <div class="action-buttons-container">
                     <button class="add-to-cart-btn" id="detailsAddToCartFixed">
-                        <i class="fas fa-cart-plus"></i>
+                        <i class="fas fa-cart-plus" aria-hidden="true"></i>
                         <span>AGREGAR AL CARRITO</span>
                     </button>
                 </div>
@@ -618,14 +647,13 @@
     </div>
 
     <!-- ¿Por qué elegir El Oso? -->
-    <div class="why-choose-modal" id="whyChooseModal">
+    <div class="why-choose-modal" id="whyChooseModal" role="dialog" aria-modal="true" aria-labelledby="whyChooseTitle">
         <div class="modal-content">
-
             <div class="modal-header">
-                <button class="modal-close" id="modalClose">
-                    <i class="fas fa-times"></i>
+                <button class="modal-close" id="modalClose" aria-label="Cerrar modal">
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
-                <h2 class="modal-title">¿POR QUÉ ELEGIR EL OSO?</h2>
+                <h2 id="whyChooseTitle" class="modal-title">¿POR QUÉ ELEGIR EL OSO?</h2>
                 <p class="modal-subtitle">La mejor experiencia en cervezas artesanales y productos premium</p>
             </div>
             
@@ -633,7 +661,7 @@
                 <div class="features-grid-modal">
                     <div class="feature-card-modal">
                         <div class="feature-icon-modal">
-                            <i class="fas fa-award"></i>
+                            <i class="fas fa-award" aria-hidden="true"></i>
                         </div>
                         <h3>Calidad Premium</h3>
                         <p>Ingredientes seleccionados y procesos artesanales que garantizan el mejor sabor</p>
@@ -641,7 +669,7 @@
                     
                     <div class="feature-card-modal">
                         <div class="feature-icon-modal">
-                            <i class="fas fa-shipping-fast"></i>
+                            <i class="fas fa-shipping-fast" aria-hidden="true"></i>
                         </div>
                         <h3>Envío Express</h3>
                         <p>Recibí tus productos en 24-48hs con envío gratis los jueves y viernes en Quilmes y zonas aledañas</p>
@@ -649,7 +677,7 @@
                     
                     <div class="feature-card-modal">
                         <div class="feature-icon-modal">
-                            <i class="fas fa-hand-holding-usd"></i>
+                            <i class="fas fa-hand-holding-usd" aria-hidden="true"></i>
                         </div>
                         <h3>Precios Imbatibles</h3>
                         <p>Las mejores ofertas y promociones flash todos los días. Calidad premium al mejor precio</p>
@@ -657,7 +685,7 @@
                     
                     <div class="feature-card-modal">
                         <div class="feature-icon-modal">
-                            <i class="fas fa-headset"></i>
+                            <i class="fas fa-headset" aria-hidden="true"></i>
                         </div>
                         <h3>Soporte 24/7</h3>
                         <p>Atención personalizada por WhatsApp. Resolvemos tus consultas al instante</p>
@@ -665,7 +693,7 @@
                     
                     <div class="feature-card-modal">
                         <div class="feature-icon-modal">
-                            <i class="fas fa-leaf"></i>
+                            <i class="fas fa-leaf" aria-hidden="true"></i>
                         </div>
                         <h3>100% Natural</h3>
                         <p>Productos artesanales sin conservantes ni aditivos. Sabores auténticos y naturales</p>
@@ -673,7 +701,7 @@
                     
                     <div class="feature-card-modal">
                         <div class="feature-icon-modal">
-                            <i class="fas fa-gift"></i>
+                            <i class="fas fa-gift" aria-hidden="true"></i>
                         </div>
                         <h3>Combos Exclusivos</h3>
                         <p>Kits especiales con descuentos únicos. Perfectos para regalos o eventos especiales</p>
@@ -683,47 +711,24 @@
         </div>
     </div>
 
-    <!-- Fotos de Clientes UGC -->
-    <section class="ugc-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-camera"></i>
-                    Fotos de Nuestros Clientes
-                </h2>
-                <p>Compartí tus fotos usando #ElOsoCerveza</p>
-            </div>
-            <div class="ugc-grid" id="ugcGrid">
-                <!-- Las fotos se cargarán dinámicamente -->
-            </div>
-            <div class="ugc-cta">
-                <p>¿Ya probaste nuestros productos?</p>
-                <a href="https://instagram.com/elosocerveza" target="_blank" class="ugc-button">
-                    <i class="fab fa-instagram"></i>
-                    Etiquétanos en Instagram
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- Botón de WhatsApp -->
     <div class="whatsapp-float">
-        <button class="whatsapp-btn" id="whatsappMenuToggle">
-            <i class="fab fa-whatsapp"></i>
+        <button class="whatsapp-btn" id="whatsappMenuToggle" aria-label="Abrir menú de WhatsApp">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i>
             <span class="pulse"></span>
         </button>
-        <div class="whatsapp-menu" id="whatsappMenu">
+        <div class="whatsapp-menu" id="whatsappMenu" role="dialog" aria-modal="true" aria-labelledby="whatsappMenuTitle">
             <div class="whatsapp-menu-header">
-                <h4>¿En qué podemos ayudarte?</h4>
-                <button class="whatsapp-close" id="whatsappClose">
-                    <i class="fas fa-times"></i>
+                <h4 id="whatsappMenuTitle">¿En qué podemos ayudarte?</h4>
+                <button class="whatsapp-close" id="whatsappClose" aria-label="Cerrar menú de WhatsApp">
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="whatsapp-menu-items">
                 <a href="https://wa.me/5491123495971?text=¡Hola! Quiero hacer un pedido personalizado. ¿Podrían ayudarme?" 
-                   class="whatsapp-menu-item" target="_blank">
+                   class="whatsapp-menu-item" target="_blank" rel="noopener">
                     <div class="whatsapp-icon">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                     </div>
                     <div class="whatsapp-text">
                         <span class="whatsapp-title">Pedido Personalizado</span>
@@ -732,9 +737,9 @@
                 </a>
                 
                 <a href="https://wa.me/5491123495971?text=¡Hola! Me interesa revender sus productos. ¿Podrían enviarme info de mayoristas?" 
-                   class="whatsapp-menu-item" target="_blank">
+                   class="whatsapp-menu-item" target="_blank" rel="noopener">
                     <div class="whatsapp-icon">
-                        <i class="fas fa-store"></i>
+                        <i class="fas fa-store" aria-hidden="true"></i>
                     </div>
                     <div class="whatsapp-text">
                         <span class="whatsapp-title">Quiero Revender</span>
@@ -743,9 +748,9 @@
                 </a>
                 
                 <a href="https://wa.me/5491123495971?text=¡Hola! Necesito asesoramiento para elegir mis productos." 
-                   class="whatsapp-menu-item" target="_blank">
+                   class="whatsapp-menu-item" target="_blank" rel="noopener">
                     <div class="whatsapp-icon">
-                        <i class="fas fa-headset"></i>
+                        <i class="fas fa-headset" aria-hidden="true"></i>
                     </div>
                     <div class="whatsapp-text">
                         <span class="whatsapp-title">Asesoramiento</span>
@@ -754,9 +759,9 @@
                 </a>
                 
                 <a href="https://wa.me/5491123495971?text=¡Hola! Tengo una consulta sobre mis productos." 
-                   class="whatsapp-menu-item" target="_blank">
+                   class="whatsapp-menu-item" target="_blank" rel="noopener">
                     <div class="whatsapp-icon">
-                        <i class="fas fa-question-circle"></i>
+                        <i class="fas fa-question-circle" aria-hidden="true"></i>
                     </div>
                     <div class="whatsapp-text">
                         <span class="whatsapp-title">Consulta General</span>
@@ -765,9 +770,9 @@
                 </a>
                 
                 <a href="https://wa.me/5491123495971?text=¡Hola! Quiero conocer las promociones actuales." 
-                   class="whatsapp-menu-item" target="_blank">
+                   class="whatsapp-menu-item" target="_blank" rel="noopener">
                     <div class="whatsapp-icon">
-                        <i class="fas fa-tags"></i>
+                        <i class="fas fa-tags" aria-hidden="true"></i>
                     </div>
                     <div class="whatsapp-text">
                         <span class="whatsapp-title">Promociones</span>
@@ -782,27 +787,27 @@
     </div>
 
     <!-- Footer -->
-    <footer class="main-footer">
+    <footer class="main-footer" role="contentinfo">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <img src="images/logo-blanco.png" alt="" class="logo-img" onerror="this.style.display='none'" width="32" height="32">
+                        <img src="images/logo-blanco.png" alt="Logo El Oso" class="logo-img" width="32" height="32">
                         <span>EL OSO</span>
                     </div>
                     <p>Cervezas artesanales, salsas picantes y conservas caseras de la mejor calidad.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <a href="https://wa.me/5491123495971" target="_blank">
-                        <i class="fab fa-whatsapp"></i> +54 9 11 2349-5971
+                    <h3>Contacto</h3>
+                    <a href="https://wa.me/5491123495971" target="_blank" rel="noopener">
+                        <i class="fab fa-whatsapp" aria-hidden="true"></i> +54 9 11 2349-5971
                     </a>
-                    <a href="https://instagram.com/elosocerveza" target="_blank">
-                        <i class="fab fa-instagram"></i> @elosocerveza
+                    <a href="https://instagram.com/elosocerveza" target="_blank" rel="noopener">
+                        <i class="fab fa-instagram" aria-hidden="true"></i> @elosocerveza
                     </a>
                 </div>
                 <div class="footer-section">
-                    <h4>Zonas de Entrega</h4>
+                    <h3>Zonas de Entrega</h3>
                     <p><strong>Envío gratis:</strong> Quilmes, Bernal, Ezpeleta y alrededores</p>
                     <p><strong>Días de envío gratis:</strong> Jueves y viernes</p>
                 </div>
@@ -816,6 +821,6 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <script src="scripts.min.js?v=3"></script>
+    <script src="scripts.min.js?v=5"></script>
 </body>
 </html>

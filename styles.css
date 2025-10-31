@@ -7,7 +7,7 @@
     --text-dark: #2E2E2E;
     --text-light: #666666;
     --border-light: #E8E8E8;
-    --success-green: #27ae60;
+    --success-green: #0a8800;
     --warning-orange: #f39c12;
     --temu-red: #8B0000;
     --temu-pink: #D4AF37;
@@ -868,7 +868,7 @@ body {
 }
 
 .badge-shipping {
-    background: linear-gradient(135deg, #25D366, #128C7E);
+    background-color: var(--success-green);
     color: white;
 }
 
@@ -1101,7 +1101,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, var(--primary-black) 0%, var(--accent-dark-red) 100%);
+    background-color: var(--primary-black);
     color: white;
     position: relative;
     overflow: hidden;
@@ -1527,7 +1527,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, var(--success-green), #2ecc71);
+    background-color: var(--success-green);
     color: white;
     padding: 10px 15px;
     border-radius: 8px;
@@ -1631,7 +1631,6 @@ body {
 .why-choose-button-section {
     padding: 40px 0;
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    margin: 40px 0;
 }
 
 .why-choose-btn-wrapper {
@@ -1640,7 +1639,7 @@ body {
 }
 
 .why-choose-btn {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 50%, #075E54 100%);
+    background-color: var(--accent-red);
     color: white;
     border: none;
     padding: 18px 30px;
@@ -1719,7 +1718,7 @@ body {
 }
 
 .modal-header {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 50%, #075E54 100%);
+    background-color: var(--success-green);
     color: white;
     padding: 25px 30px;
     border-radius: 20px 20px 0 0;
@@ -1787,7 +1786,7 @@ body {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(135deg, #25D366, #128C7E);
+    background-color: var(--success-green);
 }
 
 .feature-card-modal:hover {
@@ -1798,7 +1797,7 @@ body {
 .feature-icon-modal {
     width: 70px;
     height: 70px;
-    background: linear-gradient(135deg, #25D366, #128C7E);
+    background-color: var(--success-green);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -4006,7 +4005,7 @@ body {
 
 /* ===== BANNER DE ENVÍO GRATIS COMPACTO - VERDE (CORREGIDO) ===== */
 .compact-shipping-banner {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 50%, #075E54 100%);
+    background-color: var(--success-green);
     color: white;
     padding: 8px 0;
     border-bottom: 1px solid rgba(255,255,255,0.2);
