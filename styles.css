@@ -9,8 +9,10 @@
     --border-light: #E8E8E8;
     --success-green: #0a8800;
     --warning-orange: #fb7701;
-    --temu-purple: #9462FF;
-    --temu-blue: #0086ff;
+    --temu-purple: #7c3aed;
+    --temu-blue: #1a5fb4;
+    --temu-red: #dc2626;
+    --temu-dark-red: #b91c1c;
     --shadow: 0 2px 12px rgba(0,0,0,0.1);
     --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
     --shadow-temu: 0 2px 8px rgba(139, 0, 0, 0.15);
@@ -846,7 +848,7 @@ body {
 }
 
 .badge-flash {
-    background: var(--accent-red);
+    background: var(--temu-dark-red);
     color: white;
     animation: pulse-badge 2s infinite;
 }
@@ -862,7 +864,7 @@ body {
 }
 
 .badge-stock {
-    background-color: var(--warning-orange);
+    background-color: var(--temu-red);
     color: white;
 }
 
@@ -4161,4 +4163,25 @@ body {
     width: auto;
     height: 100%;
     object-fit: contain;
+}
+
+/* Asegurar que todos los badges tengan buen contraste en hover */
+.product-badge:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+/* Mejorar legibilidad en todos los badges */
+.product-badge {
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Contraste mejorado para badges en modo oscuro (si se implementa) */
+@media (prefers-color-scheme: dark) {
+    .product-badge {
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    }
 }
