@@ -508,7 +508,7 @@ class ProductManager {
                 this.app.products.flash.push(product);
             }
             
-            // Agregar a categoría correspondiente
+            // Agregar a categoría correspondiente - SOLO UNA VEZ
             this.addToCategory(product, category);
         });
 
@@ -532,10 +532,20 @@ class ProductManager {
             return salesB - salesA;
         });
         
-        // Tomar solo los 4 primeros
-        this.app.products.mostSold = sortedBySales.slice(0, 4);
+        // Tomar solo los 4 primeros y asegurarse de que no estén duplicados
+        const uniqueMostSold = [];
+        const usedIds = new Set();
         
-        console.log(`✅ ${this.app.products.mostSold.length} productos más vendidos cargados`);
+        for (const product of sortedBySales) {
+            if (!usedIds.has(product.id) && uniqueMostSold.length < 4) {
+                uniqueMostSold.push(product);
+                usedIds.add(product.id);
+            }
+        }
+        
+        this.app.products.mostSold = uniqueMostSold;
+        
+        console.log(`✅ ${this.app.products.mostSold.length} productos más vendidos cargados (sin duplicados)`);
     }
 
     addToCategory(product, category) {
@@ -547,10 +557,10 @@ class ProductManager {
         };
         
         const targetCategory = categoryMap[category] || 'beers';
-        this.app.products[targetCategory].push(product);
-
-        // NO agregar a más vendidos aquí, ya que se procesa separadamente
-        if (targetCategory !== 'mostSold') {
+        
+        // Verificar que el producto no esté ya en la categoría
+        const existingProduct = this.app.products[targetCategory].find(p => p.id === product.id);
+        if (!existingProduct) {
             this.app.products[targetCategory].push(product);
         }
     }
