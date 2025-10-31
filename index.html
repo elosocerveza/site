@@ -35,15 +35,20 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=6">
+    <link rel="stylesheet" href="styles.min.css?v=6">
 
-    <!-- Preload para Font Awesome con carga optimizada -->
+    <!-- Preload -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        media="print" 
+        onload="this.media='all'"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer">
     <noscript>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-            integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
-            crossorigin="anonymous" 
-            referrerpolicy="no-referrer">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </noscript>
 
     <script type="application/ld+json">
@@ -80,7 +85,12 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-K21FSGK2ZY');
+        gtag('config', 'G-K21FSGK2ZY', {
+            'transport_type': 'beacon',
+            'use_amp_client_id': false,
+            'page_title': document.title,
+            'page_location': window.location.href
+        });
     </script>
 
     <!-- Google Search Console Verification -->
@@ -521,21 +531,16 @@
     </aside>
 
     <!-- Detalle del Producto -->
-    <div class="product-details-modal" id="productDetailsModal" role="dialog" aria-modal="true" aria-labelledby="detailsProductNameMobile">
-        <div class="modal-content product-details-content">
+    <div class="why-choose-modal" id="productDetailsModal" role="dialog" aria-modal="true" aria-labelledby="detailsProductNameMobile">
+        <div class="modal-content">
             <!-- Header Móvil Mejorado -->
-            <div class="modal-header product-details-header">
-                <div class="mobile-header-actions">
-                    <button class="back-btn" id="mobileBackBtn" aria-label="Volver atrás">
-                        <i class="fas fa-arrow-left" aria-hidden="true"></i>
-                    </button>
-                </div>
+            <div class="modal-header">
                 <button class="modal-close" id="closeProductDetails" aria-label="Cerrar detalles del producto">
                     <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
             
-            <div class="product-details-body">
+            <div class="modal-body">
                 <!-- Galería de Imágenes - Scroll Horizontal -->
                 <div class="product-image-fixed">
                     <div class="fixed-image-container">
@@ -821,6 +826,6 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <script src="scripts.js?v=6"></script>
+    <script src="scripts.min.js?v=6"></script>
 </body>
 </html>

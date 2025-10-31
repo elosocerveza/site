@@ -722,6 +722,9 @@ class ProductManager {
     }
 
     generateProductBadges(product, qualifiesForFreeShipping, isLowStock, isOutOfStock) {
+
+        return '';
+
         let badgeType = product.badge || '';
         if (!badgeType && product.oldPrice) badgeType = 'flash';
         if (!badgeType && product.sold > 100) badgeType = 'popular';
@@ -1313,14 +1316,6 @@ class UIManager {
     }
 
     setupMobileEventListeners() {
-        // Mobile back button
-        const mobileBackBtn = document.getElementById('mobileBackBtn');
-        if (mobileBackBtn) {
-            mobileBackBtn.addEventListener('click', () => {
-                this.closeProductDetailsModal();
-            });
-        }
-        
         // Mobile wishlist button
         const wishlistBtn = document.querySelector('.wishlist-btn');
         if (wishlistBtn) {
@@ -1412,6 +1407,9 @@ class UIManager {
     }
 
     setupProductBadges(product, container) {
+
+        return '';
+
         if (!container) return;
 
         let badgeType = product.badge || '';

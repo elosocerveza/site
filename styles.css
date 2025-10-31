@@ -1,22 +1,33 @@
 :root {
+    /* Colores principales optimizados para contraste */
     --primary-black: #000000;
-    --primary-gold: #D4AF37;
-    --accent-red: #8B0000;
-    --accent-dark-red: #5D0000;
+    --primary-gold: #FFD700; /* Oro más brillante y contrastante */
+    --gold-dark: #B8860B; /* Para hover states */
+    --accent-red: #C41E3A; /* Rojo más vibrante */
+    --accent-dark-red: #8B0000;
+    
+    /* Colores de fondo y texto optimizados */
     --background-white: #FFFFFF;
-    --text-dark: #2E2E2E;
+    --background-light: #F8F9FA;
+    --text-dark: #1A1A1A; /* Negro más puro para mejor legibilidad */
+    --text-medium: #404040; /* Para texto secundario */
     --text-light: #666666;
-    --border-light: #E8E8E8;
-    --success-green: #0a8800;
-    --warning-orange: #fb7701;
-    --temu-purple: #7c3aed;
-    --temu-blue: #1a5fb4;
-    --temu-red: #dc2626;
-    --temu-dark-red: #b91c1c;
-    --shadow: 0 2px 12px rgba(0,0,0,0.1);
-    --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
-    --shadow-temu: 0 2px 8px rgba(139, 0, 0, 0.15);
-    --transition: all 0.3s ease;
+    
+    /* Colores de UI con mejor contraste */
+    --border-light: #E0E0E0;
+    --success-green: #0A7A00; /* Verde más oscuro para mejor contraste */
+    --warning-orange: #E65C00;
+    
+    /* Colores específicos para llamadas a la acción */
+    --cta-primary: #C41E3A;
+    --cta-primary-hover: #8B0000;
+    --cta-secondary: #FFD700;
+    --cta-secondary-hover: #B8860B;
+    
+    /* Sombras actualizadas */
+    --shadow: 0 2px 12px rgba(0,0,0,0.12);
+    --shadow-hover: 0 4px 20px rgba(0,0,0,0.18);
+    --shadow-temu: 0 2px 8px rgba(196, 30, 58, 0.2);
 }
 
 * {
@@ -1655,7 +1666,6 @@ body {
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
     position: relative;
     overflow: hidden;
-    border: 2px solid var(--primary-gold);
 }
 
 .why-choose-btn::before {
@@ -1685,7 +1695,6 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1719,9 +1728,7 @@ body {
 }
 
 .modal-header {
-    background-color: var(--success-green);
-    color: white;
-    padding: 25px 30px;
+    padding: 12px;
     border-radius: 20px 20px 0 0;
     position: relative;
     text-align: center;
@@ -1759,7 +1766,7 @@ body {
 }
 
 .modal-body {
-    padding: 30px;
+    padding: 0 30px 30px 30px;
 }
 
 .features-grid-modal {
@@ -1983,7 +1990,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    background: linear-gradient(135deg, var(--primary-black) 0%, var(--accent-dark-red) 100%);
+    background-color: var(--primary-black);
     position: sticky;
     top: 0;
     z-index: 10;
@@ -1996,7 +2003,7 @@ body {
 }
 
 .back-btn, .share-btn, .wishlist-btn, .modal-close  {
-    background: rgba(255, 255, 255, 0.2);
+    background-color: var(--text-dark);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     width: 40px;
@@ -2071,9 +2078,8 @@ body {
 
 /* Información del producto */
 .product-info-mobile {
-    padding: 16px;
     background: white;
-    margin-bottom: 8px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -2272,7 +2278,7 @@ body {
 .quantity-selector-mobile {
     display: flex;
     align-items: center;
-    border: 1.5px solid var(--primary-gold) !important;
+    border: 1px solid #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -2323,7 +2329,7 @@ body {
     display: flex;
     gap: 12px;
     overflow-x: auto;
-    padding: 8px 0;
+    padding: 8px;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -2333,7 +2339,7 @@ body {
     gap: 6px;
     padding: 8px 12px;
     background: white !important;
-    border: 1px solid var(--primary-gold);
+    border: 1px solid var(--success-green);
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
@@ -2349,7 +2355,7 @@ body {
 }
 
 .feature-item-mobile i {
-    color: var(--primary-gold) !important;
+    color: var(--success-green) !important;
     font-size: 12px;
 }
 
@@ -2365,10 +2371,7 @@ body {
 .section-title-mobile {
     color: var(--primary-black) !important;
     font-weight: 700;
-}
-
-.section-title-mobile i {
-    color: var(--primary-gold) !important;
+    margin-bottom: 10px;
 }
 
 .product-description-mobile {
@@ -3848,7 +3851,7 @@ body {
 .ruleta-modal .modal-header {
     background: linear-gradient(135deg, var(--primary-black) 0%, var(--accent-dark-red) 100%);
     color: white;
-    padding: 25px 30px;
+    padding: 12px;
     border-radius: 20px 20px 0 0;
     position: relative;
     text-align: center;
@@ -4184,4 +4187,28 @@ body {
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
     }
+}
+
+/* ===== OPTIMIZACIONES DE FUENTES ===== */
+@font-face {
+    font-family: 'Font Awesome';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2') format('woff2'),
+         url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Font Awesome Brands';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2') format('woff2'),
+         url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff') format('woff');
+}
+
+/* Asegurar que los iconos usen las fuentes optimizadas */
+.fas, .far, .fab {
+    font-display: swap;
 }
