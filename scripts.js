@@ -2270,22 +2270,22 @@ class SocialProof {
     constructor() {
         this.photos = [
             {
-                image: 'images/ugc/photo1.jpg',
+                image: 'images/ugc/photo1.webp',
                 user: '@rosturmer',
                 caption: 'Acompañamos las tostadas'
             },
             {
-                image: 'images/ugc/photo2.jpg', 
+                image: 'images/ugc/photo2.webp', 
                 user: '@adannmartinez_',
                 caption: 'Una parada técnica'
             },
             {
-                image: 'images/ugc/photo3.jpg',
+                image: 'images/ugc/photo3.webp',
                 user: '@marcebon395',
                 caption: 'Vas a compartir los trafeos cerveceros'
             },
             {
-                image: 'images/ugc/photo4.jpg',
+                image: 'images/ugc/photo4.webp',
                 user: '@manuu.soria',
                 caption: 'De méxican'
             }

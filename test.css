@@ -1,0 +1,634 @@
+
+/* ===== SISTEMA DE REFERIDOS ===== */
+.referral-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1003;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.referral-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.referral-code-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.referral-code {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-gold);
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 2px dashed var(--primary-gold);
+    border-radius: 10px;
+    background: #fffaf0;
+}
+
+.copy-referral-code {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.copy-referral-code:hover {
+    background: #B8860B;
+}
+
+.referral-share-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.share-button {
+    padding: 12px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    transition: var(--transition);
+}
+
+.whatsapp-share {
+    background: #25D366;
+    color: white;
+}
+
+.whatsapp-share:hover {
+    background: #128C7E;
+}
+
+.copy-link {
+    background: var(--primary-black);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.copy-link:hover {
+    background: #333;
+}
+
+.referral-terms {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+/* ===== RULETA DE DESCUENTOS ===== */
+.game-section {
+    padding: 40px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.game-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.wheel-container {
+    position: relative;
+    margin: 30px 0;
+}
+
+.wheel {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        #ff6b6b 0deg 60deg,
+        #4ecdc4 60deg 120deg,
+        #45b7d1 120deg 180deg,
+        #96ceb4 180deg 240deg,
+        #feca57 240deg 300deg,
+        #ff9ff3 300deg 360deg
+    );
+    margin: 0 auto;
+    position: relative;
+    transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+    transform: rotate(0deg);
+}
+
+.wheel-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    width: 50%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.wheel-item:nth-child(1) { transform: rotate(30deg) translateY(-20px); }
+.wheel-item:nth-child(2) { transform: rotate(90deg) translateY(-20px); }
+.wheel-item:nth-child(3) { transform: rotate(150deg) translateY(-20px); }
+.wheel-item:nth-child(4) { transform: rotate(210deg) translateY(-20px); }
+.wheel-item:nth-child(5) { transform: rotate(270deg) translateY(-20px); }
+.wheel-item:nth-child(6) { transform: rotate(330deg) translateY(-20px); }
+
+.spin-button {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 20px;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.spin-button:hover {
+    background: #B8860B;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+}
+
+.spin-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.game-terms {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 15px;
+}
+
+/* ===== NOTIFICACIONES PUSH ===== */
+.push-permission-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1003;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.push-permission-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.permission-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.allow-notifications, .deny-notifications {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.allow-notifications {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+}
+
+.deny-notifications {
+    background: #6c757d;
+    color: white;
+}
+
+.allow-notifications:hover {
+    background: #B8860B;
+    transform: translateY(-2px);
+}
+
+.deny-notifications:hover {
+    background: #5a6268;
+}
+
+/* ===== CLUB EL OSO ===== */
+.loyalty-program-section {
+    padding: 40px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.loyalty-card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.loyalty-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.loyalty-header h3 {
+    margin: 0;
+    color: var(--primary-black);
+}
+
+.loyalty-level {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.loyalty-progress {
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.loyalty-progress .progress-fill {
+    height: 100%;
+    background: var(--success-green);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.loyalty-points {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-gold);
+    margin-bottom: 20px;
+}
+
+.loyalty-benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.benefit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.benefit i {
+    font-size: 1.2rem;
+    color: var(--primary-gold);
+}
+
+.loyalty-details-btn {
+    background: var(--primary-black);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.loyalty-details-btn:hover {
+    background: var(--accent-red);
+}
+
+/* ===== CHATBOT ===== */
+.chatbot-widget {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-black);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    transition: var(--transition);
+}
+
+.chatbot-toggle:hover {
+    transform: scale(1.1);
+}
+
+.chatbot-container {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 300px;
+    height: 400px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chatbot-container.active {
+    display: flex;
+}
+
+.chatbot-header {
+    background: linear-gradient(135deg, var(--primary-black), var(--accent-dark-red));
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+.chatbot-header h4 {
+    margin: 0 0 5px 0;
+}
+
+.chatbot-header span {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.chatbot-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.chatbot-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.message {
+    max-width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.bot-message {
+    background: #f1f1f1;
+    align-self: flex-start;
+}
+
+.user-message {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+    align-self: flex-end;
+}
+
+.chatbot-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    gap: 10px;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+}
+
+.chatbot-input button {
+    background: var(--primary-gold);
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    color: var(--primary-black);
+    cursor: pointer;
+}
+
+.quick-option {
+    background: var(--primary-gold);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.product-link {
+    background: var(--accent-red);
+    color: white;
+    border: none;
+    padding: 2px 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    margin-left: 5px;
+}
+
+
+/* Ruleta Modal Styles */
+.ruleta-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1003;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.ruleta-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ruleta-modal .modal-content {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(30px);
+    transition: transform 0.4s ease;
+    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+    border: 3px solid var(--primary-gold);
+}
+
+.ruleta-modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.ruleta-modal .modal-header {
+    background: linear-gradient(135deg, var(--primary-black) 0%, var(--accent-dark-red) 100%);
+    color: white;
+    padding: 12px;
+    border-radius: 20px 20px 0 0;
+    position: relative;
+    text-align: center;
+}
+
+.ruleta-modal .wheel-container {
+    position: relative;
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ruleta-modal .wheel {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        #ff6b6b 0deg 60deg,
+        #4ecdc4 60deg 120deg,
+        #45b7d1 120deg 180deg,
+        #96ceb4 180deg 240deg,
+        #feca57 240deg 300deg,
+        #ff9ff3 300deg 360deg
+    );
+    margin: 0 auto;
+    position: relative;
+    transition: transform 4s cubic-bezier(0.2, 0.8, 0.3, 1);
+    transform: rotate(0deg);
+    border: 8px solid var(--primary-gold);
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+}
+
+.ruleta-modal .wheel-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: 0 0;
+    width: 50%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    font-weight: 800;
+}
+
+.ruleta-modal .wheel-item:nth-child(1) { transform: rotate(30deg) translateY(-20px); }
+.ruleta-modal .wheel-item:nth-child(2) { transform: rotate(90deg) translateY(-20px); }
+.ruleta-modal .wheel-item:nth-child(3) { transform: rotate(150deg) translateY(-20px); }
+.ruleta-modal .wheel-item:nth-child(4) { transform: rotate(210deg) translateY(-20px); }
+.ruleta-modal .wheel-item:nth-child(5) { transform: rotate(270deg) translateY(-20px); }
+.ruleta-modal .wheel-item:nth-child(6) { transform: rotate(330deg) translateY(-20px); }
+
+.ruleta-modal .spin-button {
+    background: linear-gradient(135deg, var(--primary-gold) 0%, #B8860B 100%);
+    color: var(--primary-black);
+    border: none;
+    padding: 15px 40px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 20px;
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    border: 2px solid var(--primary-gold);
+}
+
+.ruleta-modal .spin-button:hover:not(:disabled) {
+    background: var(--accent-red);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 0, 0, 0.4);
+}
+
+.ruleta-modal .spin-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.ruleta-modal .game-terms {
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-gold);
+}
+
+.ruleta-modal .game-terms p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.ruleta-modal .game-terms i {
+    color: var(--primary-gold);
+    margin-right: 8px;
+}
