@@ -335,10 +335,30 @@ class ElOsoApp {
 class ProductManager {
     constructor(app) {
         this.app = app;
+        this.CACHE_KEY = 'elOsoProductsCache';
+        this.CACHE_DURATION = 30 * 60 * 1000; // 30 minutos en milisegundos
     }
 
     async loadProducts() {
         console.log('📥 Cargando productos desde Google Sheets...');
+        
+        // PRIMERO intentar cargar desde cache
+        const cachedData = this.getProductsFromCache();
+        if (cachedData) {
+            console.log('✅ Productos cargados desde cache');
+            this.processProductsData(cachedData);
+            
+            // Cargar en segundo plano desde la red para actualizar cache
+            this.loadProductsFromNetwork();
+            return;
+        }
+
+        // SI NO HAY CACHE, cargar desde la red
+        await this.loadProductsFromNetwork();
+    }
+
+    async loadProductsFromNetwork() {
+        console.log('🌐 Cargando productos desde la red...');
         
         if (this.app.managers.analytics) {
             this.app.managers.analytics.trackEvent('Products', 'load_start', 'google_sheets');
@@ -354,7 +374,11 @@ class ProductManager {
                 
                 if (response.ok) {
                     const csvText = await response.text();
-                    console.log('✅ CSV obtenido correctamente');
+                    console.log('✅ CSV obtenido correctamente desde la red');
+                    
+                    // Guardar en cache antes de procesar
+                    this.saveProductsToCache(csvText);
+                    
                     this.processProductsData(csvText);
                     return;
                 }
@@ -364,8 +388,83 @@ class ProductManager {
             }
         }
         
-        console.error('❌ Todos los proxies fallaron, usando datos locales');
-        this.loadFallbackProducts();
+        console.error('❌ Todos los proxies fallaron');
+        // No cargar fallback aquí, ya que podríamos tener datos en cache
+        if (!this.getProductsFromCache()) {
+            this.loadFallbackProducts();
+        }
+    }
+
+    getProductsFromCache() {
+        try {
+            const cached = localStorage.getItem(this.CACHE_KEY);
+            if (!cached) return null;
+
+            const { data, timestamp } = JSON.parse(cached);
+            const now = Date.now();
+
+            // Verificar si el cache ha expirado
+            if (now - timestamp > this.CACHE_DURATION) {
+                console.log('🗑️ Cache expirado, eliminando...');
+                localStorage.removeItem(this.CACHE_KEY);
+                return null;
+            }
+
+            console.log(`✅ Cache válido (${Math.round((now - timestamp) / 1000 / 60)} minutos)`);
+            return data;
+        } catch (error) {
+            console.error('❌ Error leyendo cache:', error);
+            return null;
+        }
+    }
+
+    saveProductsToCache(data) {
+        try {
+            const cacheData = {
+                data: data,
+                timestamp: Date.now()
+            };
+            localStorage.setItem(this.CACHE_KEY, JSON.stringify(cacheData));
+            console.log('💾 Productos guardados en cache');
+            
+            // Programar próxima actualización
+            this.scheduleCacheUpdate();
+        } catch (error) {
+            console.error('❌ Error guardando en cache:', error);
+            // Si hay error de almacenamiento, continuar sin cache
+        }
+    }
+
+    scheduleCacheUpdate() {
+        // Limpiar cualquier actualización programada anterior
+        if (this.cacheUpdateTimeout) {
+            clearTimeout(this.cacheUpdateTimeout);
+        }
+
+        // Programar actualización para cuando expire el cache
+        this.cacheUpdateTimeout = setTimeout(() => {
+            console.log('🔄 Actualizando cache programado...');
+            this.loadProductsFromNetwork();
+        }, this.CACHE_DURATION + 5000); // 5 segundos después de la expiración
+    }
+
+    clearCache() {
+        try {
+            localStorage.removeItem(this.CACHE_KEY);
+            if (this.cacheUpdateTimeout) {
+                clearTimeout(this.cacheUpdateTimeout);
+            }
+            console.log('🗑️ Cache limpiado');
+        } catch (error) {
+            console.error('❌ Error limpiando cache:', error);
+        }
+    }
+
+    // Método para forzar actualización (útil para debug)
+    forceRefresh() {
+        console.log('🔄 Forzando actualización de productos...');
+        this.clearCache();
+        this.loadProductsFromNetwork();
     }
 
     getSheetUrl() {
@@ -688,18 +787,6 @@ class ProductManager {
                 
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
-                    <p class="product-description">${product.description || 'Producto de calidad premium'}</p>
-                    
-                    <div class="product-pricing">
-                        <span class="product-price">$${product.price.toLocaleString()}</span>
-                        ${product.oldPrice ? `
-                            <span class="product-old-price">$${product.oldPrice.toLocaleString()}</span>
-                            <span class="product-discount">-${discount}%</span>
-                        ` : ''}
-                    </div>
-                    
-                    ${qualifiesForFreeShipping ? this.getFreeShippingHTML() : ''}
-                    
                     <div class="product-meta">
                         ${product.sold ? `
                             <div class="product-sold">
@@ -713,6 +800,15 @@ class ProductManager {
                                 <i class="fas fa-star"></i>
                                 <span>${product.rating}</span>
                             </div>
+                        ` : ''}
+                    </div>
+                    <p class="product-description">${product.description || 'Producto de calidad premium'}</p>
+                    
+                    <div class="product-pricing">
+                        <span class="product-price">$${product.price.toLocaleString()}</span>
+                        ${product.oldPrice ? `
+                            <span class="product-old-price">$${product.oldPrice.toLocaleString()}</span>
+                            <span class="product-discount">-${discount}%</span>
                         ` : ''}
                     </div>
                     
@@ -2341,4 +2437,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.closeWhyChooseModal = () => window.elOsoApp.closeWhyChooseModal();
     window.quickBuyProduct = (productId) => window.elOsoApp.managers.products.quickBuyProduct(productId);
     window.clearCart = () => window.elOsoApp.managers.cart.clearCart();
+    window.clearCache = () => window.elOsoApp.clearCache();
+    window.refreshProducts = () => window.elOsoApp.refreshProducts();
 });
