@@ -817,10 +817,6 @@ class ProductManager {
                             <i class="fas fa-cart-plus"></i>
                             ${isOutOfStock ? 'SIN STOCK' : 'AGREGAR AL CARRITO'}
                         </button>
-                        <button class="quick-buy-btn" alt="" data-id="${product.id}" ${isOutOfStock ? 'disabled' : ''}>
-                            <i class="fas fa-bolt"></i>
-                            COMPRAR RÁPIDO
-                        </button>
                     </div>
                 </div>
             </div>
@@ -2013,16 +2009,16 @@ class UIManager {
         if (!shippingRemaining || !shippingProgressFill) return;
         
         if (subtotal >= freeShippingThreshold) {
-            shippingRemaining.textContent = '¡Envío gratis en Quilmes desbloqueado!';
+            shippingRemaining.textContent = '¡Envío gratis desbloqueado!';
             shippingProgressFill.style.width = '100%';
         } else {
-            shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis en Quilmes!`;
+            shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis!`;
             const progress = (subtotal / freeShippingThreshold) * 100;
             shippingProgressFill.style.width = `${progress}%`;
         }
         
         if (this.app.cart.length === 0) {
-            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis en Quilmes!`;
+            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis!`;
             shippingProgressFill.style.width = '0%';
         }
     }

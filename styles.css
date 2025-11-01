@@ -1577,15 +1577,6 @@ body {
     transform: translateY(0);
 }
 
-/* ===== SECCIONES ESPECIALES ===== */
-
-/* Why Choose Us Section */
-.why-choose {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 60px 0;
-    margin: 40px 0;
-}
-
 .features-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -3312,14 +3303,11 @@ body {
 
 /* ===== BANNER DE ENVÍO GRATIS COMPACTO - VERDE (CORREGIDO) ===== */
 .compact-shipping-banner {
-    background-color: var(--success-green);
-    color: white;
+    background-color: #FEEFE1;
+    color: var(--success-green);
     padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
     position: relative;
     overflow: hidden;
-    margin: 10px;
-    border-radius: 10px;
 }
 
 .compact-shipping-banner::before {
@@ -3365,15 +3353,6 @@ body {
     height: 24px;
     display: flex;
     align-items: center; /* Centrado vertical añadido */
-}
-
-.shipping-scroll-content {
-    display: flex;
-    gap: 30px;
-    animation: scrollShipping 25s linear infinite;
-    white-space: nowrap;
-    align-items: center;
-    line-height: 1; /* Asegura que no haya altura extra */
 }
 
 .scroll-item {
@@ -3426,8 +3405,12 @@ body {
     }
     
     .shipping-scroll-content {
-        gap: 20px;
-        animation-duration: 15s;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        animation: scrollShippingVerticalSimple 15s linear infinite;
+        position: absolute;
+        right: 0;
     }
 }
 
@@ -3445,8 +3428,12 @@ body {
     }
     
     .shipping-scroll-content {
-        gap: 15px;
-        animation-duration: 15s;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        animation: scrollShippingVerticalSimple 15s linear infinite;
+        position: absolute;
+        right: 0;
     }
 }
 
@@ -3523,4 +3510,102 @@ body {
 /* Asegurar que los iconos usen las fuentes optimizadas */
 .fas, .far, .fab {
     font-display: swap;
+}
+
+/* Alternativa simple - Animación vertical continua */
+.shipping-scroll-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 24px;
+}
+
+.shipping-scroll-content {
+    display: flex;
+    gap: 30px;
+    position: absolute;
+    right: 0;
+}
+
+.scroll-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    opacity: 0.9;
+    height: 24px;
+    line-height: 24px;
+    white-space: nowrap;
+}
+
+@keyframes scrollShippingVerticalSimple {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-120px); /* Ajusta según la altura total del contenido */
+    }
+}
+
+.why-choose {
+    background-color: var(--success-green);
+    color: white;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.why-choose::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="rgba(255,255,255,0.1)"><circle cx="50" cy="50" r="2"/></svg>') repeat;
+    animation: floatBackground 20s infinite linear;
+}
+
+.why-choose-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.why-choose-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(5px);
+    padding: 6px 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.why-choose-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    height: 24px;
+}
+
+.why-choose-scroll-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    right: 15px;
+}
+
+.add-to-cart-btn:hover {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }

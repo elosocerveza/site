@@ -35,7 +35,7 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="styles.min.css?v=10">
 
     <!-- Preload -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -246,6 +246,7 @@
                             </div>
                         </div>
                         <button class="hero-cta" onclick="scrollToSection('ofertas')">
+                            <i class="fas fa-bolt"></i>
                             Ver Ofertas
                             <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </button>
@@ -254,40 +255,52 @@
             </div>
         </section>
 
-        <!-- Envío Gratis -->
-        <section class="compact-shipping-banner" aria-label="Información de envío gratis" id="whyChooseBtn">
+        <!-- Información de Envío -->
+        <section class="compact-shipping-banner" aria-label="Información de envío" id="shippingInfo">
             <div class="container">
                 <div class="compact-shipping-content">
                     <div class="shipping-fixed">
+                        <i class="fas fa-shipping-fast" aria-hidden="true"></i>
+                        <span>Envío Gratis</span>
+                    </div>
+                    <div class="shipping-line">|</div>
+                    <div class="shipping-scroll-container">
+                        <div class="shipping-scroll-content">
+                            <div class="scroll-item">
+                                <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                <span>Jueves y Viernes</span>
+                            </div>
+                            <div class="scroll-item">
+                                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                                <span>Quilmes y Zonas Aledañas</span>
+                            </div>
+                            <div class="scroll-item">
+                                <i class="fas fa-clock" aria-hidden="true"></i>
+                                <span>24-48hs</span>
+                            </div>
+                            <div class="scroll-item">
+                                <i class="fas fa-money-bill-wave" aria-hidden="true"></i>
+                                <span>Compra Mínima $15.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ¿Por qué elegir El Oso? -->
+        <section class="why-choose" aria-label="¿Por qué elegir El Oso?" id="whyChooseBtn">
+            <div class="container">
+                <div class="why-choose-content">
+                    <div class="why-choose-header">
                         <i class="fas fa-star" aria-hidden="true"></i>
                         <span>¿Por qué elegir El Oso?</span>
                     </div>
                     
-                    <div class="shipping-scroll-container">
-                        <div class="shipping-scroll-content">
+                    <div class="why-choose-container">
+                        <div class="why-choose-scroll-content">
                             <div class="scroll-item">
-                                <i class="fas fa-award" aria-hidden="true"></i>
-                                <span>Calidad Premium</span>
-                            </div>
-                            <div class="scroll-item">
-                                <i class="fas fa-shipping-fast" aria-hidden="true"></i>
-                                <span>Envío Express</span>
-                            </div>
-                            <div class="scroll-item">
-                                <i class="fas fa-hand-holding-usd" aria-hidden="true"></i>
-                                <span>Precios Imbatibles</span>
-                            </div>
-                            <div class="scroll-item">
-                                <i class="fas fa-headset" aria-hidden="true"></i>
-                                <span>100% Natural</span>
-                            </div>
-                            <div class="scroll-item">
-                                <i class="fas fa-leaf" aria-hidden="true"></i>
-                                <span>Combos Exclusivos</span>
-                            </div>
-                            <div class="scroll-item">
-                                <i class="fas fa-gift" aria-hidden="true"></i>
-                                <span id="compactShippingCountdown">Próximo envío: 00:00:00</span>
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -325,10 +338,6 @@
                             <i class="fas fa-crown" aria-hidden="true"></i>
                             MÁS VENDIDOS
                         </h2>
-                        <div class="trending-badge">
-                            <i class="fas fa-chart-line" aria-hidden="true"></i>
-                            <span>Trending</span>
-                        </div>
                     </div>
                     <div class="sold-stats">
                         <div class="stat-item">
@@ -819,6 +828,6 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <script src="scripts.js?v=10"></script>
+    <script src="scripts.min.js?v=10"></script>
 </body>
 </html>
