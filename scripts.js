@@ -1,15 +1,8 @@
 // ===== CONFIGURACIONES GLOBALES =====
 const CONFIG = {
-    SHEET_ID: '2PACX-1vTy8faJa3rHsf2msyB-OH5zyOD9WTD40Ry1O_Jng3p29Z6-58SCNw2KH14y1mr66JoDAkBVQDIXZv8q',
-    GID: '1302727963',
     FREE_SHIPPING_THRESHOLD: 15000,
     FREE_SHIPPING_DAYS: [4, 5], // Jueves y Viernes
-    FREE_SHIPPING_HOUR: 18,
-    PROXIES: [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-        'https://cors-anywhere.herokuapp.com/'
-    ]
+    FREE_SHIPPING_HOUR: 18
 };
 
 // ===== CLASE PRINCIPAL DE LA APLICACIÓN =====
@@ -183,14 +176,6 @@ class ElOsoApp {
                 this.managers.ui.closeCartSidebar();
             });
         }
-
-        // Checkout button TEMU
-        const checkoutBtnTemu = document.getElementById('checkoutBtnTemu');
-        if (checkoutBtnTemu) {
-            checkoutBtnTemu.addEventListener('click', () => {
-                this.managers.cart.checkout();
-            });
-        }
     }
 
     setupModalEventListeners() {
@@ -335,12 +320,13 @@ class ElOsoApp {
 class ProductManager {
     constructor(app) {
         this.app = app;
+        this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8ftCNEw6hJBslOS4hyTNniPefNlA_Zsu5b8EO_NcUJmnGXfnuWJNL5tPUAdMsmt4PCw/exec';
         this.CACHE_KEY = 'elOsoProductsCache';
         this.CACHE_DURATION = 30 * 60 * 1000; // 30 minutos en milisegundos
     }
 
     async loadProducts() {
-        console.log('📥 Cargando productos desde Google Sheets...');
+        console.log('📥 Cargando productos desde Google Apps Script...');
         
         // PRIMERO intentar cargar desde cache
         const cachedData = this.getProductsFromCache();
@@ -358,40 +344,101 @@ class ProductManager {
     }
 
     async loadProductsFromNetwork() {
-        console.log('🌐 Cargando productos desde la red...');
+        console.log('🌐 Cargando productos desde Google Apps Script...');
         
         if (this.app.managers.analytics) {
-            this.app.managers.analytics.trackEvent('Products', 'load_start', 'google_sheets');
+            this.app.managers.analytics.trackEvent('Products', 'load_start', 'google_apps_script');
         }
         
-        for (const proxy of CONFIG.PROXIES) {
-            try {
-                const sheetUrl = this.getSheetUrl();
-                const proxyUrl = proxy + encodeURIComponent(sheetUrl);
-                console.log(`🔧 Probando proxy: ${proxy}`);
+        try {
+            const response = await this.fetchWithTimeout(this.APPS_SCRIPT_URL, 10000);
+            
+            if (response.ok) {
+                const jsonData = await response.json();
+                console.log('✅ JSON obtenido correctamente desde Apps Script');
                 
-                const response = await this.fetchWithTimeout(proxyUrl, 8000);
-                
-                if (response.ok) {
-                    const csvText = await response.text();
-                    console.log('✅ CSV obtenido correctamente desde la red');
-                    
+                if (jsonData.success && jsonData.products) {
                     // Guardar en cache antes de procesar
-                    this.saveProductsToCache(csvText);
+                    this.saveProductsToCache(jsonData);
                     
-                    this.processProductsData(csvText);
-                    return;
+                    this.processProductsData(jsonData);
+                } else {
+                    console.error('❌ Respuesta no exitosa:', jsonData);
+                    throw new Error(jsonData.error || 'Respuesta no exitosa del servidor');
                 }
-            } catch (error) {
-                console.warn(`❌ Proxy falló: ${error.message}`);
-                continue;
+                return;
+            } else {
+                console.error(`❌ Error HTTP: ${response.status} - ${response.statusText}`);
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error('❌ Error cargando desde Apps Script:', error);
+            
+            // Intentar cargar desde cache como fallback
+            const cachedData = this.getProductsFromCache();
+            if (cachedData) {
+                console.log('🔄 Usando cache como fallback');
+                this.processProductsData(cachedData);
+            } else {
+                console.log('🔄 Cargando productos de respaldo');
+                this.loadFallbackProducts();
             }
         }
-        
-        console.error('❌ Todos los proxies fallaron');
-        // No cargar fallback aquí, ya que podríamos tener datos en cache
-        if (!this.getProductsFromCache()) {
-            this.loadFallbackProducts();
+    }
+
+    async fetchWithTimeout(url, timeout = 10000) {
+        return new Promise((resolve, reject) => {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => {
+                controller.abort();
+                reject(new Error(`Timeout después de ${timeout}ms`));
+            }, timeout);
+            
+            fetch(url, { 
+                signal: controller.signal,
+                mode: 'cors'
+            })
+                .then(response => {
+                    clearTimeout(timeoutId);
+                    resolve(response);
+                })
+                .catch(error => {
+                    clearTimeout(timeoutId);
+                    reject(error);
+                });
+        });
+    }
+
+    processProductsData(jsonData) {
+        // Ahora recibimos JSON directamente desde Apps Script
+        if (jsonData.success && jsonData.products) {
+            this.organizeProducts(jsonData.products);
+            this.renderAllProducts();
+            
+            if (this.app.managers.analytics) {
+                this.app.managers.analytics.trackEvent('Products', 'load_success', `Products: ${jsonData.products.length}`);
+            }
+        } else {
+            throw new Error(jsonData.error || 'Datos de productos no válidos');
+        }
+    }
+
+    // Método para forzar actualización (útil para debug)
+    forceRefresh() {
+        console.log('🔄 Forzando actualización de productos...');
+        this.clearCache();
+        this.loadProductsFromNetwork();
+    }
+
+    clearCache() {
+        try {
+            localStorage.removeItem(this.CACHE_KEY);
+            if (this.cacheUpdateTimeout) {
+                clearTimeout(this.cacheUpdateTimeout);
+            }
+            console.log('🗑️ Cache limpiado');
+        } catch (error) {
+            console.error('❌ Error limpiando cache:', error);
         }
     }
 
@@ -446,149 +493,6 @@ class ProductManager {
             console.log('🔄 Actualizando cache programado...');
             this.loadProductsFromNetwork();
         }, this.CACHE_DURATION + 5000); // 5 segundos después de la expiración
-    }
-
-    clearCache() {
-        try {
-            localStorage.removeItem(this.CACHE_KEY);
-            if (this.cacheUpdateTimeout) {
-                clearTimeout(this.cacheUpdateTimeout);
-            }
-            console.log('🗑️ Cache limpiado');
-        } catch (error) {
-            console.error('❌ Error limpiando cache:', error);
-        }
-    }
-
-    // Método para forzar actualización (útil para debug)
-    forceRefresh() {
-        console.log('🔄 Forzando actualización de productos...');
-        this.clearCache();
-        this.loadProductsFromNetwork();
-    }
-
-    getSheetUrl() {
-        return `https://docs.google.com/spreadsheets/d/e/${CONFIG.SHEET_ID}/pub?gid=${CONFIG.GID}&single=true&output=csv`;
-    }
-
-    async fetchWithTimeout(url, timeout = 10000) {
-        return new Promise((resolve, reject) => {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => {
-                controller.abort();
-                reject(new Error(`Timeout después de ${timeout}ms`));
-            }, timeout);
-            
-            fetch(url, { signal: controller.signal, mode: 'cors' })
-                .then(response => {
-                    clearTimeout(timeoutId);
-                    resolve(response);
-                })
-                .catch(error => {
-                    clearTimeout(timeoutId);
-                    reject(error);
-                });
-        });
-    }
-
-    processProductsData(csvText) {
-        const parsedData = this.parseCSV(csvText);
-        this.organizeProducts(parsedData);
-        this.renderAllProducts();
-        
-        if (this.app.managers.analytics) {
-            this.app.managers.analytics.trackEvent('Products', 'load_success', `Products: ${parsedData.length}`);
-        }
-    }
-
-    parseCSV(csvText) {
-        const lines = csvText.split('\n').filter(line => line.trim());
-        if (lines.length === 0) throw new Error('CSV vacío');
-        
-        const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-        const products = [];
-        
-        for (let i = 1; i < lines.length; i++) {
-            if (!lines[i].trim()) continue;
-            
-            try {
-                const values = this.parseCSVLine(lines[i]);
-                const product = this.createProductFromCSV(headers, values);
-                
-                if (product.id && product.name && product.category) {
-                    products.push(product);
-                }
-            } catch (error) {
-                console.warn(`❌ Error procesando línea ${i}:`, error);
-            }
-        }
-        
-        console.log(`✅ ${products.length} productos parseados correctamente`);
-        return products;
-    }
-
-    parseCSVLine(line) {
-        const values = [];
-        let current = '';
-        let inQuotes = false;
-        
-        for (let char of line) {
-            if (char === '"') {
-                inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-                values.push(current);
-                current = '';
-            } else {
-                current += char;
-            }
-        }
-        
-        values.push(current);
-        return values.map(v => v.replace(/^"|"$/g, ''));
-    }
-
-    createProductFromCSV(headers, values) {
-        const product = {};
-        const propertyMap = {
-            'oldprice': 'oldPrice',
-            'discountprice': 'discountPrice',
-            'salescount': 'salesCount',
-            'heatlevel': 'heatLevel',
-            'images': 'images',
-            'sizes': 'sizes',
-            'varieties': 'varieties',
-            'style': 'style'
-        };
-
-        headers.forEach((header, index) => {
-            if (values[index] !== undefined && header) {
-                let value = values[index].trim();
-                value = this.convertValueType(header, value);
-                
-                const propertyName = propertyMap[header] || header;
-                
-                if ((header === 'images' || header === 'sizes' || header === 'varieties') && value) {
-                    value = value.split(';').map(item => item.trim());
-                }
-                
-                product[propertyName] = value;
-            }
-        });
-
-        return product;
-    }
-
-    convertValueType(header, value) {
-        if (['price', 'oldprice', 'discountprice', 'abv', 'ibu'].includes(header)) {
-            return parseFloat(value) || 0;
-        } else if (['stock', 'sold', 'salescount', 'id'].includes(header)) {
-            return parseInt(value) || 0;
-        } else if (header === 'rating') {
-            return parseFloat(value) || 4.5;
-        } else if (['active', 'stocklimit'].includes(header)) {
-            return value === 'TRUE' || value === 'true' || value === '1';
-        }
-        return value;
     }
 
     organizeProducts(productsArray) {
@@ -996,11 +900,432 @@ class ProductManager {
     }
 }
 
-// ===== MANAGER DEL CARRITO =====
+// ===== MANAGER DEL CARRITO - CON CHECKOUT DE 4 PASOS =====
 class CartManager {
     constructor(app) {
         this.app = app;
+        this.currentStep = 1;
+        this.customerData = {};
+        this.initCheckout();
     }
+
+    initCheckout() {
+        this.setupCheckoutEventListeners();
+    }
+
+    setupCheckoutEventListeners() {
+        // Botón de checkout principal
+        const checkoutBtnTemu = document.getElementById('checkoutBtnTemu');
+        if (checkoutBtnTemu) {
+            checkoutBtnTemu.addEventListener('click', () => {
+                this.startCheckout();
+            });
+        }
+
+        // Botón de confirmación final
+        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+        if (confirmOrderBtn) {
+            confirmOrderBtn.addEventListener('click', () => {
+                this.confirmOrder();
+            });
+        }
+
+        // Navegación por teclado en formulario
+        const customerForm = document.getElementById('customerForm');
+        if (customerForm) {
+            customerForm.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    this.validateAndNext();
+                }
+            });
+        }
+    }
+
+    startCheckout() {
+        if (this.app.cart.length === 0) {
+            this.app.managers.ui.showNotification('❌ Tu carrito está vacío', 'error');
+            return;
+        }
+
+        this.nextStep(2);
+        
+        if (this.app.managers.analytics) {
+            this.app.managers.analytics.trackBeginCheckout(this.app.cart, this.calculateSubtotal());
+        }
+    }
+
+    nextStep(step) {
+        // Validar paso actual antes de avanzar
+        if (step === 3 && !this.validateStep2()) {
+            return;
+        }
+
+        // Ocultar paso actual
+        document.querySelectorAll('.checkout-step').forEach(stepEl => {
+            stepEl.classList.remove('active');
+        });
+        
+        // Mostrar nuevo paso
+        const nextStepEl = document.getElementById(`step${step}`);
+        if (nextStepEl) {
+            nextStepEl.classList.add('active');
+        }
+
+        // Actualizar stepper
+        this.updateStepper(step);
+
+        // Actualizar UI específica del paso
+        this.updateStepUI(step);
+
+        this.currentStep = step;
+    }
+
+    prevStep() {
+        const prevStep = this.currentStep - 1;
+        if (prevStep < 1) return;
+
+        this.nextStep(prevStep);
+    }
+
+    updateStepper(step) {
+        // Actualizar pasos del stepper
+        document.querySelectorAll('.stepper-step').forEach(stepEl => {
+            stepEl.classList.remove('active', 'completed');
+        });
+
+        // Marcar pasos anteriores como completados
+        for (let i = 1; i < step; i++) {
+            const prevStepEl = document.querySelector(`.stepper-step[data-step="${i}"]`);
+            if (prevStepEl) {
+                prevStepEl.classList.add('completed');
+            }
+        }
+
+        // Marcar paso actual como activo
+        const currentStepEl = document.querySelector(`.stepper-step[data-step="${step}"]`);
+        if (currentStepEl) {
+            currentStepEl.classList.add('active');
+        }
+
+        // Actualizar barra de progreso
+        const progressFill = document.getElementById('stepperFill');
+        if (progressFill) {
+            const progress = ((step - 1) / 3) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        // Actualizar clase del summary fixed
+        const summaryFixed = document.getElementById('cartSummaryFixed');
+        if (summaryFixed) {
+            summaryFixed.className = `step${step}`;
+        }
+    }
+
+    updateStepUI(step) {
+        switch (step) {
+            case 2:
+                this.updateRecommendations();
+                break;
+            case 4:
+                this.updateOrderSummary();
+                break;
+        }
+    }
+
+    validateStep2() {
+        // No hay validaciones específicas para el paso 2 (sugerencias)
+        return true;
+    }
+
+    validateAndNext() {
+        if (this.currentStep === 3) {
+            if (this.validateCustomerForm()) {
+                this.saveCustomerData();
+                this.nextStep(4);
+            }
+        }
+    }
+
+    validateCustomerForm() {
+        const form = document.getElementById('customerForm');
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.borderColor = 'var(--accent-red)';
+                isValid = false;
+                
+                // Mostrar error
+                this.app.managers.ui.showNotification(
+                    `❌ Por favor completa el campo: ${field.previousElementSibling?.textContent || 'requerido'}`,
+                    'error'
+                );
+            } else {
+                field.style.borderColor = '';
+            }
+        });
+
+        // Validación específica de teléfono
+        const phoneField = document.getElementById('customerPhone');
+        if (phoneField && phoneField.value.trim()) {
+            const phoneRegex = /^[0-9\s\-\+\(\)]{8,}$/;
+            if (!phoneRegex.test(phoneField.value)) {
+                phoneField.style.borderColor = 'var(--accent-red)';
+                this.app.managers.ui.showNotification('❌ Por favor ingresa un número de teléfono válido', 'error');
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    saveCustomerData() {
+        const form = document.getElementById('customerForm');
+        const formData = new FormData(form);
+        
+        this.customerData = {
+            name: formData.get('name') || '',
+            phone: formData.get('phone') || '',
+            email: formData.get('email') || '',
+            address: formData.get('address') || '',
+            deliveryDate: formData.get('deliveryDate') || '',
+            deliveryTime: formData.get('deliveryTime') || '',
+            notes: formData.get('notes') || ''
+        };
+    }
+
+    updateOrderSummary() {
+        this.updateOrderItems();
+        this.updateOrderTotals();
+        this.updateCustomerSummary();
+    }
+
+    updateOrderItems() {
+        const container = document.getElementById('orderSummaryItems');
+        if (!container) return;
+
+        container.innerHTML = this.app.cart.map(item => {
+            const displayPrice = item.discountPrice || item.price;
+            const totalPrice = displayPrice * item.quantity;
+            
+            return `
+                <div class="order-item-summary">
+                    <div class="order-item-info">
+                        <div class="order-item-name">${item.name}</div>
+                        <div class="order-item-meta">Cantidad: ${item.quantity} • $${displayPrice.toLocaleString()} c/u</div>
+                    </div>
+                    <div class="order-item-price">$${totalPrice.toLocaleString()}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    updateOrderTotals() {
+        const { subtotal, totalSavings } = this.calculateCartTotals();
+        
+        const subtotalEl = document.getElementById('summarySubtotal');
+        const shippingEl = document.getElementById('summaryShipping');
+        const totalEl = document.getElementById('summaryTotalFinal');
+
+        if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
+        if (totalEl) totalEl.textContent = `$${subtotal.toLocaleString()}`;
+        
+        // Determinar costo de envío
+        if (this.customerData.deliveryDate === 'jueves' || this.customerData.deliveryDate === 'viernes') {
+            if (shippingEl) shippingEl.textContent = 'GRATIS';
+        } else {
+            if (shippingEl) {
+                shippingEl.textContent = 'A CONSULTAR';
+                shippingEl.style.color = 'var(--text-light)';
+            }
+        }
+    }
+
+    updateCustomerSummary() {
+        const fields = {
+            'summaryCustomerName': this.customerData.name,
+            'summaryCustomerPhone': this.customerData.phone,
+            'summaryCustomerAddress': this.customerData.address,
+            'summaryDeliveryDate': this.getDeliveryDateDisplay(this.customerData.deliveryDate),
+            'summaryDeliveryTime': this.getDeliveryTimeDisplay(this.customerData.deliveryTime),
+            'summaryCustomerNotes': this.customerData.notes || 'Sin notas adicionales'
+        };
+
+        Object.entries(fields).forEach(([id, value]) => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.textContent = value;
+            }
+        });
+
+        // Ocultar fila de notas si está vacía
+        const notesRow = document.getElementById('summaryNotesRow');
+        if (notesRow && !this.customerData.notes) {
+            notesRow.style.display = 'none';
+        }
+    }
+
+    getDeliveryDateDisplay(dateValue) {
+        const dates = {
+            'jueves': 'Jueves (Envío Gratis)',
+            'viernes': 'Viernes (Envío Gratis)',
+            'otro': 'Otro día (Consultar costo)'
+        };
+        return dates[dateValue] || 'A confirmar';
+    }
+
+    getDeliveryTimeDisplay(timeValue) {
+        const times = {
+            'mañana': 'Mañana (9:00 - 12:00)',
+            'tarde': 'Tarde (14:00 - 18:00)',
+            'noche': 'Noche (18:00 - 21:00)'
+        };
+        return times[timeValue] || 'Cualquier horario';
+    }
+
+    async confirmOrder() {
+        if (this.app.cart.length === 0) {
+            this.app.managers.ui.showNotification('❌ Tu carrito está vacío', 'error');
+            return;
+        }
+
+        if (!this.customerData.name || !this.customerData.phone) {
+            this.app.managers.ui.showNotification('❌ Por favor completa tus datos', 'error');
+            this.nextStep(3);
+            return;
+        }
+
+        const { subtotal, totalSavings } = this.calculateCartTotals();
+        const message = this.buildCompleteWhatsAppMessage(subtotal, totalSavings);
+
+        // Track Google Analytics
+        if (this.app.managers.analytics) {
+            this.app.managers.analytics.trackPurchase(
+                'ELOSO_' + Date.now(), 
+                this.app.cart, 
+                subtotal
+            );
+        }
+
+        // Enviar a Google Apps Script
+        await this.submitCompleteOrderToAppsScript(subtotal);
+
+        // Abrir WhatsApp
+        this.app.managers.ui.openWhatsApp(message);
+        
+        // Limpiar y cerrar
+        setTimeout(() => {
+            this.clearCart();
+            this.resetCheckout();
+            this.app.managers.ui.closeCartSidebar();
+        }, 1000);
+    }
+
+    buildCompleteWhatsAppMessage(subtotal, totalSavings) {
+        let message = `¡Hola! Quiero realizar el siguiente pedido:\n\n`;
+        message += `*📦 PEDIDO EL OSO*\n`;
+        message += `------------------------\n\n`;
+        
+        // Productos
+        message += `*Productos:*\n`;
+        this.app.cart.forEach(item => {
+            const displayPrice = item.discountPrice || item.price;
+            message += `• ${item.name} x${item.quantity} - $${(displayPrice * item.quantity).toLocaleString()}\n`;
+        });
+
+        message += `\n------------------------\n`;
+        
+        // Totales
+        message += `*Resumen de Pago:*\n`;
+        message += `Subtotal: $${subtotal.toLocaleString()}\n`;
+        
+        if (totalSavings > 0) {
+            message += `Ahorro: $${totalSavings.toLocaleString()}\n`;
+        }
+        
+        const deliveryCost = this.getDeliveryCostMessage();
+        message += `Envío: ${deliveryCost}\n`;
+        message += `*TOTAL: $${subtotal.toLocaleString()}*\n\n`;
+
+        // Datos del cliente
+        message += `*👤 Datos del Cliente:*\n`;
+        message += `Nombre: ${this.customerData.name}\n`;
+        message += `Teléfono: ${this.customerData.phone}\n`;
+        if (this.customerData.email) {
+            message += `Email: ${this.customerData.email}\n`;
+        }
+
+        message += `\n*🚚 Información de Entrega:*\n`;
+        message += `Dirección: ${this.customerData.address}\n`;
+        message += `Fecha: ${this.getDeliveryDateDisplay(this.customerData.deliveryDate)}\n`;
+        message += `Horario: ${this.getDeliveryTimeDisplay(this.customerData.deliveryTime)}\n`;
+        
+        if (this.customerData.notes) {
+            message += `Notas: ${this.customerData.notes}\n`;
+        }
+
+        message += `\nPor favor, confirmar disponibilidad y coordinar el envío. ¡Gracias!`;
+
+        return message;
+    }
+
+    getDeliveryCostMessage() {
+        if (this.customerData.deliveryDate === 'jueves' || this.customerData.deliveryDate === 'viernes') {
+            return 'GRATIS';
+        } else {
+            return 'A CONSULTAR';
+        }
+    }
+
+    async submitCompleteOrderToAppsScript(subtotal) {
+        const orderId = 'ELOSO_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        
+        if (this.app.managers.forms) {
+            const orderData = {
+                timestamp: new Date().toISOString(),
+                orderId: orderId,
+                items: this.app.cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: item.discountPrice || item.price,
+                    total: (item.discountPrice || item.price) * item.quantity
+                })),
+                total: subtotal,
+                customer: this.customerData.name,
+                phone: this.customerData.phone,
+                address: this.customerData.address,
+                deliveryDate: this.customerData.deliveryDate,
+                deliveryTime: this.customerData.deliveryTime,
+                notes: this.customerData.notes || ''
+            };
+            
+            try {
+                await this.app.managers.forms.submitOrderToGoogleForm(orderData);
+                console.log('✅ Pedido completo enviado a Google Apps Script');
+            } catch (error) {
+                console.error('❌ Error enviando pedido completo:', error);
+            }
+        }
+    }
+
+    resetCheckout() {
+        this.currentStep = 1;
+        this.customerData = {};
+        
+        // Resetear formulario
+        const form = document.getElementById('customerForm');
+        if (form) {
+            form.reset();
+        }
+        
+        // Volver al paso 1
+        this.nextStep(1);
+    }
+
+    // ===== MÉTODOS EXISTENTES DEL CARRITO =====
 
     addToCart(productId, button = null) {
         const product = this.app.getProductById(productId);
@@ -1249,84 +1574,9 @@ class CartManager {
         `;
     }
 
+    // Este método se reemplaza por el nuevo checkout de 4 pasos, pero mantenemos el nombre por compatibilidad
     checkout() {
-        if (this.app.cart.length === 0) {
-            this.app.managers.ui.showNotification('❌ Tu carrito está vacío', 'error');
-            return;
-        }
-
-        const { subtotal, totalSavings } = this.calculateCartTotals();
-        const message = this.buildWhatsAppMessage(subtotal, totalSavings);
-
-        // Track Google Analytics
-        if (this.app.managers.analytics) {
-            this.app.managers.analytics.trackBeginCheckout(this.app.cart, subtotal);
-        }
-
-        // Enviar a Google Forms
-        this.submitOrderToForms(subtotal);
-
-        // Abrir WhatsApp
-        this.app.managers.ui.openWhatsApp(message);
-        
-        // Limpiar carrito
-        setTimeout(() => {
-            this.clearCart();
-            this.app.managers.ui.closeCartSidebar();
-        }, 1000);
-    }
-
-    buildWhatsAppMessage(subtotal, totalSavings) {
-        let message = `¡Hola! Quiero realizar el siguiente pedido:\n\n`;
-        
-        this.app.cart.forEach(item => {
-            const displayPrice = item.discountPrice || item.price;
-            message += `• ${item.name} x${item.quantity} - $${(displayPrice * item.quantity).toLocaleString()}\n`;
-        });
-
-        message += `\n*Resumen del pedido:*`;
-        message += `\nSubtotal: $${subtotal.toLocaleString()}`;
-        
-        if (totalSavings > 0) {
-            message += `\nAhorro: $${totalSavings.toLocaleString()}`;
-        }
-        
-        message += `\n*Total: $${subtotal.toLocaleString()}*\n\n`;
-        message += `Por favor, necesito coordinar la entrega. ¡Gracias!`;
-
-        return message;
-    }
-
-    async submitOrderToForms(subtotal) {
-        const orderId = 'ELOSO_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
-        
-        if (this.app.managers.forms) {
-            const orderData = {
-                orderId: orderId,
-                items: this.app.cart.map(item => ({
-                    id: item.id,
-                    name: item.name,
-                    quantity: item.quantity,
-                    price: item.discountPrice || item.price,
-                    total: (item.discountPrice || item.price) * item.quantity
-                })),
-                total: subtotal,
-                phone: 'A confirmar por WhatsApp',
-                address: 'A coordinar por WhatsApp',
-                notes: `Pedido web - ${this.app.cart.length} productos`
-            };
-            
-            try {
-                await this.app.managers.forms.submitOrderToGoogleForm(orderData);
-                
-                // Track purchase
-                if (this.app.managers.analytics) {
-                    this.app.managers.analytics.trackPurchase(orderId, this.app.cart, subtotal);
-                }
-            } catch (error) {
-                console.error('❌ Error enviando pedido a Forms:', error);
-            }
-        }
+        this.startCheckout();
     }
 
     clearCart() {
@@ -2304,36 +2554,28 @@ class GoogleAnalyticsTracker {
 
 class GoogleFormsManager {
     constructor() {
-        this.formUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSfzeikLeqEpynefbJUHflddYRAxLmdoDX7FfUrSFxlgmKLYTw/formResponse';
-        this.fieldIds = {
-            orderId: 'entry.1095488305',
-            products: 'entry.20852365',
-            total: 'entry.1234569827',
-            phone: 'entry.812641126',
-            address: 'entry.777911329',
-            status: 'entry.34761081'
-        };
+        this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8ftCNEw6hJBslOS4hyTNniPefNlA_Zsu5b8EO_NcUJmnGXfnuWJNL5tPUAdMsmt4PCw/exec';
     }
 
     async submitOrderToGoogleForm(orderData) {
-        const formData = new FormData();
-        
-        formData.append(this.fieldIds.orderId, orderData.orderId);
-        formData.append(this.fieldIds.products, this.formatProducts(orderData.items));
-        formData.append(this.fieldIds.total, orderData.total.toString());
-        formData.append(this.fieldIds.phone, orderData.phone || 'No proporcionado');
-        formData.append(this.fieldIds.address, orderData.address || 'A confirmar');
-        formData.append(this.fieldIds.status, 'Pendiente');
-
         try {
-            await fetch(this.formUrl, {
+            const formData = {
+                action: 'submitOrder',
+                orderData: orderData
+            };
+
+            const response = await fetch(this.APPS_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors',
-                body: formData
+                mode: 'no-cors', // Usar no-cors para evitar problemas CORS
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
             });
-            
-            console.log('✅ Pedido enviado a Google Forms');
+
+            console.log('✅ Pedido enviado a Google Apps Script');
             return true;
+            
         } catch (error) {
             console.log('⚠️ Pedido guardado localmente (fallback)');
             this.saveLocalBackup(orderData);
@@ -2341,20 +2583,42 @@ class GoogleFormsManager {
         }
     }
 
-    formatProducts(items) {
-        return items.map(item => 
-            `${item.quantity}x ${item.name} - $${(item.discountPrice || item.price) * item.quantity}`
-        ).join('\n');
+    saveLocalBackup(orderData) {
+        try {
+            const backups = JSON.parse(localStorage.getItem('formBackups') || '[]');
+            backups.push({
+                ...orderData,
+                timestamp: new Date().toISOString(),
+                submitted: false
+            });
+            localStorage.setItem('formBackups', JSON.stringify(backups));
+            console.log('💾 Pedido guardado localmente como respaldo');
+        } catch (error) {
+            console.error('❌ Error guardando respaldo local:', error);
+        }
     }
 
-    saveLocalBackup(orderData) {
-        const backups = JSON.parse(localStorage.getItem('formBackups') || '[]');
-        backups.push({
-            ...orderData,
-            timestamp: new Date().toISOString(),
-            submitted: false
-        });
-        localStorage.setItem('formBackups', JSON.stringify(backups));
+    // Método para reintentar envíos pendientes
+    async retryPendingSubmissions() {
+        try {
+            const backups = JSON.parse(localStorage.getItem('formBackups') || '[]');
+            const pending = backups.filter(backup => !backup.submitted);
+            
+            for (const order of pending) {
+                try {
+                    await this.submitOrderToGoogleForm(order);
+                    order.submitted = true;
+                    console.log('✅ Reintento exitoso para pedido:', order.orderId);
+                } catch (error) {
+                    console.error('❌ Error en reintento:', error);
+                }
+            }
+            
+            // Actualizar localStorage
+            localStorage.setItem('formBackups', JSON.stringify(backups));
+        } catch (error) {
+            console.error('❌ Error en retryPendingSubmissions:', error);
+        }
     }
 }
 
@@ -2433,6 +2697,22 @@ document.addEventListener('DOMContentLoaded', function() {
     window.closeWhyChooseModal = () => window.elOsoApp.closeWhyChooseModal();
     window.quickBuyProduct = (productId) => window.elOsoApp.managers.products.quickBuyProduct(productId);
     window.clearCart = () => window.elOsoApp.managers.cart.clearCart();
-    window.clearCache = () => window.elOsoApp.clearCache();
-    window.refreshProducts = () => window.elOsoApp.refreshProducts();
+    
+    // NUEVOS MÉTODOS PARA APPS SCRIPT
+    window.clearCache = () => window.elOsoApp.managers.products.clearCache();
+    window.refreshProducts = () => window.elOsoApp.managers.products.forceRefresh();
+    
+    // Métodos para el checkout de 4 pasos
+    window.nextStep = (step) => window.elOsoApp.managers.cart.nextStep(step);
+    window.prevStep = () => window.elOsoApp.managers.cart.prevStep();
+    window.validateAndNext = () => window.elOsoApp.managers.cart.validateAndNext();
+    window.startCheckout = () => window.elOsoApp.managers.cart.startCheckout();
+    window.confirmOrder = () => window.elOsoApp.managers.cart.confirmOrder();
+
+    // Reintentar envíos pendientes al cargar la página
+    setTimeout(() => {
+        if (window.elOsoApp.managers.forms) {
+            window.elOsoApp.managers.forms.retryPendingSubmissions();
+        }
+    }, 5000);
 });

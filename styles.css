@@ -1712,10 +1712,12 @@ body {
 }
 
 .modal-header {
-    padding: 12px;
-    border-radius: 20px 20px 0 0;
-    position: relative;
-    text-align: center;
+    position: sticky;
+    top: 0;
+    padding: 12px 16px;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
 .modal-header::before {
@@ -3305,8 +3307,8 @@ body {
 .compact-shipping-banner {
     background-color: #FEEFE1;
     color: var(--success-green);
-    padding: 8px 0;
-    position: relative;
+    padding: 15px 0;
+    position: relfiative;
     overflow: hidden;
 }
 
@@ -3408,17 +3410,13 @@ body {
         display: flex;
         flex-direction: column;
         gap: 0;
-        animation: scrollShippingVerticalSimple 15s linear infinite;
+        animation: scrollShippingVerticalSimple 7s linear infinite;
         position: absolute;
         right: 0;
     }
 }
 
 @media (max-width: 480px) {
-    .compact-shipping-banner {
-        padding: 6px 0;
-    }
-    
     .shipping-fixed {
         padding: 6px 8px;
     }
@@ -3431,7 +3429,7 @@ body {
         display: flex;
         flex-direction: column;
         gap: 0;
-        animation: scrollShippingVerticalSimple 15s linear infinite;
+        animation: scrollShippingVerticalSimple 7s linear infinite;
         position: absolute;
         right: 0;
     }
@@ -3608,4 +3606,373 @@ body {
     color: var(--primary-black);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* ===== CHECKOUT STEPPER ===== */
+.checkout-stepper {
+    background: white;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.stepper-progress {
+    height: 4px;
+    background: #e9ecef;
+    border-radius: 2px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.stepper-fill {
+    height: 100%;
+    background: var(--success-green);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 25%; /* Inicial para paso 1 */
+}
+
+.stepper-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stepper-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    position: relative;
+}
+
+.step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.step-label {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stepper-step.active .step-number {
+    background: var(--success-green);
+    color: white;
+    transform: scale(1.1);
+}
+
+.stepper-step.active .step-label {
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+.stepper-step.completed .step-number {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+}
+
+/* ===== CHECKOUT STEPS ===== */
+.checkout-step {
+    display: none;
+    flex-direction: column;
+    min-height: 400px;
+}
+
+.checkout-step.active {
+    display: flex;
+}
+
+.step-actions {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.step-prev-btn, .step-next-btn {
+    padding: 12px 20px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background: white;
+    color: var(--text-dark);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.step-next-btn {
+    background: var(--success-green);
+    color: white;
+    border-color: var(--success-green);
+}
+
+.step-prev-btn:hover {
+    background: #f8f9fa;
+    border-color: var(--text-light);
+}
+
+.step-next-btn:hover {
+    background: #0a7a00;
+    transform: translateY(-1px);
+}
+
+/* ===== FORMULARIOS DE CLIENTE ===== */
+.customer-info-section {
+    padding: 20px;
+    background: white;
+}
+
+.section-title-checkout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    color: var(--primary-black);
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border-light);
+}
+
+.section-title-checkout i {
+    color: var(--success-green);
+}
+
+.customer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group.full-width {
+    flex: 1 0 100%;
+}
+
+.customer-form label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.customer-form input,
+.customer-form select,
+.customer-form textarea {
+    padding: 12px 15px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.customer-form input:focus,
+.customer-form select:focus,
+.customer-form textarea:focus {
+    outline: none;
+    border-color: var(--success-green);
+    box-shadow: 0 0 0 3px rgba(10, 122, 0, 0.1);
+}
+
+.customer-form textarea {
+    min-height: 80px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* ===== RESUMEN DE PEDIDO ===== */
+.order-summary-section {
+    padding: 20px;
+    background: white;
+}
+
+.order-details {
+    margin-bottom: 30px;
+}
+
+.order-items {
+    margin-bottom: 20px;
+}
+
+.order-item-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.order-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.order-item-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.order-item-meta {
+    font-size: 0.8rem;
+    color: var(--text-light);
+}
+
+.order-item-price {
+    font-weight: 600;
+    color: var(--accent-red);
+}
+
+.order-totals {
+    border-top: 2px solid var(--border-light);
+    padding-top: 15px;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.95rem;
+}
+
+.total-row.shipping {
+    color: var(--success-green);
+    font-weight: 600;
+}
+
+.total-row.final {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-black);
+    border-top: 1px solid var(--border-light);
+    padding-top: 12px;
+    margin-top: 8px;
+}
+
+/* ===== DETALLES DEL CLIENTE EN RESUMEN ===== */
+.customer-details-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+}
+
+.customer-details-summary h4 {
+    margin-bottom: 15px;
+    color: var(--primary-black);
+    font-size: 1rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row strong {
+    color: var(--text-dark);
+    min-width: 80px;
+    font-size: 0.9rem;
+}
+
+.detail-row span {
+    color: var(--text-medium);
+    text-align: right;
+    flex: 1;
+    font-size: 0.9rem;
+}
+
+/* ===== BOTÓN DE CONFIRMACIÓN ===== */
+.confirm-order-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.confirm-order-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .step-label {
+        font-size: 0.7rem;
+    }
+    
+    .step-number {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+    
+    .stepper-step {
+        gap: 3px;
+    }
+    
+    .step-actions {
+        flex-direction: column;
+    }
+    
+    .step-prev-btn, .step-next-btn {
+        justify-content: center;
+    }
+}
+
+/* Ocultar summary fijo en pasos 3 y 4 */
+#cartSummaryFixed.step3 ~ .cart-summary-temu,
+#cartSummaryFixed.step4 ~ .cart-summary-temu {
+    display: none;
 }
