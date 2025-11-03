@@ -1484,7 +1484,10 @@ body {
 }
 
 .recommendation-add-btn-temu:hover {
-    background: var(--accent-dark-red);
+    background: var(--primary-gold);
+    color: var(--primary-black);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
 /* Cart Summary - FIXED con Flexbox */
@@ -3104,14 +3107,6 @@ body {
     box-shadow: 0 6px 20px rgba(225, 48, 108, 0.3);
 }
 
-/* ===== BARRA DE PROGRESO ENVÍO GRATIS ===== */
-.shipping-progress {
-    margin: 15px 0;
-    padding: 10px;
-    background: #f8f9fa;
-    border-radius: 8px;
-}
-
 .progress-info {
     display: flex;
     justify-content: space-between;
@@ -3383,11 +3378,6 @@ body {
     }
 }
 
-/* Pausar animación al hacer hover */
-.shipping-scroll-container:hover .shipping-scroll-content {
-    animation-play-state: paused;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .compact-shipping-content {
@@ -3410,7 +3400,7 @@ body {
         display: flex;
         flex-direction: column;
         gap: 0;
-        animation: scrollShippingVerticalSimple 7s linear infinite;
+        animation: scrollShippingVerticalSimple 10s linear infinite;
         position: absolute;
         right: 0;
     }
@@ -3429,7 +3419,7 @@ body {
         display: flex;
         flex-direction: column;
         gap: 0;
-        animation: scrollShippingVerticalSimple 7s linear infinite;
+        animation: scrollShippingVerticalSimple 10s linear infinite;
         position: absolute;
         right: 0;
     }
@@ -3538,10 +3528,10 @@ body {
 
 @keyframes scrollShippingVerticalSimple {
     0% {
-        transform: translateY(0);
+        transform: translateY(100px);
     }
     100% {
-        transform: translateY(-120px); /* Ajusta según la altura total del contenido */
+        transform: translateY(-100px); /* Ajusta según la altura total del contenido */
     }
 }
 
@@ -3975,4 +3965,55 @@ body {
 #cartSummaryFixed.step3 ~ .cart-summary-temu,
 #cartSummaryFixed.step4 ~ .cart-summary-temu {
     display: none;
+}
+
+/* ===== STEP ACTIONS FIJOS EN EL CARRITO ===== */
+.step-actions {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 20px;
+    border-top: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column; /* Cambiar a columna para apilar elementos */
+    gap: 15px; /* Espacio entre elementos */
+    margin-top: auto;
+    z-index: 20;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Asegurar que shipping-progress esté arriba de los botones */
+.shipping-progress {
+    order: 1; /* Primera posición en el flujo flex */
+    margin-bottom: 10px;
+}
+
+.step-buttons {
+    order: 2; /* Segunda posición en el flujo flex */
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Ajustar el contenedor scrollable para acomodar los botones fijos */
+.cart-scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    padding-bottom: 0; /* Eliminar padding inferior ya que step-actions es sticky */
+}
+
+/* Responsive: En móviles los botones se apilan verticalmente */
+@media (max-width: 768px) {
+    .step-buttons {
+        flex-direction: row;
+    }
+    
+    .step-prev-btn, 
+    .step-next-btn {
+        width: 100%;
+        justify-content: center;
+    }
 }

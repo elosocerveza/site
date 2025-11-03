@@ -36,7 +36,7 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.min.css?v=11">
+    <link rel="stylesheet" href="styles.min.css?v=12">
 
     <!-- Preload -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
@@ -494,17 +494,11 @@
                     <div class="step-number">1</div>
                     <span class="step-label">Carrito</span>
                 </div>
-                <!-- 
                 <div class="stepper-step" data-step="2">
-                    <div class="step-number">2</div>
-                    <span class="step-label">Sugerencias</span>
-                </div>
-                -->
-                <div class="stepper-step" data-step="3">
                     <div class="step-number">2</div>
                     <span class="step-label">Cliente</span>
                 </div>
-                <div class="stepper-step" data-step="4">
+                <div class="stepper-step" data-step="3">
                     <div class="step-number">3</div>
                     <span class="step-label">Confirmar</span>
                 </div>
@@ -521,21 +515,7 @@
                             <!-- Los items del carrito se generarán aquí -->
                         </div>
                     </div>
-                    
-                    <div class="step-actions">
-                        <button class="step-prev-btn" id="backButtonCart">
-                            <i class="fas fa-arrow-left"></i>
-                            Atrás
-                        </button>
-                        <button class="step-next-btn" onclick="window.elOsoApp.managers.cart.nextStep(2)">
-                            Continuar
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
 
-                <!-- PASO 2: Sugerencias -->
-                <div class="checkout-step" id="step2">
                     <div class="recommendations-section-temu">
                         <div class="section-header-temu">
                             <span class="section-icon" aria-hidden="true">🍀</span>
@@ -546,21 +526,31 @@
                             <!-- Las recomendaciones se generarán aquí -->
                         </div>
                     </div>
-                    
+
                     <div class="step-actions">
-                        <button class="step-prev-btn" onclick="window.elOsoApp.managers.cart.prevStep()">
-                            <i class="fas fa-arrow-left"></i>
-                            Atrás
-                        </button>
-                        <button class="step-next-btn" onclick="window.elOsoApp.managers.cart.nextStep(3)">
-                            Continuar
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
+                        <div class="shipping-progress">
+                            <div class="progress-info">
+                                <span id="shippingRemainingStep1">¡Faltan $15.000 para envío gratis los jueves y viernes!</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="shippingProgressFillStep1"></div>
+                            </div>
+                        </div>
+                        <div class="step-buttons">
+                            <button class="step-prev-btn" id="backButtonCart">
+                                <i class="fas fa-arrow-left"></i>
+                                Atrás
+                            </button>
+                            <button class="step-next-btn" onclick="window.elOsoApp.managers.cart.nextStep(2)">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- PASO 3: Información del Cliente y Entrega -->
-                <div class="checkout-step" id="step3">
+                <!-- PASO 2: Información del Cliente y Entrega -->
+                <div class="checkout-step" id="step2">
                     <div class="customer-info-section">
                         <form class="customer-form" id="customerForm">
                             <h3 class="section-title-checkout">
@@ -632,19 +622,21 @@
                     </div>
                     
                     <div class="step-actions">
-                        <button class="step-prev-btn" onclick="window.elOsoApp.managers.cart.prevStep()">
-                            <i class="fas fa-arrow-left"></i>
-                            Atrás
-                        </button>
-                        <button class="step-next-btn" onclick="window.elOsoApp.managers.cart.validateAndNext()">
-                            Continuar
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
+                        <div class="step-buttons">
+                            <button class="step-prev-btn" onclick="window.elOsoApp.managers.cart.prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Atrás
+                            </button>
+                            <button class="step-next-btn" onclick="window.elOsoApp.managers.cart.validateAndNext()">
+                                Continuar
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- PASO 4: Detalle y Confirmación -->
-                <div class="checkout-step" id="step4">
+                <!-- PASO 3: Detalle y Confirmación -->
+                <div class="checkout-step" id="step3">
                     <div class="order-summary-section">
                         <h3 class="section-title-checkout">
                             <i class="fas fa-file-invoice"></i>
@@ -702,14 +694,16 @@
                     </div>
                     
                     <div class="step-actions">
-                        <button class="step-prev-btn" onclick="window.elOsoApp.managers.cart.prevStep()">
-                            <i class="fas fa-arrow-left"></i>
-                            Atrás
-                        </button>
-                        <button class="confirm-order-btn" id="confirmOrderBtn">
-                            <i class="fab fa-whatsapp"></i>
-                            Confirmar Pedido por WhatsApp
-                        </button>
+                        <div class="step-buttons">
+                            <button class="step-prev-btn" onclick="window.elOsoApp.managers.cart.prevStep()">
+                                <i class="fas fa-arrow-left"></i>
+                                Atrás
+                            </button>
+                            <button class="confirm-order-btn" id="confirmOrderBtn">
+                                <i class="fab fa-whatsapp"></i>
+                                Confirmar Pedido por WhatsApp
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1012,6 +1006,6 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <script src="scripts.min.js?v=11"></script>
+    <script src="scripts.min.js?v=12"></script>
 </body>
 </html>

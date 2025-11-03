@@ -52,6 +52,7 @@ class ElOsoApp {
 
     loadCart() {
         this.cart = this.managers.cart.loadCart();
+        this.managers.ui.updateShippingProgressStep1();
     }
 
     updateCartUI() {
@@ -956,11 +957,6 @@ class CartManager {
     }
 
     nextStep(step) {
-        // Validar paso actual antes de avanzar
-        if (step === 3 && !this.validateStep2()) {
-            return;
-        }
-
         // Ocultar paso actual
         document.querySelectorAll('.checkout-step').forEach(stepEl => {
             stepEl.classList.remove('active');
@@ -1024,25 +1020,21 @@ class CartManager {
 
     updateStepUI(step) {
         switch (step) {
-            case 2:
+            case 1:
                 this.updateRecommendations();
+                this.app.managers.ui.updateShippingProgressStep1();
                 break;
-            case 4:
+            case 3:
                 this.updateOrderSummary();
                 break;
         }
     }
 
-    validateStep2() {
-        // No hay validaciones específicas para el paso 2 (sugerencias)
-        return true;
-    }
-
     validateAndNext() {
-        if (this.currentStep === 3) {
+        if (this.currentStep === 2) {
             if (this.validateCustomerForm()) {
                 this.saveCustomerData();
-                this.nextStep(4);
+                this.nextStep(3);
             }
         }
     }
@@ -1054,7 +1046,7 @@ class CartManager {
 
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
-                field.style.borderColor = 'var(--accent-red)';
+                field.style.borderColor = 'var(--cta-primary)';
                 isValid = false;
                 
                 // Mostrar error
@@ -1072,7 +1064,7 @@ class CartManager {
         if (phoneField && phoneField.value.trim()) {
             const phoneRegex = /^[0-9\s\-\+\(\)]{8,}$/;
             if (!phoneRegex.test(phoneField.value)) {
-                phoneField.style.borderColor = 'var(--accent-red)';
+                phoneField.style.borderColor = 'var(--cta-primary)';
                 this.app.managers.ui.showNotification('❌ Por favor ingresa un número de teléfono válido', 'error');
                 isValid = false;
             }
@@ -1130,17 +1122,30 @@ class CartManager {
         const totalEl = document.getElementById('summaryTotalFinal');
 
         if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
-        if (totalEl) totalEl.textContent = `$${subtotal.toLocaleString()}`;
         
         // Determinar costo de envío
-        if (this.customerData.deliveryDate === 'jueves' || this.customerData.deliveryDate === 'viernes') {
-            if (shippingEl) shippingEl.textContent = 'GRATIS';
-        } else {
+        const shippingCost = this.calculateShippingCost();
+        let shippingText = '';
+        let total = subtotal;
+        
+        if (shippingCost === 0) {
+            shippingText = 'GRATIS';
             if (shippingEl) {
-                shippingEl.textContent = 'A CONSULTAR';
-                shippingEl.style.color = 'var(--text-light)';
+                shippingEl.textContent = shippingText;
+                shippingEl.style.color = 'var(--success-green)';
+                shippingEl.style.fontWeight = '700';
+            }
+        } else {
+            shippingText = 'A CONSULTAR';
+            total = subtotal; // No sumamos nada porque es a consultar
+            if (shippingEl) {
+                shippingEl.textContent = shippingText;
+                shippingEl.style.color = 'var(--warning-orange)';
+                shippingEl.style.fontWeight = '600';
             }
         }
+        
+        if (totalEl) totalEl.textContent = `$${total.toLocaleString()}`;
     }
 
     updateCustomerSummary() {
@@ -1224,8 +1229,7 @@ class CartManager {
     }
 
     buildCompleteWhatsAppMessage(subtotal, totalSavings) {
-        let message = `¡Hola! Quiero realizar el siguiente pedido:\n\n`;
-        message += `*📦 PEDIDO EL OSO*\n`;
+        let message = `¡Hola! Quiero realizar mi pedido:\n\n`;
         message += `------------------------\n\n`;
         
         // Productos
@@ -1247,8 +1251,16 @@ class CartManager {
         
         const deliveryCost = this.getDeliveryCostMessage();
         message += `Envío: ${deliveryCost}\n`;
-        message += `*TOTAL: $${subtotal.toLocaleString()}*\n\n`;
-
+        
+        // Solo mostrar TOTAL si el envío es gratis
+        const shippingCost = this.calculateShippingCost();
+        if (shippingCost === 0) {
+            message += `*TOTAL: $${subtotal.toLocaleString()}*\n\n`;
+        } else {
+            message += `*SUBTOTAL: $${subtotal.toLocaleString()}*\n`;
+            message += `_El costo de envío se consultará y confirmará_\n\n`;
+        }
+        
         // Datos del cliente
         message += `*👤 Datos del Cliente:*\n`;
         message += `Nombre: ${this.customerData.name}\n`;
@@ -1258,9 +1270,9 @@ class CartManager {
         }
 
         message += `\n*🚚 Información de Entrega:*\n`;
-        message += `Dirección: ${this.customerData.address}\n`;
         message += `Fecha: ${this.getDeliveryDateDisplay(this.customerData.deliveryDate)}\n`;
         message += `Horario: ${this.getDeliveryTimeDisplay(this.customerData.deliveryTime)}\n`;
+        message += `Dirección: ${this.customerData.address}\n`;
         
         if (this.customerData.notes) {
             message += `Notas: ${this.customerData.notes}\n`;
@@ -1272,15 +1284,28 @@ class CartManager {
     }
 
     getDeliveryCostMessage() {
-        if (this.customerData.deliveryDate === 'jueves' || this.customerData.deliveryDate === 'viernes') {
+        const { subtotal } = this.calculateCartTotals();
+        const shippingCost = this.calculateShippingCost();
+        
+        if (shippingCost === 0) {
             return 'GRATIS';
         } else {
-            return 'A CONSULTAR';
+            // Explicar por qué no es gratis
+            const isFreeShippingDay = this.customerData.deliveryDate === 'jueves' || 
+                                    this.customerData.deliveryDate === 'viernes';
+            
+            if (!isFreeShippingDay) {
+                return 'A CONSULTAR (no es jueves o viernes)';
+            } else if (subtotal < CONFIG.FREE_SHIPPING_THRESHOLD) {
+                return `A CONSULTAR (faltan $${(CONFIG.FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString()} para envío gratis)`;
+            } else {
+                return 'A CONSULTAR';
+            }
         }
     }
 
     async submitCompleteOrderToAppsScript(subtotal) {
-        const orderId = 'ELOSO_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        const orderId = Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
         
         if (this.app.managers.forms) {
             const orderData = {
@@ -1404,7 +1429,7 @@ class CartManager {
     updateCartUI() {
         this.updateCartItems();
         this.updateCartSummary();
-        this.app.managers.ui.updateShippingProgress();
+        this.app.managers.ui.updateShippingProgressStep1();
     }
 
     updateCartItems() {
@@ -1501,6 +1526,15 @@ class CartManager {
 
         if (summaryTotal) summaryTotal.textContent = `$${subtotal.toLocaleString()}`;
         if (savingsAmount) savingsAmount.textContent = totalSavings.toLocaleString();
+        
+        // Actualizar también el botón de checkout
+        const checkoutBtnTemu = document.getElementById('checkoutBtnTemu');
+        if (checkoutBtnTemu) {
+            checkoutBtnTemu.innerHTML = `
+                <i class="fas fa-shopping-cart"></i>
+                <span>Checkout - $${subtotal.toLocaleString()}</span>
+            `;
+        }
     }
 
     calculateCartTotals() {
@@ -1612,6 +1646,21 @@ class CartManager {
             const quantity = item.quantity || 1;
             return total + (price * quantity);
         }, 0);
+    }
+
+    calculateShippingCost() {
+        const { subtotal } = this.calculateCartTotals();
+        
+        // Verificar si aplica para envío gratis
+        const isFreeShippingDay = this.customerData.deliveryDate === 'jueves' || 
+                                this.customerData.deliveryDate === 'viernes';
+        const qualifiesForFreeShipping = isFreeShippingDay && subtotal >= CONFIG.FREE_SHIPPING_THRESHOLD;
+        
+        if (qualifiesForFreeShipping) {
+            return 0; // Envío gratis
+        } else {
+            return null; // Costo a consultar
+        }
     }
 }
 
@@ -2258,19 +2307,46 @@ class UIManager {
         
         if (!shippingRemaining || !shippingProgressFill) return;
         
-        if (subtotal >= freeShippingThreshold) {
-            shippingRemaining.textContent = '¡Envío gratis desbloqueado!';
+        // Verificar si hoy es jueves o viernes
+        const today = new Date();
+        const currentDay = today.getDay(); // 0: Domingo, 1: Lunes, ..., 4: Jueves, 5: Viernes
+        const isFreeShippingDay = currentDay === 4 || currentDay === 5; // Jueves o Viernes
+        
+        if (subtotal >= freeShippingThreshold && isFreeShippingDay) {
+            shippingRemaining.textContent = '¡Envío gratis desbloqueado! (Hoy es día de envío gratis)';
             shippingProgressFill.style.width = '100%';
+            shippingProgressFill.style.background = 'var(--success-green)';
+        } else if (subtotal >= freeShippingThreshold) {
+            shippingRemaining.textContent = `Compra de $${subtotal.toLocaleString()} - Envío a consultar (no es jueves/viernes)`;
+            shippingProgressFill.style.width = '100%';
+            shippingProgressFill.style.background = 'var(--warning-orange)';
         } else {
-            shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis!`;
+            if (isFreeShippingDay) {
+                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis HOY!`;
+            } else {
+                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis (jueves/viernes)!`;
+            }
             const progress = (subtotal / freeShippingThreshold) * 100;
             shippingProgressFill.style.width = `${progress}%`;
+            shippingProgressFill.style.background = 'var(--accent-red)';
         }
         
         if (this.app.cart.length === 0) {
-            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis!`;
+            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis los jueves y viernes!`;
             shippingProgressFill.style.width = '0%';
         }
+    }
+
+    isFreeShippingDay(day) {
+        return day === 'jueves' || day === 'viernes';
+    }
+
+    // Y en la clase UIManager, añade:
+
+    getCurrentDayName() {
+        const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+        const today = new Date();
+        return days[today.getDay()];
     }
 
     updateProductViewers() {
@@ -2346,7 +2422,7 @@ class UIManager {
         if (type === 'success') {
             notification.style.background = 'var(--success-green)';
         } else if (type === 'error') {
-            notification.style.background = 'var(--temu-red)';
+            notification.style.background = 'var(--cta-primary)';
         } else if (type === 'info') {
             notification.style.background = 'var(--primary-gold)';
             notification.style.color = 'var(--primary-black)';
@@ -2393,6 +2469,55 @@ class UIManager {
                     item.classList.add('active');
                 }
             });
+        }
+    }
+
+    updateShippingProgressStep1() {
+        const freeShippingThreshold = CONFIG.FREE_SHIPPING_THRESHOLD;
+        const subtotal = this.app.managers.cart.calculateSubtotal();
+        const remaining = Math.max(0, freeShippingThreshold - subtotal);
+        
+        const shippingRemaining = document.getElementById('shippingRemainingStep1');
+        const shippingProgressFill = document.getElementById('shippingProgressFillStep1');
+        
+        if (!shippingRemaining || !shippingProgressFill) return;
+        
+        // Verificar si hoy es jueves o viernes
+        const today = new Date();
+        const currentDay = today.getDay(); // 0: Domingo, 1: Lunes, ..., 4: Jueves, 5: Viernes
+        const isFreeShippingDay = currentDay === 4 || currentDay === 5; // Jueves o Viernes
+        
+        if (subtotal >= freeShippingThreshold && isFreeShippingDay) {
+            shippingRemaining.innerHTML = `
+                <div class="free-shipping-icon">
+                    <i class="fas fa-check-circle"></i>
+                    <span>¡Envío gratis desbloqueado! (Hoy es día de envío gratis)</span>
+                </div>
+            `;
+            shippingProgressFill.style.width = '100%';
+        } else if (subtotal >= freeShippingThreshold) {
+            shippingRemaining.innerHTML = `
+                <div style="color: var(--warning-orange);">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Compra de $${subtotal.toLocaleString()} - Envío a consultar (no es jueves/viernes)</span>
+                </div>
+            `;
+            shippingProgressFill.style.width = '100%';
+        } else {
+            const progress = (subtotal / freeShippingThreshold) * 100;
+            
+            if (isFreeShippingDay) {
+                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis HOY!`;
+            } else {
+                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis (jueves/viernes)!`;
+            }
+            
+            shippingProgressFill.style.width = `${progress}%`;
+        }
+        
+        if (this.app.cart.length === 0) {
+            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis los jueves y viernes!`;
+            shippingProgressFill.style.width = '0%';
         }
     }
 }
