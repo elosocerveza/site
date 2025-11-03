@@ -861,11 +861,6 @@ body {
     animation: pulse-badge 2s infinite;
 }
 
-.badge-new {
-    background: var(--temu-purple);
-    color: white;
-}
-
 .badge-popular {
     background-color: var(--temu-blue);
     color: white;
@@ -4016,4 +4011,63 @@ body {
         width: 100%;
         justify-content: center;
     }
+}
+
+.modal-subtitle {
+    text-align: center;
+}
+
+/* ===== TARJETA DE INFORMACIÓN DE ENVÍO ===== */
+.shipping-info-card {
+    background: linear-gradient(135deg, #f8fff8 0%, #f0fff0 100%);
+    border: 2px solid var(--success-green);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.shipping-info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--success-green);
+}
+
+.shipping-info-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: var(--success-green);
+    font-size: 1.1rem;
+}
+
+.shipping-info-header i {
+    font-size: 1.2rem;
+}
+
+.shipping-info-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.shipping-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+
+.shipping-detail-item i {
+    color: var(--success-green);
+    width: 16px;
+    text-align: center;
 }
