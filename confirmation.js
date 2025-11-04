@@ -1,0 +1,501 @@
+// ===== CONFIRMACIÓN DE PEDIDO =====
+class OrderConfirmation {
+    constructor() {
+        this.orderData = null;
+        this.init();
+    }
+
+    init() {
+        this.loadOrderData();
+        this.setupEventListeners();
+        this.renderOrderDetails();
+        
+        // Track Google Analytics
+        this.trackConfirmationView();
+    }
+
+    loadOrderData() {
+        // Intentar cargar desde sessionStorage primero
+        const sessionData = sessionStorage.getItem('elOsoOrderConfirmation');
+        if (sessionData) {
+            this.orderData = JSON.parse(sessionData);
+            console.log('✅ Datos del pedido cargados desde sessionStorage');
+            return;
+        }
+
+        // Si no hay datos en sessionStorage, mostrar error
+        this.showErrorState();
+    }
+
+    setupEventListeners() {
+        // Botón de WhatsApp
+        const whatsappBtn = document.getElementById('whatsappConfirmBtn');
+        if (whatsappBtn) {
+            whatsappBtn.addEventListener('click', () => {
+                this.sendWhatsAppMessage();
+            });
+        }
+
+        // Botón de imprimir
+        const printBtn = document.getElementById('printOrderBtn');
+        if (printBtn) {
+            printBtn.addEventListener('click', () => {
+                this.printOrderSummary();
+            });
+        }
+
+        // Botón de guardar
+        const saveBtn = document.getElementById('saveOrderBtn');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                this.saveOrderSummary();
+            });
+        }
+    }
+
+    renderOrderDetails() {
+        if (!this.orderData) return;
+
+        // Renderizar detalles del pedido
+        this.renderOrderItems();
+        this.renderDeliveryInfo();
+        this.renderOrderTotals();
+    }
+
+    renderOrderItems() {
+        const container = document.getElementById('orderDetails');
+        if (!container || !this.orderData.cart) return;
+
+        container.innerHTML = this.orderData.cart.map(item => {
+            const displayPrice = item.discountPrice || item.price;
+            const totalPrice = displayPrice * item.quantity;
+            
+            return `
+                <div class="order-item">
+                    <div class="item-info">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-quantity">Cantidad: ${item.quantity}</span>
+                    </div>
+                    <div class="item-price">$${totalPrice.toLocaleString()}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    renderDeliveryInfo() {
+        const container = document.getElementById('deliveryInfo');
+        if (!container || !this.orderData.customerData) return;
+
+        const customer = this.orderData.customerData;
+        
+        container.innerHTML = `
+            <div class="info-row">
+                <strong>Nombre:</strong>
+                <span>${customer.name}</span>
+            </div>
+            <div class="info-row">
+                <strong>Teléfono:</strong>
+                <span>${customer.phone}</span>
+            </div>
+            <div class="info-row">
+                <strong>Dirección:</strong>
+                <span>${customer.address}</span>
+            </div>
+            <div class="info-row">
+                <strong>Fecha de entrega:</strong>
+                <span>${this.getDeliveryDateDisplay(customer.deliveryDate)}</span>
+            </div>
+            <div class="info-row">
+                <strong>Horario:</strong>
+                <span>${this.getDeliveryTimeDisplay(customer.deliveryTime)}</span>
+            </div>
+            ${customer.notes ? `
+            <div class="info-row">
+                <strong>Notas:</strong>
+                <span>${customer.notes}</span>
+            </div>
+            ` : ''}
+        `;
+    }
+
+    getDeliveryDateDisplay(dateValue) {
+        const dates = {
+            'jueves': 'Jueves (Envío Gratis)',
+            'viernes': 'Viernes (Envío Gratis)',
+            'otro': 'Otro día (Consultar costo)'
+        };
+        return dates[dateValue] || 'A confirmar';
+    }
+
+    getDeliveryTimeDisplay(timeValue) {
+        const times = {
+            'mañana': 'Mañana (9:00 - 12:00)',
+            'tarde': 'Tarde (14:00 - 18:00)',
+            'noche': 'Noche (18:00 - 21:00)'
+        };
+        return times[timeValue] || 'Cualquier horario';
+    }
+
+    renderOrderTotals() {
+        if (!this.orderData) return;
+
+        const { subtotal } = this.orderData;
+        
+        // Actualizar totales
+        const subtotalEl = document.getElementById('confirmationSubtotal');
+        const shippingEl = document.getElementById('confirmationShipping');
+        const totalEl = document.getElementById('confirmationTotal');
+
+        if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
+        
+        // Determinar costo de envío
+        const shippingCost = this.calculateShippingCost();
+        let shippingText = '';
+        let total = subtotal;
+        
+        if (shippingCost === 0) {
+            shippingText = 'GRATIS';
+            if (shippingEl) {
+                shippingEl.textContent = shippingText;
+                shippingEl.style.color = 'var(--success-green)';
+            }
+        } else {
+            shippingText = 'A CONSULTAR';
+            total = subtotal;
+            if (shippingEl) {
+                shippingEl.textContent = shippingText;
+                shippingEl.style.color = 'var(--warning-orange)';
+            }
+        }
+        
+        if (totalEl) totalEl.textContent = `$${total.toLocaleString()}`;
+    }
+
+    calculateShippingCost() {
+        if (!this.orderData || !this.orderData.customerData) return null;
+        
+        const { subtotal } = this.orderData;
+        const customer = this.orderData.customerData;
+        
+        // Verificar si aplica para envío gratis
+        const isFreeShippingDay = customer.deliveryDate === 'jueves' || 
+                                customer.deliveryDate === 'viernes';
+        const qualifiesForFreeShipping = isFreeShippingDay && subtotal >= 15000; // CONFIG.FREE_SHIPPING_THRESHOLD
+        
+        if (qualifiesForFreeShipping) {
+            return 0; // Envío gratis
+        } else {
+            return null; // Costo a consultar
+        }
+    }
+
+    sendWhatsAppMessage() {
+        if (!this.orderData) {
+            this.showNotification('❌ No hay datos del pedido', 'error');
+            return;
+        }
+
+        const message = this.buildWhatsAppMessage();
+        const encodedMessage = encodeURIComponent(message);
+        const url = `https://wa.me/5491123495971?text=${encodedMessage}`;
+        
+        // Abrir WhatsApp
+        window.open(url, '_blank');
+        
+        // Track Google Analytics
+        this.trackWhatsAppClick();
+        
+        // Mostrar confirmación
+        this.showNotification('✅ WhatsApp abierto - Envía el mensaje para completar tu pedido', 'success');
+        
+        // Deshabilitar botón temporalmente para evitar múltiples clics
+        const whatsappBtn = document.getElementById('whatsappConfirmBtn');
+        if (whatsappBtn) {
+            whatsappBtn.disabled = true;
+            setTimeout(() => {
+                whatsappBtn.disabled = false;
+            }, 3000);
+        }
+    }
+
+    buildWhatsAppMessage() {
+        if (!this.orderData) return '';
+        
+        const { cart, customerData, subtotal, totalSavings } = this.orderData;
+        const customer = customerData;
+        
+        let message = `¡Hola! Quiero realizar mi pedido:\n\n`;
+        message += `------------------------\n\n`;
+        
+        // Productos
+        message += `*Productos:*\n`;
+        cart.forEach(item => {
+            const displayPrice = item.discountPrice || item.price;
+            message += `• ${item.name} x${item.quantity} - $${(displayPrice * item.quantity).toLocaleString()}\n`;
+        });
+
+        message += `\n------------------------\n`;
+        
+        // Totales
+        message += `*Resumen de Pago:*\n`;
+        message += `Subtotal: $${subtotal.toLocaleString()}\n`;
+        
+        if (totalSavings > 0) {
+            message += `Ahorro: $${totalSavings.toLocaleString()}\n`;
+        }
+        
+        const deliveryCost = this.getDeliveryCostMessage();
+        message += `Envío: ${deliveryCost}\n`;
+        
+        // Solo mostrar TOTAL si el envío es gratis
+        const shippingCost = this.calculateShippingCost();
+        if (shippingCost === 0) {
+            message += `*TOTAL: $${subtotal.toLocaleString()}*\n\n`;
+        } else {
+            message += `*SUBTOTAL: $${subtotal.toLocaleString()}*\n`;
+            message += `_El costo de envío se consultará y confirmará_\n\n`;
+        }
+        
+        // Datos del cliente
+        message += `*👤 Datos del Cliente:*\n`;
+        message += `Nombre: ${customer.name}\n`;
+        message += `Teléfono: ${customer.phone}\n`;
+        if (customer.email) {
+            message += `Email: ${customer.email}\n`;
+        }
+
+        message += `\n*🚚 Información de Entrega:*\n`;
+        message += `Fecha: ${this.getDeliveryDateDisplay(customer.deliveryDate)}\n`;
+        message += `Horario: ${this.getDeliveryTimeDisplay(customer.deliveryTime)}\n`;
+        message += `Dirección: ${customer.address}\n`;
+        
+        if (customer.notes) {
+            message += `Notas: ${customer.notes}\n`;
+        }
+
+        message += `\nPor favor, confirmar disponibilidad y coordinar el envío. ¡Gracias!`;
+
+        return message;
+    }
+
+    getDeliveryCostMessage() {
+        if (!this.orderData) return 'A CONSULTAR';
+        
+        const { subtotal } = this.orderData;
+        const customer = this.orderData.customerData;
+        const shippingCost = this.calculateShippingCost();
+        
+        if (shippingCost === 0) {
+            return 'GRATIS';
+        } else {
+            // Explicar por qué no es gratis
+            const isFreeShippingDay = customer.deliveryDate === 'jueves' || 
+                                    customer.deliveryDate === 'viernes';
+            
+            if (!isFreeShippingDay) {
+                return 'A CONSULTAR (no es jueves o viernes)';
+            } else if (subtotal < 15000) { // CONFIG.FREE_SHIPPING_THRESHOLD
+                return `A CONSULTAR (faltan $${(15000 - subtotal).toLocaleString()} para envío gratis)`;
+            } else {
+                return 'A CONSULTAR';
+            }
+        }
+    }
+
+    printOrderSummary() {
+        window.print();
+    }
+
+    saveOrderSummary() {
+        if (!this.orderData) return;
+
+        const orderSummary = this.buildOrderSummaryText();
+        const blob = new Blob([orderSummary], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `pedido-el-oso-${Date.now()}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        this.showNotification('✅ Pedido guardado como archivo de texto', 'success');
+    }
+
+    buildOrderSummaryText() {
+        if (!this.orderData) return '';
+        
+        const { cart, customerData, subtotal, totalSavings } = this.orderData;
+        const customer = customerData;
+        
+        let summary = `RESUMEN DE PEDIDO - EL OSO\n`;
+        summary += `===============================\n\n`;
+        
+        // Información del pedido
+        summary += `INFORMACIÓN DEL PEDIDO:\n`;
+        summary += `Fecha: ${new Date().toLocaleString('es-AR')}\n`;
+        summary += `Número de pedido: ${Date.now()}\n\n`;
+        
+        // Productos
+        summary += `PRODUCTOS:\n`;
+        summary += `-----------\n`;
+        cart.forEach(item => {
+            const displayPrice = item.discountPrice || item.price;
+            const totalPrice = displayPrice * item.quantity;
+            summary += `• ${item.name}\n`;
+            summary += `  Cantidad: ${item.quantity} x $${displayPrice.toLocaleString()} = $${totalPrice.toLocaleString()}\n\n`;
+        });
+        
+        // Totales
+        summary += `RESUMEN DE PAGO:\n`;
+        summary += `----------------\n`;
+        summary += `Subtotal: $${subtotal.toLocaleString()}\n`;
+        
+        if (totalSavings > 0) {
+            summary += `Ahorro: $${totalSavings.toLocaleString()}\n`;
+        }
+        
+        const shippingCost = this.calculateShippingCost();
+        if (shippingCost === 0) {
+            summary += `Envío: GRATIS\n`;
+            summary += `TOTAL: $${subtotal.toLocaleString()}\n\n`;
+        } else {
+            summary += `Envío: A CONSULTAR\n`;
+            summary += `SUBTOTAL: $${subtotal.toLocaleString()}\n\n`;
+        }
+        
+        // Datos del cliente
+        summary += `DATOS DEL CLIENTE:\n`;
+        summary += `------------------\n`;
+        summary += `Nombre: ${customer.name}\n`;
+        summary += `Teléfono: ${customer.phone}\n`;
+        if (customer.email) {
+            summary += `Email: ${customer.email}\n`;
+        }
+        summary += `\n`;
+        
+        // Información de entrega
+        summary += `INFORMACIÓN DE ENTREGA:\n`;
+        summary += `-----------------------\n`;
+        summary += `Fecha: ${this.getDeliveryDateDisplay(customer.deliveryDate)}\n`;
+        summary += `Horario: ${this.getDeliveryTimeDisplay(customer.deliveryTime)}\n`;
+        summary += `Dirección: ${customer.address}\n`;
+        
+        if (customer.notes) {
+            summary += `Notas: ${customer.notes}\n`;
+        }
+        
+        summary += `\n`;
+        summary += `CONTACTO:\n`;
+        summary += `---------\n`;
+        summary += `WhatsApp: +54 9 11 2349-5971\n`;
+        summary += `Instagram: @elosocerveza\n`;
+        
+        return summary;
+    }
+
+    trackConfirmationView() {
+        if (typeof gtag !== 'undefined' && this.orderData) {
+            gtag('event', 'purchase', {
+                'transaction_id': 'ELOSO_' + Date.now(),
+                'currency': 'ARS',
+                'value': this.orderData.subtotal,
+                'items': this.orderData.cart.map(item => ({
+                    'item_id': item.id.toString(),
+                    'item_name': item.name,
+                    'category': item.category || 'beer',
+                    'price': item.discountPrice || item.price,
+                    'quantity': item.quantity
+                }))
+            });
+        }
+    }
+
+    trackWhatsAppClick() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'whatsapp_confirmation', {
+                'event_category': 'Conversion',
+                'event_label': 'Order Confirmation'
+            });
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        const existingNotification = document.querySelector('.notification');
+        if (existingNotification) {
+            existingNotification.remove();
+        }
+
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        `;
+
+        // Color basado en el tipo
+        if (type === 'success') {
+            notification.style.background = 'var(--success-green)';
+        } else if (type === 'error') {
+            notification.style.background = 'var(--cta-primary)';
+        } else if (type === 'info') {
+            notification.style.background = 'var(--primary-gold)';
+            notification.style.color = 'var(--primary-black)';
+        }
+
+        document.body.appendChild(notification);
+
+        // Auto remover después de 3 segundos
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    showErrorState() {
+        const container = document.querySelector('.confirmation-container');
+        if (container) {
+            container.innerHTML = `
+                <div class="error-state">
+                    <div class="error-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h1>No se encontró el pedido</h1>
+                    <p>Parece que no hay información del pedido disponible. Esto puede deberse a:</p>
+                    <ul>
+                        <li>Haber recargado la página</li>
+                        <li>Haber cerrado la pestaña anterior</li>
+                        <li>Un error temporal</li>
+                    </ul>
+                    <div class="error-actions">
+                        <a href="index.html" class="action-btn primary">
+                            <i class="fas fa-shopping-cart"></i>
+                            Volver a la Tienda
+                        </a>
+                        <a href="https://wa.me/5491123495971" class="action-btn secondary" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                            Contactar por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+    }
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    window.orderConfirmation = new OrderConfirmation();
+});

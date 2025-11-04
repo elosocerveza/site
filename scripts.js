@@ -19,10 +19,7 @@ class ElOsoApp {
 
     async init() {
         try {
-            // PRIMERO configurar los managers
             this.setupManagers();
-            
-            // LUEGO cargar productos y demás
             await this.loadProducts();
             this.setupEventListeners();
             this.startCountdowns();
@@ -714,7 +711,10 @@ class ProductManager {
                         <span class="product-old-price">$${product.oldPrice.toLocaleString()}</span>
                         ` : ''}
                         <div class="product-actions">
-                            <button class="add-to-cart-btn" alt="" data-id="${product.id}" ${isOutOfStock ? 'disabled' : ''}>
+                            <button class="add-to-cart-btn" 
+                                data-id="${product.id}" 
+                                ${isOutOfStock ? 'disabled' : ''}
+                                aria-label="Agregar ${product.name} al carrito">
                                 <i class="fas fa-cart-plus"></i>
                             </button>
                         </div>
@@ -1256,12 +1256,24 @@ class CartManager {
         }
 
         const { subtotal, totalSavings } = this.calculateCartTotals();
-        const message = this.buildCompleteWhatsAppMessage(subtotal, totalSavings);
+        
+        // Preparar datos para la confirmación
+        const confirmationData = {
+            orderId: 'ELOSO_' + Date.now(),
+            cart: [...this.app.cart],
+            customerData: { ...this.customerData },
+            subtotal: subtotal,
+            totalSavings: totalSavings,
+            timestamp: new Date().toISOString()
+        };
+
+        // Guardar en sessionStorage para la página de confirmación
+        sessionStorage.setItem('elOsoOrderConfirmation', JSON.stringify(confirmationData));
 
         // Track Google Analytics
         if (this.app.managers.analytics) {
             this.app.managers.analytics.trackPurchase(
-                'ELOSO_' + Date.now(), 
+                confirmationData.orderId, 
                 this.app.cart, 
                 subtotal
             );
@@ -1270,15 +1282,15 @@ class CartManager {
         // Enviar a Google Apps Script
         await this.submitCompleteOrderToAppsScript(subtotal);
 
-        // Abrir WhatsApp
-        this.app.managers.ui.openWhatsApp(message);
+        // Limpiar carrito y redirigir a página de confirmación
+        this.clearCart();
+        this.resetCheckout();
+        this.app.managers.ui.closeCartSidebar();
         
-        // Limpiar y cerrar
+        // Redirigir después de un breve delay para que el usuario vea la animación
         setTimeout(() => {
-            this.clearCart();
-            this.resetCheckout();
-            this.app.managers.ui.closeCartSidebar();
-        }, 1000);
+            window.location.href = 'confirmation.html';
+        }, 500);
     }
 
     buildCompleteWhatsAppMessage(subtotal, totalSavings) {
@@ -1544,15 +1556,22 @@ class CartManager {
                     </div>
                     <div class="cart-item-actions-temu">
                         <div class="quantity-selector-temu">
-                            <button class="quantity-btn-temu" alt="" onclick="window.elOsoApp.updateCartQuantity(${item.id}, -1)">
+                            <button class="quantity-btn-temu" 
+                                onclick="window.elOsoApp.updateCartQuantity(${item.id}, -1)"
+                                aria-label="Disminuir cantidad de ${item.name}">
                                 <i class="fas fa-minus"></i>
                             </button>
                             <span class="quantity-display-temu">${item.quantity}</span>
-                            <button class="quantity-btn-temu" alt="" onclick="window.elOsoApp.updateCartQuantity(${item.id}, 1)" ${item.stock && item.quantity >= item.stock ? 'disabled' : ''}>
+                            <button class="quantity-btn-temu"
+                                onclick="window.elOsoApp.updateCartQuantity(${item.id}, 1)" 
+                                ${item.stock && item.quantity >= item.stock ? 'disabled' : ''}
+                                aria-label="Aumentar cantidad de ${item.name}">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </div>
-                        <button class="remove-item-temu" alt="" onclick="window.elOsoApp.removeFromCart(${item.id})">
+                        <button class="remove-item-temu"
+                            onclick="window.elOsoApp.removeFromCart(${item.id})"
+                            aria-label="Eliminar ${item.name} del carrito">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -1653,7 +1672,9 @@ class CartManager {
                 </div>
                 <div class="recommendation-name-temu">${product.name}</div>
                 <div class="recommendation-price-temu">$${displayPrice.toLocaleString()}</div>
-                <button class="recommendation-add-btn-temu" alt="" onclick="window.elOsoApp.addToCart(${product.id})">
+                <button class="recommendation-add-btn-temu" 
+                    onclick="window.elOsoApp.addToCart(${product.id})"
+                    aria-label="Agregar ${product.name} al carrito">
                     <i class="fas fa-plus"></i>
                     Agregar
                 </button>
