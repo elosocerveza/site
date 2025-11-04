@@ -48,6 +48,7 @@
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     </noscript>
+    <link rel="preload" href="images/banner-large.jpg" as="image" fetchpriority="high">
 
     <!-- AGREGA esto en tu <head> -->
     <script type="application/ld+json">
@@ -240,7 +241,11 @@
     <main role="main">
         <!-- Banner -->
         <section class="hero" id="hero">
-            <img class="hero-img" loading="lazy" alt="El Oso" src="images/banner-large.jpg">
+            <img class="hero-img" 
+                fetchpriority="high" 
+                alt="El Oso Cerveza Artesanal - Cervezas premium, salsas picantes y conservas caseras en Quilmes" 
+                src="images/banner-large.jpg"
+                decoding="async">
         </section>
 
         <!-- Información de Envío -->
