@@ -10,12 +10,9 @@
     <!-- Preconexión temprana a recursos críticos -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://wa.me">
-    <link rel="preconnect" href="https://api.allorigins.win">
-    <link rel="preconnect" href="https://corsproxy.io">
-    <link rel="preconnect" href="https://cors-anywhere.herokuapp.com">
     <link rel="preconnect" href="https://www.google-analytics.com">
-    <link rel="preconnect" href="https://docs.google.com">
+    <link rel="preconnect" href="https://script.google.com">
+    <link rel="preconnect" href="https://wa.me">
 
     <!-- Open Graph para redes sociales -->
     <meta property="og:title" content="El Oso | Cerveza Artesanal Quilmes • Salsas Picantes • Conservas Caseras">
@@ -36,12 +33,12 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="preload" href="styles.min.css?v=15" as="style">
-    <link rel="stylesheet" href="styles.min.css?v=15">
+    <link rel="stylesheet" href="styles.min.css?v=17">
 
-    <!-- Preload -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <!-- Preloads -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="print" onload="this.media='all'">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         media="print" 
         onload="this.media='all'"
@@ -59,7 +56,7 @@
         "@type": "Brewery",
         "name": "El Oso",
         "description": "Cerveza artesanal premium en Quilmes, Buenos Aires",
-        "url": "https://tudominio.com",
+        "url": "https://eloso.ar/",
         "address": {
             "@type": "PostalAddress",
             "addressLocality": "Quilmes",
@@ -82,16 +79,19 @@
     </script>
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY"></script>
     <script>
+        // Carga diferida de Google Analytics
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-K21FSGK2ZY', {
-            'transport_type': 'beacon',
-            'use_amp_client_id': false,
-            'page_title': document.title,
-            'page_location': window.location.href
+        gtag('config', 'G-K21FSGK2ZY');
+        
+        // Cargar el script después de que la página esté lista
+        window.addEventListener('load', function() {
+            var script = document.createElement('script');
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY';
+            script.async = true;
+            document.head.appendChild(script);
         });
     </script>
 
@@ -503,6 +503,10 @@
                     <div class="step-number">3</div>
                     <span class="step-label">Confirmar</span>
                 </div>
+                <div class="stepper-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <span class="step-label">Completado</span>
+                </div>
             </div>
         </div>
 
@@ -550,7 +554,7 @@
                     </div>
                 </div>
 
-                <!-- PASO 2: Información del Cliente y Entrega -->
+                <!-- PASO 2: Información del Cliente, Entrega y Pago -->
                 <div class="checkout-step" id="step2">
                     <div class="customer-info-section">
                         <form class="customer-form" id="customerForm">
@@ -597,14 +601,34 @@
                                 </div>
                             </div>
 
+                            <!-- Zona de Entrega -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="deliveryZone">Zona de Entrega *</label>
+                                    <select id="deliveryZone" name="deliveryZone" required onchange="window.elOsoApp.managers.cart.validateShippingZone()">
+                                        <option value="">Seleccionar zona</option>
+                                        <option value="quilmes">Quilmes</option>
+                                        <option value="bernal">Bernal</option>
+                                        <option value="ezpeleta">Ezpeleta</option>
+                                        <option value="otra">Otra zona</option>
+                                    </select>
+                                    <div class="zone-info" id="zoneInfo" style="display: none; margin-top: 8px; font-size: 0.8rem; color: var(--text-light);"></div>
+                                </div>
+                            </div>
+
+                            <!-- Validación de Envío Gratis -->
+                            <div class="shipping-validation" id="shippingValidation" style="display: none;">
+                                <div class="validation-message" id="validationMessage"></div>
+                            </div>
+
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="deliveryDate">Fecha Preferida de Entrega *</label>
                                     <select id="deliveryDate" name="deliveryDate" required>
                                         <option value="">Seleccionar fecha</option>
-                                        <option value="jueves">Jueves (Envío Gratis)</option>
-                                        <option value="viernes">Viernes (Envío Gratis)</option>
-                                        <option value="otro">Otro día (Consultar costo)</option>
+                                        <option value="jueves">Jueves</option>
+                                        <option value="viernes">Viernes</option>
+                                        <option value="otro">Otro día</option>
                                     </select>
                                 </div>
                             </div>
@@ -626,6 +650,71 @@
                                     <label for="deliveryAddress">Dirección Completa *</label>
                                     <textarea id="deliveryAddress" name="address" required 
                                             placeholder="Calle, número, piso, departamento, barrio, localidad"></textarea>
+                                </div>
+                            </div>
+
+                            <h3 class="section-title-checkout">
+                                <i class="fas fa-credit-card"></i>
+                                Método de Pago
+                            </h3>
+
+                            <!-- Métodos de Pago -->
+                            <div class="payment-methods">
+                                <div class="payment-option">
+                                    <input type="radio" id="paymentCash" name="paymentMethod" value="efectivo" checked>
+                                    <label for="paymentCash" class="payment-label">
+                                        <div class="payment-icon">
+                                            <i class="fas fa-money-bill-wave"></i>
+                                        </div>
+                                        <div class="payment-info">
+                                            <div class="payment-title">Efectivo</div>
+                                            <div class="payment-description">Paga en efectivo al recibir tu pedido</div>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <div class="payment-option">
+                                    <input type="radio" id="paymentTransfer" name="paymentMethod" value="transferencia">
+                                    <label for="paymentTransfer" class="payment-label">
+                                        <div class="payment-icon">
+                                            <i class="fas fa-university"></i>
+                                        </div>
+                                        <div class="payment-info">
+                                            <div class="payment-title">Transferencia Bancaria</div>
+                                            <div class="payment-description">Transferí el total antes de la entrega</div>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- Información de Transferencia (se muestra cuando se selecciona) -->
+                                <div class="transfer-info" id="transferInfo" style="display: none;">
+                                    <div class="transfer-details">
+                                        <h4>Datos para Transferencia:</h4>
+                                        <div class="bank-details">
+                                            <div class="bank-detail">
+                                                <strong>Banco:</strong> Galicia
+                                            </div>
+                                            <div class="bank-detail">
+                                                <strong>Tipo:</strong> Cuenta Corriente
+                                            </div>
+                                            <div class="bank-detail">
+                                                <strong>CBU:</strong> 0070002720000000000000
+                                            </div>
+                                            <div class="bank-detail">
+                                                <strong>Alias:</strong> EL.OSO.CERVEZA
+                                            </div>
+                                            <div class="bank-detail">
+                                                <strong>Titular:</strong> El Oso Cerveza Artesanal
+                                            </div>
+                                            <div class="bank-detail">
+                                                <strong>CUIT:</strong> 20-12345678-9
+                                            </div>
+                                        </div>
+                                        <div class="transfer-note">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span>Una vez realizada la transferencia, enviá el comprobante por WhatsApp</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -693,6 +782,10 @@
                                 <span id="summaryCustomerPhone">-</span>
                             </div>
                             <div class="detail-row">
+                                <strong>Zona:</strong>
+                                <span id="summaryDeliveryZone">-</span>
+                            </div>
+                            <div class="detail-row">
                                 <strong>Dirección:</strong>
                                 <span id="summaryCustomerAddress">-</span>
                             </div>
@@ -703,6 +796,10 @@
                             <div class="detail-row">
                                 <strong>Horario:</strong>
                                 <span id="summaryDeliveryTime">-</span>
+                            </div>
+                            <div class="detail-row">
+                                <strong>Método de pago:</strong>
+                                <span id="summaryPaymentMethod">-</span>
                             </div>
                             <div class="detail-row" id="summaryNotesRow">
                                 <strong>Notas:</strong>
@@ -721,6 +818,113 @@
                                 <i class="fab fa-whatsapp"></i>
                                 Confirmar
                             </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 4: Confirmación del Pedido -->
+                <div class="checkout-step" id="step4">
+                    <div class="confirmation-content">
+                        <!-- Icono de éxito -->
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        
+                        <!-- Título -->
+                        <h1 class="confirmation-title">¡Pedido Confirmado!</h1>
+                        <p class="confirmation-subtitle">Tu pedido ha sido procesado correctamente</p>
+                        
+                        <!-- Información de WhatsApp -->
+                        <div class="whatsapp-info-card">
+                            <div class="whatsapp-header">
+                                <i class="fab fa-whatsapp"></i>
+                                <h3>Completar Pedido por WhatsApp</h3>
+                            </div>
+                            <p>Para finalizar tu compra, debes enviar el pedido por WhatsApp. Nuestro equipo se pondrá en contacto contigo para coordinar la entrega y confirmar el pago.</p>
+                            
+                            <div class="whatsapp-steps">
+                                <div class="step">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <strong>Haz clic en el botón verde</strong>
+                                        <span>Se abrirá WhatsApp con tu pedido listo</span>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <strong>Envía el mensaje</strong>
+                                        <span>Nuestro equipo te responderá en minutos</span>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <strong>Coordina la entrega</strong>
+                                        <span>Te confirmaremos disponibilidad y horarios</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="whatsapp-confirm-btn" id="whatsappConfirmBtn">
+                                <i class="fab fa-whatsapp"></i>
+                                Enviar Pedido por WhatsApp
+                            </button>
+                            
+                            <div class="support-info">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Si tienes problemas con el botón, escribe al: <strong>+54 9 11 2349-5971</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Resumen del Pedido -->
+                        <div class="order-summary-card">
+                            <h2 class="summary-title">
+                                <i class="fas fa-receipt"></i>
+                                Resumen del Pedido
+                            </h2>
+                            
+                            <div class="order-details">
+                                <div class="detail-section">
+                                    <h3>Detalles del Pedido</h3>
+                                    <div id="orderDetailsConfirmation">
+                                        <!-- Los detalles se cargarán dinámicamente -->
+                                    </div>
+                                </div>
+                                
+                                <div class="detail-section">
+                                    <h3>Información de Entrega</h3>
+                                    <div id="deliveryInfoConfirmation">
+                                        <!-- La información de entrega se cargará dinámicamente -->
+                                    </div>
+                                </div>
+                                
+                                <div class="order-totals">
+                                    <div class="total-row">
+                                        <span>Subtotal:</span>
+                                        <span id="confirmationSubtotal">$0</span>
+                                    </div>
+                                    <div class="total-row shipping">
+                                        <span>Envío:</span>
+                                        <span id="confirmationShipping">GRATIS</span>
+                                    </div>
+                                    <div class="total-row final">
+                                        <span>Total:</span>
+                                        <span id="confirmationTotal">$0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Acciones Adicionales -->
+                        <div class="additional-actions">
+                            <h3>¿Qué quieres hacer ahora?</h3>
+                            <div class="action-buttons">
+                                <button class="action-btn secondary" id="continueShoppingBtn">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Seguir Comprando
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1014,6 +1218,6 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <script src="scripts.min.js?v=15"></script>
+    <script src="scripts.min.js?v=17"></script>
 </body>
 </html>
