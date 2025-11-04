@@ -33,7 +33,7 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.min.css?v=17">
+    <link rel="stylesheet" href="styles.min.css?v=18">
 
     <!-- Preloads -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous" media="print" onload="this.media='all'">
@@ -240,34 +240,7 @@
     <main role="main">
         <!-- Banner -->
         <section class="hero" id="hero">
-            <div class="hero-slider">
-                <div class="hero-slide active">
-                    <div class="hero-content">
-                        <div class="hero-badge" role="status">🔥 OFERTA FLASH</div>
-                        <h1 class="hero-title">HASTA 50% OFF</h1>
-                        <p class="hero-subtitle">En cervezas artesanales seleccionadas</p>
-                        <div class="countdown" id="countdown" aria-label="Tiempo restante para ofertas flash">
-                            <div class="countdown-item">
-                                <span class="countdown-number">02</span>
-                                <span class="countdown-label">Horas</span>
-                            </div>
-                            <div class="countdown-item">
-                                <span class="countdown-number">45</span>
-                                <span class="countdown-label">Minutos</span>
-                            </div>
-                            <div class="countdown-item">
-                                <span class="countdown-number">30</span>
-                                <span class="countdown-label">Segundos</span>
-                            </div>
-                        </div>
-                        <button class="hero-cta" onclick="scrollToSection('ofertas')">
-                            <i class="fas fa-bolt"></i>
-                            Ver Ofertas
-                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <img class="hero-img" loading="lazy" alt="El Oso" src="images/banner-large.jpg">
         </section>
 
         <!-- Información de Envío -->
@@ -687,6 +660,7 @@
                                 </div>
 
                                 <!-- Información de Transferencia (se muestra cuando se selecciona) -->
+                                <!-- 
                                 <div class="transfer-info" id="transferInfo" style="display: none;">
                                     <div class="transfer-details">
                                         <h4>Datos para Transferencia:</h4>
@@ -716,6 +690,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                -->
                             </div>
 
                             <div class="form-row">
@@ -1218,6 +1193,6 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <script src="scripts.min.js?v=17"></script>
+    <script src="scripts.min.js?v=18"></script>
 </body>
 </html>

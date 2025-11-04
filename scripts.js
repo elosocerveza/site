@@ -1795,28 +1795,28 @@ class CartManager {
         const customer = this.confirmationData.customerData;
         
         container.innerHTML = `
-            <div class="info-row">
+            <div class="order-item">
                 <strong>Nombre:</strong>
                 <span>${customer.name}</span>
             </div>
-            <div class="info-row">
+            <div class="order-item">
                 <strong>Teléfono:</strong>
                 <span>${customer.phone}</span>
             </div>
-            <div class="info-row">
+            <div class="order-item">
                 <strong>Dirección:</strong>
                 <span>${customer.address}</span>
             </div>
-            <div class="info-row">
+            <div class="order-item">
                 <strong>Fecha de entrega:</strong>
                 <span>${this.getDeliveryDateDisplay(customer.deliveryDate)}</span>
             </div>
-            <div class="info-row">
+            <div class="order-item">
                 <strong>Horario:</strong>
                 <span>${this.getDeliveryTimeDisplay(customer.deliveryTime)}</span>
             </div>
             ${customer.notes ? `
-            <div class="info-row">
+            <div class="order-item">
                 <strong>Notas:</strong>
                 <span>${customer.notes}</span>
             </div>
