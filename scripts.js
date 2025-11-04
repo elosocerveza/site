@@ -665,8 +665,7 @@ class ProductManager {
     }
 
     createProductCard(product, isFlash = false) {
-        const discount = product.oldPrice ? 
-            Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
+        const discount = product.oldPrice ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100) : 0;
         const stockPercentage = product.stock ? Math.min((product.stock / 50) * 100, 100) : 100;
         const isLowStock = product.stock && product.stock < 10;
         const isOutOfStock = product.stock === 0;
@@ -680,52 +679,106 @@ class ProductManager {
                 
                 <div class="product-image">
                     ${product.image ? 
-                        `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="window.elOsoApp.managers.ui.handleImageError(this)">` : 
+                    `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="window.elOsoApp.managers.ui.handleImageError(this)">` : 
                         this.getCategoryIcon(product.category || 'beer')
                     }
                     ${product.stock && !isOutOfStock ? `
-                        <div class="stock-bar">
-                            <div class="stock-fill" style="width: ${stockPercentage}%"></div>
-                        </div>
+                    <div class="stock-bar">
+                        <div class="stock-fill" style="width: ${stockPercentage}%"></div>
+                    </div>
                     ` : ''}
                 </div>
                 
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
+
+                    ${this.generateStockInfo(product.stock)}
+
                     <div class="product-meta">
-                        ${product.sold ? `
-                            <div class="product-sold">
-                                <i class="fas fa-fire"></i>
-                                <span>${product.sold}+ vendidos</span>
-                            </div>
-                        ` : ''}
-                        
                         ${product.rating ? `
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <span>${product.rating}</span>
-                            </div>
+                        <div class="product-rating">
+                            ${this.generateStarRating(product.rating)}
+                        </div>
+                        ` : ''}
+
+                        ${product.sold ? `
+                        <div class="product-sold">
+                            <i class="fas fa-fire"></i>
+                            <span>${product.sold}+ ventas</span>
+                        </div>
                         ` : ''}
                     </div>
-                    <p class="product-description">${product.description || 'Producto de calidad premium'}</p>
-                    
                     <div class="product-pricing">
                         <span class="product-price">$${product.price.toLocaleString()}</span>
                         ${product.oldPrice ? `
-                            <span class="product-old-price">$${product.oldPrice.toLocaleString()}</span>
-                            <span class="product-discount">-${discount}%</span>
+                        <span class="product-old-price">$${product.oldPrice.toLocaleString()}</span>
                         ` : ''}
-                    </div>
-                    
-                    <div class="product-actions">
-                        <button class="add-to-cart-btn" alt="" data-id="${product.id}" ${isOutOfStock ? 'disabled' : ''}>
-                            <i class="fas fa-cart-plus"></i>
-                            ${isOutOfStock ? 'SIN STOCK' : 'AGREGAR AL CARRITO'}
-                        </button>
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" alt="" data-id="${product.id}" ${isOutOfStock ? 'disabled' : ''}>
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
+    }
+
+    generateStockInfo(stock) {
+        if (stock === undefined || stock === null) {
+            return ''; // No mostrar si no hay información de stock
+        }
+        
+        if (stock === 0) {
+            return `
+                <div class="product-stock-info stock-out">
+                    <span>Agotado</span>
+                </div>
+            `;
+        } else if (stock < 5) {
+            return `
+                <div class="product-stock-info stock-low">
+                    <span>Quedan solo ${stock} unidad(es)</span>
+                </div>
+            `;
+        } else if (stock < 15) {
+            return `
+                <div class="product-stock-info stock-medium">
+                    <span>Quedan ${stock} unidad(es)</span>
+                </div>
+            `;
+        } else {
+            return `
+                <div class="product-stock-info stock-available">
+                    <span>Stock disponible</span>
+                </div>
+            `;
+        }
+    }
+
+    generateStarRating(rating) {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = rating % 1 >= 0.5;
+        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+        
+        let starsHTML = '';
+        
+        // Estrellas llenas
+        for (let i = 0; i < fullStars; i++) {
+            starsHTML += '<i class="fas fa-star"></i>';
+        }
+        
+        // Media estrella si es necesario
+        if (hasHalfStar) {
+            starsHTML += '<i class="fas fa-star-half-alt"></i>';
+        }
+        
+        // Estrellas vacías
+        for (let i = 0; i < emptyStars; i++) {
+            starsHTML += '<i class="far fa-star"></i>';
+        }
+        
+        return starsHTML;
     }
 
     generateProductBadges(product, qualifiesForFreeShipping, isLowStock, isOutOfStock) {
@@ -1802,9 +1855,6 @@ class UIManager {
                 fixedImageContainer.innerHTML = this.app.managers.products.getCategoryIcon(category);
             }
         }
-        
-        // Setup badges
-        this.setupProductBadges(product, badgesContainer);
     }
 
     setupProductBadges(product, container) {
@@ -1860,7 +1910,7 @@ class UIManager {
         // Product name
         const productNameElement = document.getElementById('detailsProductNameMobile');
         if (productNameElement) {
-            productNameElement.textContent = product.name;
+            productNameElement.textContent = `${product.name} - ${product.description}`;
         }
         
         // Rating and stars
@@ -1881,31 +1931,19 @@ class UIManager {
         const ratingText = document.getElementById('detailsRatingTextMobile');
         const soldElement = document.getElementById('detailsSoldMobile');
         
-        // Generate stars
+        // Generar estrellas usando el mismo método
         if (starsContainer) {
-            starsContainer.innerHTML = '';
-            for (let i = 1; i <= 5; i++) {
-                const star = document.createElement('i');
-                if (i <= Math.floor(rating)) {
-                    star.className = 'fas fa-star star';
-                } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
-                    star.className = 'fas fa-star-half-alt star';
-                } else {
-                    star.className = 'far fa-star star';
-                }
-                starsContainer.appendChild(star);
-            }
+            starsContainer.innerHTML = this.app.managers.products.generateStarRating(rating);
         }
         
         if (ratingText) ratingText.textContent = rating.toFixed(1);
-        if (soldElement) soldElement.textContent = `${soldCount}+ vendidos`;
+        if (soldElement) soldElement.textContent = `${soldCount}+ ventas`;
     }
 
     setupProductPricingMobile(product) {
         const currentPriceElement = document.getElementById('detailsCurrentPriceMobile');
         const oldPriceElement = document.getElementById('detailsOldPriceMobile');
         const discountElement = document.getElementById('detailsDiscountMobile');
-        const priceSaveElement = document.getElementById('priceSaveMobile');
         
         if (!currentPriceElement) return;
         
@@ -1925,14 +1963,9 @@ class UIManager {
                 discountElement.textContent = `-${discount}%`;
                 discountElement.style.display = 'inline';
             }
-            if (priceSaveElement) {
-                priceSaveElement.textContent = `Ahorras $${savings.toLocaleString()}`;
-                priceSaveElement.style.display = 'block';
-            }
         } else {
             if (oldPriceElement) oldPriceElement.style.display = 'none';
             if (discountElement) discountElement.style.display = 'none';
-            if (priceSaveElement) priceSaveElement.style.display = 'none';
         }
     }
 
@@ -1982,17 +2015,6 @@ class UIManager {
             specs.push({ label: 'Ingredientes', value: product.ingredients });
         }
         
-        // Stock information
-        if (product.stock !== undefined) {
-            if (product.stock === 0) {
-                specs.push({ label: 'Disponibilidad', value: 'Agotado' });
-            } else if (product.stock < 10) {
-                specs.push({ label: 'Disponibilidad', value: `Solo ${product.stock} unidades` });
-            } else {
-                specs.push({ label: 'Disponibilidad', value: 'En stock' });
-            }
-        }
-        
         // If no specifications, show message
         if (specs.length === 0) {
             return '<div class="no-specs">No hay especificaciones disponibles</div>';
@@ -2030,19 +2052,22 @@ class UIManager {
         this.currentQuantity = 1;
         quantityDisplay.textContent = this.currentQuantity;
         
-        // Setup stock information
-        if (product.stock !== undefined) {
+        // Setup stock information - USANDO LA MISMA LÓGICA QUE EN EL LISTADO
+        if (product.stock !== undefined && product.stock !== null) {
             if (product.stock === 0) {
-                stockInfo.textContent = 'AGOTADO';
-                stockInfo.className = 'stock-info-mobile stock-low';
+                stockInfo.textContent = 'Agotado';
+                stockInfo.className = 'stock-info-mobile stock-out';
                 decreaseBtn.disabled = true;
                 increaseBtn.disabled = true;
-            } else if (product.stock < 10) {
-                stockInfo.textContent = `Solo ${product.stock} disponibles`;
+            } else if (product.stock < 5) {
+                stockInfo.textContent = `Quedan solo ${product.stock} unidad(es)`;
                 stockInfo.className = 'stock-info-mobile stock-low';
+            } else if (product.stock < 15) {
+                stockInfo.textContent = `Quedan ${product.stock} unidad(es)`;
+                stockInfo.className = 'stock-info-mobile stock-medium';
             } else {
-                stockInfo.textContent = 'En stock';
-                stockInfo.className = 'stock-info-mobile';
+                stockInfo.textContent = 'Stock disponible';
+                stockInfo.className = 'stock-info-mobile stock-available';
             }
         } else {
             stockInfo.textContent = 'Disponible';
@@ -2297,58 +2322,6 @@ class UIManager {
         setInterval(updateCompactShippingCountdown, 60000);
     }
 
-    updateShippingProgress() {
-        const freeShippingThreshold = CONFIG.FREE_SHIPPING_THRESHOLD;
-        const subtotal = this.app.managers.cart.calculateSubtotal();
-        const remaining = Math.max(0, freeShippingThreshold - subtotal);
-        
-        const shippingRemaining = document.getElementById('shippingRemaining');
-        const shippingProgressFill = document.getElementById('shippingProgressFill');
-        
-        if (!shippingRemaining || !shippingProgressFill) return;
-        
-        // Verificar si hoy es jueves o viernes
-        const today = new Date();
-        const currentDay = today.getDay(); // 0: Domingo, 1: Lunes, ..., 4: Jueves, 5: Viernes
-        const isFreeShippingDay = currentDay === 4 || currentDay === 5; // Jueves o Viernes
-        
-        if (subtotal >= freeShippingThreshold && isFreeShippingDay) {
-            shippingRemaining.textContent = '¡Envío gratis desbloqueado! (Hoy es día de envío gratis)';
-            shippingProgressFill.style.width = '100%';
-            shippingProgressFill.style.background = 'var(--success-green)';
-        } else if (subtotal >= freeShippingThreshold) {
-            shippingRemaining.textContent = `Compra de $${subtotal.toLocaleString()} - Envío a consultar (no es jueves/viernes)`;
-            shippingProgressFill.style.width = '100%';
-            shippingProgressFill.style.background = 'var(--warning-orange)';
-        } else {
-            if (isFreeShippingDay) {
-                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis HOY!`;
-            } else {
-                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis (jueves/viernes)!`;
-            }
-            const progress = (subtotal / freeShippingThreshold) * 100;
-            shippingProgressFill.style.width = `${progress}%`;
-            shippingProgressFill.style.background = 'var(--accent-red)';
-        }
-        
-        if (this.app.cart.length === 0) {
-            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis los jueves y viernes!`;
-            shippingProgressFill.style.width = '0%';
-        }
-    }
-
-    isFreeShippingDay(day) {
-        return day === 'jueves' || day === 'viernes';
-    }
-
-    // Y en la clase UIManager, añade:
-
-    getCurrentDayName() {
-        const days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-        const today = new Date();
-        return days[today.getDay()];
-    }
-
     updateProductViewers() {
         document.querySelectorAll('.product-card').forEach(card => {
             const existingBadge = card.querySelector('.viewers-badge');
@@ -2481,42 +2454,24 @@ class UIManager {
         const shippingProgressFill = document.getElementById('shippingProgressFillStep1');
         
         if (!shippingRemaining || !shippingProgressFill) return;
-        
-        // Verificar si hoy es jueves o viernes
-        const today = new Date();
-        const currentDay = today.getDay(); // 0: Domingo, 1: Lunes, ..., 4: Jueves, 5: Viernes
-        const isFreeShippingDay = currentDay === 4 || currentDay === 5; // Jueves o Viernes
-        
-        if (subtotal >= freeShippingThreshold && isFreeShippingDay) {
+
+        if (subtotal >= freeShippingThreshold) {
             shippingRemaining.innerHTML = `
                 <div class="free-shipping-icon">
                     <i class="fas fa-check-circle"></i>
-                    <span>¡Envío gratis desbloqueado! (Hoy es día de envío gratis)</span>
-                </div>
-            `;
-            shippingProgressFill.style.width = '100%';
-        } else if (subtotal >= freeShippingThreshold) {
-            shippingRemaining.innerHTML = `
-                <div style="color: var(--warning-orange);">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Compra de $${subtotal.toLocaleString()} - Envío a consultar (no es jueves/viernes)</span>
+                    <span>¡Envío gratis desbloqueado!</span>
                 </div>
             `;
             shippingProgressFill.style.width = '100%';
         } else {
             const progress = (subtotal / freeShippingThreshold) * 100;
             
-            if (isFreeShippingDay) {
-                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis HOY!`;
-            } else {
-                shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis (jueves/viernes)!`;
-            }
-            
+            shippingRemaining.textContent = `¡Faltan $${remaining.toLocaleString()} para envío gratis!`;
             shippingProgressFill.style.width = `${progress}%`;
         }
         
         if (this.app.cart.length === 0) {
-            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis los jueves y viernes!`;
+            shippingRemaining.textContent = `¡Faltan $${freeShippingThreshold.toLocaleString()} para envío gratis!`;
             shippingProgressFill.style.width = '0%';
         }
     }

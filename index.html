@@ -36,7 +36,7 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.min.css?v=13">
+    <link rel="stylesheet" href="styles.min.css?v=14">
 
     <!-- Preload -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin="anonymous">
@@ -286,7 +286,7 @@
                             </div>
                             <div class="scroll-item">
                                 <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-                                <span>Quilmes y Zonas Aledañas</span>
+                                <span>Quilmes y alrededores</span>
                             </div>
                             <div class="scroll-item">
                                 <i class="fas fa-clock" aria-hidden="true"></i>
@@ -591,7 +591,7 @@
                                     </div>
                                     <div class="shipping-detail-item">
                                         <i class="fas fa-map-marker-alt"></i>
-                                        <span>Zona de cobertura: <strong>Quilmes, Bernal, Ezpeleta y alrededores</strong></span>
+                                        <span>Zona de cobertura: <strong>Quilmes y alrededores</strong></span>
                                     </div>
                                 </div>
                             </div>
@@ -753,27 +753,27 @@
                     <!-- Header de Información -->
                     <div class="product-header-mobile">
                         <h1 class="product-title-mobile" id="detailsProductNameMobile"></h1>
-                        <div class="product-meta-mobile">
-                            <div class="product-rating-mobile">
-                                <div class="stars" id="detailsRatingStarsMobile"></div>
+
+                        <div class="product-meta">
+                            <div class="product-sold">
+                                <i class="fas fa-fire"></i>
+                                <span id="detailsSoldMobile">164+ ventas</span>
+                            </div>
+
+                            <div class="product-rating">
                                 <span class="rating-text" id="detailsRatingTextMobile"></span>
-                                <span class="divider" aria-hidden="true">•</span>
-                                <span class="sold-count" id="detailsSoldMobile"></span>
+                                <div class="stars" id="detailsRatingStarsMobile"></div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Precios y Descuento -->
-                    <div class="pricing-section-mobile">
-                        <div class="price-main-mobile">
-                            <span class="current-price-mobile" id="detailsCurrentPriceMobile"></span>
-                            <div class="price-comparison-mobile">
-                                <span class="old-price-mobile" id="detailsOldPriceMobile"></span>
-                                <span class="discount-badge-mobile" id="detailsDiscountMobile"></span>
-                            </div>
-                        </div>
-                        <div class="price-extra-mobile">
-                            <span class="price-save" id="priceSaveMobile"></span>
+
+                        <div class="product-pricing">
+                            <span class="product-price" id="detailsCurrentPriceMobile">$20,000</span>
+                            
+                            <span class="product-old-price" id="detailsOldPriceMobile">$22,000</span>
+                            
+                            <span class="discount-badge-mobile" id="detailsDiscountMobile">-10% OFF</span>
+
+                             <div class="stock-info-mobile" id="detailsStockInfoMobile"></div>
                         </div>
                     </div>
                     
@@ -795,7 +795,6 @@
                                 <i class="fas fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>
-                        <div class="stock-info-mobile" id="detailsStockInfoMobile"></div>
                     </div>
                     
                     <!-- Características Destacadas -->
@@ -816,15 +815,6 @@
                         </div>
                     </div>
                     
-                    <!-- Sección de Descripción -->
-                    <div class="description-section-mobile">
-                        <div class="section-title-mobile">
-                            <i class="fas fa-file-alt" aria-hidden="true"></i>
-                            <span>Descripción</span>
-                        </div>
-                        <p class="product-description-mobile" id="detailsDescriptionMobile"></p>
-                    </div>
-
                     <!-- Sección de Especificaciones -->
                     <div class="specs-section-mobile">
                         <div class="section-title-mobile">
@@ -839,7 +829,7 @@
             <!-- Botones de Acción Fijos en Bottom -->
             <div class="action-buttons-fixed-mobile">
                 <div class="action-buttons-container">
-                    <button class="add-to-cart-btn" id="detailsAddToCartFixed">
+                    <button class="product-details-add-btn" id="detailsAddToCartFixed">
                         <i class="fas fa-cart-plus" aria-hidden="true"></i>
                         <span>AGREGAR AL CARRITO</span>
                     </button>
@@ -874,7 +864,7 @@
                             <i class="fas fa-shipping-fast" aria-hidden="true"></i>
                         </div>
                         <h3>Envío Express</h3>
-                        <p>Recibí tus productos en 24-48hs con envío gratis los jueves y viernes en Quilmes y zonas aledañas</p>
+                        <p>Recibí tus productos en 24-48hs con envío gratis los jueves y viernes en Quilmes y alrededores</p>
                     </div>
                     
                     <div class="feature-card-modal">
@@ -1023,6 +1013,6 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <script src="scripts.min.js?v=13"></script>
+    <script src="scripts.min.js?v=14"></script>
 </body>
 </html>
