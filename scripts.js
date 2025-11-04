@@ -1293,77 +1293,6 @@ class CartManager {
         // No cerramos el carrito, sino que mostramos la confirmación
     }
 
-    buildCompleteWhatsAppMessage(subtotal, totalSavings) {
-        let message = `¡Hola! Quiero realizar mi pedido:\n\n`;
-        message += `------------------------\n\n`;
-        
-        // Productos
-        message += `*Productos:*\n`;
-        this.app.cart.forEach(item => {
-            const displayPrice = item.discountPrice || item.price;
-            message += `• ${item.name} x${item.quantity} - $${(displayPrice * item.quantity).toLocaleString()}\n`;
-        });
-
-        message += `\n------------------------\n`;
-        
-        // Totales
-        message += `*Resumen de Pago:*\n`;
-        message += `Subtotal: $${subtotal.toLocaleString()}\n`;
-        
-        if (totalSavings > 0) {
-            message += `Ahorro: $${totalSavings.toLocaleString()}\n`;
-        }
-        
-        const deliveryCost = this.getDeliveryCostMessage();
-        message += `Envío: ${deliveryCost}\n`;
-        
-        // Solo mostrar TOTAL si el envío es gratis
-        const shippingCost = this.calculateShippingCost();
-        if (shippingCost === 0) {
-            message += `*TOTAL: $${subtotal.toLocaleString()}*\n\n`;
-        } else {
-            message += `*SUBTOTAL: $${subtotal.toLocaleString()}*\n`;
-            message += `_El costo de envío se consultará y confirmará_\n\n`;
-        }
-        
-        // Datos del cliente
-        message += `*👤 Datos del Cliente:*\n`;
-        message += `Nombre: ${this.customerData.name}\n`;
-        message += `Teléfono: ${this.customerData.phone}\n`;
-        if (this.customerData.email) {
-            message += `Email: ${this.customerData.email}\n`;
-        }
-
-        message += `\n*🚚 Información de Entrega:*\n`;
-        message += `Zona: ${this.getZoneDisplay(this.customerData.deliveryZone)}\n`;
-        message += `Fecha: ${this.getDeliveryDateDisplay(this.customerData.deliveryDate)}\n`;
-        message += `Horario: ${this.getDeliveryTimeDisplay(this.customerData.deliveryTime)}\n`;
-        message += `Dirección: ${this.customerData.address}\n`;
-        
-        message += `\n*💳 Método de Pago:*\n`;
-        message += `${this.getPaymentMethodDisplay(this.customerData.paymentMethod)}\n`;
-        
-        if (this.customerData.paymentMethod === 'transferencia') {
-            message += `\n*📋 Datos para Transferencia:*\n`;
-            message += `Banco: Galicia\n`;
-            message += `Tipo: Cuenta Corriente\n`;
-            message += `CBU: 0070002720000000000000\n`;
-            message += `Alias: EL.OSO.CERVEZA\n`;
-            message += `Titular: El Oso Cerveza Artesanal\n`;
-            message += `CUIT: 20-12345678-9\n`;
-            message += `_Por favor enviar comprobante de transferencia_\n`;
-        }
-        
-        if (this.customerData.notes) {
-            message += `\n*📝 Notas Adicionales:*\n`;
-            message += `${this.customerData.notes}\n`;
-        }
-
-        message += `\nPor favor, confirmar disponibilidad y coordinar el envío. ¡Gracias!`;
-
-        return message;
-    }
-
     getDeliveryCostMessage() {
         const { subtotal } = this.calculateCartTotals();
         const shippingCost = this.calculateShippingCost();
@@ -1804,16 +1733,24 @@ class CartManager {
                 <span>${customer.phone}</span>
             </div>
             <div class="order-item">
-                <strong>Dirección:</strong>
-                <span>${customer.address}</span>
+                <strong>Zona:</strong>
+                <span>${this.getZoneDisplay(customer.deliveryZone)}</span>
             </div>
             <div class="order-item">
-                <strong>Fecha de entrega:</strong>
+                <strong>Fecha:</strong>
                 <span>${this.getDeliveryDateDisplay(customer.deliveryDate)}</span>
             </div>
             <div class="order-item">
                 <strong>Horario:</strong>
                 <span>${this.getDeliveryTimeDisplay(customer.deliveryTime)}</span>
+            </div>
+            <div class="order-item">
+                <strong>Dirección:</strong>
+                <span>${customer.address}</span>
+            </div>
+            <div class="order-item">
+                <strong>Método de Pago:</strong>
+                <span>${this.getPaymentMethodDisplay(customer.paymentMethod)}</span>
             </div>
             ${customer.notes ? `
             <div class="order-item">
@@ -1978,7 +1915,6 @@ class CartManager {
             message += `_El costo de envío se consultará y confirmará_\n\n`;
         }
         
-        // Datos del cliente
         message += `*👤 Datos del Cliente:*\n`;
         message += `Nombre: ${customer.name}\n`;
         message += `Teléfono: ${customer.phone}\n`;
@@ -1987,9 +1923,13 @@ class CartManager {
         }
 
         message += `\n*🚚 Información de Entrega:*\n`;
-        message += `Fecha: ${this.getDeliveryDateDisplay(customer.deliveryDate)}\n`;
-        message += `Horario: ${this.getDeliveryTimeDisplay(customer.deliveryTime)}\n`;
-        message += `Dirección: ${customer.address}\n`;
+        message += `Zona: ${this.getZoneDisplay(this.customerData.deliveryZone)}\n`;
+        message += `Fecha: ${this.getDeliveryDateDisplay(this.customerData.deliveryDate)}\n`;
+        message += `Horario: ${this.getDeliveryTimeDisplay(this.customerData.deliveryTime)}\n`;
+        message += `Dirección: ${this.customerData.address}\n`;
+        
+        message += `\n*💳 Método de Pago:*\n`;
+        message += `${this.getPaymentMethodDisplay(this.customerData.paymentMethod)}\n`;
         
         if (customer.notes) {
             message += `Notas: ${customer.notes}\n`;
@@ -2101,9 +2041,15 @@ class CartManager {
         // Información de entrega
         summary += `INFORMACIÓN DE ENTREGA:\n`;
         summary += `-----------------------\n`;
+        summary += `Zona: ${this.getZoneDisplay(customer.deliveryZone)}\n`;
         summary += `Fecha: ${this.getDeliveryDateDisplay(customer.deliveryDate)}\n`;
         summary += `Horario: ${this.getDeliveryTimeDisplay(customer.deliveryTime)}\n`;
         summary += `Dirección: ${customer.address}\n`;
+        summary += `\n`;
+
+        summary += `MÉTODO DE PAGO:\n`;
+        summary += `${this.getPaymentMethodDisplay(customer.paymentMethod)}\n`;
+        summary += `\n`;
         
         if (customer.notes) {
             summary += `Notas: ${customer.notes}\n`;
@@ -2241,7 +2187,7 @@ class CartManager {
     getPaymentMethodDisplay(paymentMethod) {
         const methods = {
             'efectivo': 'Efectivo',
-            'transferencia': 'Transferencia Bancaria'
+            'transferencia': 'Transferencia'
         };
         return methods[paymentMethod] || 'No especificado';
     }
