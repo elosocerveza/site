@@ -5,6 +5,130 @@ const CONFIG = {
     FREE_SHIPPING_HOUR: 18
 };
 
+// ===== MANAGER DE ICONOS SVG =====
+class IconManager {
+    static getIcon(iconName, className = '') {
+        const icons = {
+            'bars': 'icon-bars',
+            'search': 'icon-search',
+            'cart': 'icon-cart',
+            'close': 'icon-close',
+            'bolt': 'icon-bolt',
+            'crown': 'icon-crown',
+            'beer': 'icon-beer',
+            'pepper': 'icon-pepper',
+            'jar': 'icon-jar',
+            'gift': 'icon-gift',
+            'star': 'icon-star',
+            'star-half': 'icon-star-half',
+            'star-empty': 'icon-star-empty',
+            'arrow-right': 'icon-arrow-right',
+            'spinner': 'icon-spinner',
+            'fire': 'icon-fire',
+            'minus': 'icon-minus',
+            'plus': 'icon-plus',
+            'trash': 'icon-trash',
+            'check': 'icon-check',
+            'user': 'icon-user',
+            'truck': 'icon-truck',
+            'calendar': 'icon-calendar',
+            'clock': 'icon-clock',
+            'location': 'icon-location',
+            'money': 'icon-money',
+            'bank': 'icon-bank',
+            'card': 'icon-card',
+            'receipt': 'icon-receipt',
+            'info': 'icon-info',
+            'camera': 'icon-camera',
+            'instagram': 'icon-instagram',
+            'whatsapp': 'icon-whatsapp',
+            'arrow-left': 'icon-arrow-left',
+            'award': 'icon-award',
+            'leaf': 'icon-leaf',
+            'shield': 'icon-shield',
+            'list': 'icon-list',
+            'shipping': 'icon-shipping',
+            'hand': 'icon-hand',
+            'headset': 'icon-headset',
+            'store': 'icon-store',
+            'question': 'icon-question',
+            'tags': 'icon-tags',
+            'eye': 'icon-eye'
+        };
+
+        const iconId = icons[iconName];
+        if (!iconId) {
+            console.warn(`Icono no encontrado: ${iconName}`);
+            return '';
+        }
+
+        return `
+            <svg class="icon ${className}" aria-hidden="true">
+                <use xlink:href="#${iconId}"></use>
+            </svg>
+        `;
+    }
+
+    static replaceFontAwesomeIcons() {
+        // Reemplazar iconos en el HTML estático
+        const replacements = {
+            'fa-bars': 'bars',
+            'fa-search': 'search',
+            'fa-shopping-cart': 'cart',
+            'fa-times': 'close',
+            'fa-bolt': 'bolt',
+            'fa-crown': 'crown',
+            'fa-beer': 'beer',
+            'fa-pepper-hot': 'pepper',
+            'fa-jar': 'jar',
+            'fa-gift': 'gift',
+            'fa-star': 'star',
+            'fa-arrow-right': 'arrow-right',
+            'fa-spinner': 'spinner',
+            'fa-fire': 'fire',
+            'fa-minus': 'minus',
+            'fa-plus': 'plus',
+            'fa-trash': 'trash',
+            'fa-check': 'check',
+            'fa-user': 'user',
+            'fa-truck': 'truck',
+            'fa-calendar-alt': 'calendar',
+            'fa-clock': 'clock',
+            'fa-map-marker-alt': 'location',
+            'fa-money-bill-wave': 'money',
+            'fa-university': 'bank',
+            'fa-credit-card': 'card',
+            'fa-file-invoice': 'receipt',
+            'fa-info-circle': 'info',
+            'fa-camera': 'camera',
+            'fa-instagram': 'instagram',
+            'fa-whatsapp': 'whatsapp',
+            'fa-arrow-left': 'arrow-left',
+            'fa-award': 'award',
+            'fa-leaf': 'leaf',
+            'fa-shield-alt': 'shield',
+            'fa-list-alt': 'list',
+            'fa-shipping-fast': 'shipping',
+            'fa-hand-holding-usd': 'hand',
+            'fa-headset': 'headset',
+            'fa-store': 'store',
+            'fa-question-circle': 'question',
+            'fa-tags': 'tags',
+            'fa-eye': 'eye'
+        };
+
+        Object.entries(replacements).forEach(([faClass, iconName]) => {
+            const elements = document.querySelectorAll(`.${faClass}`);
+            elements.forEach(element => {
+                const svgHTML = IconManager.getIcon(iconName, element.className);
+                if (svgHTML) {
+                    element.outerHTML = svgHTML;
+                }
+            });
+        });
+    }
+}
+
 // ===== CLASE PRINCIPAL DE LA APLICACIÓN =====
 class ElOsoApp {
     constructor() {
@@ -19,10 +143,12 @@ class ElOsoApp {
 
     async init() {
         try {
+            // Reemplazar iconos de Font Awesome por SVG
+            IconManager.replaceFontAwesomeIcons();
+            
             this.setupManagers();
             await this.loadProducts();
             this.setupEventListeners();
-            //this.startCountdowns();
             this.loadCart();
             this.updateCartUI();
             
@@ -56,13 +182,6 @@ class ElOsoApp {
         this.managers.cart.updateCartUI();
     }
 
-    startCountdowns() {
-        this.managers.ui.startCountdown();
-        this.managers.ui.startShippingCountdown();
-        this.managers.ui.startCompactShippingCountdown();
-    }
-
-    // Métodos de acceso rápido
     getProductById(id) {
         return this.managers.products.getProductById(id);
     }
@@ -200,16 +319,6 @@ class ElOsoApp {
                 this.managers.ui.closeProductDetailsModal();
             });
         }
-
-        // Mobile menu item for Why Choose Us
-        const whyChooseBtnMobile = document.querySelector('.why-choose-btn-mobile');
-        if (whyChooseBtnMobile) {
-            whyChooseBtnMobile.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.closeMobileMenu();
-                setTimeout(() => this.openWhyChooseModal(), 300);
-            });
-        }
     }
 
     setupNavigationEventListeners() {
@@ -300,15 +409,6 @@ class ElOsoApp {
         const overlay = document.getElementById('overlay');
         
         modal?.classList.remove('active');
-        overlay?.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    closeMobileMenu() {
-        const mobileMenu = document.getElementById('mobileMenu');
-        const overlay = document.getElementById('overlay');
-        
-        mobileMenu?.classList.remove('active');
         overlay?.classList.remove('active');
         document.body.style.overflow = '';
     }
@@ -667,8 +767,7 @@ class ProductManager {
         const isLowStock = product.stock && product.stock < 10;
         const isOutOfStock = product.stock === 0;
         const qualifiesForFreeShipping = product.price >= CONFIG.FREE_SHIPPING_THRESHOLD;
-        
-        const badgesHTML = this.generateProductBadges(product, qualifiesForFreeShipping, isLowStock, isOutOfStock);
+        const badgesHTML = '';
         
         return `
             <div class="product-card" data-id="${product.id}" data-category="${product.category || 'beer'}">
@@ -700,7 +799,7 @@ class ProductManager {
 
                         ${product.sold ? `
                         <div class="product-sold">
-                            <i class="fas fa-fire"></i>
+                            ${IconManager.getIcon('fire')}
                             <span>${product.sold}+ ventas</span>
                         </div>
                         ` : ''}
@@ -715,7 +814,7 @@ class ProductManager {
                                 data-id="${product.id}" 
                                 ${isOutOfStock ? 'disabled' : ''}
                                 aria-label="Agregar ${product.name} al carrito">
-                                <i class="fas fa-cart-plus"></i>
+                                ${IconManager.getIcon('cart')}
                             </button>
                         </div>
                     </div>
@@ -765,101 +864,50 @@ class ProductManager {
         
         // Estrellas llenas
         for (let i = 0; i < fullStars; i++) {
-            starsHTML += '<i class="fas fa-star"></i>';
+            starsHTML += IconManager.getIcon('star');
         }
         
         // Media estrella si es necesario
         if (hasHalfStar) {
-            starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            starsHTML += IconManager.getIcon('star-half'); // Usamos estrella completa por simplicidad
         }
         
-        // Estrellas vacías
+        // Estrellas vacías - en SVG no tenemos vacías, usamos todas llenas
         for (let i = 0; i < emptyStars; i++) {
-            starsHTML += '<i class="far fa-star"></i>';
+            starsHTML += IconManager.getIcon('star-empty');
         }
         
         return starsHTML;
     }
 
-    generateProductBadges(product, qualifiesForFreeShipping, isLowStock, isOutOfStock) {
-
-        return '';
-
-        let badgeType = product.badge || '';
-        if (!badgeType && product.oldPrice) badgeType = 'flash';
-        if (!badgeType && product.sold > 100) badgeType = 'popular';
-        
-        let badgesHTML = '';
-        
-        if (badgeType) {
-            badgesHTML += `<div class="product-badge badge-${badgeType}">${this.getBadgeText(badgeType)}</div>`;
-        }
-        
-        if (qualifiesForFreeShipping) {
-            badgesHTML += `<div class="product-badge badge-shipping">🚚 ENVÍO GRATIS</div>`;
-        }
-        
-        if (isLowStock && !isOutOfStock) {
-            badgesHTML += `<div class="product-badge badge-stock">⚠️ ÚLTIMAS</div>`;
-        }
-        
-        if (isOutOfStock) {
-            badgesHTML += `<div class="product-badge badge-stock">🔴 AGOTADO</div>`;
-        }
-        
-        return badgesHTML;
-    }
-
-    getBadgeText(badge) {
-        const badges = {
-            'flash': '🔥 FLASH',
-            'new': '🆕 NUEVO', 
-            'popular': '⭐ POPULAR',
-            'trending': '📈 TRENDING',
-            'stock': '⚠️ ÚLTIMAS',
-            'outofstock': '🔴 AGOTADO',
-            'shipping': '🚚 ENVÍO GRATIS'
-        };
-        return badges[badge] || badge.toUpperCase();
-    }
-
     getCategoryIcon(category) {
-        const icons = {
-            'beer': 'fas fa-beer',
-            'beers': 'fas fa-beer',
-            'cerveza': 'fas fa-beer',
-            'cervezas': 'fas fa-beer',
-            'sauce': 'fas fa-pepper-hot',
-            'sauces': 'fas fa-pepper-hot',
-            'salsa': 'fas fa-pepper-hot',
-            'salsas': 'fas fa-pepper-hot',
-            'preserve': 'fas fa-jar',
-            'preserves': 'fas fa-jar',
-            'conserva': 'fas fa-jar',
-            'conservas': 'fas fa-jar',
-            'combo': 'fas fa-gift',
-            'combos': 'fas fa-gift'
+        const iconMap = {
+            'beer': 'beer',
+            'beers': 'beer',
+            'cerveza': 'beer',
+            'cervezas': 'beer',
+            'sauce': 'pepper',
+            'sauces': 'pepper',
+            'salsa': 'pepper',
+            'salsas': 'pepper',
+            'preserve': 'jar',
+            'preserves': 'jar',
+            'conserva': 'jar',
+            'conservas': 'jar',
+            'combo': 'gift',
+            'combos': 'gift'
         };
         
         const normalizedCategory = (category || '').toLowerCase();
-        const iconClass = icons[normalizedCategory] || 'fas fa-beer';
+        const iconName = iconMap[normalizedCategory] || 'beer';
         
-        return `<i class="${iconClass}" style="font-size: 48px; color: #ccc;"></i>`;
-    }
-
-    getFreeShippingHTML() {
-        return `
-            <div class="free-shipping-info">
-                <i class="fas fa-shipping-fast"></i>
-                <span>Envío gratis en Quilmes Jueves y Viernes</span>
-            </div>
-        `;
+        return IconManager.getIcon(iconName);
     }
 
     getEmptyProductsHTML() {
         return `
             <div class="loading-products">
-                <i class="fas fa-box-open"></i>
+                ${IconManager.getIcon('jar')}
                 <p>No hay productos disponibles</p>
             </div>
         `;
@@ -875,15 +923,6 @@ class ProductManager {
             });
         });
 
-        // Botones compra rápida
-        container.querySelectorAll('.quick-buy-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const productId = parseInt(btn.dataset.id);
-                this.quickBuyProduct(productId);
-            });
-        });
-
         // Clicks en tarjetas de producto
         container.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('click', (e) => {
@@ -893,18 +932,6 @@ class ProductManager {
                 }
             });
         });
-    }
-
-    quickBuyProduct(productId) {
-        const product = this.getProductById(productId);
-        if (!product) return;
-
-        if (this.app.managers.analytics) {
-            this.app.managers.analytics.trackQuickBuy(product);
-        }
-
-        const message = `¡Hola! Quiero comprar *${product.name}* por $${product.price.toLocaleString()}. Por favor, necesito coordinar la entrega. ¡Gracias!`;
-        this.app.managers.ui.openWhatsApp(message);
     }
 
     showProductDetails(productId) {
@@ -1293,27 +1320,6 @@ class CartManager {
         // No cerramos el carrito, sino que mostramos la confirmación
     }
 
-    getDeliveryCostMessage() {
-        const { subtotal } = this.calculateCartTotals();
-        const shippingCost = this.calculateShippingCost();
-        
-        if (shippingCost === 0) {
-            return 'GRATIS';
-        } else {
-            // Explicar por qué no es gratis
-            const isFreeShippingDay = this.customerData.deliveryDate === 'jueves' || 
-                                    this.customerData.deliveryDate === 'viernes';
-            
-            if (!isFreeShippingDay) {
-                return 'A CONSULTAR (no es jueves o viernes)';
-            } else if (subtotal < CONFIG.FREE_SHIPPING_THRESHOLD) {
-                return `A CONSULTAR (faltan $${(CONFIG.FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString()} para envío gratis)`;
-            } else {
-                return 'A CONSULTAR';
-            }
-        }
-    }
-
     async submitCompleteOrderToAppsScript(subtotal) {
         const orderId = Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
         
@@ -1507,20 +1513,20 @@ class CartManager {
                             <button class="quantity-btn-temu" 
                                 onclick="window.elOsoApp.updateCartQuantity(${item.id}, -1)"
                                 aria-label="Disminuir cantidad de ${item.name}">
-                                <i class="fas fa-minus"></i>
+                                ${IconManager.getIcon('minus')}
                             </button>
                             <span class="quantity-display-temu">${item.quantity}</span>
                             <button class="quantity-btn-temu"
                                 onclick="window.elOsoApp.updateCartQuantity(${item.id}, 1)" 
                                 ${item.stock && item.quantity >= item.stock ? 'disabled' : ''}
                                 aria-label="Aumentar cantidad de ${item.name}">
-                                <i class="fas fa-plus"></i>
+                                ${IconManager.getIcon('plus')}
                             </button>
                         </div>
                         <button class="remove-item-temu"
                             onclick="window.elOsoApp.removeFromCart(${item.id})"
                             aria-label="Eliminar ${item.name} del carrito">
-                            <i class="fas fa-trash"></i>
+                            ${IconManager.getIcon('trash')}
                         </button>
                     </div>
                 </div>
@@ -1531,7 +1537,7 @@ class CartManager {
     getEmptyCartHTML() {
         return `
             <div class="empty-cart-temu">
-                <i class="fas fa-shopping-cart"></i>
+                ${IconManager.getIcon('cart')}
                 <p>Tu carrito está vacío</p>
                 <span>Agrega productos increíbles</span>
             </div>
@@ -1551,7 +1557,7 @@ class CartManager {
         const checkoutBtnTemu = document.getElementById('checkoutBtnTemu');
         if (checkoutBtnTemu) {
             checkoutBtnTemu.innerHTML = `
-                <i class="fas fa-shopping-cart"></i>
+                ${IconManager.getIcon('cart')}
                 <span>Checkout - $${subtotal.toLocaleString()}</span>
             `;
         }
@@ -1623,15 +1629,11 @@ class CartManager {
                 <button class="recommendation-add-btn-temu" 
                     onclick="window.elOsoApp.addToCart(${product.id})"
                     aria-label="Agregar ${product.name} al carrito">
-                    <i class="fas fa-plus"></i>
+                    ${IconManager.getIcon('plus')}
                     Agregar
                 </button>
             </div>
         `;
-    }
-
-    checkout() {
-        this.startCheckout();
     }
 
     clearCart() {
@@ -1823,22 +1825,6 @@ class CartManager {
             };
         }
 
-        // Botón de imprimir
-        const printBtn = document.getElementById('printOrderBtn');
-        if (printBtn) {
-            printBtn.onclick = () => {
-                this.printOrderSummaryConfirmation();
-            };
-        }
-
-        // Botón de guardar
-        const saveBtn = document.getElementById('saveOrderBtn');
-        if (saveBtn) {
-            saveBtn.onclick = () => {
-                this.saveOrderSummaryConfirmation();
-            };
-        }
-
         // Botón de seguir comprando
         const continueBtn = document.getElementById('continueShoppingBtn');
         if (continueBtn) {
@@ -1964,106 +1950,6 @@ class CartManager {
         }
     }
 
-    printOrderSummaryConfirmation() {
-        window.print();
-    }
-
-    saveOrderSummaryConfirmation() {
-        if (!this.confirmationData) return;
-
-        const orderSummary = this.buildOrderSummaryTextConfirmation();
-        const blob = new Blob([orderSummary], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `pedido-el-oso-${Date.now()}.txt`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        this.app.managers.ui.showNotification('✅ Pedido guardado como archivo de texto', 'success');
-    }
-
-    buildOrderSummaryTextConfirmation() {
-        if (!this.confirmationData) return '';
-        
-        const { cart, customerData, subtotal, totalSavings } = this.confirmationData;
-        const customer = customerData;
-        
-        let summary = `RESUMEN DE PEDIDO - EL OSO\n`;
-        summary += `===============================\n\n`;
-        
-        // Información del pedido
-        summary += `INFORMACIÓN DEL PEDIDO:\n`;
-        summary += `Fecha: ${new Date().toLocaleString('es-AR')}\n`;
-        summary += `Número de pedido: ${this.confirmationData.orderId}\n\n`;
-        
-        // Productos
-        summary += `PRODUCTOS:\n`;
-        summary += `-----------\n`;
-        cart.forEach(item => {
-            const displayPrice = item.discountPrice || item.price;
-            const totalPrice = displayPrice * item.quantity;
-            summary += `• ${item.name}\n`;
-            summary += `  Cantidad: ${item.quantity} x $${displayPrice.toLocaleString()} = $${totalPrice.toLocaleString()}\n\n`;
-        });
-        
-        // Totales
-        summary += `RESUMEN DE PAGO:\n`;
-        summary += `----------------\n`;
-        summary += `Subtotal: $${subtotal.toLocaleString()}\n`;
-        
-        if (totalSavings > 0) {
-            summary += `Ahorro: $${totalSavings.toLocaleString()}\n`;
-        }
-        
-        const shippingCost = this.calculateShippingCostConfirmation();
-        if (shippingCost === 0) {
-            summary += `Envío: GRATIS\n`;
-            summary += `TOTAL: $${subtotal.toLocaleString()}\n\n`;
-        } else {
-            summary += `Envío: A CONSULTAR\n`;
-            summary += `SUBTOTAL: $${subtotal.toLocaleString()}\n\n`;
-        }
-        
-        // Datos del cliente
-        summary += `DATOS DEL CLIENTE:\n`;
-        summary += `------------------\n`;
-        summary += `Nombre: ${customer.name}\n`;
-        summary += `Teléfono: ${customer.phone}\n`;
-        if (customer.email) {
-            summary += `Email: ${customer.email}\n`;
-        }
-        summary += `\n`;
-        
-        // Información de entrega
-        summary += `INFORMACIÓN DE ENTREGA:\n`;
-        summary += `-----------------------\n`;
-        summary += `Zona: ${this.getZoneDisplay(customer.deliveryZone)}\n`;
-        summary += `Fecha: ${this.getDeliveryDateDisplay(customer.deliveryDate)}\n`;
-        summary += `Horario: ${this.getDeliveryTimeDisplay(customer.deliveryTime)}\n`;
-        summary += `Dirección: ${customer.address}\n`;
-        summary += `\n`;
-
-        summary += `MÉTODO DE PAGO:\n`;
-        summary += `${this.getPaymentMethodDisplay(customer.paymentMethod)}\n`;
-        summary += `\n`;
-        
-        if (customer.notes) {
-            summary += `Notas: ${customer.notes}\n`;
-        }
-        
-        summary += `\n`;
-        summary += `CONTACTO:\n`;
-        summary += `---------\n`;
-        summary += `WhatsApp: +54 9 11 2349-5971\n`;
-        summary += `Instagram: @elosocerveza\n`;
-        
-        return summary;
-    }
-
     trackWhatsAppClickConfirmation() {
         if (typeof gtag !== 'undefined') {
             gtag('event', 'whatsapp_confirmation', {
@@ -2111,11 +1997,11 @@ class CartManager {
         const isFreeShippingZone = this.FREE_SHIPPING_ZONES.includes(selectedZone);
         
         if (isFreeShippingZone) {
-            zoneInfo.innerHTML = '<i class="fas fa-check-circle" style="color: var(--success-green);"></i> Zona con envío gratis disponible';
+            zoneInfo.innerHTML = `${IconManager.getIcon('check')} Zona con envío gratis disponible`;
             zoneInfo.style.display = 'block';
             zoneInfo.style.color = 'var(--success-green)';
         } else {
-            zoneInfo.innerHTML = '<i class="fas fa-info-circle" style="color: var(--warning-orange);"></i> Esta zona puede tener costo de envío adicional';
+            zoneInfo.innerHTML = `${IconManager.getIcon('info')} Esta zona puede tener costo de envío adicional`;
             zoneInfo.style.display = 'block';
             zoneInfo.style.color = 'var(--warning-orange)';
         }
@@ -2200,7 +2086,6 @@ class UIManager {
         this.currentProduct = null;
         this.currentQuantity = 1;
         this.setupWhatsAppMenu();
-        this.setupMobileEventListeners();
     }
 
     setupWhatsAppMenu() {
@@ -2243,36 +2128,6 @@ class UIManager {
                 whatsappMenu.classList.remove('active');
             }
         });
-    }
-
-    setupMobileEventListeners() {
-        // Mobile wishlist button
-        const wishlistBtn = document.querySelector('.wishlist-btn');
-        if (wishlistBtn) {
-            wishlistBtn.addEventListener('click', () => {
-                this.toggleWishlist();
-            });
-        }
-    }
-
-    toggleWishlist() {
-        const wishlistBtn = document.querySelector('.wishlist-btn');
-        const isInWishlist = wishlistBtn.classList.contains('active');
-        
-        if (isInWishlist) {
-            wishlistBtn.classList.remove('active');
-            wishlistBtn.innerHTML = '<i class="far fa-heart"></i>';
-            this.showNotification('💔 Eliminado de favoritos', 'info');
-        } else {
-            wishlistBtn.classList.add('active');
-            wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>';
-            this.showNotification('❤️ Agregado a favoritos', 'success');
-            
-            if (this.app.managers.analytics) {
-                const productName = document.getElementById('detailsProductNameMobile')?.textContent || 'Unknown Product';
-                this.app.managers.analytics.trackEvent('Ecommerce', 'add_to_wishlist', productName);
-            }
-        }
     }
 
     // ===== MÉTODOS PARA EL MODAL DE DETALLES DEL PRODUCTO =====
@@ -2330,55 +2185,6 @@ class UIManager {
                 const category = product.category || 'beer';
                 fixedImageContainer.innerHTML = this.app.managers.products.getCategoryIcon(category);
             }
-        }
-    }
-
-    setupProductBadges(product, container) {
-
-        return '';
-
-        if (!container) return;
-
-        let badgeType = product.badge || '';
-        
-        // Determinar badge type
-        if (!badgeType && product.oldPrice && product.oldPrice > product.price) {
-            badgeType = 'flash';
-        }
-        if (!badgeType && product.sold > 100) {
-            badgeType = 'popular';
-        }
-        
-        // Crear badges
-        if (badgeType) {
-            const badge = document.createElement('div');
-            badge.className = `product-badge badge-${badgeType}`;
-            badge.textContent = this.app.managers.products.getBadgeText(badgeType);
-            container.appendChild(badge);
-        }
-        
-        // Add stock badge si bajo stock
-        if (product.stock && product.stock < 5 && product.stock > 0) {
-            const stockBadge = document.createElement('div');
-            stockBadge.className = 'product-badge badge-stock';
-            stockBadge.textContent = 'ÚLTIMAS UNIDADES';
-            container.appendChild(stockBadge);
-        }
-        
-        // Add out of stock badge
-        if (product.stock === 0) {
-            const outOfStockBadge = document.createElement('div');
-            outOfStockBadge.className = 'product-badge badge-stock';
-            outOfStockBadge.textContent = 'AGOTADO';
-            container.appendChild(outOfStockBadge);
-        }
-        
-        // Add shipping badge si califica para envío gratis
-        if (product.price >= CONFIG.FREE_SHIPPING_THRESHOLD) {
-            const shippingBadge = document.createElement('div');
-            shippingBadge.className = 'product-badge badge-shipping';
-            shippingBadge.textContent = '🚚 ENVÍO GRATIS';
-            container.appendChild(shippingBadge);
         }
     }
 
@@ -2581,7 +2387,7 @@ class UIManager {
         // Disable button if no stock
         if (product.stock === 0) {
             addToCartBtn.disabled = true;
-            addToCartBtn.innerHTML = '<i class="fas fa-times"></i><span>SIN STOCK</span>';
+            addToCartBtn.innerHTML = `${IconManager.getIcon('close')}<span>SIN STOCK</span>`;
             return;
         }
         
@@ -2595,7 +2401,7 @@ class UIManager {
         
         // Ensure button is enabled and has correct text
         addToCartBtn.disabled = false;
-        addToCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i><span>AGREGAR AL CARRITO</span>';
+        addToCartBtn.innerHTML = `${IconManager.getIcon('cart')}<span>AGREGAR AL CARRITO</span>`;
     }
 
     closeProductDetailsModal() {
@@ -2645,159 +2451,6 @@ class UIManager {
         imageElement.parentNode.appendChild(iconContainer);
     }
 
-    // Contadores
-    startCountdown() {
-        const countdownElement = document.getElementById('countdown');
-        const miniCountdown = document.getElementById('miniCountdown');
-        
-        if (!countdownElement) return;
-
-        const countdownEndKey = 'elOsoCountdownEnd';
-        let countdownEnd = localStorage.getItem(countdownEndKey);
-        
-        if (!countdownEnd) {
-            countdownEnd = Date.now() + (24 * 60 * 60 * 1000);
-            localStorage.setItem(countdownEndKey, countdownEnd);
-        } else {
-            countdownEnd = parseInt(countdownEnd);
-        }
-
-        const updateCountdown = () => {
-            const now = Date.now();
-            const timeLeft = Math.max(0, countdownEnd - now);
-            
-            if (timeLeft <= 0) {
-                countdownEnd = Date.now() + (24 * 60 * 60 * 1000);
-                localStorage.setItem(countdownEndKey, countdownEnd);
-                updateCountdown();
-                return;
-            }
-
-            const hours = Math.floor(timeLeft / (1000 * 60 * 60));
-            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            if (countdownElement) {
-                const [hoursEl, minutesEl, secondsEl] = countdownElement.querySelectorAll('.countdown-number');
-                hoursEl.textContent = hours.toString().padStart(2, '0');
-                minutesEl.textContent = minutes.toString().padStart(2, '0');
-                secondsEl.textContent = seconds.toString().padStart(2, '0');
-            }
-
-            if (miniCountdown) {
-                miniCountdown.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-        };
-
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    }
-
-    startShippingCountdown() {
-        const countdownElement = document.getElementById('shippingCountdown');
-        if (!countdownElement) return;
-
-        const updateShippingCountdown = () => {
-            const now = new Date();
-            const currentDay = now.getDay();
-            const currentHour = now.getHours();
-            
-            let targetDate = this.calculateNextShippingDate(now, currentDay, currentHour);
-            
-            const timeDiff = targetDate - now;
-            
-            if (timeDiff <= 0) {
-                countdownElement.textContent = "¡ENVÍO GRATIS DISPONIBLE AHORA!";
-                countdownElement.style.color = '#FFD700';
-                countdownElement.style.fontWeight = '700';
-                return;
-            }
-            
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            
-            let message = "";
-            if (days > 0) {
-                message = `Próximo envío gratis en: ${days}d ${hours}h`;
-            } else if (hours > 0) {
-                message = `¡ENVÍO GRATIS HOY! Termina en: ${hours}h ${minutes}m`;
-                countdownElement.style.color = '#FFD700';
-                countdownElement.style.fontWeight = '700';
-            } else {
-                message = `¡ENVÍO GRATIS HOY! Termina en: ${minutes}m`;
-                countdownElement.style.color = '#FFD700';
-                countdownElement.style.fontWeight = '700';
-            }
-            
-            countdownElement.textContent = message;
-        };
-
-        updateShippingCountdown();
-        setInterval(updateShippingCountdown, 60000);
-    }
-
-    calculateNextShippingDate(now, currentDay, currentHour) {
-        let targetDate;
-        
-        if (CONFIG.FREE_SHIPPING_DAYS.includes(currentDay)) {
-            if (currentHour < CONFIG.FREE_SHIPPING_HOUR) {
-                targetDate = new Date(now);
-                targetDate.setHours(CONFIG.FREE_SHIPPING_HOUR, 0, 0, 0);
-            } else {
-                const daysUntilNext = (CONFIG.FREE_SHIPPING_DAYS[0] - currentDay + 7) % 7;
-                targetDate = new Date(now);
-                targetDate.setDate(now.getDate() + (daysUntilNext === 0 ? 7 : daysUntilNext));
-                targetDate.setHours(CONFIG.FREE_SHIPPING_HOUR, 0, 0, 0);
-            }
-        } else {
-            const nextShippingDay = CONFIG.FREE_SHIPPING_DAYS.find(day => day > currentDay) || CONFIG.FREE_SHIPPING_DAYS[0];
-            const daysUntilNext = (nextShippingDay - currentDay + 7) % 7;
-            targetDate = new Date(now);
-            targetDate.setDate(now.getDate() + daysUntilNext);
-            targetDate.setHours(CONFIG.FREE_SHIPPING_HOUR, 0, 0, 0);
-        }
-        
-        return targetDate;
-    }
-
-    startCompactShippingCountdown() {
-        const countdownElement = document.getElementById('compactShippingCountdown');
-        if (!countdownElement) return;
-
-        const updateCompactShippingCountdown = () => {
-            const now = new Date();
-            const currentDay = now.getDay();
-            const currentHour = now.getHours();
-            
-            const targetDate = this.calculateNextShippingDate(now, currentDay, currentHour);
-            const timeDiff = targetDate - now;
-            
-            if (timeDiff <= 0) {
-                countdownElement.textContent = "¡HOY!";
-                return;
-            }
-            
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            
-            let countdownText = "";
-            if (days > 0) {
-                countdownText = `Próximo: ${days}d ${hours}h`;
-            } else if (hours > 0) {
-                countdownText = `Próximo: ${hours}h ${minutes}m`;
-            } else {
-                countdownText = `Próximo: ${minutes}m`;
-            }
-            
-            countdownElement.textContent = countdownText;
-        };
-
-        updateCompactShippingCountdown();
-        setInterval(updateCompactShippingCountdown, 60000);
-    }
-
     updateProductViewers() {
         document.querySelectorAll('.product-card').forEach(card => {
             const existingBadge = card.querySelector('.viewers-badge');
@@ -2808,7 +2461,7 @@ class UIManager {
             const viewers = Math.floor(Math.random() * 10) + 1;
             const viewersBadge = `
                 <div class="viewers-badge">
-                    <i class="fas fa-eye"></i>
+                    ${IconManager.getIcon('eye')}
                     <span>${viewers} VISTAS</span>
                 </div>
             `;
@@ -2934,7 +2587,7 @@ class UIManager {
         if (subtotal >= freeShippingThreshold) {
             shippingRemaining.innerHTML = `
                 <div class="free-shipping-icon">
-                    <i class="fas fa-check-circle"></i>
+                    ${IconManager.getIcon('check')}
                     <span>¡Envío gratis desbloqueado!</span>
                 </div>
             `;
@@ -3221,7 +2874,7 @@ class SocialProof {
             photoElement.innerHTML = `
                 <img src="${photo.image}" alt="${photo.caption}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                 <div class="ugc-fallback" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; background: #f8f8f8; color: #ccc;">
-                    <i class="fas fa-camera" style="font-size: 2rem;"></i>
+                    ${IconManager.getIcon('camera')}
                 </div>
                 <div class="ugc-user">
                     <div>${photo.user}</div>
@@ -3251,7 +2904,6 @@ document.addEventListener('DOMContentLoaded', function() {
     window.closeProductDetailsModal = () => window.elOsoApp.managers.ui.closeProductDetailsModal();
     window.openWhyChooseModal = () => window.elOsoApp.openWhyChooseModal();
     window.closeWhyChooseModal = () => window.elOsoApp.closeWhyChooseModal();
-    window.quickBuyProduct = (productId) => window.elOsoApp.managers.products.quickBuyProduct(productId);
     window.clearCart = () => window.elOsoApp.managers.cart.clearCart();
     
     // NUEVOS MÉTODOS PARA APPS SCRIPT
