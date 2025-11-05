@@ -68,65 +68,6 @@ class IconManager {
             </svg>
         `;
     }
-
-    static replaceFontAwesomeIcons() {
-        // Reemplazar iconos en el HTML estático
-        const replacements = {
-            'fa-bars': 'bars',
-            'fa-search': 'search',
-            'fa-shopping-cart': 'cart',
-            'fa-times': 'close',
-            'fa-bolt': 'bolt',
-            'fa-crown': 'crown',
-            'fa-beer': 'beer',
-            'fa-pepper-hot': 'pepper',
-            'fa-jar': 'jar',
-            'fa-gift': 'gift',
-            'fa-star': 'star',
-            'fa-arrow-right': 'arrow-right',
-            'fa-spinner': 'spinner',
-            'fa-fire': 'fire',
-            'fa-minus': 'minus',
-            'fa-plus': 'plus',
-            'fa-trash': 'trash',
-            'fa-check': 'check',
-            'fa-user': 'user',
-            'fa-truck': 'truck',
-            'fa-calendar-alt': 'calendar',
-            'fa-clock': 'clock',
-            'fa-map-marker-alt': 'location',
-            'fa-money-bill-wave': 'money',
-            'fa-university': 'bank',
-            'fa-credit-card': 'card',
-            'fa-file-invoice': 'receipt',
-            'fa-info-circle': 'info',
-            'fa-camera': 'camera',
-            'fa-instagram': 'instagram',
-            'fa-whatsapp': 'whatsapp',
-            'fa-arrow-left': 'arrow-left',
-            'fa-award': 'award',
-            'fa-leaf': 'leaf',
-            'fa-shield-alt': 'shield',
-            'fa-list-alt': 'list',
-            'fa-shipping-fast': 'shipping',
-            'fa-hand-holding-usd': 'hand',
-            'fa-headset': 'headset',
-            'fa-store': 'store',
-            'fa-question-circle': 'question',
-            'fa-tags': 'tags',
-            'fa-eye': 'eye'
-        };
-
-        Object.entries(replacements).forEach(([faClass, iconName]) => {
-            const elements = document.querySelectorAll(`.${faClass}`);
-            elements.forEach(element => {
-                const svgHTML = IconManager.getIcon(iconName, element.className);
-                if (svgHTML) {
-                    element.outerHTML = svgHTML;
-                }
-            });
-        });
-    }
 }
 
 // ===== CLASE PRINCIPAL DE LA APLICACIÓN =====
@@ -143,9 +84,6 @@ class ElOsoApp {
 
     async init() {
         try {
-            // Reemplazar iconos de Font Awesome por SVG
-            IconManager.replaceFontAwesomeIcons();
-            
             this.setupManagers();
             await this.loadProducts();
             this.setupEventListeners();
@@ -1337,12 +1275,14 @@ class CartManager {
                 total: subtotal,
                 customer: this.customerData.name,
                 phone: this.customerData.phone,
-                address: this.customerData.address,
+                deliveryZone: this.customerData.deliveryZone,
                 deliveryDate: this.customerData.deliveryDate,
                 deliveryTime: this.customerData.deliveryTime,
+                deliveryAddress: this.customerData.address,
+                paymentMethod: this.customerData.paymentMethod,
                 notes: this.customerData.notes || ''
             };
-            
+
             try {
                 await this.app.managers.forms.submitOrderToGoogleForm(orderData);
                 console.log('✅ Pedido completo enviado a Google Apps Script');
@@ -1625,13 +1565,16 @@ class CartManager {
                     }
                 </div>
                 <div class="recommendation-name-temu">${product.name}</div>
-                <div class="recommendation-price-temu">$${displayPrice.toLocaleString()}</div>
-                <button class="recommendation-add-btn-temu" 
-                    onclick="window.elOsoApp.addToCart(${product.id})"
-                    aria-label="Agregar ${product.name} al carrito">
-                    ${IconManager.getIcon('plus')}
-                    Agregar
-                </button>
+                <div class="product-pricing">
+                    <span class="product-price">$${product.price.toLocaleString()}</span>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" 
+                            onclick="window.elOsoApp.addToCart(${product.id})"
+                            aria-label="Agregar ${product.name} al carrito">
+                            ${IconManager.getIcon('cart')}
+                        </button>
+                    </div>
+                </div>
             </div>
         `;
     }
