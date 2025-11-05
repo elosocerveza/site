@@ -1,76 +1,9 @@
-// ===== CONFIGURACIONES GLOBALES =====
 const CONFIG = {
     FREE_SHIPPING_THRESHOLD: 15000,
     FREE_SHIPPING_DAYS: [4, 5], // Jueves y Viernes
     FREE_SHIPPING_HOUR: 18
 };
 
-// ===== MANAGER DE ICONOS SVG =====
-class IconManager {
-    static getIcon(iconName, className = '') {
-        const icons = {
-            'bars': 'icon-bars',
-            'search': 'icon-search',
-            'cart': 'icon-cart',
-            'close': 'icon-close',
-            'bolt': 'icon-bolt',
-            'crown': 'icon-crown',
-            'beer': 'icon-beer',
-            'pepper': 'icon-pepper',
-            'jar': 'icon-jar',
-            'gift': 'icon-gift',
-            'star': 'icon-star',
-            'star-half': 'icon-star-half',
-            'star-empty': 'icon-star-empty',
-            'arrow-right': 'icon-arrow-right',
-            'spinner': 'icon-spinner',
-            'fire': 'icon-fire',
-            'minus': 'icon-minus',
-            'plus': 'icon-plus',
-            'trash': 'icon-trash',
-            'check': 'icon-check',
-            'user': 'icon-user',
-            'truck': 'icon-truck',
-            'calendar': 'icon-calendar',
-            'clock': 'icon-clock',
-            'location': 'icon-location',
-            'money': 'icon-money',
-            'bank': 'icon-bank',
-            'card': 'icon-card',
-            'receipt': 'icon-receipt',
-            'info': 'icon-info',
-            'camera': 'icon-camera',
-            'instagram': 'icon-instagram',
-            'whatsapp': 'icon-whatsapp',
-            'arrow-left': 'icon-arrow-left',
-            'award': 'icon-award',
-            'leaf': 'icon-leaf',
-            'shield': 'icon-shield',
-            'list': 'icon-list',
-            'shipping': 'icon-shipping',
-            'hand': 'icon-hand',
-            'headset': 'icon-headset',
-            'store': 'icon-store',
-            'question': 'icon-question',
-            'tags': 'icon-tags',
-            'eye': 'icon-eye'
-        };
-
-        const iconId = icons[iconName];
-        if (!iconId) {
-            console.warn(`Icono no encontrado: ${iconName}`);
-            return '';
-        }
-
-        return `
-            <svg class="icon ${className}" aria-hidden="true">
-                <use xlink:href="#${iconId}"></use>
-            </svg>
-        `;
-    }
-}
-
-// ===== CLASE PRINCIPAL DE LA APLICACIÓN =====
 class ElOsoApp {
     constructor() {
         this.products = {
@@ -352,7 +285,6 @@ class ElOsoApp {
     }
 }
 
-// ===== MANAGER DE PRODUCTOS =====
 class ProductManager {
     constructor(app) {
         this.app = app;
@@ -737,7 +669,9 @@ class ProductManager {
 
                         ${product.sold ? `
                         <div class="product-sold">
-                            ${IconManager.getIcon('fire')}
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-fire"></use>
+                            </svg>
                             <span>${product.sold}+ ventas</span>
                         </div>
                         ` : ''}
@@ -752,7 +686,9 @@ class ProductManager {
                                 data-id="${product.id}" 
                                 ${isOutOfStock ? 'disabled' : ''}
                                 aria-label="Agregar ${product.name} al carrito">
-                                ${IconManager.getIcon('cart')}
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-cart"></use>
+                                </svg>
                             </button>
                         </div>
                     </div>
@@ -802,17 +738,23 @@ class ProductManager {
         
         // Estrellas llenas
         for (let i = 0; i < fullStars; i++) {
-            starsHTML += IconManager.getIcon('star');
+            starsHTML += `<svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-star"></use>
+                            </svg>`
         }
         
         // Media estrella si es necesario
         if (hasHalfStar) {
-            starsHTML += IconManager.getIcon('star-half'); // Usamos estrella completa por simplicidad
+            starsHTML += `<svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-star-half"></use>
+                            </svg>`
         }
         
         // Estrellas vacías - en SVG no tenemos vacías, usamos todas llenas
         for (let i = 0; i < emptyStars; i++) {
-            starsHTML += IconManager.getIcon('star-empty');
+            starsHTML += `<svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-star-empty"></use>
+                            </svg>`;
         }
         
         return starsHTML;
@@ -839,13 +781,17 @@ class ProductManager {
         const normalizedCategory = (category || '').toLowerCase();
         const iconName = iconMap[normalizedCategory] || 'beer';
         
-        return IconManager.getIcon(iconName);
+        return `<svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-${iconName}"></use>
+                </svg>`;
     }
 
     getEmptyProductsHTML() {
         return `
             <div class="loading-products">
-                ${IconManager.getIcon('jar')}
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-jar"></use>
+                </svg>
                 <p>No hay productos disponibles</p>
             </div>
         `;
@@ -919,7 +865,6 @@ class ProductManager {
     }
 }
 
-// ===== MANAGER DEL CARRITO - CON CHECKOUT DE 4 PASOS =====
 class CartManager {
     constructor(app) {
         this.app = app;
@@ -927,54 +872,7 @@ class CartManager {
         this.customerData = {};
         this.confirmationData = null;
         this.FREE_SHIPPING_ZONES = ['quilmes', 'bernal', 'ezpeleta'];
-        this.initCheckout();
         this.setupPaymentEventListeners();
-    }
-
-    initCheckout() {
-        this.setupCheckoutEventListeners();
-    }
-
-    setupCheckoutEventListeners() {
-        // Botón de checkout principal
-        const checkoutBtnTemu = document.getElementById('checkoutBtnTemu');
-        if (checkoutBtnTemu) {
-            checkoutBtnTemu.addEventListener('click', () => {
-                this.startCheckout();
-            });
-        }
-
-        // Botón de confirmación final
-        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
-        if (confirmOrderBtn) {
-            confirmOrderBtn.addEventListener('click', () => {
-                this.confirmOrder();
-            });
-        }
-
-        // Navegación por teclado en formulario
-        const customerForm = document.getElementById('customerForm');
-        if (customerForm) {
-            customerForm.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    this.validateAndNext();
-                }
-            });
-        }
-    }
-
-    startCheckout() {
-        if (this.app.cart.length === 0) {
-            this.app.managers.ui.showNotification('❌ Tu carrito está vacío', 'error');
-            return;
-        }
-
-        this.nextStep(2);
-        
-        if (this.app.managers.analytics) {
-            this.app.managers.analytics.trackBeginCheckout(this.app.cart, this.calculateSubtotal());
-        }
     }
 
     nextStep(step) {
@@ -1025,10 +923,10 @@ class CartManager {
             currentStepEl.classList.add('active');
         }
 
-        // Actualizar barra de progreso
+        // Actualizar barra de progreso - ahora para 3 pasos
         const progressFill = document.getElementById('stepperFill');
         if (progressFill) {
-            const progress = ((step - 1) / 3) * 100; // Ahora son 4 pasos, pero mantenemos 3 para la barra
+            const progress = ((step - 1) / 2) * 100; // 3 pasos = 2 segmentos
             progressFill.style.width = `${progress}%`;
         }
     }
@@ -1039,18 +937,6 @@ class CartManager {
                 this.updateRecommendations();
                 this.app.managers.ui.updateShippingProgressStep1();
                 break;
-            case 3:
-                this.updateOrderSummary();
-                break;
-        }
-    }
-
-    validateAndNext() {
-        if (this.currentStep === 2) {
-            if (this.validateCustomerForm()) {
-                this.saveCustomerData();
-                this.nextStep(3);
-            }
         }
     }
 
@@ -1230,7 +1116,7 @@ class CartManager {
         
         // Preparar datos para la confirmación
         this.confirmationData = {
-            orderId: 'ELOSO_' + Date.now(),
+            orderId: Date.now(),
             cart: [...this.app.cart],
             customerData: { ...this.customerData },
             subtotal: subtotal,
@@ -1383,6 +1269,7 @@ class CartManager {
     updateCartUI() {
         this.updateCartItems();
         this.updateCartSummary();
+        this.updatePriceBreakdown();
         this.app.managers.ui.updateShippingProgressStep1();
         
         // Validar envío gratis si estamos en el paso 2
@@ -1453,20 +1340,26 @@ class CartManager {
                             <button class="quantity-btn-temu" 
                                 onclick="window.elOsoApp.updateCartQuantity(${item.id}, -1)"
                                 aria-label="Disminuir cantidad de ${item.name}">
-                                ${IconManager.getIcon('minus')}
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-minus"></use>
+                                </svg>
                             </button>
                             <span class="quantity-display-temu">${item.quantity}</span>
                             <button class="quantity-btn-temu"
                                 onclick="window.elOsoApp.updateCartQuantity(${item.id}, 1)" 
                                 ${item.stock && item.quantity >= item.stock ? 'disabled' : ''}
                                 aria-label="Aumentar cantidad de ${item.name}">
-                                ${IconManager.getIcon('plus')}
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-plus"></use>
+                                </svg>
                             </button>
                         </div>
                         <button class="remove-item-temu"
                             onclick="window.elOsoApp.removeFromCart(${item.id})"
                             aria-label="Eliminar ${item.name} del carrito">
-                            ${IconManager.getIcon('trash')}
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-trash"></use>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -1477,7 +1370,9 @@ class CartManager {
     getEmptyCartHTML() {
         return `
             <div class="empty-cart-temu">
-                ${IconManager.getIcon('cart')}
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-cart"></use>
+                </svg>
                 <p>Tu carrito está vacío</p>
                 <span>Agrega productos increíbles</span>
             </div>
@@ -1497,7 +1392,9 @@ class CartManager {
         const checkoutBtnTemu = document.getElementById('checkoutBtnTemu');
         if (checkoutBtnTemu) {
             checkoutBtnTemu.innerHTML = `
-                ${IconManager.getIcon('cart')}
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-cart"></use>
+                </svg>
                 <span>Checkout - $${subtotal.toLocaleString()}</span>
             `;
         }
@@ -1548,7 +1445,7 @@ class CartManager {
         const cartProductIds = this.app.cart.map(item => item.id);
         
         return allProducts
-            .filter(product => !cartProductIds.includes(product.id))
+            .filter(product => !cartProductIds.includes(product.id) && product.stock !== 0)
             .sort(() => Math.random() - 0.5)
             .slice(0, 4);
     }
@@ -1571,7 +1468,9 @@ class CartManager {
                         <button class="add-to-cart-btn" 
                             onclick="window.elOsoApp.addToCart(${product.id})"
                             aria-label="Agregar ${product.name} al carrito">
-                            ${IconManager.getIcon('cart')}
+                            <svg class="icon" aria-hidden="true">
+                                <use xlink:href="#icon-cart"></use>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -1633,12 +1532,9 @@ class CartManager {
     renderConfirmationStep() {
         if (!this.confirmationData) return;
 
-        // Renderizar detalles del pedido
         this.renderOrderItemsConfirmation();
         this.renderDeliveryInfoConfirmation();
-        this.renderOrderTotalsConfirmation();
-
-        // Configurar event listeners para los botones del paso 4
+        this.updateConfirmationPriceBreakdown();
         this.setupConfirmationEventListeners();
     }
 
@@ -1940,11 +1836,17 @@ class CartManager {
         const isFreeShippingZone = this.FREE_SHIPPING_ZONES.includes(selectedZone);
         
         if (isFreeShippingZone) {
-            zoneInfo.innerHTML = `${IconManager.getIcon('check')} Zona con envío gratis disponible`;
+            zoneInfo.innerHTML = `<svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-check"></use>
+                                </svg>
+                                 Zona con envío gratis disponible`;
             zoneInfo.style.display = 'block';
             zoneInfo.style.color = 'var(--success-green)';
         } else {
-            zoneInfo.innerHTML = `${IconManager.getIcon('info')} Esta zona puede tener costo de envío adicional`;
+            zoneInfo.innerHTML = `<svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-info"></use>
+                                </svg>
+                                 Esta zona puede tener costo de envío adicional`;
             zoneInfo.style.display = 'block';
             zoneInfo.style.color = 'var(--warning-orange)';
         }
@@ -2020,9 +1922,117 @@ class CartManager {
         };
         return methods[paymentMethod] || 'No especificado';
     }
+
+    validateAndConfirm() {
+        if (this.validateCustomerForm()) {
+            this.saveCustomerData();
+            this.confirmOrder();
+        }
+    }
+
+    updatePriceBreakdown() {
+        const { subtotal, totalSavings } = this.calculateCartTotals();
+        
+        // Actualizar elementos del desglose
+        const breakdownSubtotal = document.getElementById('breakdownSubtotal');
+        const breakdownSavings = document.getElementById('breakdownSavings');
+        const breakdownShipping = document.getElementById('breakdownShipping');
+        const breakdownTotal = document.getElementById('breakdownTotal');
+
+        if (breakdownSubtotal) breakdownSubtotal.textContent = `$${subtotal.toLocaleString()}`;
+        if (breakdownSavings) breakdownSavings.textContent = `-$${totalSavings.toLocaleString()}`;
+
+        // Calcular costo de envío
+        const shippingCost = this.calculateShippingCost();
+        let shippingText = '';
+        let total = subtotal;
+        
+        if (shippingCost === 0) {
+            shippingText = 'GRATIS';
+            if (breakdownShipping) {
+                breakdownShipping.innerHTML = `
+                    <div class="free-shipping-icon">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-check"></use>
+                        </svg>
+                        <span>${shippingText}</span>
+                    </div>
+                `;
+            }
+        } else {
+            shippingText = 'A CONSULTAR';
+            total = subtotal; // No sumamos porque es a consultar
+            if (breakdownShipping) {
+                breakdownShipping.textContent = shippingText;
+                breakdownShipping.style.color = 'var(--warning-orange)';
+            }
+        }
+        
+        if (breakdownTotal) breakdownTotal.textContent = `$${total.toLocaleString()}`;
+    }
+
+    updateConfirmationPriceBreakdown() {
+        if (!this.confirmationData) return;
+
+        const { subtotal, totalSavings } = this.confirmationData;
+        
+        const subtotalEl = document.getElementById('confirmationSubtotal');
+        const savingsEl = document.getElementById('confirmationSavings');
+        const shippingEl = document.getElementById('confirmationShipping');
+        const totalEl = document.getElementById('confirmationTotal');
+
+        if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString()}`;
+        if (savingsEl) savingsEl.textContent = `-$${totalSavings.toLocaleString()}`;
+        
+        const shippingCost = this.calculateShippingCostConfirmation();
+        let shippingText = '';
+        let total = subtotal;
+        
+        if (shippingCost === 0) {
+            shippingText = 'GRATIS';
+            if (shippingEl) {
+                shippingEl.textContent = shippingText;
+                shippingEl.style.color = 'var(--success-green)';
+            }
+        } else {
+            shippingText = 'A CONSULTAR';
+            total = subtotal;
+            if (shippingEl) {
+                shippingEl.textContent = shippingText;
+                shippingEl.style.color = 'var(--warning-orange)';
+            }
+        }
+        
+        if (totalEl) totalEl.textContent = `$${total.toLocaleString()}`;
+    }
+
+    validateCartBeforeNext() {
+        if (this.app.cart.length === 0) {
+            this.app.managers.ui.showNotification('❌ Tu carrito está vacío. Agrega productos antes de continuar.', 'error');
+            return false;
+        }
+        return true;
+    }
+
+    validateAndGoToStep2() {
+        if (!this.validateCartBeforeNext()) {
+            return;
+        }
+        this.nextStep(2);
+    }
+
+    validateAndConfirm() {
+        if (!this.validateCartBeforeNext()) {
+            return;
+        }
+        
+        if (this.validateCustomerForm()) {
+            this.saveCustomerData();
+            this.confirmOrder();
+        }
+    }
 }
 
-// ===== MANAGER DE LA INTERFAZ DE USUARIO =====
 class UIManager {
     constructor(app) {
         this.app = app;
@@ -2073,7 +2083,6 @@ class UIManager {
         });
     }
 
-    // ===== MÉTODOS PARA EL MODAL DE DETALLES DEL PRODUCTO =====
     showProductDetailsModal(product) {
         const modal = document.getElementById('productDetailsModal');
         const overlay = document.getElementById('overlay');
@@ -2330,7 +2339,10 @@ class UIManager {
         // Disable button if no stock
         if (product.stock === 0) {
             addToCartBtn.disabled = true;
-            addToCartBtn.innerHTML = `${IconManager.getIcon('close')}<span>SIN STOCK</span>`;
+            addToCartBtn.innerHTML = `<svg class="icon" aria-hidden="true">
+                                        <use xlink:href="#icon-close"></use>
+                                    </svg>
+                                    <span>SIN STOCK</span>`;
             return;
         }
         
@@ -2344,7 +2356,10 @@ class UIManager {
         
         // Ensure button is enabled and has correct text
         addToCartBtn.disabled = false;
-        addToCartBtn.innerHTML = `${IconManager.getIcon('cart')}<span>AGREGAR AL CARRITO</span>`;
+        addToCartBtn.innerHTML = `<svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-cart"></use>
+                                </svg>
+                                <span>AGREGAR AL CARRITO</span>`;
     }
 
     closeProductDetailsModal() {
@@ -2359,7 +2374,6 @@ class UIManager {
         this.currentQuantity = 1;
     }
 
-    // ===== MÉTODOS GENERALES DE UI =====
     handleImageError(img) {
         const imageElement = img.target || img;
         let category = 'beer';
@@ -2404,7 +2418,9 @@ class UIManager {
             const viewers = Math.floor(Math.random() * 10) + 1;
             const viewersBadge = `
                 <div class="viewers-badge">
-                    ${IconManager.getIcon('eye')}
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-eye"></use>
+                    </svg>
                     <span>${viewers} VISTAS</span>
                 </div>
             `;
@@ -2439,7 +2455,6 @@ class UIManager {
         document.body.style.overflow = '';
     }
 
-    // Notificaciones
     showNotification(message, type = 'info') {
         const existingNotification = document.querySelector('.notification');
         if (existingNotification) {
@@ -2482,7 +2497,6 @@ class UIManager {
         }, 3000);
     }
 
-    // WhatsApp
     openWhatsApp(message) {
         const encodedMessage = encodeURIComponent(message);
         const url = `https://wa.me/5491123495971?text=${encodedMessage}`;
@@ -2493,7 +2507,6 @@ class UIManager {
         }
     }
 
-    // Navegación
     scrollToSection(sectionId) {
         const section = document.getElementById(sectionId);
         if (section) {
@@ -2530,7 +2543,9 @@ class UIManager {
         if (subtotal >= freeShippingThreshold) {
             shippingRemaining.innerHTML = `
                 <div class="free-shipping-icon">
-                    ${IconManager.getIcon('check')}
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-check"></use>
+                    </svg>
                     <span>¡Envío gratis desbloqueado!</span>
                 </div>
             `;
@@ -2549,7 +2564,6 @@ class UIManager {
     }
 }
 
-// ===== CLASES DE SERVICIO =====
 class GoogleAnalyticsTracker {
     constructor() {
         this.initialized = false;
@@ -2817,7 +2831,9 @@ class SocialProof {
             photoElement.innerHTML = `
                 <img src="${photo.image}" alt="${photo.caption}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                 <div class="ugc-fallback" style="display: none; align-items: center; justify-content: center; width: 100%; height: 100%; background: #f8f8f8; color: #ccc;">
-                    ${IconManager.getIcon('camera')}
+                    <svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-camera"></use>
+                    </svg>
                 </div>
                 <div class="ugc-user">
                     <div>${photo.user}</div>
@@ -2848,19 +2864,16 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openWhyChooseModal = () => window.elOsoApp.openWhyChooseModal();
     window.closeWhyChooseModal = () => window.elOsoApp.closeWhyChooseModal();
     window.clearCart = () => window.elOsoApp.managers.cart.clearCart();
-    
-    // NUEVOS MÉTODOS PARA APPS SCRIPT
-    window.clearCache = () => window.elOsoApp.managers.products.clearCache();
-    window.refreshProducts = () => window.elOsoApp.managers.products.forceRefresh();
-    
-    // Métodos para el checkout de 4 pasos
     window.nextStep = (step) => window.elOsoApp.managers.cart.nextStep(step);
     window.prevStep = () => window.elOsoApp.managers.cart.prevStep();
-    window.validateAndNext = () => window.elOsoApp.managers.cart.validateAndNext();
-    window.startCheckout = () => window.elOsoApp.managers.cart.startCheckout();
+    window.validateAndConfirm = () => window.elOsoApp.managers.cart.validateAndConfirm();
     window.confirmOrder = () => window.elOsoApp.managers.cart.confirmOrder();
     window.validateShippingZone = () => window.elOsoApp.managers.cart.validateShippingZone();
     window.validateFreeShipping = () => window.elOsoApp.managers.cart.validateFreeShipping();
+    window.validateAndGoToStep2 = () => window.elOsoApp.managers.cart.validateAndGoToStep2();
+    window.validateAndConfirm = () => window.elOsoApp.managers.cart.validateAndConfirm();
+    window.clearCache = () => window.elOsoApp.managers.products.clearCache();
+    window.refreshProducts = () => window.elOsoApp.managers.products.forceRefresh();
 
     // Reintentar envíos pendientes al cargar la página
     setTimeout(() => {
