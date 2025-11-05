@@ -1450,28 +1450,66 @@ class CartManager {
             .slice(0, 4);
     }
 
+    // En el método createRecommendationHTML del CartManager
     createRecommendationHTML(product) {
         const displayPrice = product.discountPrice || product.price;
-
+        const stockPercentage = product.stock ? Math.min((product.stock / 50) * 100, 100) : 100;
+        const isLowStock = product.stock && product.stock < 10;
+        const isOutOfStock = product.stock === 0;
+        
         return `
-            <div class="recommendation-item-temu" data-category="${product.category || 'beer'}">
-                <div class="recommendation-image-temu">
+            <div class="product-card recommendation-card" data-id="${product.id}" data-category="${product.category || 'beer'}" onclick="window.showProductDetails(${product.id})">
+                <div class="product-badges"></div>
+                
+                <div class="product-image">
                     ${product.image ? 
-                        `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="window.elOsoApp.managers.ui.handleImageError(this)">` : 
+                    `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="window.elOsoApp.managers.ui.handleImageError(this)">` : 
                         this.app.managers.products.getCategoryIcon(product.category || 'beer')
                     }
+                    ${product.stock && !isOutOfStock ? `
+                    <div class="stock-bar">
+                        <div class="stock-fill" style="width: ${stockPercentage}%"></div>
+                    </div>
+                    ` : ''}
                 </div>
-                <div class="recommendation-name-temu">${product.name}</div>
-                <div class="product-pricing">
-                    <span class="product-price">$${product.price.toLocaleString()}</span>
-                    <div class="product-actions">
-                        <button class="add-to-cart-btn" 
-                            onclick="window.elOsoApp.addToCart(${product.id})"
-                            aria-label="Agregar ${product.name} al carrito">
+                
+                <div class="product-info">
+                    <h3 class="product-name">${product.name}</h3>
+
+                    ${this.app.managers.products.generateStockInfo(product.stock)}
+
+                    <div class="product-meta">
+                        ${product.rating ? `
+                        <div class="product-rating">
+                            ${this.app.managers.products.generateStarRating(product.rating)}
+                        </div>
+                        ` : ''}
+
+                        ${product.sold ? `
+                        <div class="product-sold">
                             <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-cart"></use>
+                                <use xlink:href="#icon-fire"></use>
                             </svg>
-                        </button>
+                            <span>${product.sold}+ ventas</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <div class="product-pricing">
+                        <span class="product-price">$${displayPrice.toLocaleString()}</span>
+                        ${product.oldPrice && product.oldPrice > displayPrice ? `
+                        <span class="product-old-price">$${product.oldPrice.toLocaleString()}</span>
+                        ` : ''}
+                        <div class="product-actions">
+                            <button class="add-to-cart-btn" 
+                                onclick="window.addToCart(${product.id})"
+                                data-id="${product.id}" 
+                                ${isOutOfStock ? 'disabled' : ''}
+                                aria-label="Agregar ${product.name} al carrito">
+                                <svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-cart"></use>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
