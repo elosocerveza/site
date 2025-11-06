@@ -1,9 +1,3 @@
-const CONFIG = {
-    FREE_SHIPPING_THRESHOLD: 15000,
-    FREE_SHIPPING_DAYS: [4, 5], // Jueves y Viernes
-    FREE_SHIPPING_HOUR: 18
-};
-
 class ElOsoApp {
     constructor() {
         this.products = {
@@ -636,7 +630,7 @@ class ProductManager {
         const stockPercentage = product.stock ? Math.min((product.stock / 50) * 100, 100) : 100;
         const isLowStock = product.stock && product.stock < 10;
         const isOutOfStock = product.stock === 0;
-        const qualifiesForFreeShipping = product.price >= CONFIG.FREE_SHIPPING_THRESHOLD;
+        const qualifiesForFreeShipping = product.price >= this.FREE_SHIPPING_THRESHOLD;
         const badgesHTML = '';
         
         return `
@@ -871,7 +865,9 @@ class CartManager {
         this.currentStep = 1;
         this.customerData = {};
         this.confirmationData = null;
+        this.FREE_SHIPPING_THRESHOLD = 15000;
         this.FREE_SHIPPING_ZONES = ['quilmes', 'bernal', 'ezpeleta'];
+        this.FREE_SHIPPING_DAYS = ['jueves', 'viernes'];
         this.setupPaymentEventListeners();
     }
 
@@ -1271,11 +1267,6 @@ class CartManager {
         this.updateCartSummary();
         this.updatePriceBreakdown();
         this.app.managers.ui.updateShippingProgressStep1();
-        
-        // Validar envío gratis si estamos en el paso 2
-        if (this.currentStep === 2) {
-            this.validateFreeShipping();
-        }
     }
 
     updateCartItems() {
@@ -1560,7 +1551,7 @@ class CartManager {
         
         const isFreeShippingZone = this.FREE_SHIPPING_ZONES.includes(zone);
         const isFreeShippingDay = date === 'jueves' || date === 'viernes';
-        const qualifiesForFreeShipping = isFreeShippingZone && isFreeShippingDay && subtotal >= CONFIG.FREE_SHIPPING_THRESHOLD;
+        const qualifiesForFreeShipping = isFreeShippingZone && isFreeShippingDay && subtotal >= this.FREE_SHIPPING_THRESHOLD;
         
         if (qualifiesForFreeShipping) {
             return 0; // Envío gratis
@@ -1686,7 +1677,7 @@ class CartManager {
         // Verificar si aplica para envío gratis
         const isFreeShippingDay = customer.deliveryDate === 'jueves' || 
                                 customer.deliveryDate === 'viernes';
-        const qualifiesForFreeShipping = isFreeShippingDay && subtotal >= CONFIG.FREE_SHIPPING_THRESHOLD;
+        const qualifiesForFreeShipping = isFreeShippingDay && subtotal >= this.FREE_SHIPPING_THRESHOLD;
         
         if (qualifiesForFreeShipping) {
             return 0; // Envío gratis
@@ -1821,8 +1812,8 @@ class CartManager {
             
             if (!isFreeShippingDay) {
                 return 'A CONSULTAR (no es jueves o viernes)';
-            } else if (subtotal < CONFIG.FREE_SHIPPING_THRESHOLD) {
-                return `A CONSULTAR (faltan $${(CONFIG.FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString()} para envío gratis)`;
+            } else if (subtotal < this.FREE_SHIPPING_THRESHOLD) {
+                return `A CONSULTAR (faltan $${(this.FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString()} para envío gratis)`;
             } else {
                 return 'A CONSULTAR';
             }
@@ -1869,7 +1860,6 @@ class CartManager {
 
         if (!selectedZone) {
             zoneInfo.style.display = 'none';
-            this.hideShippingValidation();
             return;
         }
 
@@ -1879,70 +1869,52 @@ class CartManager {
             zoneInfo.innerHTML = `<svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-check"></use>
                                 </svg>
-                                 Zona con envío gratis disponible`;
+                                Zona con envío gratis disponible`;
             zoneInfo.style.display = 'block';
             zoneInfo.style.color = 'var(--success-green)';
         } else {
             zoneInfo.innerHTML = `<svg class="icon" aria-hidden="true">
                                     <use xlink:href="#icon-info"></use>
                                 </svg>
-                                 Esta zona puede tener costo de envío adicional`;
+                                Esta zona puede tener costo de envío adicional`;
             zoneInfo.style.display = 'block';
             zoneInfo.style.color = 'var(--warning-orange)';
         }
 
-        // Validar envío gratis automáticamente
-        this.validateFreeShipping();
+        // ACTUALIZAR EL DESGLOSE DE PRECIOS
+        this.updatePriceBreakdown();
     }
 
-    validateFreeShipping() {
-        const zoneSelect = document.getElementById('deliveryZone');
+    validateShippingDate() {
         const dateSelect = document.getElementById('deliveryDate');
-        const validationDiv = document.getElementById('shippingValidation');
-        const messageDiv = document.getElementById('validationMessage');
-
-        const selectedZone = zoneSelect.value;
+        const dateInfo = document.getElementById('deliveryDateInfo');
         const selectedDate = dateSelect.value;
-        const { subtotal } = this.calculateCartTotals();
 
-        if (!selectedZone || !selectedDate) {
-            this.hideShippingValidation();
+        if (!selectedDate) {
+            dateInfo.style.display = 'none';
             return;
         }
 
-        const isFreeShippingZone = this.FREE_SHIPPING_ZONES.includes(selectedZone);
-        const isFreeShippingDay = selectedDate === 'jueves' || selectedDate === 'viernes';
-        const isAboveThreshold = subtotal >= CONFIG.FREE_SHIPPING_THRESHOLD;
-
-        let message = '';
-        let type = 'info';
-
-        if (isFreeShippingZone && isFreeShippingDay && isAboveThreshold) {
-            message = '✅ ¡Felicidades! Tienes envío gratis.';
-            type = 'success';
-        } else if (isFreeShippingZone && isFreeShippingDay && !isAboveThreshold) {
-            const remaining = CONFIG.FREE_SHIPPING_THRESHOLD - subtotal;
-            message = `🔄 Agrega $${remaining.toLocaleString()} más para obtener envío gratis.`;
-            type = 'warning';
-        } else if (!isFreeShippingZone && isFreeShippingDay) {
-            message = 'ℹ️ Para tu zona el envío tiene costo. Nos contactaremos para coordinar.';
-            type = 'info';
-        } else if (isFreeShippingZone && !isFreeShippingDay) {
-            message = 'ℹ️ El envío gratis solo está disponible los jueves y viernes.';
-            type = 'info';
+        const isFreeShippingDate = this.FREE_SHIPPING_DAYS.includes(selectedDate);
+        
+        if (isFreeShippingDate) {
+            dateInfo.innerHTML = `<svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-check"></use>
+                                </svg>
+                                Día con envío gratis disponible`;
+            dateInfo.style.display = 'block';
+            dateInfo.style.color = 'var(--success-green)';
         } else {
-            message = 'ℹ️ El envío tiene costo. Nos contactaremos para coordinar.';
-            type = 'info';
+            dateInfo.innerHTML = `<svg class="icon" aria-hidden="true">
+                                    <use xlink:href="#icon-info"></use>
+                                </svg>
+                                Este día puede tener costo de envío adicional`;
+            dateInfo.style.display = 'block';
+            dateInfo.style.color = 'var(--warning-orange)';
         }
-
-        messageDiv.textContent = message;
-        messageDiv.className = `validation-message ${type}`;
-        validationDiv.style.display = 'block';
-    }
-
-    hideShippingValidation() {
-        const validationDiv = document.getElementById('shippingValidation');
-        validationDiv.style.display = 'none';
+        
+        // ACTUALIZAR EL DESGLOSE DE PRECIOS
+        this.updatePriceBreakdown();
     }
 
     getZoneDisplay(zoneValue) {
@@ -1982,8 +1954,14 @@ class CartManager {
         if (breakdownSubtotal) breakdownSubtotal.textContent = `$${subtotal.toLocaleString()}`;
         if (breakdownSavings) breakdownSavings.textContent = `-$${totalSavings.toLocaleString()}`;
 
-        // Calcular costo de envío
-        const shippingCost = this.calculateShippingCost();
+        // OBTENER DATOS ACTUALES DEL FORMULARIO para calcular envío
+        const zoneSelect = document.getElementById('deliveryZone');
+        const dateSelect = document.getElementById('deliveryDate');
+        const currentZone = zoneSelect ? zoneSelect.value : '';
+        const currentDate = dateSelect ? dateSelect.value : '';
+        
+        // Usar datos actuales del formulario para calcular envío
+        const shippingCost = this.calculateShippingCostWithData(currentZone, currentDate, subtotal);
         let shippingText = '';
         let total = subtotal;
         
@@ -2009,6 +1987,19 @@ class CartManager {
         }
         
         if (breakdownTotal) breakdownTotal.textContent = `$${total.toLocaleString()}`;
+    }
+
+    // Agregar este nuevo método auxiliar a la clase CartManager
+    calculateShippingCostWithData(zone, date, subtotal) {
+        const isFreeShippingZone = this.FREE_SHIPPING_ZONES.includes(zone);
+        const isFreeShippingDay = this.FREE_SHIPPING_DAYS.includes(date);
+        const isFreeShippingThreshold = subtotal >= this.FREE_SHIPPING_THRESHOLD;
+        
+        if (isFreeShippingZone && isFreeShippingDay && isFreeShippingThreshold) {
+            return 0; // Envío gratis
+        } else {
+            return null; // Costo a consultar
+        }
     }
 
     updateConfirmationPriceBreakdown() {
@@ -2079,6 +2070,7 @@ class UIManager {
         this.currentProduct = null;
         this.currentQuantity = 1;
         this.setupWhatsAppMenu();
+        this.FREE_SHIPPING_THRESHOLD = 15000;
     }
 
     setupWhatsAppMenu() {
@@ -2571,7 +2563,7 @@ class UIManager {
     }
 
     updateShippingProgressStep1() {
-        const freeShippingThreshold = CONFIG.FREE_SHIPPING_THRESHOLD;
+        const freeShippingThreshold = this.FREE_SHIPPING_THRESHOLD;
         const subtotal = this.app.managers.cart.calculateSubtotal();
         const remaining = Math.max(0, freeShippingThreshold - subtotal);
         
@@ -2909,7 +2901,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.validateAndConfirm = () => window.elOsoApp.managers.cart.validateAndConfirm();
     window.confirmOrder = () => window.elOsoApp.managers.cart.confirmOrder();
     window.validateShippingZone = () => window.elOsoApp.managers.cart.validateShippingZone();
-    window.validateFreeShipping = () => window.elOsoApp.managers.cart.validateFreeShipping();
+    window.validateShippingDate = () => window.elOsoApp.managers.cart.validateShippingDate();
     window.validateAndGoToStep2 = () => window.elOsoApp.managers.cart.validateAndGoToStep2();
     window.validateAndConfirm = () => window.elOsoApp.managers.cart.validateAndConfirm();
     window.clearCache = () => window.elOsoApp.managers.products.clearCache();

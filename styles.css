@@ -3657,15 +3657,6 @@ body {
     font-weight: 600;
 }
 
-.total-row.final {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--primary-black);
-    border-top: 1px solid var(--border-light);
-    padding-top: 12px;
-    margin-top: 8px;
-}
-
 /* ===== DETALLES DEL CLIENTE EN RESUMEN ===== */
 .customer-details-summary {
     background: #f8f9fa;
@@ -4017,23 +4008,10 @@ body {
     font-size: 1.4rem;
     color: var(--primary-black);
     margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--border-light);
 }
 
 .summary-title i {
     color: var(--success-green);
-}
-
-/* Detalles del pedido */
-.detail-section {
-    margin-bottom: 25px;
-}
-
-.detail-section h3 {
-    color: var(--primary-black);
-    margin-bottom: 15px;
-    font-size: 1.1rem;
 }
 
 .order-item {
@@ -4062,11 +4040,6 @@ body {
 .item-quantity {
     font-size: 0.9rem;
     color: var(--text-light);
-}
-
-.item-price {
-    font-weight: 600;
-    color: var(--accent-red);
 }
 
 .info-row {
@@ -4493,19 +4466,21 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--primary-black);
     margin-bottom: 15px;
 }
 
 .detail-section {
     margin-bottom: 15px;
+    border-top: 2px solid var(--border-light);
+    padding-top: 15px;
 }
 
 .detail-section h3 {
     color: var(--primary-black);
     margin-bottom: 10px;
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 
 .order-item {
@@ -4529,7 +4504,6 @@ body {
 
 .item-price {
     font-weight: 600;
-    color: var(--accent-red);
     font-size: 0.9rem;
 }
 
@@ -4732,14 +4706,29 @@ body {
 
 /* ===== ZONA DE ENTREGA Y VALIDACIÓN ===== */
 .zone-info {
-    display: flex;
     align-items: center;
     gap: 8px;
     padding: 8px 12px;
     border-radius: 6px;
     background: #f8f9fa;
     border: 1px solid #e9ecef;
-    font-size: 0.8rem;
+    display: none; 
+    margin-top: 8px; 
+    font-size: 0.8rem; 
+    color: var(--text-light);
+}
+
+.delivery-date-info {
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    display: none; 
+    margin-top: 8px; 
+    font-size: 0.8rem; 
+    color: var(--text-light);
 }
 
 .shipping-validation {
@@ -5050,14 +5039,6 @@ button .icon {
     color: var(--success-green);
 }
 
-/* En el paso de confirmación */
-.order-totals {
-    background: var(--bg-light);
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px 0;
-}
-
 .total-row {
     display: flex;
     justify-content: space-between;
@@ -5074,8 +5055,7 @@ button .icon {
 }
 
 .total-row.final {
-    border-top: 2px solid var(--border-light);
+    font-size: 1.2rem;
     font-weight: 700;
-    font-size: 1.2em;
     color: var(--primary-black);
 }

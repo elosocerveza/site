@@ -32,7 +32,7 @@
     <meta name="ICBM" content="-34.720, -58.258">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="styles.min.css?v=24">
+    <link rel="stylesheet" href="styles.min.css?v=25">
 
     <!-- AGREGA esto en tu <head> -->
     <script type="application/ld+json">
@@ -690,20 +690,15 @@
                                     <select id="deliveryZone" 
                                         name="deliveryZone" 
                                         required 
-                                        onchange="window.elOsoApp.managers.cart.validateShippingZone()">
+                                        onchange="window.validateShippingZone()">
                                         <option value="">Seleccionar zona</option>
                                         <option value="quilmes">Quilmes</option>
                                         <option value="bernal">Bernal</option>
                                         <option value="ezpeleta">Ezpeleta</option>
                                         <option value="otra">Otra zona</option>
                                     </select>
-                                    <div class="zone-info" id="zoneInfo" style="display: none; margin-top: 8px; font-size: 0.8rem; color: var(--text-light);"></div>
+                                    <div class="zone-info" id="zoneInfo"></div>
                                 </div>
-                            </div>
-
-                            <!-- Validación de Envío Gratis -->
-                            <div class="shipping-validation" id="shippingValidation" style="display: none;">
-                                <div class="validation-message" id="validationMessage"></div>
                             </div>
 
                             <div class="form-row">
@@ -711,12 +706,14 @@
                                     <label for="deliveryDate">Fecha Preferida de Entrega *</label>
                                     <select id="deliveryDate" 
                                         name="deliveryDate" 
-                                        required>
+                                        required
+                                        onchange="window.validateShippingDate()">
                                         <option value="">Seleccionar fecha</option>
                                         <option value="jueves">Jueves</option>
                                         <option value="viernes">Viernes</option>
                                         <option value="otro">Otro día</option>
                                     </select>
+                                    <div class="delivery-date-info" id="deliveryDateInfo"></div>
                                 </div>
                             </div>
 
@@ -921,27 +918,24 @@
                                     <div id="orderDetailsConfirmation">
                                         <!-- Los detalles se cargarán dinámicamente -->
                                     </div>
+                                    <div class="total-row">
+                                        <span class="item-name">Subtotal:</span>
+                                        <span class="item-price" id="confirmationSubtotal">$0</span>
+                                    </div>
+                                    <div class="total-row">
+                                        <span class="item-name">Envío:</span>
+                                        <span class="item-price" id="confirmationShipping">GRATIS</span>
+                                    </div>
+                                    <div class="total-row">
+                                        <span class="item-name">Total:</span>
+                                        <span class="item-price" id="confirmationTotal">$0</span>
+                                    </div>
                                 </div>
-                                
+
                                 <div class="detail-section">
                                     <h3>Información de Entrega</h3>
                                     <div id="deliveryInfoConfirmation">
                                         <!-- La información de entrega se cargará dinámicamente -->
-                                    </div>
-                                </div>
-                                
-                                <div class="order-totals">
-                                    <div class="total-row">
-                                        <span>Subtotal:</span>
-                                        <span id="confirmationSubtotal">$0</span>
-                                    </div>
-                                    <div class="total-row shipping">
-                                        <span>Envío:</span>
-                                        <span id="confirmationShipping">GRATIS</span>
-                                    </div>
-                                    <div class="total-row final">
-                                        <span>Total:</span>
-                                        <span id="confirmationTotal">$0</span>
                                     </div>
                                 </div>
                             </div>
@@ -1308,7 +1302,7 @@
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
 
-    <!-- SVG con los iconos -->
+        <!-- SVG con los iconos -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
         <symbol id="icon-bars" viewBox="0 0 640 640">
             <path d="M96 160C96 142.3 110.3 128 128 128L512 128C529.7 128 544 142.3 544 160C544 177.7 529.7 192 512 192L128 192C110.3 192 96 177.7 96 160zM96 320C96 302.3 110.3 288 128 288L512 288C529.7 288 544 302.3 544 320C544 337.7 529.7 352 512 352L128 352C110.3 352 96 337.7 96 320zM544 480C544 497.7 529.7 512 512 512L128 512C110.3 512 96 497.7 96 480C96 462.3 110.3 448 128 448L512 448C529.7 448 544 462.3 544 480z"/>
@@ -1490,7 +1484,7 @@
             <path d="M320 96C239.2 96 174.5 132.8 127.4 176.6C80.6 220.1 49.3 272 34.4 307.7C31.1 315.6 31.1 324.4 34.4 332.3C49.3 368 80.6 420 127.4 463.4C174.5 507.1 239.2 544 320 544C400.8 544 465.5 507.2 512.6 463.4C559.4 419.9 590.7 368 605.6 332.3C608.9 324.4 608.9 315.6 605.6 307.7C590.7 272 559.4 220 512.6 176.6C465.5 132.9 400.8 96 320 96zM176 320C176 240.5 240.5 176 320 176C399.5 176 464 240.5 464 320C464 399.5 399.5 464 320 464C240.5 464 176 399.5 176 320zM320 256C320 291.3 291.3 320 256 320C244.5 320 233.7 317 224.3 311.6C223.3 322.5 224.2 333.7 227.2 344.8C240.9 396 293.6 426.4 344.8 412.7C396 399 426.4 346.3 412.7 295.1C400.5 249.4 357.2 220.3 311.6 224.3C316.9 233.6 320 244.4 320 256z"/>
         </symbol>
     </svg>
-    
-    <script src="scripts.min.js?v=24"></script>
+
+    <script src="scripts.min.js?v=25"></script>
 </body>
 </html>
