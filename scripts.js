@@ -1432,6 +1432,8 @@ class CartManager {
         recommendationsGrid.innerHTML = recommendations.map(product => 
             this.createRecommendationHTML(product)
         ).join('');
+
+        this.app.managers.products.attachProductEventListeners(recommendationsGrid);
     }
 
     getRecommendations() {
@@ -1458,7 +1460,7 @@ class CartManager {
         const isOutOfStock = product.stock === 0;
         
         return `
-            <div class="product-card recommendation-card" data-id="${product.id}" data-category="${product.category || 'beer'}" onclick="window.showProductDetails(${product.id})">
+            <div class="product-card recommendation-card" data-id="${product.id}" data-category="${product.category || 'beer'}">
                 <div class="product-badges"></div>
                 
                 <div class="product-image">
