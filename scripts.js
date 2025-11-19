@@ -1443,7 +1443,6 @@ class CartManager {
             .slice(0, 4);
     }
 
-    // En el método createRecommendationHTML del CartManager
     createRecommendationHTML(product) {
         const displayPrice = product.discountPrice || product.price;
         const stockPercentage = product.stock ? Math.min((product.stock / 50) * 100, 100) : 100;
@@ -1549,11 +1548,11 @@ class CartManager {
         const zone = this.customerData.deliveryZone;
         const date = this.customerData.deliveryDate;
         
+        const isFreeShippingThreshold = subtotal >= this.FREE_SHIPPING_THRESHOLD;
         const isFreeShippingZone = this.FREE_SHIPPING_ZONES.includes(zone);
-        const isFreeShippingDay = date === 'jueves' || date === 'viernes';
-        const qualifiesForFreeShipping = isFreeShippingZone && isFreeShippingDay && subtotal >= this.FREE_SHIPPING_THRESHOLD;
+        const isFreeShippingDay = this.FREE_SHIPPING_DAYS.includes(date);
         
-        if (qualifiesForFreeShipping) {
+        if (isFreeShippingThreshold && isFreeShippingZone && isFreeShippingDay) {
             return 0; // Envío gratis
         } else {
             return null; // Costo a consultar
@@ -1672,14 +1671,14 @@ class CartManager {
         if (!this.confirmationData || !this.confirmationData.customerData) return null;
         
         const { subtotal } = this.confirmationData;
-        const customer = this.confirmationData.customerData;
+        const zone = this.confirmationData.customerData.deliveryZone;
+        const date = this.confirmationData.customerData.deliveryDate;
         
-        // Verificar si aplica para envío gratis
-        const isFreeShippingDay = customer.deliveryDate === 'jueves' || 
-                                customer.deliveryDate === 'viernes';
-        const qualifiesForFreeShipping = isFreeShippingDay && subtotal >= this.FREE_SHIPPING_THRESHOLD;
+        const isFreeShippingThreshold = subtotal >= this.FREE_SHIPPING_THRESHOLD;
+        const isFreeShippingZone = this.FREE_SHIPPING_ZONES.includes(zone);
+        const isFreeShippingDay = this.FREE_SHIPPING_DAYS.includes(date);
         
-        if (qualifiesForFreeShipping) {
+        if (isFreeShippingThreshold && isFreeShippingZone && isFreeShippingDay) {
             return 0; // Envío gratis
         } else {
             return null; // Costo a consultar
@@ -1811,7 +1810,7 @@ class CartManager {
                                     customer.deliveryDate === 'viernes';
             
             if (!isFreeShippingDay) {
-                return 'A CONSULTAR (no es jueves o viernes)';
+                return 'A CONSULTAR';
             } else if (subtotal < this.FREE_SHIPPING_THRESHOLD) {
                 return `A CONSULTAR (faltan $${(this.FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString()} para envío gratis)`;
             } else {
