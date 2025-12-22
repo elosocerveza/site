@@ -1,12 +1,14 @@
 /* ===== RESET Y VARIABLES ===== */
 :root {
-    /* Colores minimalistas */
+    /* Colores minimalistas - CONTRASTE MEJORADO */
     --color-black: #000000;
     --color-white: #FFFFFF;
     --color-gold: #C9A96E;
     --color-dark-gray: #111111;
     --color-medium-gray: #333333;
-    --color-light-gray: #777777;
+    --color-light-gray: #AAAAAA; /* Cambiado de #777777 a #AAAAAA */
+    --color-lighter-gray: #CCCCCC; /* Añadido para textos secundarios */
+    --color-text-medium: #999999; /* Añadido para textos de descripción */
     
     /* Tipografía */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -78,7 +80,11 @@ h3 {
 
 p {
     margin-bottom: var(--space-sm);
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
+}
+
+.lead {
+    color: var(--color-lighter-gray);
 }
 
 /* ===== BOTONES ===== */
@@ -128,14 +134,14 @@ p {
 }
 
 .btn-whatsapp {
-    background-color: #25D366;
+    background-color: #128C7E;
     color: var(--color-white);
-    border-color: #25D366;
+    border-color: #128C7E;
 }
 
 .btn-whatsapp:hover {
-    background-color: transparent;
-    color: #25D366;
+    background-color: #075E54;
+    color: var(--color-white);
 }
 
 .btn-checkout {
@@ -154,16 +160,16 @@ p {
 /* ===== BOTÓN WHATSAPP CHECKOUT ===== */
 .btn-whatsapp-checkout {
     width: 100%;
-    background-color: #25D366;
+    background-color: #128C7E;
     color: var(--color-white);
-    border-color: #25D366;
+    border-color: #128C7E;
     font-weight: 600;
 }
 
 .btn-whatsapp-checkout:hover {
-    background-color: #128C7E;
+    background-color: #075E54;
     color: var(--color-white);
-    border-color: #128C7E;
+    border-color: #075E54;
 }
 
 .btn-whatsapp-checkout i {
@@ -415,7 +421,7 @@ p {
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
 }
 
 .cart-empty i {
@@ -459,6 +465,7 @@ p {
     font-size: 0.875rem;
     font-weight: 500;
     margin-bottom: var(--space-xs);
+    color: var(--color-white);
 }
 
 .cart-item-price {
@@ -494,7 +501,7 @@ p {
 .cart-item-remove {
     background: none;
     border: none;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     cursor: pointer;
     font-size: 1rem;
     padding: var(--space-xs);
@@ -570,7 +577,7 @@ p {
     right: var(--space-md);
     width: 56px;
     height: 56px;
-    background-color: #25D366;
+    background-color: #128C7E;
     color: var(--color-white);
     border-radius: 50%;
     display: flex;
@@ -578,14 +585,15 @@ p {
     justify-content: center;
     font-size: 1.5rem;
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 4px 12px rgba(18, 140, 126, 0.3);
     transition: var(--transition-medium);
     z-index: 100;
 }
 
 .whatsapp-float:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.4);
+    box-shadow: 0 6px 16px rgba(18, 140, 126, 0.4);
+    background-color: #075E54;
 }
 
 /* ===== HERO ===== */
@@ -629,7 +637,7 @@ p {
 
 .hero-subtitle {
     font-size: 1.25rem;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     margin-bottom: var(--space-lg);
 }
 
@@ -735,7 +743,7 @@ p {
 
 .product-description {
     font-size: 0.875rem;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     margin-bottom: var(--space-sm);
     line-height: 1.5;
 }
@@ -750,7 +758,7 @@ p {
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     font-size: 0.875rem;
 }
 
@@ -821,6 +829,10 @@ p {
     margin-bottom: var(--space-xs);
 }
 
+.process-step p {
+    color: var(--color-lighter-gray);
+}
+
 /* ===== CONTACTO ===== */
 .contact {
     padding: var(--space-xl) 0;
@@ -849,6 +861,10 @@ p {
 .page-header {
     text-align: center;
     margin-bottom: var(--space-xl);
+}
+
+.page-header .lead {
+    color: var(--color-lighter-gray);
 }
 
 .filters {
@@ -913,7 +929,7 @@ p {
 }
 
 .footer-section a {
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     text-decoration: none;
     font-size: 0.875rem;
     transition: var(--transition-fast);
@@ -927,7 +943,7 @@ p {
     padding-top: var(--space-md);
     border-top: 1px solid var(--color-medium-gray);
     text-align: center;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     font-size: 0.875rem;
 }
 
@@ -1015,7 +1031,7 @@ p {
 
 .feature-description {
     font-size: 0.875rem;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     line-height: 1.5;
 }
 
@@ -1051,7 +1067,7 @@ p {
 
 .process-step p {
     font-size: 0.875rem;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     line-height: 1.5;
 }
 
@@ -1102,7 +1118,7 @@ p {
 
 .buy-step p {
     font-size: 0.875rem;
-    color: var(--color-light-gray);
+    color: var(--color-lighter-gray);
     line-height: 1.5;
 }
 
@@ -1183,7 +1199,7 @@ p {
 .editorial-header .lead {
   margin-top: 1rem;
   font-size: 1.3rem;
-  color: #bbb;
+  color: var(--color-lighter-gray);
   line-height: 1.5;
 }
 
@@ -1212,7 +1228,7 @@ p {
 }
 
 .editorial-item p {
-  color: #aaa;
+  color: var(--color-lighter-gray);
   line-height: 1.6;
 }
 
@@ -1272,7 +1288,45 @@ p {
 
 .section-header p {
     font-size: 1.3rem !important;
-    color: #bbb !important;
+    color: var(--color-lighter-gray) !important;
     line-height: 1.5 !important;
     margin-top: 1rem !important;
+}
+
+/* ===== ENLACES SOCIALES ===== */
+.social-link {
+    color: var(--color-lighter-gray);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+.social-link:hover {
+    color: var(--color-white);
+}
+
+/* ===== MEJORAS DE ACCESIBILIDAD ===== */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-gold);
+    color: var(--color-black);
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 10000;
+    border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* ===== ESTILOS PARA TEXTO DE PEDIDO WHATSAPP ===== */
+small a {
+    color: var(--color-gold) !important;
+}
+
+small a:hover {
+    color: var(--color-white) !important;
 }
