@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Meta Description específica para catálogo -->
+    <meta name="description" content="Catálogo completo de cervezas artesanales El Oso. Filtra por estilo: IPA, Stout, Amber, Wheat, Blonde, Lager, Dubbel. Precios, descripciones y disponibilidad en tiempo real.">
+
+    <!-- Keywords específicas -->
+    <meta name="keywords" content="catálogo cervezas, cerveza ipa argentina, stout artesanal, blonde ale, dubbel, cervezas premium, comprar cerveza artesanal, precios cerveza artesanal">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://eloso.ar/beers.html">
+
+    <!-- Open Graph para catálogo -->
+    <meta property="og:title" content="Catálogo Completo de Cervezas Artesanales | El Oso">
+    <meta property="og:description" content="Explora nuestra colección de cervezas artesanales premium. +10 estilos disponibles con descripciones detalladas y precios actualizados.">
+    <meta property="og:image" content="https://eloso.ar/images/logo-blanco.png">
+    <meta property="og:url" content="https://eloso.ar/beers.html">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_AR">
+    <meta property="og:site_name" content="El Oso Cerveza Artesanal">
+
+    <!-- Twitter Card para catálogo -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Catálogo de Cervezas Artesanales El Oso">
+    <meta name="twitter:description" content="Descubre todas nuestras cervezas artesanales con filtros por estilo y disponibilidad inmediata.">
+    <meta name="twitter:image" content="https://eloso.ar/images/logo-blanco.png">
+    
+    <!-- Preconnect para optimizar carga -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    
+    <title>Catálogo de Cervezas | El Oso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+            "@type": "CollectionPage",
+            "@id": "https://eloso.ar/beers.html#collectionpage",
+            "url": "https://eloso.ar/beers.html",
+            "name": "Catálogo de Cervezas Artesanales El Oso",
+            "description": "Página de catálogo con todas las cervezas artesanales disponibles",
+            "isPartOf": {
+                "@id": "https://eloso.ar/#website"
+            },
+            "breadcrumb": {
+                "@id": "https://eloso.ar/beers.html#breadcrumb"
+            },
+            "inLanguage": "es-AR"
+            },
+            {
+            "@type": "BreadcrumbList",
+            "@id": "https://eloso.ar/beers.html#breadcrumb",
+            "itemListElement": [
+                {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Inicio",
+                "item": "https://eloso.ar/"
+                },
+                {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Catálogo de Cervezas",
+                "item": "https://eloso.ar/beers.html"
+                }
+            ]
+            },
+            {
+            "@type": "ItemList",
+            "itemListElement": [
+                {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@type": "Product",
+                    "@id": "https://eloso.ar/beers.html#ember"
+                }
+                },
+                {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@type": "Product",
+                    "@id": "https://eloso.ar/beers.html#vika"
+                }
+                },
+                {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                    "@type": "Product",
+                    "@id": "https://eloso.ar/beers.html#arun"
+                }
+                }
+            ],
+            "numberOfItems": 11,
+            "name": "Colección de Cervezas El Oso"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- Critical CSS para mejor performance -->
+    <style>
+        .lazy-load-placeholder {
+            background-color: var(--color-dark-gray);
+            border-radius: var(--radius-sm);
+        }
+        
+        .product-image {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-image img.loaded {
+            opacity: 1;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-K21FSGK2ZY');
+    </script>
+
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
+</head>
+<body>
+    <!-- Header minimalista -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <!-- Logo optimizado con loading lazy -->
+                    <img src="images/logo.png" alt="El Oso Cerveza Artesanal" 
+                         class="logo-img" 
+                         loading="lazy"
+                         width="28" 
+                         height="28">
+                    <span class="logo-text">EL OSO</span>
+                </a>
+                
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link">Inicio</a>
+                    <a href="beers.html" class="nav-link active">Cervezas</a>
+                    <a href="index.html#contacto" class="nav-link">Contacto</a>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="cart-btn" id="cart-btn" aria-label="Carrito">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                    <button class="menu-toggle" id="menu-toggle" aria-label="Menú">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Menú móvil minimalista -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <img src="images/logo.png" alt="El Oso Cerveza Artesanal" 
+                     class="logo-img"
+                     loading="lazy"
+                     width="28" 
+                     height="28">
+                <span class="logo-text">EL OSO</span>
+            </div>
+            <button class="menu-close" id="menu-close" aria-label="Cerrar menú">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-link">Inicio</a>
+            <a href="beers.html" class="mobile-link">Cervezas</a>
+            <a href="index.html#contacto" class="mobile-link">Contacto</a>
+        </div>
+        
+        <div class="mobile-menu-footer">
+            <a href="https://wa.me/5491123495971" class="btn btn-whatsapp" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- Carrito minimalista -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Carrito</h3>
+            <button class="cart-close" id="cart-close" aria-label="Cerrar carrito">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-content">
+            <div class="cart-empty" id="cart-empty">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Tu carrito está vacío</p>
+            </div>
+            
+            <div class="cart-items" id="cart-items">
+                <!-- Items del carrito -->
+            </div>
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total">$0</span>
+            </div>
+            <button class="btn btn-whatsapp-checkout" id="checkout-btn">
+                <i class="fab fa-whatsapp"></i> Finalizar por WhatsApp
+            </button>
+            <div style="text-align: center; margin-top: 10px;">
+                <small style="color: var(--color-light-gray);">
+                    O escribe directamente al <a href="https://wa.me/5491123495971" style="color: var(--color-gold);">+54 9 11 2349-5971</a>
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Página de cervezas -->
+    <main class="beers-page">
+        <div class="container">
+            <!-- Header de página -->
+            <div class="page-header editorial-header">
+                <h1>Catálogo</h1>
+                <p class="lead">Todas nuestras cervezas artesanales</p>
+            </div>
+            
+            <!-- Filtros -->
+            <div class="filters">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">Todas</button>
+                    <button class="filter-btn" data-filter="ipa">IPA</button>
+                    <button class="filter-btn" data-filter="negra">Negra</button>
+                    <button class="filter-btn" data-filter="roja">Roja</button>
+                    <button class="filter-btn" data-filter="trigo">Trigo</button>
+                    <button class="filter-btn" data-filter="rubia">Rubia</button>
+                    <button class="filter-btn" data-filter="especial">Especial</button>
+                </div>
+            </div>
+            
+            <!-- Grid de cervezas -->
+            <div class="products-grid" id="beers-container">
+                <!-- Las cervezas se cargarán dinámicamente aquí -->
+                <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
+                    <p>Cargando cervezas...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="images/logo.png" alt="El Oso Cerveza Artesanal" 
+                             class="logo-img"
+                             loading="lazy"
+                             width="28" 
+                             height="28">
+                        <span class="logo-text">EL OSO</span>
+                    </div>
+                    <p>Cerveza Artesanal.<br>Buenos Aires, Argentina.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Explorar</h4>
+                    <ul>
+                        <li><a href="#">Inicio</a></li>
+                        <li><a href="beers.html">Cervezas</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li>
+                            <a href="mailto:elosocerveza@gmail.com" target="_blank" class="social-link">
+                                <i class="fab fa-envelope"></i> elosocerveza@gmail.com
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tel:+5491123495971" target="_blank" class="social-link">
+                                <i class="fab fa-whatsapp"></i> +54 9 11 2349-5971
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://instagram.com/elosocerveza" target="_blank" class="social-link">
+                                <i class="fab fa-instagram"></i> @elosocerveza
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2026 El Oso. Venta exclusiva para mayores de 18 años. Beber con moderación.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón flotante Carrito -->
+    <a href="#" class="cart-float" id="cart-float" aria-label="Carrito">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </a>
+
+    <!-- Botón flotante WhatsApp -->
+    <a href="https://wa.me/5491123495971" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
