@@ -45,6 +45,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://wa.me">
     
     <title>El Oso Cerveza Artesanal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -52,147 +53,30 @@
     <link rel="stylesheet" href="styles.css">
     
     <!-- Schema Markup -->
-    <script type="application/ld+json">
+        <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@graph": [
-            {
-            "@type": "Organization",
-            "@id": "https://eloso.ar/#organization",
-            "name": "El Oso Cerveza Artesanal",
-            "legalName": "El Oso Cerveza Artesanal",
-            "url": "https://eloso.ar/",
-            "logo": {
-                "@type": "ImageObject",
-                "url": "https://eloso.ar/images/logo.png",
-                "width": 500,
-                "height": 500,
-                "caption": "Logo El Oso Cerveza Artesanal"
-            },
-            "description": "Cervecería artesanal especializada en cervezas premium de lotes limitados en Buenos Aires, Argentina",
-            "foundingDate": "2020",
-            "founder": {
-                "@type": "Person",
-                "name": "Fundador El Oso"
-            },
-            "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "Av. Siempreviva 742",
-                "addressLocality": "Buenos Aires",
-                "addressRegion": "Buenos Aires",
-                "postalCode": "C1437",
-                "addressCountry": "AR"
-            },
-            "contactPoint": {
-                "@type": "ContactPoint",
-                "telephone": "+54-9-11-2349-5971",
-                "contactType": "Customer Service",
-                "email": "elosocerveza@gmail.com",
-                "availableLanguage": ["Spanish", "English"],
-                "contactOption": "TollFree"
-            },
-            "sameAs": [
-                "https://instagram.com/elosocerveza",
-                "https://wa.me/5491123495971",
-                "https://facebook.com/elosocerveza"
-            ],
-            "priceRange": "$$",
-            "areaServed": {
-                "@type": "GeoCircle",
-                "geoMidpoint": {
-                "@type": "GeoCoordinates",
-                "latitude": -34.6037,
-                "longitude": -58.3816
-                },
-                "geoRadius": "500000"
-            }
-            },
-            {
-            "@type": "WebSite",
-            "@id": "https://eloso.ar/#website",
-            "url": "https://eloso.ar/",
-            "name": "El Oso Cerveza Artesanal",
-            "description": "Tienda online de cerveza artesanal premium",
-            "publisher": {
-                "@id": "https://eloso.ar/#organization"
-            },
-            "inLanguage": "es-AR",
-            "potentialAction": {
-                "@type": "SearchAction",
-                "target": "https://eloso.ar/search?q={search_term_string}",
-                "query-input": "required name=search_term_string"
-            }
-            },
-            {
-            "@type": "LocalBusiness",
-            "@id": "https://eloso.ar/#business",
-            "parentOrganization": {
-                "@id": "https://eloso.ar/#organization"
-            },
-            "name": "El Oso Cervecería Artesanal",
-            "image": [
-                "https://eloso.ar/images/store-front.jpg",
-                "https://eloso.ar/images/brewery-interior.jpg"
-            ],
-            "description": "Cervecería artesanal y punto de venta en Buenos Aires",
-            "telephone": "+54-9-11-2349-5971",
-            "email": "elosocerveza@gmail.com",
-            "priceRange": "$$",
-            "openingHoursSpecification": [
-                {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-                "opens": "10:00",
-                "closes": "20:00"
-                },
-                {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Saturday"],
-                "opens": "11:00",
-                "closes": "18:00"
-                }
-            ],
-            "paymentAccepted": ["Cash", "Credit Card", "Debit Card", "Transfer"],
-            "currenciesAccepted": "ARS",
-            "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": "Cervezas Artesanales",
-                "itemListElement": [
-                {
-                    "@type": "OfferCatalog",
-                    "name": "Cervezas Dubbel",
-                    "itemListElement": [
-                    {
-                        "@type": "Product",
-                        "name": "EMBER Dubbel",
-                        "sku": "EMBER-001"
-                    }
-                    ]
-                }
-                ]
-            },
-            "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": "-34.6037",
-                "longitude": "-58.3816"
-            },
-            "areaServed": {
-                "@type": "City",
-                "name": "Buenos Aires"
-            }
-            },
-            {
-            "@type": "BreadcrumbList",
-            "@id": "https://eloso.ar/#breadcrumb",
-            "itemListElement": [
-                {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Inicio",
-                "item": "https://eloso.ar/"
-                }
-            ]
-            }
+        "@type": "Brewery",
+        "name": "El Oso",
+        "description": "Cerveza artesanal en Quilmes, Buenos Aires",
+        "url": "https://eloso.ar/",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Quilmes",
+            "addressRegion": "Buenos Aires",
+            "addressCountry": "AR"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-34.7200",
+            "longitude": "-58.2580"
+        },
+        "servesCuisine": "Cerveza Artesanal",
+        "openingHours": "Mo-Su 09:00-21:00",
+        "telephone": "+5491123495971",
+        "priceRange": "$$",
+        "sameAs": [
+            "https://instagram.com/elosocerveza"
         ]
     }
     </script>

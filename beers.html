@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- En el <head>, reemplazar o añadir estos meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <!-- Meta Description específica para catálogo -->
     <meta name="description" content="Catálogo completo de cervezas artesanales El Oso. Filtra por estilo: IPA, Stout, Amber, Wheat, Blonde, Lager, Dubbel. Precios, descripciones y disponibilidad en tiempo real.">
 
@@ -29,6 +33,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://wa.me">
     
     <title>Catálogo de Cervezas | El Oso</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -39,70 +44,27 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@graph": [
-            {
-            "@type": "CollectionPage",
-            "@id": "https://eloso.ar/beers.html#collectionpage",
-            "url": "https://eloso.ar/beers.html",
-            "name": "Catálogo de Cervezas Artesanales El Oso",
-            "description": "Página de catálogo con todas las cervezas artesanales disponibles",
-            "isPartOf": {
-                "@id": "https://eloso.ar/#website"
-            },
-            "breadcrumb": {
-                "@id": "https://eloso.ar/beers.html#breadcrumb"
-            },
-            "inLanguage": "es-AR"
-            },
-            {
-            "@type": "BreadcrumbList",
-            "@id": "https://eloso.ar/beers.html#breadcrumb",
-            "itemListElement": [
-                {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Inicio",
-                "item": "https://eloso.ar/"
-                },
-                {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Catálogo de Cervezas",
-                "item": "https://eloso.ar/beers.html"
-                }
-            ]
-            },
-            {
-            "@type": "ItemList",
-            "itemListElement": [
-                {
-                "@type": "ListItem",
-                "position": 1,
-                "item": {
-                    "@type": "Product",
-                    "@id": "https://eloso.ar/beers.html#ember"
-                }
-                },
-                {
-                "@type": "ListItem",
-                "position": 2,
-                "item": {
-                    "@type": "Product",
-                    "@id": "https://eloso.ar/beers.html#vika"
-                }
-                },
-                {
-                "@type": "ListItem",
-                "position": 3,
-                "item": {
-                    "@type": "Product",
-                    "@id": "https://eloso.ar/beers.html#arun"
-                }
-                }
-            ],
-            "numberOfItems": 11,
-            "name": "Colección de Cervezas El Oso"
-            }
+        "@type": "Brewery",
+        "name": "El Oso",
+        "description": "Cerveza artesanal en Quilmes, Buenos Aires",
+        "url": "https://eloso.ar/",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Quilmes",
+            "addressRegion": "Buenos Aires",
+            "addressCountry": "AR"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-34.7200",
+            "longitude": "-58.2580"
+        },
+        "servesCuisine": "Cerveza Artesanal",
+        "openingHours": "Mo-Su 09:00-21:00",
+        "telephone": "+5491123495971",
+        "priceRange": "$$",
+        "sameAs": [
+            "https://instagram.com/elosocerveza"
         ]
     }
     </script>
@@ -142,6 +104,22 @@
     <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
 </head>
 <body>
+    <!-- Anunciador para lectores de pantalla -->
+    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- LOCAL BUSINESS INFO -->
+    <div itemscope itemtype="https://schema.org/LocalBusiness" style="display: none;">
+        <span itemprop="name">El Oso Cerveza Artesanal</span>
+        <span itemprop="description">Cerveza artesanal en Quilmes, Buenos Aires</span>
+        <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+            <span itemprop="addressLocality">Quilmes</span>,
+            <span itemprop="addressRegion">Buenos Aires</span>,
+            <span itemprop="addressCountry">Argentina</span>
+        </div>
+        <span itemprop="telephone">+5491123495971</span>
+        <span itemprop="areaServed">Quilmes</span>
+    </div>
+
     <!-- Header minimalista -->
     <header class="header">
         <div class="container">
