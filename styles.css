@@ -972,18 +972,8 @@ p {
 }
 
 .logo-img {
-    width: 1.8rem;
-    height: 1.8rem;
     object-fit: contain;
     transition: var(--transition-fast);
-}
-
-/* Logo más pequeño en móvil */
-@media (max-width: 768px) {
-    .logo-img {
-        width: 1.5rem;
-        height: 1.5rem;
-    }
 }
 
 /* ===== SECCIÓN: POR QUÉ EL OSO ===== */
