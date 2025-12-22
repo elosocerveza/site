@@ -1,4 +1,12 @@
-// Datos de cervezas (se cargarán desde la URL)
+// ===== CONFIGURACIÓN DE CACHE Y REINTENTOS =====
+const CACHE_CONFIG = {
+    CACHE_KEY: 'eloso_beers_cache',
+    CACHE_DURATION: 60 * 60 * 1000, // 5 minutos en milisegundos
+    MAX_RETRIES: 3,
+    RETRY_DELAY: 2000 // 2 segundos entre reintentos
+};
+
+// Datos de cervezas (se cargarán desde cache o URL)
 let beersData = [];
 
 // Variables globales
@@ -8,6 +16,75 @@ let currentFilter = 'all';
 // Detectar si estamos en la página de cervezas
 const isBeersPage = window.location.pathname.includes('beers.html') || 
                     document.querySelector('.beers-page') !== null;
+
+// ===== SISTEMA DE CACHE =====
+function getCachedBeers() {
+    try {
+        const cacheData = localStorage.getItem(CACHE_CONFIG.CACHE_KEY);
+        if (!cacheData) return null;
+        
+        const { data, timestamp } = JSON.parse(cacheData);
+        const now = Date.now();
+        
+        // Verificar si el cache sigue siendo válido
+        if (now - timestamp < CACHE_CONFIG.CACHE_DURATION) {
+            console.log('Usando datos del cache');
+            return data;
+        } else {
+            console.log('Cache expirado');
+            localStorage.removeItem(CACHE_CONFIG.CACHE_KEY);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error leyendo cache:', error);
+        return null;
+    }
+}
+
+function setCachedBeers(data) {
+    try {
+        const cacheData = {
+            data: data,
+            timestamp: Date.now()
+        };
+        localStorage.setItem(CACHE_CONFIG.CACHE_KEY, JSON.stringify(cacheData));
+        console.log('Datos guardados en cache');
+    } catch (error) {
+        console.error('Error guardando en cache:', error);
+    }
+}
+
+// ===== SISTEMA DE REINTENTOS =====
+async function fetchWithRetry(url, retries = CACHE_CONFIG.MAX_RETRIES, delay = CACHE_CONFIG.RETRY_DELAY) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            console.log(`Intento ${i + 1} de ${retries}`);
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error(`Error en intento ${i + 1}:`, error);
+            
+            // Si es el último intento, relanzar el error
+            if (i === retries - 1) {
+                throw error;
+            }
+            
+            // Esperar antes del siguiente intento
+            if (delay > 0) {
+                console.log(`Esperando ${delay}ms antes del siguiente intento...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+                
+                // Incrementar el delay para el próximo intento (backoff exponencial)
+                delay *= 2;
+            }
+        }
+    }
+}
 
 // ===== LAZY LOADING IMPLEMENTATION =====
 function initLazyLoading() {
@@ -135,12 +212,11 @@ function generateProductSchema(beers) {
     document.head.appendChild(script);
 }
 
-// Cargar datos de cervezas desde la URL
-async function loadBeersData() {
+// Función separada para obtener datos desde la URL
+async function fetchBeersFromURL() {
     try {
-        console.log('Cargando datos de cervezas...');
-        const response = await fetch('https://script.google.com/macros/s/AKfycbw8ftCNEw6hJBslOS4hyTNniPefNlA_Zsu5b8EO_NcUJmnGXfnuWJNL5tPUAdMsmt4PCw/exec');
-        const data = await response.json();
+        console.log('Solicitando datos desde la URL...');
+        const data = await fetchWithRetry('https://script.google.com/macros/s/AKfycbw8ftCNEw6hJBslOS4hyTNniPefNlA_Zsu5b8EO_NcUJmnGXfnuWJNL5tPUAdMsmt4PCw/exec');
         
         console.log('Datos recibidos:', data);
         
@@ -162,7 +238,7 @@ async function loadBeersData() {
         }
         
         // Transformar los datos a la estructura esperada
-        beersData = beerArray.map(item => {
+        const transformedData = beerArray.map(item => {
             // Mapear subcategorías manteniendo nombres en español
             let subcategory = item.subcategory || 'otros';
             
@@ -189,16 +265,43 @@ async function loadBeersData() {
             };
         });
         
-        console.log('Cervezas cargadas:', beersData.length);
+        console.log('Cervezas transformadas:', transformedData.length);
         
-        // Generar schema markup para productos
-        if (beersData.length > 0) {
-            generateProductSchema(beersData);
+        return transformedData;
+        
+    } catch (error) {
+        console.error('Error obteniendo datos desde URL:', error);
+        throw error;
+    }
+}
+
+// Cargar datos de cervezas desde cache o URL con reintentos
+async function loadBeersData() {
+    try {
+        console.log('Cargando datos de cervezas...');
+        
+        // 1. Intentar cargar desde cache primero
+        const cachedData = getCachedBeers();
+        if (cachedData) {
+            beersData = cachedData;
+            
+            // Actualizar la vista inmediatamente con datos en cache
+            if (isBeersPage) {
+                renderBeers();
+            }
+            
+            // En segundo plano, intentar actualizar desde la URL
+            setTimeout(() => {
+                console.log('Actualizando datos en segundo plano...');
+                refreshBeersData();
+            }, 1000);
+            
+            return;
         }
         
-        if (isBeersPage) {
-            renderBeers();
-        }
+        // 2. Si no hay cache válido, cargar desde URL con reintentos
+        await refreshBeersData();
+        
     } catch (error) {
         console.error('Error cargando datos de cervezas:', error);
         
@@ -216,6 +319,34 @@ async function loadBeersData() {
                 `;
             }
         }
+    }
+}
+
+// Forzar actualización de datos (útil para botones de "actualizar")
+async function refreshBeersData() {
+    try {
+        console.log('Forzando actualización de datos...');
+        
+        // Cargar datos desde URL
+        const transformedData = await fetchBeersFromURL();
+        
+        // Actualizar datos globales
+        beersData = transformedData;
+        
+        // Guardar en cache
+        setCachedBeers(transformedData);
+        
+        // Generar schema markup para productos
+        if (beersData.length > 0) {
+            generateProductSchema(beersData);
+        }
+        
+        // Actualizar vista si es necesario
+        if (isBeersPage) {
+            renderBeers();
+        }
+    } catch (error) {
+        console.error('Error actualizando datos:', error);
     }
 }
 
@@ -543,13 +674,41 @@ function buildWhatsAppOrderMessage() {
     return message;
 }
 
+// Botón de actualización para desarrollo (opcional)
+function addRefreshButton() {
+    if (window.location.hostname === '') {
+        const refreshBtn = document.createElement('button');
+        refreshBtn.innerHTML = '🔄';
+        refreshBtn.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: #C9A96E;
+            color: black;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 18px;
+        `;
+        refreshBtn.title = 'Actualizar datos';
+        refreshBtn.addEventListener('click', refreshBeersData);
+        document.body.appendChild(refreshBtn);
+    }
+}
+
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
-    // Cargar datos de cervezas
+    // Cargar datos de cervezas (con cache y reintentos)
     loadBeersData();
     
     // Inicializar lazy loading para imágenes existentes
     initLazyLoading();
+    
+    // Añadir botón de actualización en desarrollo
+    addRefreshButton();
     
     // Menú móvil
     const menuToggle = document.getElementById('menu-toggle');
