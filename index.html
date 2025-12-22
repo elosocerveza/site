@@ -85,22 +85,98 @@
     </script>
     
     <!-- Critical CSS para mejor performance -->
-    <style>
+   <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gold: #C9A96E;
+            --color-dark-gray: #111111;
+            --color-medium-gray: #333333;
+            --color-light-gray: #777777;
+            --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { font-size: 16px; scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-black);
+            color: var(--color-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            background-color: var(--color-black);
+            border-bottom: 1px solid var(--color-dark-gray);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
         .lazy-load-placeholder {
             background-color: var(--color-dark-gray);
-            border-radius: var(--radius-sm);
+            border-radius: 4px;
         }
-        
+
         .product-image img,
         .customer-photo img {
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
+
         .product-image img.loaded,
         .customer-photo img.loaded {
             opacity: 1;
         }
+
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 300 700;
+            font-display: swap;
+            src: url('https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2') format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        .fa-shopping-cart::before { content: "\f07a"; }
+        .fa-bars::before { content: "\f0c9"; }
+        .fa-times::before { content: "\f00d"; }
+        .fa-whatsapp::before { content: "\f232"; }
+        .fa-spinner::before { content: "\f110"; }
+        .fa-beer::before { content: "\f0fc"; }
+        .fa-fire::before { content: "\f06d"; }
+        .fa-wine-bottle::before { content: "\f72f"; }
     </style>
 
     <!-- Google tag (gtag.js) -->
