@@ -6,9 +6,13 @@
     --color-gold: #C9A96E;
     --color-dark-gray: #111111;
     --color-medium-gray: #333333;
-    --color-light-gray: #AAAAAA; /* Cambiado de #777777 a #AAAAAA */
-    --color-lighter-gray: #CCCCCC; /* Añadido para textos secundarios */
-    --color-text-medium: #999999; /* Añadido para textos de descripción */
+    --color-light-gray: #777777; 
+    --color-lighter-gray: #CCCCCC;
+    --color-text-medium: #999999;
+
+    /* Colores WhatsApp con mejor contraste */
+    --whatsapp-primary: #25D366; /* Más oscuro para mejor contraste */
+    --whatsapp-hover: #25D366;
     
     /* Tipografía */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -134,13 +138,13 @@ p {
 }
 
 .btn-whatsapp {
-    background-color: #128C7E;
+    background-color: var(--whatsapp-primary);
     color: var(--color-white);
     border-color: #128C7E;
 }
 
 .btn-whatsapp:hover {
-    background-color: #075E54;
+    background-color: var(--whatsapp-hover);
     color: var(--color-white);
 }
 
@@ -160,14 +164,14 @@ p {
 /* ===== BOTÓN WHATSAPP CHECKOUT ===== */
 .btn-whatsapp-checkout {
     width: 100%;
-    background-color: #128C7E;
+    background-color: var(--whatsapp-primary);
     color: var(--color-white);
     border-color: #128C7E;
     font-weight: 600;
 }
 
 .btn-whatsapp-checkout:hover {
-    background-color: #075E54;
+    background-color: var(--whatsapp-hover);
     color: var(--color-white);
     border-color: #075E54;
 }
@@ -577,7 +581,7 @@ p {
     right: var(--space-md);
     width: 56px;
     height: 56px;
-    background-color: #128C7E;
+    background-color: var(--whatsapp-primary);
     color: var(--color-white);
     border-radius: 50%;
     display: flex;
@@ -593,7 +597,7 @@ p {
 .whatsapp-float:hover {
     transform: scale(1.1);
     box-shadow: 0 6px 16px rgba(18, 140, 126, 0.4);
-    background-color: #075E54;
+    background-color: var(--whatsapp-hover);
 }
 
 /* ===== HERO ===== */
