@@ -537,8 +537,8 @@ function buildWhatsAppOrderMessage() {
 
     message += "━━━━━━━━━━━━━━━━━━\n";
     message += `Total: $${total.toLocaleString('es-AR')}\n\n`;
-    message += "Quedo atento para confirmar disponibilidad.\n";
-    message += "Gracias 🙌\n\n";
+    message += "Después coordinamos entrega y el pago.\n";
+    message += "Gracias!";
 
     return message;
 }
