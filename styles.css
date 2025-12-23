@@ -1,6 +1,4 @@
-/* ===== RESET Y VARIABLES ===== */
 :root {
-    /* Colores minimalistas - CONTRASTE MEJORADO */
     --color-black: #000000;
     --color-white: #FFFFFF;
     --color-gold: #C9A96E;
@@ -10,25 +8,20 @@
     --color-lighter-gray: #CCCCCC;
     --color-text-medium: #999999;
 
-    /* Colores WhatsApp con mejor contraste */
-    --whatsapp-primary: #25D366; /* Más oscuro para mejor contraste */
+    --whatsapp-primary: #25D366;
     --whatsapp-hover: #25D366;
     
-    /* Tipografía */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     
-    /* Espaciado */
     --space-xs: 0.5rem;
     --space-sm: 1rem;
     --space-md: 2rem;
     --space-lg: 3rem;
     --space-xl: 4rem;
     
-    /* Border radius */
     --radius-sm: 4px;
     --radius-md: 8px;
     
-    /* Transiciones */
     --transition-fast: 0.2s ease;
     --transition-medium: 0.3s ease;
 }
@@ -60,7 +53,6 @@ body {
     padding: 0 var(--space-md);
 }
 
-/* ===== TIPOGRAFÍA ===== */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     line-height: 1.2;
@@ -91,7 +83,6 @@ p {
     color: var(--color-lighter-gray);
 }
 
-/* ===== BOTONES ===== */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -161,7 +152,6 @@ p {
     color: var(--color-gold);
 }
 
-/* ===== BOTÓN WHATSAPP CHECKOUT ===== */
 .btn-whatsapp-checkout {
     width: 100%;
     background-color: var(--whatsapp-primary);
@@ -180,7 +170,6 @@ p {
     margin-right: 8px;
 }
 
-/* ===== HEADER ===== */
 .header {
     position: fixed;
     top: 0;
@@ -295,7 +284,6 @@ p {
     }
 }
 
-/* ===== MENÚ MÓVIL ===== */
 .mobile-menu {
     position: fixed;
     top: 0;
@@ -358,7 +346,6 @@ p {
     border-top: 1px solid var(--color-dark-gray);
 }
 
-/* ===== CARRITO ===== */
 .cart-overlay {
     position: fixed;
     top: 0;
@@ -533,7 +520,6 @@ p {
     color: var(--color-gold);
 }
 
-/* ===== CARRITO FLOTANTE ===== */
 .cart-float {
     position: fixed;
     bottom: calc(var(--space-md) + 70px);
@@ -574,7 +560,6 @@ p {
     justify-content: center;
 }
 
-/* ===== WHATSAPP FLOAT ===== */
 .whatsapp-float {
     position: fixed;
     bottom: var(--space-md);
@@ -600,7 +585,6 @@ p {
     background-color: var(--whatsapp-hover);
 }
 
-/* ===== HERO ===== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -652,7 +636,6 @@ p {
     flex-wrap: wrap;
 }
 
-/* ===== SECCIONES ===== */
 .section-header {
     text-align: center;
     margin-bottom: var(--space-xl);
@@ -662,7 +645,6 @@ p {
     margin-bottom: var(--space-xs);
 }
 
-/* ===== PRODUCTOS ===== */
 .featured {
     padding: var(--space-xl) 0;
     background-color: var(--color-black);
@@ -806,7 +788,6 @@ p {
     text-align: center;
 }
 
-/* ===== PROCESO ===== */
 .process {
     padding: var(--space-xl) 0;
     background-color: var(--color-dark-gray);
@@ -837,7 +818,6 @@ p {
     color: var(--color-lighter-gray);
 }
 
-/* ===== CONTACTO ===== */
 .contact {
     padding: var(--space-xl) 0;
     text-align: center;
@@ -856,7 +836,6 @@ p {
     margin-bottom: var(--space-lg);
 }
 
-/* ===== PÁGINA DE CERVEZAS ===== */
 .beers-page {
     padding-top: 100px;
     padding-bottom: var(--space-xl);
@@ -905,7 +884,6 @@ p {
     border-color: var(--color-white);
 }
 
-/* ===== FOOTER ===== */
 .footer {
     padding: var(--space-xl) 0;
     background-color: var(--color-dark-gray);
@@ -951,7 +929,6 @@ p {
     font-size: 0.875rem;
 }
 
-/* ===== UTILIDADES ===== */
 .mt-1 { margin-top: var(--space-sm); }
 .mt-2 { margin-top: var(--space-md); }
 .mt-3 { margin-top: var(--space-lg); }
@@ -962,7 +939,6 @@ p {
 .mb-3 { margin-bottom: var(--space-lg); }
 .mb-4 { margin-bottom: var(--space-xl); }
 
-/* ===== SCROLLBAR PERSONALIZADA ===== */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -980,7 +956,6 @@ p {
     background: var(--color-gold);
 }
 
-/* ===== LOGO ===== */
 .logo {
     display: flex;
     align-items: center;
@@ -996,7 +971,6 @@ p {
     transition: var(--transition-fast);
 }
 
-/* ===== SECCIÓN: POR QUÉ EL OSO ===== */
 .why-oso {
     padding: var(--space-xl) 0;
     background-color: var(--color-black);
@@ -1039,7 +1013,6 @@ p {
     line-height: 1.5;
 }
 
-/* ===== SECCIÓN: PROCESO ARTESANAL ===== */
 .artisanal-process {
     padding: var(--space-xl) 0;
     background-color: var(--color-dark-gray);
@@ -1075,7 +1048,6 @@ p {
     line-height: 1.5;
 }
 
-/* ===== SECCIÓN: CÓMO COMPRAR ===== */
 .how-to-buy {
     padding: var(--space-xl) 0;
     background-color: var(--color-black);
@@ -1126,7 +1098,6 @@ p {
     line-height: 1.5;
 }
 
-/* Ajustes responsive */
 @media (max-width: 768px) {
     .features-grid,
     .process-steps,
@@ -1151,7 +1122,6 @@ p {
   letter-spacing: -0.03em;
 }
 
-/* ===== SECCIÓN CLIENTES ===== */
 .customers {
   padding: var(--space-xl) 0;
   background-color: var(--color-black);
@@ -1183,7 +1153,6 @@ p {
   filter: grayscale(0%) contrast(1);
 }
 
-/* ===== SECCIÓN EDITORIAL ===== */
 .editorial {
   padding: var(--space-xl) 0;
   background-color: var(--color-black);
@@ -1240,8 +1209,6 @@ p {
   margin-top: var(--space-lg);
 }
 
-/* ===== EDITORIAL CENTRADO ===== */
-
 .editorial {
   text-align: center;
 }
@@ -1282,7 +1249,6 @@ p {
   text-align: center;
 }
 
-/* Unificar estilos de secciones */
 .section-header h2 {
     font-size: 3rem !important;
     font-weight: 800 !important;
@@ -1297,7 +1263,6 @@ p {
     margin-top: 1rem !important;
 }
 
-/* ===== ENLACES SOCIALES ===== */
 .social-link {
     color: var(--color-lighter-gray);
     text-decoration: none;
@@ -1308,7 +1273,6 @@ p {
     color: var(--color-white);
 }
 
-/* ===== MEJORAS DE ACCESIBILIDAD ===== */
 .skip-link {
     position: absolute;
     top: -40px;
@@ -1326,7 +1290,6 @@ p {
     top: 0;
 }
 
-/* ===== ESTILOS PARA TEXTO DE PEDIDO WHATSAPP ===== */
 small a {
     color: var(--color-gold) !important;
 }

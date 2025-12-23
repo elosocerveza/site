@@ -45,6 +45,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://wa.me">
+    <link rel="preconnect" href="https://script.google.com">
     
     <title>El Oso Cerveza Artesanal</title>
     
@@ -52,7 +53,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Estilos principales -->
-    <link rel="stylesheet" href="styles.min.css?v=3">
+    <link rel="stylesheet" href="styles.min.css?v=4">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -171,7 +172,6 @@
             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
         }
 
-        /* Estilos básicos para iconos (carga crítica) */
         .fa, .fas, .fab {
             display: inline-block;
             width: 1em;
@@ -180,7 +180,6 @@
             position: relative;
         }
 
-        /* Placeholders para iconos críticos */
         .fa-shopping-cart::before,
         .fa-bars::before,
         .fa-times::before,
@@ -303,19 +302,13 @@
         }
     </style>
 
-    <!-- Google tag (gtag.js) - Diferido -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY"></script>
     <script>
-        window.addEventListener('load', function() {
-            var script = document.createElement('script');
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY';
-            script.async = true;
-            document.head.appendChild(script);
-            
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-K21FSGK2ZY');
-        });
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-K21FSGK2ZY');
     </script>
 
     <!-- Google Search Console Verification -->
@@ -436,7 +429,7 @@
             </button>
             <div style="text-align: center; margin-top: 10px;">
                 <small style="color: var(--color-light-gray);">
-                    O escribe directamente al <a href="https://wa.me/5491123495971" style="color: var(--color-gold);">+54 9 11 2349-5971</a>
+                    O escribí directamente al <a href="https://wa.me/5491123495971" style="color: var(--color-gold);">+54 9 11 2349-5971</a>
                 </small>
             </div>
         </div>
@@ -459,43 +452,40 @@
             </div>
         </section>
 
-        <section class="why-oso editorial">
+        <section class="micro-lotes editorial">
             <div class="container">
                 <div class="editorial-header">
-                    <h2>Por qué El Oso</h2>
+                    <h2>Producción por micro-lotes</h2>
                     <p class="lead">
-                        No hacemos cerveza para todos.<br>
-                        Hacemos cerveza como nos gusta tomarla.
+                        No hacemos stock masivo. Cada cerveza se elabora en cantidades limitadas<br>
+                        para garantizar frescura, calidad y carácter único en cada botella.
                     </p>
                 </div>
 
                 <div class="editorial-grid">
-                <div class="editorial-item">
-                    <span class="editorial-number">01</span>
-                    <h3>Lotes chicos</h3>
-                    <p>
-                    Cada cerveza se hace en partidas limitadas.
-                    Más control, más carácter, menos apuro.
-                    </p>
-                </div>
+                    <div class="editorial-item">
+                        <span class="editorial-number">01</span>
+                        <h3>Frescura garantizada</h3>
+                        <p>
+                            Rotación constante. Cada lote es nuevo, recién elaborado.
+                        </p>
+                    </div>
 
-                <div class="editorial-item">
-                    <span class="editorial-number">02</span>
-                    <h3>Recetas propias</h3>
-                    <p>
-                    Tomamos estilos clásicos y los llevamos a nuestro terreno.
-                    Sin copiar. Sin seguir modas.
-                    </p>
-                </div>
+                    <div class="editorial-item">
+                        <span class="editorial-number">02</span>
+                        <h3>Calidad artesanal</h3>
+                        <p>
+                            Atención al detalle en cada etapa, sin producción en masa.
+                        </p>
+                    </div>
 
-                <div class="editorial-item">
-                    <span class="editorial-number">03</span>
-                    <h3>Venta directa</h3>
-                    <p>
-                    Hablás con nosotros. Armamos el pedido y listo.
-                    Sin intermediarios.
-                    </p>
-                </div>
+                    <div class="editorial-item">
+                        <span class="editorial-number">03</span>
+                        <h3>Disponibilidad limitada</h3>
+                        <p>
+                            Cuando se acaba, hay que esperar al próximo lote.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -800,6 +790,6 @@
     </a>
 
     <!-- JavaScript optimizado -->
-    <script src="scripts.min.js?v=3"></script>
+    <script src="scripts.min.js?v=4"></script>
 </body>
 </html>

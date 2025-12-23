@@ -1,9 +1,9 @@
 // ===== CONFIGURACIÓN DE CACHE Y REINTENTOS =====
 const CACHE_CONFIG = {
     CACHE_KEY: 'eloso_beers_cache',
-    CACHE_DURATION: 60 * 60 * 1000, // 5 minutos en milisegundos
+    CACHE_DURATION: 60 * 60 * 1000,
     MAX_RETRIES: 3,
-    RETRY_DELAY: 2000 // 2 segundos entre reintentos
+    RETRY_DELAY: 2000
 };
 
 // Datos de cervezas (se cargarán desde cache o URL)
@@ -699,6 +699,14 @@ function addRefreshButton() {
     }
 }
 
+function clearCart() {
+    cart = [];
+    updateCartCount();
+    renderCart();
+    localStorage.removeItem('cart');
+    showNotification('Carrito vaciado');
+}
+
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
     // Cargar datos de cervezas (con cache y reintentos)
@@ -741,18 +749,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Construir mensaje de WhatsApp
             const whatsappMessage = buildWhatsAppOrderMessage();
             const phoneNumber = '5491123495971';
-            
-            // Codificar el mensaje para URL
             const encodedMessage = encodeURIComponent(whatsappMessage);
             const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             
-            // Abrir WhatsApp en una nueva pestaña
-            window.open(whatsappURL, '_blank');
+            clearCart();
             
-            // Mostrar confirmación
+            setTimeout(() => {
+                window.open(whatsappURL, '_blank');
+            }, 100);
+            
             showNotification('Redirigiendo a WhatsApp para completar tu pedido');
         });
     }
