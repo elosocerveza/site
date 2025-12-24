@@ -254,6 +254,7 @@ async function fetchBeersFromURL() {
                 category: 'beers',
                 subcategory: subcategory,
                 image: item.image || 'images/products/beers/default.jpg',
+                badge: item.badge,
                 stock: parseInt(item.stock) || 0,
                 sold: parseInt(item.sold) || 0,
                 rating: parseFloat(item.rating) || 0,
@@ -363,6 +364,22 @@ function getStyleName(subcategory) {
     return sub.toUpperCase();
 }
 
+// Función para formatear las ventas (ej: 3900 -> 3,9k)
+function formatSales(sold) {
+    if (sold >= 1000) {
+        return (sold / 1000).toFixed(1).replace('.', ',') + 'k';
+    }
+    return sold.toString();
+}
+
+// Función para formatear el stock
+function formatStock(stock) {
+    if (stock === 0) return 'Sin stock';
+    if (stock < 10) return `Últimas ${stock} botellas`;
+    if (stock < 50) return `${stock} disponibles`;
+    return `${stock}+ en stock`;
+}
+
 // Renderizar cervezas
 function renderBeers() {
     const container = document.getElementById('beers-container');
@@ -431,17 +448,24 @@ function renderBeers() {
                 ${getProductBadge(beer)}
                 <!-- Imagen con lazy loading -->
                 <img class="lazy-load" 
-                     data-src="${beer.image}" 
-                     src="${createImagePlaceholder(300, 200)}"
-                     alt="${beer.name}" 
-                     loading="lazy"
-                     width="300"
-                     height="200"
-                     itemprop="image">
+                    data-src="${beer.image}" 
+                    src="${createImagePlaceholder(300, 200)}"
+                    alt="${beer.name}" 
+                    loading="lazy"
+                    width="300"
+                    height="200"
+                    itemprop="image">
             </div>
             <div class="product-info">
                 <div class="product-category" itemprop="category">${beer.subname}</div>
                 <h3 class="product-name" itemprop="name">${beer.name}</h3>
+                
+                <div class="product-stats">
+                    <span class="sales">+${formatSales(beer.sold)} ventas</span>
+                    <span class="separator"> · </span>
+                    <span class="stock">${formatStock(beer.stock)}</span>
+                </div>
+                
                 <p class="product-description" itemprop="description">${beer.description}</p>
                 
                 <div class="product-specs">
@@ -486,15 +510,15 @@ function renderBeers() {
 // Obtener badge del producto
 function getProductBadge(beer) {
     if (beer.stock === 0) {
-        return '<div class="product-badge">AGOTADO</div>';
-    } else if (beer.stock < 5) {
-        return '<div class="product-badge">ÚLTIMAS</div>';
+        return '<div class="product-badge badge-sold-out">AGOTADA</div>';
+    } else if (beer.stock < 10) {
+        return '<div class="product-badge badge-low-stock">ÚLTIMAS BOTELLAS</div>';
     } else if (beer.sold > 200) {
-        return '<div class="product-badge">POPULAR</div>';
-    } else if (beer.rating >= 4.8) {
-        return '<div class="product-badge">TOP</div>';
+        return '<div class="product-badge badge-popular">POPULAR</div>';
+    } else if (beer.sold == 0) {
+        return '<div class="product-badge badge-new">NUEVO</div>';
     }
-    return '';
+    return '<div class="product-badge badge-limited">EDICIÓN LIMITADA</div>';
 }
 
 // Resetear filtros

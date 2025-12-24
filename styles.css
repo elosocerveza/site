@@ -737,7 +737,7 @@ p {
 .product-specs {
     display: flex;
     gap: var(--space-md);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-sm);
 }
 
 .spec {
@@ -1296,4 +1296,94 @@ small a {
 
 small a:hover {
     color: var(--color-white) !important;
+}
+
+.product-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--color-text-medium);
+    flex-wrap: wrap;
+}
+
+.product-stats i {
+    font-size: 0.7rem;
+    margin-right: 0.25rem;
+    color: var(--color-gold);
+}
+
+.product-stats .sales {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-lighter-gray);
+}
+
+.product-stats .stock {
+    display: inline-flex;
+    align-items: center;
+    color: var(--color-lighter-gray);
+}
+
+.product-stats .separator {
+    color: var(--color-lighter-gray);
+}
+
+/* Indicadores visuales según stock */
+.product-stats .stock[data-stock="low"] {
+    color: #FFA500; /* Naranja para stock bajo */
+}
+
+.product-stats .stock[data-stock="very-low"] {
+    color: #FF6B6B; /* Rojo para stock muy bajo */
+}
+
+.product-stats .stock[data-stock="out"] {
+    color: var(--color-light-gray); /* Gris para sin stock */
+}
+
+/* ===== BADGES CON COLORES DE ALTO CONTRASTE SOBRE FONDO BLANCO ===== */
+.product-badge {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
+    font-size: 0.7rem;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 4px;
+    z-index: 2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    color: #FFFFFF !important;
+}
+
+.badge-sold-out {
+    background-color: #C62828;
+}
+
+.badge-low-stock {
+    background-color: #EF6C00;
+}
+
+.badge-popular {
+    background-color: #1565C0;
+}
+
+.badge-new {
+    background-color: #2E7D32;
+}
+
+.badge-exclusive {
+    background-color: #000000;
+}
+
+.badge-limited {
+    background-color: #6A1B9A;
+}
+
+.product-image {
+    position: relative;
 }
