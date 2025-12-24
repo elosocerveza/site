@@ -314,7 +314,15 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-K21FSGK2ZY');
+        gtag('config', 'G-K21FSGK2ZY', {
+            'debug_mode': false,
+            'transport_type': 'beacon',
+            'page_title': document.title,
+            'page_location': window.location.href,
+            'allow_google_signals': true,
+            'allow_ad_personalization_signals': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
     </script>
 
     <!-- Google Search Console Verification -->
@@ -394,13 +402,6 @@
             <a href="index.html" class="mobile-link">Inicio</a>
             <a href="beers.html" class="mobile-link">Cervezas</a>
             <a href="#contacto" class="mobile-link">Contacto</a>
-        </div>
-        
-        <div class="mobile-menu-footer">
-            <a href="https://wa.me/5491123495971" class="btn btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i>
-                WhatsApp
-            </a>
         </div>
     </div>
 
@@ -499,81 +500,140 @@
         <section class="featured">
             <div class="container">
                 <div class="editorial-header">
-                    <h2>Nuestros Productos</h2>
-                    <p class="lead">Explora nuestra selección artesanal</p>
+                    <h2>Cervezas destacadas</h2>
+                    <p class="lead">Una selección estratégica de nuestra colección</p>
                 </div>
                 
-                <div class="categories-grid">
-                    <!-- Cervezas -->
-                    <a href="beers.html" class="category-card">
-                        <div class="category-image">
+                <div class="products-grid">
+                    <!-- 1. MÁS VENDIDA - EMBER -->
+                    <div class="product-card" itemscope itemtype="https://schema.org/Product">
+                        <meta itemprop="url" content="https://eloso.ar/">
+                        <meta itemprop="image" content="https://eloso.ar/images/products/beers/ember.jpg?v=8">
+                        <div class="product-image">
+                            <div class="product-badge">MÁS VENDIDA</div>
+                            <!-- Imagen con lazy loading -->
                             <img class="lazy-load" 
-                                data-src="images/categories/beers.jpg" 
+                                data-src="images/products/beers/ember.jpg?v=8" 
                                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Cervezas Artesanales"
+                                alt="EMBER Dubbel"
                                 loading="lazy"
                                 width="300"
-                                height="200">
+                                height="200"
+                                itemprop="image">
                         </div>
-                        <div class="category-info">
-                            <h3 class="category-name">Cervezas</h3>
-                            <p class="category-description">+11 estilos únicos, desde IPA hasta Dubbel. Lotes limitados.</p>
-                            <span class="category-cta">Ver catálogo →</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Salsas -->
-                    <a href="sauces.html" class="category-card">
-                        <div class="category-image">
-                            <img class="lazy-load" 
-                                data-src="images/categories/sauces.jpg" 
-                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Salsas Artesanales"
-                                loading="lazy"
-                                width="300"
-                                height="200">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-name">Salsas</h3>
-                            <p class="category-description">Picantes y salsas especiales para acompañar tus comidas.</p>
-                            <span class="category-cta">Ver opciones →</span>
-                        </div>
-                    </a>
-                    
-                    <!-- Conservas -->
-                    <a href="preserves.html" class="category-card">
-                        <div class="category-image">
-                            <img class="lazy-load" 
-                                data-src="images/categories/preserves.jpg" 
-                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Conservas Artesanales"
-                                loading="lazy"
-                                width="300"
-                                height="200">
-                        </div>
-                        <div class="category-info">
-                            <h3 class="category-name">Conservas</h3>
-                            <p class="category-description">Dulces y conservas caseras elaboradas artesanalmente.</p>
-                            <span class="category-cta">Ver variedades →</span>
-                        </div>
-                    </a>
+                        <div class="product-info">
+                            <div class="product-category" itemprop="category">DUBBEL</div>
+                            <h3 class="product-name" itemprop="name">EMBER</h3>
+                            <p class="product-description" itemprop="description">De cuerpo medio y sabor a caramelo, compleja pero suave. Ideal para carnes, noches largas y charla sin apuro.</p>
+                            
+                            <div class="product-specs" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
+                                <div class="spec">
+                                    <i class="fas fa-trophy"></i>
+                                    <span itemprop="name">Top Ventas</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-fire"></i>
+                                    <span itemprop="name">270+ vendidas</span>
+                                </div>
+                            </div>
 
-                    <!-- Combos -->
-                    <a href="combos.html" class="category-card">
-                        <div class="category-image">
+                            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display: none;">
+                                <meta itemprop="price" content="5000">
+                                <meta itemprop="priceCurrency" content="ARS">
+                                <meta itemprop="availability" content="https://schema.org/InStock">
+                                <link itemprop="shippingDetails" href="https://eloso.ar/#shipping" />
+                                <link itemprop="hasMerchantReturnPolicy" href="https://eloso.ar/#returns" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 2. PREMIUM - VIKA -->
+                    <div class="product-card" itemscope itemtype="https://schema.org/Product">
+                        <meta itemprop="url" content="https://eloso.ar/">
+                        <meta itemprop="image" content="https://eloso.ar/images/products/beers/vika.jpg?v=8">
+                        <div class="product-image">
+                            <div class="product-badge">PREMIUM</div>
+                            <!-- Imagen con lazy loading -->
                             <img class="lazy-load" 
-                                data-src="images/categories/combos.jpg" 
+                                data-src="images/products/beers/vika.jpg?v=8" 
                                 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Combos Especiales"
+                                alt="VIKA New England IPA"
                                 loading="lazy"
                                 width="300"
-                                height="200">
+                                height="200"
+                                itemprop="image">
                         </div>
-                        <div class="category-info">
-                            <h3 class="category-name">Combos</h3>
-                            <p class="category-description">Pack especiales que combinan nuestros mejores productos.</p>
-                            <span class="category-cta">Ver combos →</span>
+                        <div class="product-info">
+                            <div class="product-category" itemprop="category">IPA</div>
+                            <h3 class="product-name" itemprop="name">VIKA</h3>
+                            <p class="product-description" itemprop="description">Turbia, suave y explosivamente frutal, con el amargor justo. Para el que busca algo más.</p>
+                            
+                            <div class="product-specs" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
+                                <div class="spec">
+                                    <i class="fas fa-crown"></i>
+                                    <span itemprop="name">Exclusiva</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-star"></i>
+                                    <span itemprop="name">4.8/5 rating</span>
+                                </div>
+                            </div>
+
+                            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display: none;">
+                                <meta itemprop="price" content="5000">
+                                <meta itemprop="priceCurrency" content="ARS">
+                                <meta itemprop="availability" content="https://schema.org/InStock">
+                                <link itemprop="shippingDetails" href="https://eloso.ar/#shipping" />
+                                <link itemprop="hasMerchantReturnPolicy" href="https://eloso.ar/#returns" />
+                            </div>
                         </div>
+                    </div>
+                    
+                    <!-- 3. FÁCIL DE TOMAR - ARUN -->
+                    <div class="product-card" itemscope itemtype="https://schema.org/Product">
+                        <meta itemprop="url" content="https://eloso.ar/">
+                        <meta itemprop="image" content="https://eloso.ar/images/products/beers/arun.jpg?v=8">
+                        <div class="product-image">
+                            <div class="product-badge">FÁCIL DE TOMAR</div>
+                            <img class="lazy-load" 
+                                data-src="images/products/beers/arun.jpg?v=8" 
+                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
+                                alt="ARUN Blonde"
+                                loading="lazy"
+                                width="300"
+                                height="200"
+                                itemprop="image">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-category" itemprop="category">BLONDE</div>
+                            <h3 class="product-name" itemprop="name">ARUN</h3>
+                            <p class="product-description" itemprop="description">Dorada y equilibrada, con un suave y agradable sabor a caramelo. Para cualquier momento.</p>
+                            
+                            <div class="product-specs" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
+                                <div class="spec">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span itemprop="name">Suave</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-users"></i>
+                                    <span itemprop="name">Para todos</span>
+                                </div>
+                            </div>
+
+                            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display: none;">
+                                <meta itemprop="price" content="5000">
+                                <meta itemprop="priceCurrency" content="ARS">
+                                <meta itemprop="availability" content="https://schema.org/InStock">
+                                <link itemprop="shippingDetails" href="https://eloso.ar/#shipping" />
+                                <link itemprop="hasMerchantReturnPolicy" href="https://eloso.ar/#returns" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="editorial-cta">
+                    <a href="beers.html" class="btn btn-outline">
+                        Ver catálogo completo (11 estilos)
                     </a>
                 </div>
             </div>
@@ -673,7 +733,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" id="contacto">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">

@@ -247,7 +247,15 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-K21FSGK2ZY');
+        gtag('config', 'G-K21FSGK2ZY', {
+            'debug_mode': false,
+            'transport_type': 'beacon',
+            'page_title': document.title,
+            'page_location': window.location.href,
+            'allow_google_signals': true,
+            'allow_ad_personalization_signals': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
     </script>
 
     <!-- Google Search Console Verification -->
@@ -328,13 +336,6 @@
             <a href="beers.html" class="mobile-link">Cervezas</a>
             <a href="index.html#contacto" class="mobile-link">Contacto</a>
         </div>
-        
-        <div class="mobile-menu-footer">
-            <a href="https://wa.me/5491123495971" class="btn btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i>
-                WhatsApp
-            </a>
-        </div>
     </div>
 
     <!-- Carrito minimalista -->
@@ -408,7 +409,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" id="contacto">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
