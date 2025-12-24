@@ -252,13 +252,13 @@ async function fetchBeersFromURL() {
                 description: item.description || '',
                 price: parseInt(item.price) || 0,
                 category: 'beers',
-                subcategory: subcategory,
-                image: item.image || 'images/products/beers/default.jpg',
-                badge: item.badge,
+                subcategory: subcategory || '',
+                image: item.image || '',
+                badge: item.badge || '',
                 stock: parseInt(item.stock) || 0,
                 sold: parseInt(item.sold) || 0,
                 rating: parseFloat(item.rating) || 0,
-                active: true,
+                active: item.active || false,
                 abv: parseFloat(item.abv) || 0,
                 ibu: parseInt(item.ibu) || 0,
                 ingredients: item.ingredients || '',
@@ -434,7 +434,7 @@ function renderBeers() {
             <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
                 <i class="fas fa-beer" style="font-size: 3rem; color: #333; margin-bottom: 1rem;"></i>
                 <h3>No se encontraron cervezas</h3>
-                <p>Intenta con otro filtro.</p>
+                <p>Intentá con otro filtro.</p>
             </div>
         `;
         return;
@@ -570,7 +570,13 @@ function renderCart() {
     cartTotal.textContent = `$${total.toLocaleString('es-AR')}`;
     
     // Renderizar items
-    cartItems.innerHTML = cart.map((item, index) => `
+    cartItems.innerHTML = cart.map((item, index) => {
+        // Buscar el producto en beersData para obtener stock actual
+        const beerData = beersData.find(beer => beer.id == item.id);
+        const currentStock = beerData ? beerData.stock : 0;
+        const maxQuantity = currentStock;
+        
+        return `
         <div class="cart-item">
             <div class="cart-item-image">
                 <!-- Imágenes del carrito con lazy loading -->
@@ -585,19 +591,21 @@ function renderCart() {
             <div class="cart-item-info">
                 <div class="cart-item-name">${item.name}<br>${item.subname} ${item.size}</div>
                 <div class="cart-item-price">$${(item.price * item.quantity).toLocaleString('es-AR')}</div>
+                ${currentStock <= 5 ? `<small style="color: #EF6C00; display: block; margin-top: 4px;">Solo quedan ${currentStock} disponibles</small>` : ''}
             </div>
             <div class="cart-item-actions">
                 <div class="cart-item-quantity">
                     <button class="quantity-btn decrease" data-index="${index}">-</button>
                     <span>${item.quantity}</span>
-                    <button class="quantity-btn increase" data-index="${index}">+</button>
+                    <button class="quantity-btn increase" data-index="${index}" ${item.quantity >= maxQuantity ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>+</button>
                 </div>
                 <button class="cart-item-remove" data-index="${index}">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
     
     // Inicializar lazy loading para imágenes del carrito
     initLazyLoading();
@@ -613,13 +621,42 @@ function updateCartCount() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Añadir al carrito
+// Añadir al carrito con validación de stock
 function addToCart(id, name, price, image, subname = '', size = '') {
-    const existingItem = cart.find(item => item.id === id);
+    // Buscar el producto en beersData para obtener stock actual
+    const beerData = beersData.find(beer => beer.id == id);
     
-    if (existingItem) {
-        existingItem.quantity += 1;
+    if (!beerData) {
+        showNotification(`Error: Producto no encontrado`);
+        return;
+    }
+    
+    const currentStock = beerData.stock;
+    
+    if (currentStock <= 0) {
+        showNotification(`Lo sentimos, ${name} ${subname} está agotado`);
+        return;
+    }
+    
+    const existingItemIndex = cart.findIndex(item => item.id === id);
+    
+    if (existingItemIndex !== -1) {
+        // Verificar si al aumentar supera el stock disponible
+        const newQuantity = cart[existingItemIndex].quantity + 1;
+        
+        if (newQuantity > currentStock) {
+            showNotification(`No hay suficiente stock de ${name} ${subname}. Stock disponible: ${currentStock}`);
+            return;
+        }
+        
+        cart[existingItemIndex].quantity = newQuantity;
     } else {
+        // Verificar si hay stock para añadir al menos 1
+        if (currentStock < 1) {
+            showNotification(`Lo sentimos, ${name} ${subname} está agotado`);
+            return;
+        }
+        
         cart.push({
             id: id,
             name: name,
@@ -841,11 +878,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (e.target.closest('.increase')) {
             const button = e.target.closest('.increase');
-            const index = parseInt(button.getAttribute('data-index'));
+            if (button.disabled) return;
             
-            cart[index].quantity += 1;
-            updateCartCount();
-            renderCart();
+            const index = parseInt(button.getAttribute('data-index'));
+            const item = cart[index];
+            
+            // Buscar el producto en beersData para obtener stock actual
+            const beerData = beersData.find(beer => beer.id == item.id);
+            const currentStock = beerData ? beerData.stock : 0;
+            
+            // Verificar stock antes de aumentar
+            if (item.quantity < currentStock) {
+                cart[index].quantity += 1;
+                updateCartCount();
+                renderCart();
+            } else {
+                showNotification(`No hay más stock disponible de ${item.name} ${item.subname}`);
+            }
         }
         
         if (e.target.closest('.cart-item-remove')) {

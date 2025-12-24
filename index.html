@@ -53,7 +53,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Estilos principales -->
-    <link rel="stylesheet" href="styles.css?v=4">
+    <link rel="stylesheet" href="styles.min.css?v=5">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -173,11 +173,13 @@
         }
 
         .fa, .fas, .fab {
-            display: inline-block;
             width: 1em;
             height: 1em;
-            vertical-align: -0.125em;
             position: relative;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            vertical-align: middle !important;
         }
 
         .fa-shopping-cart::before,
@@ -790,6 +792,6 @@
     </a>
 
     <!-- JavaScript optimizado -->
-    <script src="scripts.js?v=4"></script>
+    <script src="scripts.min.js?v=5"></script>
 </body>
 </html>
