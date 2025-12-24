@@ -591,7 +591,6 @@ function renderCart() {
             <div class="cart-item-info">
                 <div class="cart-item-name">${item.name}<br>${item.subname} ${item.size}</div>
                 <div class="cart-item-price">$${(item.price * item.quantity).toLocaleString('es-AR')}</div>
-                ${currentStock <= 5 ? `<small style="color: #EF6C00; display: block; margin-top: 4px;">Solo quedan ${currentStock} disponibles</small>` : ''}
             </div>
             <div class="cart-item-actions">
                 <div class="cart-item-quantity">
