@@ -485,7 +485,7 @@ p {
     border: none;
     color: var(--color-white);
     cursor: pointer;
-    font-size: 0.875rem;
+    font-size: 1rem;
     padding: 2px;
 }
 
