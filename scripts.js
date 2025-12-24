@@ -1,3 +1,70 @@
+// ===== ANALYTICS MEJORADO =====
+function trackEvent(eventName, eventParams = {}) {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', eventName, {
+            ...eventParams,
+            page_title: document.title,
+            page_location: window.location.href,
+            page_path: window.location.pathname,
+            timestamp: Date.now()
+        });
+    }
+    console.log(`[Analytics] Evento: ${eventName}`, eventParams);
+}
+
+// Track de páginas con parámetros mejorados
+function trackPageView() {
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            page_title: document.title,
+            page_location: window.location.href,
+            page_path: window.location.pathname,
+            page_referrer: document.referrer || '',
+            user_agent: navigator.userAgent,
+            screen_resolution: `${window.screen.width}x${window.screen.height}`,
+            language: navigator.language,
+            timestamp: Date.now()
+        });
+    }
+}
+
+// Track de inicio de sesión (usuario interactúa con el sitio)
+function trackUserInteraction(type, element) {
+    trackEvent('user_interaction', {
+        interaction_type: type,
+        element_text: element?.textContent?.substring(0, 100) || '',
+        element_id: element?.id || '',
+        element_class: element?.className || ''
+    });
+}
+
+// Track de conversiones de producto
+function trackProductInteraction(action, product) {
+    trackEvent('product_' + action, {
+        product_id: product.id,
+        product_name: product.name,
+        product_price: product.price,
+        product_category: product.subcategory,
+        currency: 'ARS',
+        value: product.price
+    });
+}
+
+// Track de carrito
+function trackCartAction(action, cartData = null) {
+    const eventData = {
+        cart_action: action,
+        cart_item_count: cart?.length || 0,
+        cart_total_value: cart?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0
+    };
+    
+    if (cartData) {
+        Object.assign(eventData, cartData);
+    }
+    
+    trackEvent('cart_' + action, eventData);
+}
+
 // ===== CONFIGURACIÓN DE CACHE Y REINTENTOS =====
 const CACHE_CONFIG = {
     CACHE_KEY: 'eloso_beers_cache',
@@ -428,6 +495,21 @@ function renderBeers() {
         return b.sold - a.sold;
     });
     
+    // Track de vista de productos
+    if (filteredBeers.length > 0) {
+        trackEvent('view_item_list', {
+            item_list_id: 'beers_catalog',
+            item_list_name: 'Catálogo de Cervezas',
+            items: filteredBeers.slice(0, 20).map(beer => ({
+                item_id: beer.id,
+                item_name: beer.name,
+                price: beer.price,
+                item_category: beer.subcategory,
+                index: filteredBeers.indexOf(beer)
+            }))
+        });
+    }
+    
     // Mostrar mensaje si no hay resultados
     if (filteredBeers.length === 0) {
         container.innerHTML = `
@@ -535,6 +617,9 @@ function resetFilters() {
 function toggleMobileMenu() {
     const mobileMenu = document.getElementById('mobile-menu');
     mobileMenu.classList.toggle('active');
+    
+    // Track del menú móvil
+    trackUserInteraction('mobile_menu_toggle', mobileMenu);
 }
 
 // Carrito
@@ -547,6 +632,12 @@ function toggleCart() {
     
     if (cartSidebar.classList.contains('active')) {
         renderCart();
+        trackCartAction('open', {
+            cart_item_count: cart.length,
+            cart_total_value: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+        });
+    } else {
+        trackCartAction('close');
     }
 }
 
@@ -670,6 +761,17 @@ function addToCart(id, name, price, image, subname = '', size = '') {
     updateCartCount();
     showNotification(`${name} ${subname} añadido al carrito`);
     
+    // Track del evento
+    if (beerData) {
+        trackProductInteraction('add_to_cart', beerData);
+        trackCartAction('add_item', {
+            product_id: id,
+            product_name: name,
+            quantity_added: 1,
+            new_quantity: existingItemIndex !== -1 ? cart[existingItemIndex].quantity : 1
+        });
+    }
+    
     if (document.getElementById('cart-sidebar').classList.contains('active')) {
         renderCart();
     }
@@ -760,6 +862,7 @@ function addRefreshButton() {
 }
 
 function clearCart() {
+    trackCartAction('clear');
     cart = [];
     updateCartCount();
     renderCart();
@@ -769,6 +872,9 @@ function clearCart() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
+    // Track de vista de página
+    trackPageView();
+    
     // Cargar datos de cervezas (con cache y reintentos)
     loadBeersData();
     
@@ -809,6 +915,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Track del checkout iniciado
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            trackCartAction('checkout_initiated', {
+                cart_items: cart.length,
+                cart_total: total,
+                payment_method: 'whatsapp'
+            });
+            
+            // Track de conversión de venta
+            trackEvent('purchase', {
+                transaction_id: 'whatsapp_' + Date.now(),
+                value: total,
+                currency: 'ARS',
+                items: cart.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                }))
+            });
+            
             const whatsappMessage = buildWhatsAppOrderMessage();
             const phoneNumber = '5491123495971';
             const encodedMessage = encodeURIComponent(whatsappMessage);
@@ -839,12 +966,39 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             this.classList.add('active');
             currentFilter = this.dataset.filter;
+            
+            // Track del filtro aplicado
+            trackEvent('filter_applied', {
+                filter_type: currentFilter,
+                page_location: 'beers_page'
+            });
+            
             if (isBeersPage) renderBeers();
         });
     });
     
     // Eventos delegados
     document.addEventListener('click', function(e) {
+        // Track de clic en producto
+        if (e.target.closest('.product-card')) {
+            const productCard = e.target.closest('.product-card');
+            const productId = productCard.getAttribute('data-id');
+            const beerData = beersData.find(beer => beer.id == productId);
+            
+            if (beerData) {
+                trackEvent('select_item', {
+                    item_list_id: 'beers_catalog',
+                    item_list_name: 'Catálogo de Cervezas',
+                    items: [{
+                        item_id: beerData.id,
+                        item_name: beerData.name,
+                        price: beerData.price,
+                        item_category: beerData.subcategory
+                    }]
+                });
+            }
+        }
+        
         // Añadir al carrito
         if (e.target.closest('.btn-add-to-cart')) {
             const button = e.target.closest('.btn-add-to-cart');
@@ -867,8 +1021,20 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (cart[index].quantity > 1) {
                 cart[index].quantity -= 1;
+                trackCartAction('update_quantity', {
+                    product_id: cart[index].id,
+                    product_name: cart[index].name,
+                    quantity_change: -1,
+                    new_quantity: cart[index].quantity
+                });
             } else {
+                const itemName = cart[index].name;
                 cart.splice(index, 1);
+                trackCartAction('remove_item', {
+                    product_id: cart[index]?.id,
+                    product_name: itemName
+                });
+                showNotification(`${itemName} eliminado`);
             }
             
             updateCartCount();
@@ -891,6 +1057,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 cart[index].quantity += 1;
                 updateCartCount();
                 renderCart();
+                trackCartAction('update_quantity', {
+                    product_id: item.id,
+                    product_name: item.name,
+                    quantity_change: 1,
+                    new_quantity: cart[index].quantity
+                });
             } else {
                 showNotification(`No hay más stock disponible de ${item.name} ${item.subname}`);
             }
@@ -900,6 +1072,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const button = e.target.closest('.cart-item-remove');
             const index = parseInt(button.getAttribute('data-index'));
             const itemName = cart[index].name;
+            
+            trackCartAction('remove_item', {
+                product_id: cart[index].id,
+                product_name: itemName
+            });
             
             cart.splice(index, 1);
             updateCartCount();
@@ -922,6 +1099,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 toggleCart();
             }
         }
+    });
+    
+    // Track de scroll
+    let scrollStartTime = Date.now();
+    let maxScrollDepth = 0;
+    
+    window.addEventListener('scroll', function() {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+        maxScrollDepth = Math.max(maxScrollDepth, scrollPercent);
+        
+        // Track de profundidad de scroll cada 25%
+        if (scrollPercent % 25 === 0 && scrollPercent > 0) {
+            trackEvent('scroll_depth', {
+                scroll_percentage: scrollPercent,
+                max_scroll_depth: maxScrollDepth,
+                time_on_page: Math.round((Date.now() - scrollStartTime) / 1000)
+            });
+        }
+    });
+    
+    // Track de tiempo en página
+    setTimeout(() => {
+        trackEvent('time_on_page', {
+            seconds_elapsed: 30,
+            page_title: document.title
+        });
+    }, 30000);
+    
+    // Track de salida de página
+    window.addEventListener('beforeunload', function() {
+        trackEvent('page_exit', {
+            time_on_page: Math.round((Date.now() - scrollStartTime) / 1000),
+            max_scroll_depth: maxScrollDepth,
+            page_title: document.title
+        });
     });
     
     // Inicializar
