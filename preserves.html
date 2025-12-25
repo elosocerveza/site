@@ -9,29 +9,29 @@
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="images/favicon/site.webmanifest" />
 
-    <!-- Meta Description específica para catálogo -->
-    <meta name="description" content="Catálogo completo de cervezas artesanales El Oso. Filtra por estilo: IPA, Stout, Amber, Wheat, Blonde, Lager, Dubbel. Precios, descripciones y disponibilidad en tiempo real.">
+    <!-- Meta Description específica para conservas -->
+    <meta name="description" content="Conservas artesanales El Oso - Mermeladas, chutneys, pickles y encurtidos naturales. Elaborados en Quilmes con frutas y verduras de estación. Perfectos para acompañar quesos, carnes y más.">
 
     <!-- Keywords específicas -->
-    <meta name="keywords" content="catálogo cervezas, cerveza ipa argentina, stout artesanal, blonde ale, dubbel, cervezas premium, comprar cerveza artesanal, precios cerveza artesanal">
+    <meta name="keywords" content="conservas artesanales, mermeladas caseras, chutneys, pickles, encurtidos, frutas en conserva, productos artesanales, quilmes">
 
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://eloso.ar/beers.html">
+    <link rel="canonical" href="https://eloso.ar/preserves.html">
 
-    <!-- Open Graph para catálogo -->
-    <meta property="og:title" content="Catálogo Completo de Cervezas Artesanales | El Oso">
-    <meta property="og:description" content="Explora nuestra colección de cervezas artesanales premium. +10 estilos disponibles con descripciones detalladas y precios actualizados.">
-    <meta property="og:image" content="https://eloso.ar/images/logo/logo-blanco.png">
-    <meta property="og:url" content="https://eloso.ar/beers.html">
+    <!-- Open Graph para conservas -->
+    <meta property="og:title" content="Conservas Artesanales | El Oso Cerveza Artesanal">
+    <meta property="og:description" content="Mermeladas, chutneys y pickles artesanales elaborados con frutas y verduras de estación. Sabor natural en cada bocado.">
+    <meta property="og:image" content="https://eloso.ar/images/categories/preserves.jpg">
+    <meta property="og:url" content="https://eloso.ar/preserves.html">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="es_AR">
     <meta property="og:site_name" content="El Oso Cerveza Artesanal">
 
-    <!-- Twitter Card para catálogo -->
+    <!-- Twitter Card para conservas -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Catálogo de Cervezas Artesanales El Oso">
-    <meta name="twitter:description" content="Descubre todas nuestras cervezas artesanales con filtros por estilo y disponibilidad inmediata.">
-    <meta name="twitter:image" content="https://eloso.ar/images/logo/logo-blanco.png">
+    <meta name="twitter:title" content="Conservas Artesanales El Oso">
+    <meta name="twitter:description" content="Descubre nuestras conservas artesanales: mermeladas, chutneys y pickles naturales.">
+    <meta name="twitter:image" content="https://eloso.ar/images/categories/preserves.jpg">
     
     <!-- Preconnect para optimizar carga -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://wa.me">
     <link rel="preconnect" href="https://script.google.com">
     
-    <title>Catálogo de Cervezas | El Oso</title>
+    <title>Conservas Artesanales | El Oso</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -53,7 +53,7 @@
         "@context": "https://schema.org",
         "@type": "Brewery",
         "name": "El Oso",
-        "description": "Cerveza artesanal en Quilmes, Buenos Aires",
+        "description": "Cerveza y productos artesanales en Quilmes, Buenos Aires",
         "url": "https://eloso.ar/",
         "address": {
             "@type": "PostalAddress",
@@ -70,7 +70,7 @@
         },
         "image": "https://eloso.ar/images/logo/logo-blanco.png",
         "priceRange": "$$",
-        "servesCuisine": "Cerveza Artesanal",
+        "servesCuisine": "Cerveza Artesanal y Productos Artesanales",
         "openingHours": "Mo-Su 09:00-21:00",
         "telephone": "+5491123495971",
         "sameAs": [
@@ -79,7 +79,7 @@
     }
     </script>
     
-    <!-- Critical CSS para mejor performance -->
+    <!-- Critical CSS (copiado de sauces.html) -->
     <style>
         .lazy-load-placeholder {
             background-color: var(--color-dark-gray);
@@ -215,7 +215,7 @@
     <!-- LOCAL BUSINESS INFO -->
     <div itemscope itemtype="https://schema.org/LocalBusiness" style="display: none;">
         <span itemprop="name">El Oso Cerveza Artesanal</span>
-        <span itemprop="description">Cerveza artesanal en Quilmes, Buenos Aires</span>
+        <span itemprop="description">Cerveza y productos artesanales en Quilmes, Buenos Aires</span>
         <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
             <span itemprop="streetAddress">Rodolfo López 1561</span>,
             <span itemprop="addressLocality">Quilmes</span>,
@@ -229,12 +229,11 @@
         <span itemprop="areaServed">Quilmes</span>
     </div>
 
-    <!-- Header minimalista -->
+    <!-- Header -->
     <header class="header">
         <div class="container">
             <nav class="nav">
                 <a href="index.html" class="logo">
-                    <!-- Logo optimizado con loading lazy -->
                     <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" 
                          class="logo-img" 
                          loading="lazy"
@@ -246,8 +245,8 @@
                 <div class="nav-links">
                     <a href="index.html" class="nav-link">Inicio</a>
                     <a href="beers.html" class="nav-link">Cervezas</a>
-                    <a href="sauces.html" class="nav-link active">Picantes</a>
-                    <a href="preserves.html" class="nav-link">Conservas</a>
+                    <a href="sauces.html" class="nav-link">Picantes</a>
+                    <a href="preserves.html" class="nav-link active">Conservas</a>
                     <a href="combos.html" class="nav-link">Combos</a>
                     <a href="#contacto" class="nav-link">Contacto</a>
                 </div>
@@ -265,7 +264,7 @@
         </div>
     </header>
 
-    <!-- Menú móvil minimalista -->
+    <!-- Menú móvil -->
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-menu-header">
             <div class="logo">
@@ -284,14 +283,14 @@
         <div class="mobile-menu-links">
             <a href="index.html" class="mobile-link">Inicio</a>
             <a href="beers.html" class="mobile-link">Cervezas</a>
-            <a href="sauces.html" class="mobile-link active">Picantes</a>
-            <a href="preserves.html" class="mobile-link">Conservas</a>
+            <a href="sauces.html" class="mobile-link">Picantes</a>
+            <a href="preserves.html" class="mobile-link active">Conservas</a>
             <a href="combos.html" class="mobile-link">Combos</a>
             <a href="#contacto" class="mobile-link">Contacto</a>
         </div>
     </div>
 
-    <!-- Carrito minimalista -->
+    <!-- Carrito -->
     <div class="cart-overlay" id="cart-overlay"></div>
     <div class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
@@ -328,34 +327,21 @@
         </div>
     </div>
 
-    <!-- Página de cervezas -->
-    <main class="beers-page">
+    <!-- Página de conservas -->
+    <main class="beers-page" data-category="preserves">
         <div class="container">
             <!-- Header de página -->
             <div class="page-header editorial-header">
-                <h1>Cervezas</h1>
-                <p class="lead">Todas nuestras cervezas artesanales</p>
+                <h1>Conservas</h1>
+                <p class="lead">Conservas caseras, elaborados con ingredientes naturales.</p>
             </div>
             
-            <!-- Filtros -->
-            <div class="filters">
-                <div class="filter-group">
-                    <button class="filter-btn active" data-filter="all">Todas</button>
-                    <button class="filter-btn" data-filter="ipa">IPA</button>
-                    <button class="filter-btn" data-filter="negra">Negra</button>
-                    <button class="filter-btn" data-filter="roja">Roja</button>
-                    <button class="filter-btn" data-filter="trigo">Trigo</button>
-                    <button class="filter-btn" data-filter="rubia">Rubia</button>
-                    <button class="filter-btn" data-filter="especial">Especial</button>
-                </div>
-            </div>
-            
-            <!-- Grid de cervezas -->
+            <!-- Grid de productos -->
             <div class="products-grid" id="beers-container">
-                <!-- Las cervezas se cargarán dinámicamente aquí -->
+                <!-- Los productos se cargarán dinámicamente aquí -->
                 <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
                     <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
-                    <p>Cargando cervezas...</p>
+                    <p>Cargando conservas...</p>
                 </div>
             </div>
         </div>
@@ -374,7 +360,7 @@
                              height="32">
                         <span class="logo-text">EL OSO</span>
                     </div>
-                    <p>Cerveza Artesanal.<br>Buenos Aires, Argentina.</p>
+                    <p>Cerveza y productos artesanales.<br>Buenos Aires, Argentina.</p>
                 </div>
                 
                 <div class="footer-section">
@@ -393,7 +379,7 @@
                     <ul>
                         <li>
                             <a href="mailto:elosocerveza@gmail.com" target="_blank" class="social-link">
-                                <i class="fab fa-envelope"></i> elosocerveza@gmail.com
+                                <i class="fas fa-envelope"></i> elosocerveza@gmail.com
                             </a>
                         </li>
                         <li>
@@ -411,7 +397,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p>© 2026 El Oso. Venta exclusiva para mayores de 18 años. Beber con moderación.</p>
+                <p>© 2026 El Oso. Venta exclusiva para mayores de 18 años. Consumir con moderación.</p>
             </div>
         </div>
     </footer>

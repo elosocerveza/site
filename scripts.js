@@ -44,7 +44,8 @@ function trackProductInteraction(action, product) {
         product_id: product.id,
         product_name: product.name,
         product_price: product.price,
-        product_category: product.subcategory,
+        product_category: product.category,
+        product_subcategory: product.subcategory,
         currency: 'ARS',
         value: product.price
     });
@@ -67,25 +68,39 @@ function trackCartAction(action, cartData = null) {
 
 // ===== CONFIGURACIÓN DE CACHE Y REINTENTOS =====
 const CACHE_CONFIG = {
-    CACHE_KEY: 'eloso_beers_cache',
+    CACHE_KEY: 'eloso_products_cache',
     CACHE_DURATION: 60 * 60 * 1000,
     MAX_RETRIES: 3,
     RETRY_DELAY: 2000
 };
 
-// Datos de cervezas (se cargarán desde cache o URL)
-let beersData = [];
+// Datos de productos (se cargarán desde cache o URL)
+let productsData = [];
 
 // Variables globales
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let currentFilter = 'all';
+let currentCategory = '';
 
-// Detectar si estamos en la página de cervezas
-const isBeersPage = window.location.pathname.includes('beers.html') || 
-                    document.querySelector('.beers-page') !== null;
+// Detectar si estamos en una página de productos
+const isProductsPage = window.location.pathname.includes('beers.html') || 
+                       window.location.pathname.includes('sauces.html') ||
+                       window.location.pathname.includes('preserves.html') ||
+                       window.location.pathname.includes('combos.html') ||
+                       document.querySelector('.beers-page') !== null;
+
+// Detectar categoría actual de la página
+function detectPageCategory() {
+    const path = window.location.pathname;
+    if (path.includes('sauces.html')) return 'sauces';
+    if (path.includes('preserves.html')) return 'preserves';
+    if (path.includes('combos.html')) return 'combos';
+    if (path.includes('beers.html')) return 'beers';
+    return '';
+}
 
 // ===== SISTEMA DE CACHE =====
-function getCachedBeers() {
+function getCachedProducts() {
     try {
         const cacheData = localStorage.getItem(CACHE_CONFIG.CACHE_KEY);
         if (!cacheData) return null;
@@ -108,7 +123,7 @@ function getCachedBeers() {
     }
 }
 
-function setCachedBeers(data) {
+function setCachedProducts(data) {
     try {
         const cacheData = {
             data: data,
@@ -173,7 +188,7 @@ function initLazyLoading() {
                     
                     // Manejar error de carga
                     img.onerror = function() {
-                        this.src = 'images/products/beers/default.jpg';
+                        this.src = 'images/products/default.jpg';
                         this.classList.add('loaded');
                     };
                     
@@ -195,7 +210,7 @@ function initLazyLoading() {
                 img.classList.add('loaded');
             };
             img.onerror = function() {
-                this.src = 'images/products/beers/default.jpg';
+                this.src = 'images/products/default.jpg';
                 this.classList.add('loaded');
             };
         });
@@ -208,46 +223,41 @@ function createImagePlaceholder(width, height) {
 }
 
 // ===== SCHEMA MARKUP GENERATOR =====
-function generateProductSchema(beers) {
-    const productSchema = beers.map((beer, index) => ({
+function generateProductSchema(products) {
+    const productSchema = products.map((product, index) => ({
         "@type": "Product",
-        "@id": `https://eloso.ar/product/${beer.id}`,
-        "name": beer.name,
-        "description": beer.description,
+        "@id": `https://eloso.ar/product/${product.id}`,
+        "name": product.name,
+        "description": product.description,
         "brand": {
             "@type": "Brand",
             "name": "El Oso"
         },
-        "category": beer.subcategory,
-        "sku": `ELOSO-${beer.id}`,
+        "category": product.category,
+        "sku": `ELOSO-${product.id}`,
         "offers": {
             "@type": "Offer",
             "priceCurrency": "ARS",
-            "price": beer.price,
-            "availability": beer.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-            "url": `https://eloso.ar/beers.html#product-${beer.id}`
+            "price": product.price,
+            "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "url": `https://eloso.ar/${product.category}.html#product-${product.id}`
         },
         "additionalProperty": [
             {
                 "@type": "PropertyValue",
-                "name": "ABV",
-                "value": `${beer.abv}%`
-            },
-            {
-                "@type": "PropertyValue",
-                "name": "IBU",
-                "value": beer.ibu
+                "name": "Categoría",
+                "value": product.subcategory
             },
             {
                 "@type": "PropertyValue",
                 "name": "Tamaño",
-                "value": beer.size
+                "value": product.size
             }
         ],
-        "aggregateRating": beer.rating > 0 ? {
+        "aggregateRating": product.rating > 0 ? {
             "@type": "AggregateRating",
-            "ratingValue": beer.rating.toFixed(1),
-            "reviewCount": Math.floor(beer.sold / 10)
+            "ratingValue": product.rating.toFixed(1),
+            "reviewCount": Math.floor(product.sold / 10)
         } : null
     })).filter(schema => schema !== null);
 
@@ -260,13 +270,13 @@ function generateProductSchema(beers) {
                 "@id": "https://eloso.ar/#brewery",
                 "name": "El Oso",
                 "url": "https://eloso.ar/",
-                "description": "Cervecería artesanal especializada en cervezas de montaña",
+                "description": "Cervecería artesanal especializada en cervezas y productos artesanales",
                 "address": {
                     "@type": "PostalAddress",
                     "addressCountry": "AR",
                     "addressRegion": "Buenos Aires"
                 },
-                "servesCuisine": "Cerveza Artesanal"
+                "servesCuisine": "Cerveza Artesanal y Productos Artesanales"
             },
             ...productSchema
         ]
@@ -280,7 +290,7 @@ function generateProductSchema(beers) {
 }
 
 // Función separada para obtener datos desde la URL
-async function fetchBeersFromURL() {
+async function fetchProductsFromURL() {
     try {
         console.log('Solicitando datos desde la URL...');
         const data = await fetchWithRetry('https://script.google.com/macros/s/AKfycbw8ftCNEw6hJBslOS4hyTNniPefNlA_Zsu5b8EO_NcUJmnGXfnuWJNL5tPUAdMsmt4PCw/exec');
@@ -288,52 +298,46 @@ async function fetchBeersFromURL() {
         console.log('Datos recibidos:', data);
         
         // Verificar si data es un array, si no, intentar extraer el array
-        let beerArray = data;
+        let productsArray = data;
         if (!Array.isArray(data)) {
             // Intentar encontrar un array dentro del objeto
             const keys = Object.keys(data);
             for (const key of keys) {
                 if (Array.isArray(data[key])) {
-                    beerArray = data[key];
+                    productsArray = data[key];
                     break;
                 }
             }
         }
         
-        if (!Array.isArray(beerArray)) {
+        if (!Array.isArray(productsArray)) {
             throw new Error('Los datos recibidos no son un array');
         }
         
         // Transformar los datos a la estructura esperada
-        const transformedData = beerArray.map(item => {
-            // Mapear subcategorías manteniendo nombres en español
-            let subcategory = item.subcategory || 'otros';
-            
-            // Convertir a minúsculas para consistencia
-            subcategory = subcategory.toLowerCase();
-            
+        const transformedData = productsArray.map(item => {
             return {
                 id: item.id || 0,
                 name: item.name || '',
                 subname: item.subname || '',
                 description: item.description || '',
                 price: parseInt(item.price) || 0,
-                category: 'beers',
-                subcategory: subcategory || '',
+                category: item.category || '',
+                subcategory: item.subcategory || '',
                 image: item.image || '',
                 badge: item.badge || '',
                 stock: parseInt(item.stock) || 0,
                 sold: parseInt(item.sold) || 0,
                 rating: parseFloat(item.rating) || 0,
                 active: item.active || false,
-                abv: parseFloat(item.abv) || 0,
-                ibu: parseInt(item.ibu) || 0,
                 ingredients: item.ingredients || '',
-                size: item.size || ''
+                size: item.size || '',
+                spec1value: item.spec1value || '',
+                spec2value: item.spec2value || ''
             };
         });
         
-        console.log('Cervezas transformadas:', transformedData.length);
+        console.log('Productos transformados:', transformedData.length);
         
         return transformedData;
         
@@ -343,44 +347,44 @@ async function fetchBeersFromURL() {
     }
 }
 
-// Cargar datos de cervezas desde cache o URL con reintentos
-async function loadBeersData() {
+// Cargar datos de productos desde cache o URL con reintentos
+async function loadProductsData() {
     try {
-        console.log('Cargando datos de cervezas...');
+        console.log('Cargando datos de productos...');
         
         // 1. Intentar cargar desde cache primero
-        const cachedData = getCachedBeers();
+        const cachedData = getCachedProducts();
         if (cachedData) {
-            beersData = cachedData;
+            productsData = cachedData;
             
             // Actualizar la vista inmediatamente con datos en cache
-            if (isBeersPage) {
-                renderBeers();
+            if (isProductsPage) {
+                renderProducts();
             }
             
             // En segundo plano, intentar actualizar desde la URL
             setTimeout(() => {
                 console.log('Actualizando datos en segundo plano...');
-                refreshBeersData();
+                refreshProductsData();
             }, 1000);
             
             return;
         }
         
         // 2. Si no hay cache válido, cargar desde URL con reintentos
-        await refreshBeersData();
+        await refreshProductsData();
         
     } catch (error) {
-        console.error('Error cargando datos de cervezas:', error);
+        console.error('Error cargando datos de productos:', error);
         
         // Mostrar mensaje de error en la interfaz
-        if (isBeersPage) {
+        if (isProductsPage) {
             const container = document.getElementById('beers-container');
             if (container) {
                 container.innerHTML = `
                     <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
                         <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #333; margin-bottom: 1rem;"></i>
-                        <h3>Error al cargar las cervezas</h3>
+                        <h3>Error al cargar los productos</h3>
                         <p>${error.message}</p>
                         <p>Por favor, intenta más tarde.</p>
                     </div>
@@ -391,27 +395,27 @@ async function loadBeersData() {
 }
 
 // Forzar actualización de datos (útil para botones de "actualizar")
-async function refreshBeersData() {
+async function refreshProductsData() {
     try {
         console.log('Forzando actualización de datos...');
         
         // Cargar datos desde URL
-        const transformedData = await fetchBeersFromURL();
+        const transformedData = await fetchProductsFromURL();
         
         // Actualizar datos globales
-        beersData = transformedData;
+        productsData = transformedData;
         
         // Guardar en cache
-        setCachedBeers(transformedData);
+        setCachedProducts(transformedData);
         
         // Generar schema markup para productos
-        if (beersData.length > 0) {
-            generateProductSchema(beersData);
+        if (productsData.length > 0) {
+            generateProductSchema(productsData);
         }
         
         // Actualizar vista si es necesario
-        if (isBeersPage) {
-            renderBeers();
+        if (isProductsPage) {
+            renderProducts();
         }
     } catch (error) {
         console.error('Error actualizando datos:', error);
@@ -442,80 +446,86 @@ function formatSales(sold) {
 // Función para formatear el stock
 function formatStock(stock) {
     if (stock === 0) return 'Sin stock';
-    if (stock < 10) return `Últimas ${stock} botellas`;
+    if (stock < 10) return `Últimas ${stock} unidades`;
     if (stock < 50) return `${stock} disponibles`;
     return `${stock}+ en stock`;
 }
 
-// Renderizar cervezas
-function renderBeers() {
+// Renderizar productos
+function renderProducts() {
     const container = document.getElementById('beers-container');
     if (!container) return;
     
     // Mostrar estado de carga
-    if (beersData.length === 0) {
+    if (productsData.length === 0) {
         container.innerHTML = `
             <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
                 <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
-                <p>Cargando cervezas...</p>
+                <p>Cargando productos...</p>
             </div>
         `;
         return;
     }
     
-    // Filtrar cervezas
-    let filteredBeers = beersData.filter(beer => {
-        if (currentFilter !== 'all') {
-            // Normalizar filtro para comparación
-            const filter = currentFilter.toLowerCase();
-            const subcat = beer.subcategory.toLowerCase();
-            
-            // Mapeo directo de filtros a subcategorías en español
-            const filterMap = {
-                'ipa': ['ipa'],
-                'negra': ['negra'],
-                'roja': ['roja'],
-                'trigo': ['trigo'],
-                'rubia': ['rubia', 'dorada'],
-                'especial': ['especial']
-            };
-            
-            // Verificar si la subcategoría coincide con el filtro
-            const matches = filterMap[filter] || [filter];
-            return matches.some(match => subcat.includes(match));
-        }
+    // Filtrar productos por categoría actual si está definida
+    let filteredProducts = productsData;
+    if (currentCategory) {
+        // Mapear categorías en español a las que vienen de los datos
+        const categoryMap = {
+            'beers': 'cerveza',
+            'sauces': 'picante',
+            'preserves': 'conserva',
+            'combos': 'combo'
+        };
         
-        return true;
-    });
+        // Convertir la categoría en español a la categoría en inglés de los datos
+        const spanishCategory = categoryMap[currentCategory];
+        filteredProducts = productsData.filter(product => product.category === spanishCategory);
+    }
+    
+    // Aplicar filtro de subcategoría si no es 'all'
+    if (currentFilter !== 'all') {
+        filteredProducts = filteredProducts.filter(product => {
+            if (currentFilter !== 'all') {
+                // Normalizar filtro para comparación
+                const filter = currentFilter.toLowerCase();
+                const subcat = product.subcategory.toLowerCase();
+                
+                // Comparación directa
+                return subcat.includes(filter) || filter.includes(subcat);
+            }
+            return true;
+        });
+    }
     
     // Ordenar
-    filteredBeers.sort((a, b) => {
+    filteredProducts.sort((a, b) => {
         if (a.stock === 0 && b.stock > 0) return 1;
         if (a.stock > 0 && b.stock === 0) return -1;
         return b.sold - a.sold;
     });
     
     // Track de vista de productos
-    if (filteredBeers.length > 0) {
+    if (filteredProducts.length > 0) {
         trackEvent('view_item_list', {
-            item_list_id: 'beers_catalog',
-            item_list_name: 'Catálogo de Cervezas',
-            items: filteredBeers.slice(0, 20).map(beer => ({
-                item_id: beer.id,
-                item_name: beer.name,
-                price: beer.price,
-                item_category: beer.subcategory,
-                index: filteredBeers.indexOf(beer)
+            item_list_id: currentCategory + '_catalog',
+            item_list_name: 'Catálogo de ' + currentCategory,
+            items: filteredProducts.slice(0, 20).map(product => ({
+                item_id: product.id,
+                item_name: product.name,
+                price: product.price,
+                item_category: product.subcategory,
+                index: filteredProducts.indexOf(product)
             }))
         });
     }
     
     // Mostrar mensaje si no hay resultados
-    if (filteredBeers.length === 0) {
+    if (filteredProducts.length === 0) {
         container.innerHTML = `
             <div class="no-results" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
-                <i class="fas fa-beer" style="font-size: 3rem; color: #333; margin-bottom: 1rem;"></i>
-                <h3>No se encontraron cervezas</h3>
+                <i class="fas fa-box-open" style="font-size: 3rem; color: #333; margin-bottom: 1rem;"></i>
+                <h3>No se encontraron productos</h3>
                 <p>Intentá con otro filtro.</p>
             </div>
         `;
@@ -523,60 +533,80 @@ function renderBeers() {
     }
     
     // Generar HTML con microdata
-    container.innerHTML = filteredBeers.map(beer => {
+    container.innerHTML = filteredProducts.map(product => {
+        // Determinar valores para las especificaciones según categoría
+        let spec1Value = '', spec2Value = '', spec3Value = '';
+        
+        // Ajustar valores para categorías específicas
+        if (currentCategory === 'beers') {
+            spec1Value = `Alcohol ${product.spec1value}`;
+            spec2Value = `Amargor ${product.spec2value}`;
+            spec3Value = `Tamaño ${product.size}`;
+        } else if (currentCategory === 'sauces') {
+            spec1Value = `Picor ${product.spec1value}`;
+            spec2Value = `Textura ${product.spec2value}`;
+            spec3Value = `Tamaño ${product.size}`;
+        } else if (currentCategory === 'preserves') {
+            spec1Value = `${product.spec1value}`;
+            spec2Value = `${product.spec2value}`;
+            spec3Value = `Tamaño ${product.size}`;
+        } else if (currentCategory === 'combos') {
+            spec1Value = `${product.spec1value}`;
+            spec2Value = `Ahorro ${product.spec2value}`;
+            spec3Value = `${product.size}`;
+        }
+        
         return `
-        <div class="product-card" data-id="${beer.id}" itemscope itemtype="https://schema.org/Product">
+        <div class="product-card" data-id="${product.id}" itemscope itemtype="https://schema.org/Product">
             <div class="product-image">
-                ${getProductBadge(beer)}
+                ${getProductBadge(product)}
                 <!-- Imagen con lazy loading -->
                 <img class="lazy-load" 
-                    data-src="${beer.image}" 
+                    data-src="${product.image}" 
                     src="${createImagePlaceholder(300, 200)}"
-                    alt="${beer.name}" 
+                    alt="${product.name}" 
                     loading="lazy"
                     width="300"
                     height="200"
                     itemprop="image">
             </div>
             <div class="product-info">
-                <div class="product-category" itemprop="category">${beer.subname}</div>
-                <h3 class="product-name" itemprop="name">${beer.name}</h3>
+                <div class="product-category" itemprop="category">${product.subname || product.subcategory}</div>
+                <h3 class="product-name" itemprop="name">${product.name}</h3>
                 
                 <div class="product-stats">
-                    <span class="sales">+${formatSales(beer.sold)} ventas</span>
+                    <span class="sales">+${formatSales(product.sold)} ventas</span>
                     <span class="separator"> · </span>
-                    <span class="stock">${formatStock(beer.stock)}</span>
+                    <span class="stock">${formatStock(product.stock)}</span>
                 </div>
                 
-                <p class="product-description" itemprop="description">${beer.description}</p>
+                <p class="product-description" itemprop="description">${product.description}</p>
                 
                 <div class="product-specs">
                     <div class="spec" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                        <i class="fas fa-beer"></i>
-                        <span itemprop="value">${beer.abv}%</span> ABV
+                        <span itemprop="value">${spec1Value}</span>
                     </div>
                     <div class="spec" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                        <i class="fas fa-fire"></i>
-                        <span itemprop="value">${beer.ibu}</span> IBU
+                        <span itemprop="value">${spec2Value}</span>
                     </div>
                     <div class="spec" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                        <i class="fas fa-wine-bottle"></i>
-                        <span itemprop="value">${beer.size}</span>
+                        <span itemprop="value">${spec3Value}</span>
                     </div>
                 </div>
                 
                 <div class="product-footer" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
                     <meta itemprop="priceCurrency" content="ARS">
-                    <meta itemprop="availability" content="${beer.stock > 0 ? 'InStock' : 'OutOfStock'}">
-                    <div class="product-price" itemprop="price">$${beer.price.toLocaleString('es-AR')}</div>
+                    <meta itemprop="availability" content="${product.stock > 0 ? 'InStock' : 'OutOfStock'}">
+                    <div class="product-price" itemprop="price">$${product.price.toLocaleString('es-AR')}</div>
                     <button class="btn-add-to-cart" 
-                            data-id="${beer.id}" 
-                            data-name="${beer.name}" 
-                            data-subname="${beer.subname}"
-                            data-size="${beer.size}"
-                            data-price="${beer.price}" 
-                            data-image="${beer.image}"
-                            ${beer.stock === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
+                            data-id="${product.id}" 
+                            data-name="${product.name}" 
+                            data-subname="${product.subname}"
+                            data-size="${product.size}"
+                            data-price="${product.price}" 
+                            data-image="${product.image}"
+                            data-category="${product.category}"
+                            ${product.stock === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
@@ -590,14 +620,14 @@ function renderBeers() {
 }
 
 // Obtener badge del producto
-function getProductBadge(beer) {
-    if (beer.stock === 0) {
-        return '<div class="product-badge badge-sold-out">AGOTADA</div>';
-    } else if (beer.stock < 10) {
-        return '<div class="product-badge badge-low-stock">ÚLTIMAS BOTELLAS</div>';
-    } else if (beer.sold > 200) {
+function getProductBadge(product) {
+    if (product.stock === 0) {
+        return '<div class="product-badge badge-sold-out">AGOTADO</div>';
+    } else if (product.stock < 10) {
+        return '<div class="product-badge badge-low-stock">ÚLTIMAS UNIDADES</div>';
+    } else if (product.sold > 200) {
         return '<div class="product-badge badge-popular">POPULAR</div>';
-    } else if (beer.sold == 0) {
+    } else if (product.sold == 0) {
         return '<div class="product-badge badge-new">NUEVO</div>';
     }
     return '<div class="product-badge badge-limited">EDICIÓN LIMITADA</div>';
@@ -610,7 +640,7 @@ function resetFilters() {
         btn.classList.remove('active');
         if (btn.dataset.filter === 'all') btn.classList.add('active');
     });
-    renderBeers();
+    renderProducts();
 }
 
 // Menú móvil
@@ -662,9 +692,9 @@ function renderCart() {
     
     // Renderizar items
     cartItems.innerHTML = cart.map((item, index) => {
-        // Buscar el producto en beersData para obtener stock actual
-        const beerData = beersData.find(beer => beer.id == item.id);
-        const currentStock = beerData ? beerData.stock : 0;
+        // Buscar el producto en productsData para obtener stock actual
+        const productData = productsData.find(product => product.id == item.id);
+        const currentStock = productData ? productData.stock : 0;
         const maxQuantity = currentStock;
         
         return `
@@ -712,16 +742,16 @@ function updateCartCount() {
 }
 
 // Añadir al carrito con validación de stock
-function addToCart(id, name, price, image, subname = '', size = '') {
-    // Buscar el producto en beersData para obtener stock actual
-    const beerData = beersData.find(beer => beer.id == id);
+function addToCart(id, name, price, image, subname = '', size = '', category = '') {
+    // Buscar el producto en productsData para obtener stock actual
+    const productData = productsData.find(product => product.id == id);
     
-    if (!beerData) {
+    if (!productData) {
         showNotification(`Error: Producto no encontrado`);
         return;
     }
     
-    const currentStock = beerData.stock;
+    const currentStock = productData.stock;
     
     if (currentStock <= 0) {
         showNotification(`Lo sentimos, ${name} ${subname} está agotado`);
@@ -754,6 +784,7 @@ function addToCart(id, name, price, image, subname = '', size = '') {
             size: size,
             price: price,
             image: image,
+            category: category,
             quantity: 1
         });
     }
@@ -762,8 +793,8 @@ function addToCart(id, name, price, image, subname = '', size = '') {
     showNotification(`${name} ${subname} añadido al carrito`);
     
     // Track del evento
-    if (beerData) {
-        trackProductInteraction('add_to_cart', beerData);
+    if (productData) {
+        trackProductInteraction('add_to_cart', productData);
         trackCartAction('add_item', {
             product_id: id,
             product_name: name,
@@ -821,7 +852,7 @@ function buildWhatsAppOrderMessage() {
 
     // Detalle del pedido
     cart.forEach((item) => {
-        message += `• ${item.name}\n`;
+        message += `• ${item.name} ${item.subname}\n`;
         message += `  Cantidad: ${item.quantity}\n`;
         message += `  Subtotal: $${(item.price * item.quantity).toLocaleString('es-AR')}\n\n`;
     });
@@ -856,7 +887,7 @@ function addRefreshButton() {
             font-size: 18px;
         `;
         refreshBtn.title = 'Actualizar datos';
-        refreshBtn.addEventListener('click', refreshBeersData);
+        refreshBtn.addEventListener('click', refreshProductsData);
         document.body.appendChild(refreshBtn);
     }
 }
@@ -872,11 +903,14 @@ function clearCart() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', function() {
+    // Detectar categoría de la página
+    currentCategory = detectPageCategory();
+    
     // Track de vista de página
     trackPageView();
     
-    // Cargar datos de cervezas (con cache y reintentos)
-    loadBeersData();
+    // Cargar datos de productos (con cache y reintentos)
+    loadProductsData();
     
     // Inicializar lazy loading para imágenes existentes
     initLazyLoading();
@@ -970,10 +1004,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Track del filtro aplicado
             trackEvent('filter_applied', {
                 filter_type: currentFilter,
-                page_location: 'beers_page'
+                page_category: currentCategory,
+                page_location: window.location.pathname
             });
             
-            if (isBeersPage) renderBeers();
+            if (isProductsPage) renderProducts();
         });
     });
     
@@ -983,17 +1018,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.target.closest('.product-card')) {
             const productCard = e.target.closest('.product-card');
             const productId = productCard.getAttribute('data-id');
-            const beerData = beersData.find(beer => beer.id == productId);
+            const productData = productsData.find(product => product.id == productId);
             
-            if (beerData) {
+            if (productData) {
                 trackEvent('select_item', {
-                    item_list_id: 'beers_catalog',
-                    item_list_name: 'Catálogo de Cervezas',
+                    item_list_id: currentCategory + '_catalog',
+                    item_list_name: 'Catálogo de ' + currentCategory,
                     items: [{
-                        item_id: beerData.id,
-                        item_name: beerData.name,
-                        price: beerData.price,
-                        item_category: beerData.subcategory
+                        item_id: productData.id,
+                        item_name: productData.name,
+                        price: productData.price,
+                        item_category: productData.subcategory
                     }]
                 });
             }
@@ -1010,8 +1045,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const image = button.getAttribute('data-image');
             const subname = button.getAttribute('data-subname') || '';
             const size = button.getAttribute('data-size') || '';
+            const category = button.getAttribute('data-category') || '';
             
-            addToCart(id, name, price, image, subname, size);
+            addToCart(id, name, price, image, subname, size, category);
         }
         
         // Acciones del carrito
@@ -1048,9 +1084,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const index = parseInt(button.getAttribute('data-index'));
             const item = cart[index];
             
-            // Buscar el producto en beersData para obtener stock actual
-            const beerData = beersData.find(beer => beer.id == item.id);
-            const currentStock = beerData ? beerData.stock : 0;
+            // Buscar el producto en productsData para obtener stock actual
+            const productData = productsData.find(product => product.id == item.id);
+            const currentStock = productData ? productData.stock : 0;
             
             // Verificar stock antes de aumentar
             if (item.quantity < currentStock) {

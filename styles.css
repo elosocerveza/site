@@ -646,7 +646,7 @@ p {
 }
 
 .featured {
-    padding: var(--space-xl) 0;
+    padding: var(--space-xl) 0 0;
     background-color: var(--color-black);
 }
 
@@ -738,6 +738,7 @@ p {
     display: flex;
     gap: var(--space-md);
     margin-bottom: var(--space-sm);
+    text-align: center;
 }
 
 .spec {
@@ -745,7 +746,7 @@ p {
     align-items: center;
     gap: var(--space-xs);
     color: var(--color-lighter-gray);
-    font-size: 0.875rem;
+    font-size: 0.8rem;
 }
 
 .spec i {
@@ -1386,4 +1387,78 @@ small a:hover {
 
 .product-image {
     position: relative;
+}
+
+/* ===== ESTILOS PARA TARJETAS DE CATEGORÍA ===== */
+.category-card {
+    background-color: var(--color-dark-gray);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-dark-gray);
+    transition: var(--transition-medium);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.category-card:hover {
+    border-color: var(--color-medium-gray);
+    transform: translateY(-4px);
+}
+
+.category-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-white);
+}
+
+.category-image img {
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.05);
+    transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.category-card:hover .category-image img {
+    transform: scale(1.05);
+    filter: grayscale(0%) contrast(1);
+}
+
+.category-info {
+    padding: var(--space-md);
+}
+
+.category-info h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-xs);
+    color: var(--color-white);
+}
+
+.category-info p {
+    color: var(--color-lighter-gray);
+    font-size: 0.875rem;
+    margin-bottom: var(--space-sm);
+    line-height: 1.5;
+}
+
+.category-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-gold);
+    font-weight: 500;
+}
+
+.category-stats span:not(:nth-child(2)) {
+    display: flex;
+    align-items: center;
+}
+
+.category-stats span:nth-child(2) {
+    color: var(--color-medium-gray);
 }
