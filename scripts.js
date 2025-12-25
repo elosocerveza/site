@@ -846,15 +846,13 @@ function showNotification(message) {
 // Función para construir el mensaje de pedido para WhatsApp
 function buildWhatsAppOrderMessage() {
     let message = "Hola! 👋\n";
-    message += "Quiero hacer un pedido directo desde la cervecería 🍻\n\n";
+    message += "Quiero hacer un pedido directo desde la cervecería \n\n";
     message += "Te paso el detalle:\n\n";
     message += "━━━━━━━━━━━━━━━━━━\n";
 
     // Detalle del pedido
-    cart.forEach((item) => {
-        message += `• ${item.name} ${item.subname}\n`;
-        message += `  Cantidad: ${item.quantity}\n`;
-        message += `  Subtotal: $${(item.price * item.quantity).toLocaleString('es-AR')}\n\n`;
+    Object.values(groupedItems).forEach((item) => {
+        message += `• ${item.name} ${item.subname}: ${item.quantity} x $${item.price.toLocaleString('es-AR')} = $${(item.price * item.quantity).toLocaleString('es-AR')}\n\n`;
     });
 
     const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
