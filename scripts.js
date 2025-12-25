@@ -851,7 +851,7 @@ function buildWhatsAppOrderMessage() {
     message += "━━━━━━━━━━━━━━━━━━\n";
 
     // Detalle del pedido
-    Object.values(groupedItems).forEach((item) => {
+    Object.values(cart).forEach((item) => {
         message += `• ${item.name} ${item.subname}: ${item.quantity} x $${item.price.toLocaleString('es-AR')} = $${(item.price * item.quantity).toLocaleString('es-AR')}\n\n`;
     });
 
