@@ -27,73 +27,250 @@
     <meta property="og:locale" content="es_AR">
     <meta property="og:site_name" content="El Oso Cerveza Artesanal">
 
-    <!-- Preconnect para optimizar carga -->
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="AR-B">
+    <meta name="geo.placename" content="Buenos Aires">
+    <meta name="geo.position" content="-34.6037;-58.3816">
+    <meta name="ICBM" content="-34.6037, -58.3816">
+
+    <!-- Author -->
+    <meta name="author" content="El Oso">
+
+    <!-- Robots mejorado -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+    <!-- Preconnect optimizado -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://wa.me">
     <link rel="preconnect" href="https://script.google.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    
+    <!-- Preload para fuentes críticas -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
     
     <title>Combos | El Oso</title>
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Estilos principales -->
-    <link rel="stylesheet" href="styles.min.css?v=31">
-    
-    <!-- Schema Markup -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Brewery",
-        "name": "El Oso",
-        "description": "Cerveza y productos artesanales en Quilmes, Buenos Aires",
-        "url": "https://eloso.ar/",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Rodolfo López 1561",
-            "addressLocality": "Quilmes",
-            "addressRegion": "Buenos Aires",
-            "postalCode": "1878",
-            "addressCountry": "AR"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": "-34.7200",
-            "longitude": "-58.2580"
-        },
-        "image": "https://eloso.ar/images/logo/logo-blanco.png?v=8",
-        "priceRange": "$$",
-        "servesCuisine": "Cerveza Artesanal y Productos Artesanales",
-        "openingHours": "Mo-Su 09:00-21:00",
-        "telephone": "+5491123495971",
-        "sameAs": [
-            "https://instagram.com/elosocerveza"
-        ]
-    }
-    </script>
-    
-    <!-- Critical CSS (copiado de sauces.html) -->
+    <!-- CSS CRÍTICO OPTIMIZADO PARA LCP -->
     <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gold: #C9A96E;
+            --color-dark-gray: #111111;
+            --color-medium-gray: #333333;
+            --color-light-gray: #777777;
+            --color-lighter-gray: #CCCCCC;
+            --whatsapp-primary: #25D366;
+            --whatsapp-hover: #1DA851;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--color-black);
+            color: var(--color-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* ANIMACIÓN DE CARGA PARA IMÁGENES */
         .lazy-load-placeholder {
             background-color: var(--color-dark-gray);
-            border-radius: var(--radius-sm);
+            border-radius: 4px;
+            animation: pulse 1.5s ease-in-out infinite;
         }
-        
-        .product-image {
-            position: relative;
-            overflow: hidden;
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 0.9; }
         }
-        
-        .product-image img {
+
+        .product-image img,
+        .customer-photo img {
             opacity: 0;
             transition: opacity 0.3s ease;
         }
-        
-        .product-image img.loaded {
+
+        .product-image img.loaded,
+        .customer-photo img.loaded {
             opacity: 1;
         }
 
+        /* BANNER DE ENVÍO (APARECE PRIMERO) */
+        .shipping-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-gold);
+            color: var(--color-black);
+            padding: 0.5rem 0;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 2000;
+            border-bottom: 1px solid var(--color-dark-gray);
+        }
+
+        /* HEADER (SEGUNDO ELEMENTO VISIBLE) */
+        .header {
+            position: fixed;
+            top: 2rem;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-black);
+            border-bottom: 1px solid var(--color-dark-gray);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--color-white);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+
+        /* HERO SECTION (CONTENIDO PRINCIPAL DEL LCP) */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 120px;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .header {
+                top: 2.5rem;
+            }
+            
+            .shipping-banner {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.5rem;
+                line-height: 1.2;
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--color-lighter-gray);
+            margin-bottom: 3rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* BOTONES CRÍTICOS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.75rem;
+            border: 1px solid var(--color-white);
+            background-color: transparent;
+            color: var(--color-white);
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background-color: var(--color-white);
+            color: var(--color-black);
+        }
+
+        .btn-primary {
+            background-color: var(--color-white);
+            color: var(--color-black);
+            border-color: var(--color-white);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--color-white);
+        }
+
+        /* VISUALIZACIÓN DE CARGA PARA ELEMENTOS NO CRÍTICOS */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* TIPOGRAFÍA CRÍTICA */
         @font-face {
             font-family: 'Inter';
             font-style: normal;
@@ -103,6 +280,7 @@
             unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
         }
 
+        /* ICONOS SVG INLINE (CRÍTICOS PARA LCP) */
         .fa, .fas, .fab {
             width: 1em;
             height: 1em;
@@ -118,7 +296,6 @@
         .fa-times::before,
         .fa-whatsapp::before,
         .fa-plus::before,
-        .fa-trash::before,
         .fa-trash::before,
         .fa-spinner::before,
         .fa-envelope::before,
@@ -169,6 +346,7 @@
         .fa-spinner::before {
             -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M304 48C304 74.51 282.5 96 256 96C229.5 96 208 74.51 208 48C208 21.49 229.5 0 256 0C282.5 0 304 21.49 304 48zM304 464C304 490.5 282.5 512 256 512C229.5 512 208 490.5 208 464C208 437.5 229.5 416 256 416C282.5 416 304 437.5 304 464zM0 256C0 229.5 21.49 208 48 208C74.51 208 96 229.5 96 256C96 282.5 74.51 304 48 304C21.49 304 0 282.5 0 256zM512 256C512 282.5 490.5 304 464 304C437.5 304 416 282.5 416 256C416 229.5 437.5 208 464 208C490.5 208 512 229.5 512 256zM74.98 437C56.23 418.3 56.23 387.9 74.98 369.1C93.73 350.4 124.1 350.4 142.9 369.1C161.6 387.9 161.6 418.3 142.9 437C124.1 455.8 93.73 455.8 74.98 437V437zM142.9 142.9C124.1 161.6 93.73 161.6 74.98 142.9C56.24 124.1 56.24 93.73 74.98 74.98C93.73 56.23 124.1 56.23 142.9 74.98C161.6 93.73 161.6 124.1 142.9 142.9zM369.1 369.1C387.9 350.4 418.3 350.4 437 369.1C455.8 387.9 455.8 418.3 437 437C418.3 455.8 387.9 455.8 369.1 437C350.4 418.3 350.4 387.9 369.1 369.1V369.1z'/%3E%3C/svg%3E");
             mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M304 48C304 74.51 282.5 96 256 96C229.5 96 208 74.51 208 48C208 21.49 229.5 0 256 0C282.5 0 304 21.49 304 48zM304 464C304 490.5 282.5 512 256 512C229.5 512 208 490.5 208 464C208 437.5 229.5 416 256 416C282.5 416 304 437.5 304 464zM0 256C0 229.5 21.49 208 48 208C74.51 208 96 229.5 96 256C96 282.5 74.51 304 48 304C21.49 304 0 282.5 0 256zM512 256C512 282.5 490.5 304 464 304C437.5 304 416 282.5 416 256C416 229.5 437.5 208 464 208C490.5 208 512 229.5 512 256zM74.98 437C56.23 418.3 56.23 387.9 74.98 369.1C93.73 350.4 124.1 350.4 142.9 369.1C161.6 387.9 161.6 418.3 142.9 437C124.1 455.8 93.73 455.8 74.98 437V437zM142.9 142.9C124.1 161.6 93.73 161.6 74.98 142.9C56.24 124.1 56.24 93.73 74.98 74.98C93.73 56.23 124.1 56.23 142.9 74.98C161.6 93.73 161.6 124.1 142.9 142.9zM369.1 369.1C387.9 350.4 418.3 350.4 437 369.1C455.8 387.9 455.8 418.3 437 437C418.3 455.8 387.9 455.8 369.1 437C350.4 418.3 350.4 387.9 369.1 369.1V369.1z'/%3E%3C/svg%3E");
+            animation: spin 1s linear infinite;
         }
 
         .fa-envelope::before {
@@ -181,7 +359,42 @@
             mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z'/%3E%3C/svg%3E");
         }
     </style>
+    
+    <!-- Estilos principales (NO CRÍTICOS - cargados asincrónicamente) -->
+    <link rel="stylesheet" href="styles.min.css?v=32" media="print" onload="this.media='all'">
 
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Brewery",
+        "name": "El Oso",
+        "description": "Cerveza y productos artesanales en Quilmes, Buenos Aires",
+        "url": "https://eloso.ar/",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rodolfo López 1561",
+            "addressLocality": "Quilmes",
+            "addressRegion": "Buenos Aires",
+            "postalCode": "1878",
+            "addressCountry": "AR"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "-34.7200",
+            "longitude": "-58.2580"
+        },
+        "image": "https://eloso.ar/images/logo/logo-blanco.png?v=8",
+        "priceRange": "$$",
+        "servesCuisine": "Cerveza Artesanal y Productos Artesanales",
+        "openingHours": "Mo-Su 09:00-21:00",
+        "telephone": "+5491123495971",
+        "sameAs": [
+            "https://instagram.com/elosocerveza"
+        ]
+    }
+    </script>
+    
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY"></script>
     <script>
