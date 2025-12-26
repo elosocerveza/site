@@ -226,54 +226,7 @@
             justify-content: center;
             flex-wrap: wrap;
         }
-
-        /* BOTONES CRÍTICOS */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.875rem 1.75rem;
-            border: 1px solid var(--color-white);
-            background-color: transparent;
-            color: var(--color-white);
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 4px;
-            gap: 0.5rem;
-        }
-
-        .btn:hover {
-            background-color: var(--color-white);
-            color: var(--color-black);
-        }
-
-        .btn-primary {
-            background-color: var(--color-white);
-            color: var(--color-black);
-            border-color: var(--color-white);
-        }
-
-        .btn-primary:hover {
-            background-color: transparent;
-            color: var(--color-white);
-        }
-
-        /* VISUALIZACIÓN DE CARGA PARA ELEMENTOS NO CRÍTICOS */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
+        
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
