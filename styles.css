@@ -266,6 +266,7 @@ p {
     color: var(--color-white);
     border-color: #128C7E;
     font-weight: 600;
+    font-size: 1.25rem;
 }
 
 .btn-whatsapp-checkout:hover {
