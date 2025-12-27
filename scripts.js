@@ -69,7 +69,7 @@ function trackCartAction(action, cartData = null) {
 // ===== CONFIGURACIÓN DE CACHE Y REINTENTOS =====
 const CACHE_CONFIG = {
     CACHE_KEY: 'eloso_products_cache',
-    CACHE_DURATION: 60 * 60 * 1000,
+    CACHE_DURATION: 20 * 60 * 1000,
     MAX_RETRIES: 3,
     RETRY_DELAY: 2000
 };
