@@ -795,19 +795,6 @@ p {
     transition: transform 0.6s ease;
 }
 
-.product-badge {
-    position: absolute;
-    top: var(--space-sm);
-    left: var(--space-sm);
-    background-color: var(--color-gold);
-    color: var(--color-black);
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 4px 12px;
-    border-radius: 20px;
-    z-index: 2;
-}
-
 .product-info {
     padding: var(--space-md);
 }
@@ -1387,14 +1374,15 @@ small a:hover {
     left: var(--space-sm);
     font-size: 0.7rem;
     font-weight: 800;
-    padding: 5px 14px;
+    padding: 5px;
     border-radius: 4px;
     z-index: 2;
     letter-spacing: 1px;
     text-transform: uppercase;
     border: 2px solid transparent;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    color: #FFFFFF !important;
+    color: var(--color-black);
+    background-color: var(--color-gold);
 }
 
 .badge-sold-out {

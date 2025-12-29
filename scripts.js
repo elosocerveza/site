@@ -574,6 +574,7 @@ function renderProducts() {
                 <!-- 1. PRODUCTO: Tipo + Nombre en MISMA LÍNEA -->
                 <div class="product-header-single-line">
                     <span class="product-type">${product.subname || product.subcategory}</span>
+                    <!-- <span class="product-name">${product.name}</span> -->
                 </div>
                 
                 <!-- 2. DESCRIPCIÓN MINIMALISTA -->
@@ -605,7 +606,7 @@ function renderProducts() {
                             data-image="${product.image}"
                             data-category="${product.category}"
                             ${product.stock === 0 ? 'disabled' : ''}>
-                        ${product.stock === 0 ? 'Sin stock' : 'Sumar al pedido'}
+                        ${product.stock === 0 ? 'Sin stock' : 'Agregar al pedido'}
                     </button>
                 </div>
             </div>
@@ -618,17 +619,22 @@ function renderProducts() {
 }
 
 // Obtener badge del producto
-function getProductBadge(product) {
-    if (product.stock === 0) {
-        return '<div class="product-badge badge-sold-out">AGOTADO</div>';
-    } else if (product.stock < 10) {
-        return '<div class="product-badge badge-low-stock">ÚLTIMAS UNIDADES</div>';
-    } else if (product.sold > 200) {
-        return '<div class="product-badge badge-popular">POPULAR</div>';
-    } else if (product.sold == 0) {
-        return '<div class="product-badge badge-new">NUEVO</div>';
+function getProductBadge(product){
+    if(product.stock === 0){
+        return '<div class="product-badge">Agotado</div>';
+    } else if(product.stock < 10){
+        return '<div class="product-badge">Quedan ' + product.stock + '</div>';
+    } else if(product.sold < 10){
+        return '<div class="product-badge">Nuevo</div>';
+    } else if(product.sold > 200){
+        return '<div class="product-badge">+200 vendidas</div>';
+    } else if(product.sold > 100){
+        return '<div class="product-badge">+100 vendidas</div>';
+    } else if(product.sold > 50){
+        return '<div class="product-badge">+50 vendidas</div>';
+    } else {
+        return '<div class="product-badge">Hecho a mano</div>';
     }
-    return '<div class="product-badge badge-limited">EDICIÓN LIMITADA</div>';
 }
 
 // Resetear filtros
