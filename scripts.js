@@ -322,6 +322,7 @@ async function fetchProductsFromURL() {
                 subname: item.subname || '',
                 description: item.description || '',
                 price: parseInt(item.price) || 0,
+                oldPrice: parseInt(item.oldPrice) || 0,
                 category: item.category || '',
                 subcategory: item.subcategory || '',
                 image: item.image || '',
@@ -534,28 +535,6 @@ function renderProducts() {
     
     // Generar HTML con microdata
     container.innerHTML = filteredProducts.map(product => {
-        // Determinar valores para las especificaciones según categoría
-        let spec1Value = '', spec2Value = '', spec3Value = '';
-        
-        // Ajustar valores para categorías específicas
-        if (currentCategory === 'beers') {
-            spec1Value = `Alcohol ${product.spec1value}`;
-            spec2Value = `Amargor ${product.spec2value}`;
-            spec3Value = `Tamaño ${product.size}`;
-        } else if (currentCategory === 'sauces') {
-            spec1Value = `Picor ${product.spec1value}`;
-            spec2Value = `Textura ${product.spec2value}`;
-            spec3Value = `Tamaño ${product.size}`;
-        } else if (currentCategory === 'preserves') {
-            spec1Value = `${product.spec1value}`;
-            spec2Value = `${product.spec2value}`;
-            spec3Value = `Tamaño ${product.size}`;
-        } else if (currentCategory === 'combos') {
-            spec1Value = `${product.spec1value}`;
-            spec2Value = `Ahorro ${product.spec2value}`;
-            spec3Value = `${product.size}`;
-        }
-        
         // TEMPLATE ACTUALIZADO
         return `
         <div class="product-card" data-id="${product.id}" itemscope itemtype="https://schema.org/Product">
@@ -584,10 +563,11 @@ function renderProducts() {
                 
                 <!-- 3. PRECIO + FORMATO -->
                 <div class="product-pricing">
+                    ${product.oldPrice && product.oldPrice > product.price ? `<span class="product-old-price">$${product.oldPrice.toLocaleString('es-AR')}</span>` : ''}
                     <span class="product-price">$${product.price.toLocaleString('es-AR')}</span>
                     <span class="product-format"> · ${product.size}</span>
                 </div>
-                
+
                 <!-- 4. PRUEBA SOCIAL -->
                 <div class="product-social-proof">
                     +${formatSales(product.sold)} personas la eligieron
@@ -794,7 +774,7 @@ function addToCart(id, name, price, image, subname = '', size = '', category = '
     }
     
     updateCartCount();
-    showNotification(`${name} ${subname} añadido al carrito`);
+    showNotification(`${name} ${subname} agregado al carrito`);
     
     // Track del evento
     if (productData) {
