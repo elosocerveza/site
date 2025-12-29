@@ -1542,3 +1542,221 @@ small a:hover {
     white-space: nowrap;
     border: 0;
 }
+
+/* ===== CARD OPTIMIZADA - TIPO Y NOMBRE EN MISMA LÍNEA ===== */
+.product-header-single-line {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* TIPO (ej: IPA) - Color oro, más pequeño */
+.product-type {
+    color: var(--color-gold);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: relative;
+    padding-right: 0.5rem;
+}
+
+/* NOMBRE (ej: ZORA) - Blanco, más grande */
+.product-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-white);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* DESCRIPCIÓN MINIMALISTA (1-2 líneas) */
+.product-description-minimal {
+    font-size: 0.875rem;
+    color: var(--color-lighter-gray);
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.8em;
+}
+
+/* PRECIO - VISIBLE Y CLARO */
+.product-pricing {
+    margin-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-white);
+    display: inline-block;
+}
+
+.product-format {
+    font-size: 0.875rem;
+    color: var(--color-lighter-gray);
+    display: inline-block;
+    margin-left: 0.25rem;
+}
+
+/* PRUEBA SOCIAL - DISCRETA */
+.product-social-proof {
+    font-size: 0.75rem;
+    color: var(--color-text-medium);
+    margin-bottom: 1rem;
+    font-weight: 400;
+}
+
+/* CTA - GRANDE Y TÁCTIL */
+.product-actions {
+    margin-top: auto;
+}
+
+.btn-add-to-cart-primary {
+    width: 100%;
+    background-color: var(--color-gold);
+    color: var(--color-black);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: center;
+    display: block;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-add-to-cart-primary:hover:not(:disabled),
+.btn-add-to-cart-primary:active:not(:disabled) {
+    background-color: var(--color-white);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(201, 169, 110, 0.25);
+}
+
+.btn-add-to-cart-primary:disabled {
+    background-color: var(--color-medium-gray);
+    color: var(--color-lighter-gray);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* FEEDBACK INMEDIATO */
+.btn-add-to-cart-primary:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+/* MEJORAS MOBILE-FIRST */
+@media (max-width: 768px) {
+    .product-header-single-line {
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }
+    
+    .product-type {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    
+    .product-name {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex-shrink: 1;
+    }
+    
+    .product-description-minimal {
+        font-size: 0.8rem;
+        -webkit-line-clamp: 2;
+    }
+    
+    .product-price {
+        font-size: 1.35rem;
+    }
+    
+    .btn-add-to-cart-primary {
+        padding: 1rem;
+        font-size: 1.1rem;
+        min-height: 48px;
+    }
+    
+    .product-social-proof {
+        font-size: 0.7rem;
+        margin-bottom: 0.875rem;
+    }
+}
+
+/* Para pantallas muy pequeñas (menos de 360px) */
+@media (max-width: 360px) {
+    .product-header-single-line {
+        flex-wrap: wrap;
+    }
+    
+    .product-type {
+        font-size: 1rem;
+    }
+    
+    .product-name {
+        font-size: 1rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+}
+
+/* JERARQUÍA VISUAL CLARA */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: var(--space-md);
+}
+
+/* ELIMINAR ELEMENTOS QUE NO CONVIERTEN */
+.product-specs,
+.product-stats .separator,
+.product-stats .stock,
+.product-category,
+.product-header-old {
+    display: none !important;
+}
+
+/* Asegurar que la card no sea demasiado alta */
+.product-card {
+    max-height: 500px;
+    overflow: hidden;
+}
+
+/* Estado de stock bajo */
+.product-card[data-stock="low"] .product-pricing {
+    border-top-color: rgba(239, 108, 0, 0.3);
+}
+
+.product-card[data-stock="very-low"] .product-pricing {
+    border-top-color: rgba(255, 107, 107, 0.3);
+}

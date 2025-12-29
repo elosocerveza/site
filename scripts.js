@@ -556,49 +556,47 @@ function renderProducts() {
             spec3Value = `${product.size}`;
         }
         
+        // TEMPLATE ACTUALIZADO
         return `
         <div class="product-card" data-id="${product.id}" itemscope itemtype="https://schema.org/Product">
             <div class="product-image">
                 ${getProductBadge(product)}
-                <!-- Imagen con lazy loading -->
                 <img class="lazy-load" 
                     data-src="${product.image}" 
                     src="${createImagePlaceholder(300, 200)}"
                     alt="${product.name}" 
                     loading="lazy"
                     width="300"
-                    height="200"
-                    itemprop="image">
+                    height="200">
             </div>
+            
             <div class="product-info">
-                <div class="product-category" itemprop="category">${product.subname || product.subcategory}</div>
-                <h3 class="product-name" itemprop="name">${product.name}</h3>
-                
-                <div class="product-stats">
-                    <span class="sales">+${formatSales(product.sold)} ventas</span>
-                    <span class="separator"> · </span>
-                    <span class="stock">${formatStock(product.stock)}</span>
+                <!-- 1. PRODUCTO: Tipo + Nombre en MISMA LÍNEA -->
+                <div class="product-header-single-line">
+                    <span class="product-type">${product.subname || product.subcategory}</span>
                 </div>
                 
-                <p class="product-description" itemprop="description">${product.description}</p>
-                
-                <div class="product-specs">
-                    <div class="spec" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                        <span itemprop="value">${spec1Value}</span>
-                    </div>
-                    <div class="spec" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                        <span itemprop="value">${spec2Value}</span>
-                    </div>
-                    <div class="spec" itemprop="additionalProperty" itemscope itemtype="https://schema.org/PropertyValue">
-                        <span itemprop="value">${spec3Value}</span>
-                    </div>
+                <!-- 2. DESCRIPCIÓN MINIMALISTA -->
+                <div class="product-description-minimal">
+                    ${product.description}
                 </div>
                 
-                <div class="product-footer" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+                <!-- 3. PRECIO + FORMATO -->
+                <div class="product-pricing">
+                    <span class="product-price">$${product.price.toLocaleString('es-AR')}</span>
+                    <span class="product-format"> · ${product.size}</span>
+                </div>
+                
+                <!-- 4. PRUEBA SOCIAL -->
+                <div class="product-social-proof">
+                    +${formatSales(product.sold)} personas la eligieron
+                </div>
+                
+                <!-- 5. CTA -->
+                <div class="product-actions" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
                     <meta itemprop="priceCurrency" content="ARS">
-                    <meta itemprop="availability" content="${product.stock > 0 ? 'InStock' : 'OutOfStock'}">
-                    <div class="product-price" itemprop="price">$${product.price.toLocaleString('es-AR')}</div>
-                    <button class="btn-add-to-cart" 
+                    <meta itemprop="availability" content="${product.stock > 0 ? 'InStock' : 'OutOfStock'}">    
+                    <button class="btn-add-to-cart-primary" 
                             data-id="${product.id}" 
                             data-name="${product.name}" 
                             data-subname="${product.subname}"
@@ -606,8 +604,8 @@ function renderProducts() {
                             data-price="${product.price}" 
                             data-image="${product.image}"
                             data-category="${product.category}"
-                            ${product.stock === 0 ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''}>
-                        <i class="fas fa-plus"></i>
+                            ${product.stock === 0 ? 'disabled' : ''}>
+                        ${product.stock === 0 ? 'Sin stock' : 'Sumar al pedido'}
                     </button>
                 </div>
             </div>
@@ -1033,8 +1031,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Añadir al carrito
-        if (e.target.closest('.btn-add-to-cart')) {
-            const button = e.target.closest('.btn-add-to-cart');
+        if (e.target.closest('.btn-add-to-cart-primary')) {
+            const button = e.target.closest('.btn-add-to-cart-primary');
             if (button.disabled) return;
             
             const id = button.getAttribute('data-id');
