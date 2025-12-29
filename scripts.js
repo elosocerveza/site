@@ -573,7 +573,7 @@ function renderProducts() {
             <div class="product-info">
                 <!-- 1. PRODUCTO: Tipo + Nombre en MISMA LÍNEA -->
                 <div class="product-header-single-line">
-                    <span class="product-type">${product.subname || product.subcategory}</span>
+                    <span class="product-type">${product.subname || product.name}</span>
                     <!-- <span class="product-name">${product.name}</span> -->
                 </div>
                 
