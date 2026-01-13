@@ -1775,3 +1775,76 @@ small a:hover {
     display: inline-block;
     margin-left: .25rem;
 }
+
+/* Añadí al final del archivo existente: */
+
+/* Estilos específicos para landing page */
+.products-page {
+    padding-top: 100px;
+    padding-bottom: var(--space-xl);
+}
+
+.products-page h2 {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+    .products-page {
+        padding-top: 80px;
+        padding-bottom: var(--space-lg);
+    }
+    
+    .products-page h2 {
+        font-size: 2rem;
+    }
+}
+
+/* Smooth scrolling para anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Mejoras en la navegación */
+.nav-link {
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--color-gold);
+}
+
+/* Ajustes en los filtros */
+.filters {
+    margin-bottom: var(--space-lg);
+}
+
+.filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-medium-gray);
+    background: transparent;
+    color: var(--color-white);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--color-gold);
+    color: var(--color-black);
+    border-color: var(--color-gold);
+}
+
+/* Separadores visuales entre secciones */
+.products-page:not(:first-of-type) {
+    border-top: 1px solid var(--color-dark-gray);
+}

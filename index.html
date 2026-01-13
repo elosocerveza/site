@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
+    <!-- Meta tags optimizados para SEO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -12,7 +13,7 @@
     <link rel="manifest" href="images/favicon/site.webmanifest" />
 
     <!-- Meta Description mejorada -->
-    <meta name="description" content="El Oso es una cervecería artesanal de Quilmes, Buenos Aires. Hacemos cervezas artesanales en lotes limitados, salsas picantes y conservas sin conservantes ni químicos. Venta directa y envíos a toda Argentina.">
+    <meta name="description" content="El Oso es una cervecería artesanal de Quilmes, Buenos Aires. Cervezas artesanales en lotes limitados, salsas picantes y conservas sin conservantes ni químicos. Venta directa y envíos.">
 
     <!-- Keywords para SEO -->
     <meta name="keywords" content="cerveza artesanal quilmes, cervecería artesanal buenos aires, cerveza artesanal argentina, cervezas artesanales, salsas picantes artesanales, conservas artesanales, el oso cervecería">
@@ -21,7 +22,7 @@
     <link rel="canonical" href="https://eloso.ar/">
 
     <!-- Open Graph mejorado -->
-    <meta property="og:title" content="El Oso | Cerveza Artesanal, Picantes y Conservas">
+    <meta property="og:title" content="El Oso | Cerveza Artesanal, Picantes y Conservas - Quilmes">
     <meta property="og:description" content="Cervezas artesanales en lotes limitados, picantes y conservas hechas a mano. Sin conservantes ni químicos. Desde Quilmes a toda Argentina.">
     <meta property="og:image" content="https://eloso.ar/images/logo/logo-blanco.png?v=8">
     <meta property="og:url" content="https://eloso.ar/">
@@ -29,35 +30,8 @@
     <meta property="og:locale" content="es_AR">
     <meta property="og:site_name" content="El Oso Cerveza Artesanal">
 
-    <!-- Geo Tags -->
-    <meta name="geo.region" content="AR-B">
-    <meta name="geo.placename" content="Buenos Aires">
-    <meta name="geo.position" content="-34.6037;-58.3816">
-    <meta name="ICBM" content="-34.6037, -58.3816">
-
-    <!-- Author -->
-    <meta name="author" content="El Oso">
-
-    <!-- Robots mejorado -->
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    
-    <!-- Preconnect optimizado -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://wa.me">
-    <link rel="preconnect" href="https://script.google.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    
-    <!-- Preload para fuentes críticas -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
-    
-    <!-- Preload para imágenes críticas -->
-    <link rel="preload" href="images/logo/logo.png?v=8" as="image">
-
-    <title>El Oso Cervecería Quilmes</title>
-    
     <!-- Estilos principales -->
-    <link rel="stylesheet" href="styles.min.css?v=40">
+    <link rel="stylesheet" href="styles.css?v=41">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -91,80 +65,38 @@
     }
     </script>
     
-    <!-- Google tag (gtag.js) - Carga asincrónica -->
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-K21FSGK2ZY', {
-            'debug_mode': false,
-            'transport_type': 'beacon',
-            'page_title': document.title,
-            'page_location': window.location.href,
-            'allow_google_signals': true,
-            'allow_ad_personalization_signals': true,
-            'cookie_flags': 'SameSite=None;Secure'
-        });
+        gtag('config', 'G-K21FSGK2ZY');
     </script>
 
-    <!-- Google Search Console Verification -->
-    <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
-
-    <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "uruxvp2ghy");
-    </script>
+    <title>El Oso | Cerveza Artesanal, Picantes y Conservas - Quilmes</title>
 </head>
 <body>
+    <!-- Banner de envío -->
     <div class="shipping-banner">
         <strong>ENVÍOS:</strong> Jueves y Viernes <strong>GRATIS</strong> en Quilmes y alrededores en compras mayores a $15.000
     </div>
 
-    <!-- Anunciador para lectores de pantalla -->
-    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
-
-    <!-- LOCAL BUSINESS INFO -->
-    <div itemscope itemtype="https://schema.org/LocalBusiness" style="display: none;">
-        <span itemprop="name">El Oso Cerveza Artesanal</span>
-        <span itemprop="description">Cerveza artesanal en Quilmes, Buenos Aires</span>
-        <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-            <span itemprop="streetAddress">Rodolfo López 1561</span>,
-            <span itemprop="addressLocality">Quilmes</span>,
-            <span itemprop="addressRegion">Buenos Aires</span>,
-            <span itemprop="postalCode">1878</span>,
-            <span itemprop="addressCountry">AR</span>
-        </div>
-        <span itemprop="telephone">+5491123495971</span>
-        <span itemprop="priceRange">$$</span>
-        <img itemprop="image" src="https://eloso.ar/images/logo/logo-blanco.png?v=8" alt="El Oso Cerveza Artesanal" style="display:none;"/>
-        <span itemprop="areaServed">Quilmes</span>
-    </div>
-
-    <!-- Header minimalista -->
+    <!-- Header -->
     <header class="header">
         <div class="container">
             <nav class="nav">
-                <a href="index.html" class="logo">
-                    <!-- Logo optimizado con loading lazy -->
-                    <img src="images/logo/logo.png?v=8" 
-                        alt="El Oso Cerveza Artesanal" 
-                        class="logo-img" 
-                        loading="lazy"
-                        width="32" 
-                        height="32">
+                <a href="#inicio" class="logo">
+                    <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" class="logo-img" loading="lazy" width="32" height="32">
                     <span class="logo-text">EL OSO</span>
                 </a>
                 
                 <div class="nav-links">
-                    <a href="index.html" class="nav-link active">Inicio</a>
-                    <a href="beers.html" class="nav-link">Cervezas</a>
-                    <a href="sauces.html" class="nav-link">Picantes</a>
-                    <a href="preserves.html" class="nav-link">Conservas</a>
-                    <a href="combos.html" class="nav-link">Combos</a>
+                    <a href="#inicio" class="nav-link active">Inicio</a>
+                    <a href="#cervezas" class="nav-link">Cervezas</a>
+                    <a href="#picantes" class="nav-link">Picantes</a>
+                    <a href="#conservas" class="nav-link">Conservas</a>
+                    <a href="#combos" class="nav-link">Combos</a>
                     <a href="#contacto" class="nav-link">Contacto</a>
                 </div>
                 
@@ -181,16 +113,11 @@
         </div>
     </header>
 
-    <!-- Menú móvil minimalista -->
+    <!-- Menú móvil -->
     <div class="mobile-menu" id="mobile-menu">
         <div class="mobile-menu-header">
             <div class="logo">
-                <img src="images/logo/logo.png?v=8" 
-                    alt="El Oso Cerveza Artesanal" 
-                    class="logo-img"
-                    loading="lazy"
-                    width="32" 
-                    height="32">
+                <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" class="logo-img" loading="lazy" width="32" height="32">
                 <span class="logo-text">EL OSO</span>
             </div>
             <button class="menu-close" id="menu-close" aria-label="Cerrar menú">
@@ -199,16 +126,16 @@
         </div>
         
         <div class="mobile-menu-links">
-            <a href="index.html" class="mobile-link active">Inicio</a>
-            <a href="beers.html" class="mobile-link">Cervezas</a>
-            <a href="sauces.html" class="mobile-link">Picantes</a>
-            <a href="preserves.html" class="mobile-link">Conservas</a>
-            <a href="combos.html" class="mobile-link">Combos</a>
+            <a href="#inicio" class="mobile-link active">Inicio</a>
+            <a href="#cervezas" class="mobile-link">Cervezas</a>
+            <a href="#picantes" class="mobile-link">Picantes</a>
+            <a href="#conservas" class="mobile-link">Conservas</a>
+            <a href="#combos" class="mobile-link">Combos</a>
             <a href="#contacto" class="mobile-link">Contacto</a>
         </div>
     </div>
 
-    <!-- Carrito minimalista -->
+    <!-- Carrito -->
     <div class="cart-overlay" id="cart-overlay"></div>
     <div class="cart-sidebar" id="cart-sidebar">
         <div class="cart-header">
@@ -245,8 +172,10 @@
         </div>
     </div>
 
+    <!-- Contenido Principal -->
     <main id="main-content" role="main">
-        <section class="hero">
+        <!-- Hero Section -->
+        <section class="hero" id="inicio">
             <div class="container">
                 <div class="hero-content">
                     <h1 class="hero-title">Cerveza Artesanal Quilmes</h1>
@@ -255,103 +184,106 @@
                     No industrial. No masiva. Hecha como antes.
                     </p>
                     <div class="hero-actions">
-                        <a href="beers.html" class="btn btn-primary">Ver cervezas disponibles</a>
+                        <a href="#cervezas" class="btn btn-primary">Ver cervezas disponibles</a>
                         <a href="https://wa.me/5491123495971" class="btn btn-outline" target="_blank">Pedir por WhatsApp</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="featured">
+        <!-- Cervezas Section -->
+        <section class="products-page" id="cervezas">
             <div class="container">
-                <div class="editorial-header">
-                    <h2>Categorías</h2>
-                    <p class="lead">Explorá todo lo que hacemos en El Oso: cervezas, picantes, conservas y combos armados para disfrutar sin vueltas.</p>
+                <div class="page-header editorial-header">
+                    <h2>Cervezas Artesanales</h2>
+                    <p class="lead">Más de 10 estilos distintos, de IPA a Stout. Recetas propias, lotes limitados y cerveza hecha como corresponde.</p>
                 </div>
                 
-                <div class="products-grid">
-                    <!-- Cervezas -->
-                    <a href="beers.html" class="category-card">
-                        <div class="category-image">
-                            <img class="lazy-load" 
-                                data-src="images/categories/beers.jpg?v=8" 
-                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Cervezas Artesanales"
-                                loading="lazy"
-                                width="200"
-                                height="200"
-                                itemprop="image">
-                        </div>
-                        <div class="category-info">
-                            <h3>Cervezas</h3>
-                            <p>Más de 10 estilos distintos, de IPA a Stout. Recetas propias, lotes limitados y cerveza hecha como corresponde.</p>
-                        </div>
-                    </a>
-                    
-                    <!-- Salsas -->
-                    <a href="sauces.html" class="category-card">
-                        <div class="category-image">
-                            <img class="lazy-load" 
-                                data-src="images/categories/sauces.jpg?v=8" 
-                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Salsas Artesanales"
-                                loading="lazy"
-                                width="200"
-                                height="200"
-                                itemprop="image">
-                        </div>
-                        <div class="category-info">
-                            <h3>Picantes</h3>
-                            <p>Salsas picantes hechas a mano, con sabor real y picor en serio. Para acompañar comidas y subirle el carácter.</p>
-                        </div>
-                    </a>
-                    
-                    <!-- Conservas -->
-                    <a href="preserves.html" class="category-card">
-                        <div class="category-image">
-                            <img class="lazy-load" 
-                                data-src="images/categories/preserves.jpg?v=8" 
-                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Conservas Artesanales"
-                                loading="lazy"
-                                width="200"
-                                height="200"
-                                itemprop="image">
-                        </div>
-                        <div class="category-info">
-                            <h3>Conservas</h3>
-                            <p>Conservas hechas en casa, con ingredientes naturales. Ideales para la picada o para resolver una comida.</p>
-                        </div>
-                    </a>
-                    
-                    <!-- Combos -->
-                    <a href="combos.html" class="category-card">
-                        <div class="category-image">
-                            <img class="lazy-load" 
-                                data-src="images/categories/combos.jpg?v=8" 
-                                src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23111111'/%3E%3C/svg%3E"
-                                alt="Combos Especiales"
-                                loading="lazy"
-                                width="200"
-                                height="200"
-                                itemprop="image">
-                        </div>
-                        <div class="category-info">
-                            <h3>Combos</h3>
-                            <p>Packs armados con lo mejor de El Oso. Para regalar, compartir o stockearse bien.</p>
-                        </div>
-                    </a>
+                <!-- Filtros para cervezas -->
+                <div class="filters">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all" data-category="cerveza">Todas</button>
+                        <button class="filter-btn" data-filter="ipa" data-category="cerveza">IPA</button>
+                        <button class="filter-btn" data-filter="negra" data-category="cerveza">Negra</button>
+                        <button class="filter-btn" data-filter="roja" data-category="cerveza">Roja</button>
+                        <button class="filter-btn" data-filter="trigo" data-category="cerveza">Trigo</button>
+                        <button class="filter-btn" data-filter="rubia" data-category="cerveza">Rubia</button>
+                        <button class="filter-btn" data-filter="especial" data-category="cerveza">Especial</button>
+                    </div>
+                </div>
+                
+                <!-- Grid de cervezas -->
+                <div class="products-grid" id="beers-container">
+                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
+                        <p>Cargando cervezas...</p>
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Picantes Section -->
+        <section class="products-page" id="picantes" style="background-color: var(--color-dark-gray); padding: var(--space-xl) 0;">
+            <div class="container">
+                <div class="page-header editorial-header">
+                    <h2>Salsas Picantes Artesanales</h2>
+                    <p class="lead">Salsas picantes hechas a mano, con sabor real y picor en serio. Para acompañar comidas y subirle el carácter.</p>
+                </div>
+                
+                <!-- Grid de picantes -->
+                <div class="products-grid" id="sauces-container">
+                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
+                        <p>Cargando salsas picantes...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conservas Section -->
+        <section class="products-page" id="conservas">
+            <div class="container">
+                <div class="page-header editorial-header">
+                    <h2>Conservas Artesanales</h2>
+                    <p class="lead">Conservas hechas en casa, con ingredientes naturales. Ideales para la picada o para resolver una comida.</p>
+                </div>
+                
+                <!-- Grid de conservas -->
+                <div class="products-grid" id="preserves-container">
+                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
+                        <p>Cargando conservas...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Combos Section -->
+        <section class="products-page" id="combos" style="background-color: var(--color-dark-gray); padding: var(--space-xl) 0;">
+            <div class="container">
+                <div class="page-header editorial-header">
+                    <h2>Combos Artesanales</h2>
+                    <p class="lead">Packs armados con lo mejor de El Oso. Para regalar, compartir o stockearse bien.</p>
+                </div>
+                
+                <!-- Grid de combos -->
+                <div class="products-grid" id="combos-container">
+                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
+                        <p>Cargando combos...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Micro-lotes -->
         <section class="micro-lotes editorial">
             <div class="container">
                 <div class="editorial-header">
                     <h2>Producción por micro-lotes</h2>
                     <p class="lead">
-                        No hacemos stock masivo. Cada cerveza se elabora en cantidades limitadas<br>
-                        para garantizar frescura, calidad y carácter único en cada botella.
+                        No hacemos stock masivo. Cada producto se elabora en cantidades limitadas<br>
+                        para garantizar frescura, calidad y carácter único.
                     </p>
                 </div>
 
@@ -383,94 +315,47 @@
             </div>
         </section>
 
-        <section class="customers editorial">
-            <div class="container">
-                <div class="editorial-header">
-                    <h2>El Oso en manos reales</h2>
-                    <p class="lead">No modelos. No stock. Gente que nos elige.</p>
-                </div>
-
-                <div class="customers-grid">
-                    <div class="customer-photo">
-                        <img class="lazy-load" 
-                            data-src="images/ugc/photo1.webp" 
-                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' fill='%23111111'/%3E%3C/svg%3E"
-                            alt="Acompañamos las tostadas"
-                            loading="lazy"
-                            width="160"
-                            height="160">
-                    </div>
-                    <div class="customer-photo">
-                        <img class="lazy-load" 
-                            data-src="images/ugc/photo2.webp" 
-                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' fill='%23111111'/%3E%3C/svg%3E"
-                            alt="Una parada técnica"
-                            loading="lazy"
-                            width="160"
-                            height="160">
-                    </div>
-                    <div class="customer-photo">
-                        <img class="lazy-load" 
-                            data-src="images/ugc/photo3.webp" 
-                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' fill='%23111111'/%3E%3C/svg%3E"
-                            alt="Vas a compartir los trafeos cerveceros"
-                            loading="lazy"
-                            width="160"
-                            height="160">
-                    </div>
-                    <div class="customer-photo">
-                        <img class="lazy-load" 
-                            data-src="images/ugc/photo4.webp" 
-                            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' fill='%23111111'/%3E%3C/svg%3E"
-                            alt="De méxican"
-                            loading="lazy"
-                            width="160"
-                            height="160">
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        <!-- Sección Cómo comprar -->
         <section class="how-to-buy editorial light">
             <div class="container">
                 <div class="editorial-header">
-                <h2>Cómo comprar</h2>
-                <p class="lead">
-                    Directo desde la cervecería.<br>
-                    Sin vueltas.
-                </p>
+                    <h2>Cómo comprar</h2>
+                    <p class="lead">
+                        Directo desde la cervecería.<br>
+                        Sin vueltas.
+                    </p>
                 </div>
 
                 <div class="editorial-grid">
-                <div class="editorial-item">
-                    <span class="editorial-number">01</span>
-                    <h3>Elegí tus cervezas</h3>
-                    <p>
-                    Mirá el catálogo y armá tu pedido con tranquilidad.
-                    </p>
-                </div>
+                    <div class="editorial-item">
+                        <span class="editorial-number">01</span>
+                        <h3>Elegí tus productos</h3>
+                        <p>
+                            Mirá el catálogo y armá tu pedido con tranquilidad.
+                        </p>
+                    </div>
 
-                <div class="editorial-item">
-                    <span class="editorial-number">02</span>
-                    <h3>Mandanos WhatsApp</h3>
-                    <p>
-                    El pedido se envía automáticamente y lo confirmamos.
-                    </p>
-                </div>
+                    <div class="editorial-item">
+                        <span class="editorial-number">02</span>
+                        <h3>Mandanos WhatsApp</h3>
+                        <p>
+                            El pedido se envía automáticamente y lo confirmamos.
+                        </p>
+                    </div>
 
-                <div class="editorial-item">
-                    <span class="editorial-number">03</span>
-                    <h3>Coordinamos entrega</h3>
-                    <p>
-                    Retiro o entrega, como te quede mejor.
-                    </p>
-                </div>
+                    <div class="editorial-item">
+                        <span class="editorial-number">03</span>
+                        <h3>Coordinamos entrega</h3>
+                        <p>
+                            Retiro o entrega, como te quede mejor.
+                        </p>
+                    </div>
                 </div>
 
                 <div class="editorial-cta">
-                <a href="beers.html" class="btn btn-primary">
-                    Ver cervezas disponibles
-                </a>
+                    <a href="#cervezas" class="btn btn-primary">
+                        Ver productos disponibles
+                    </a>
                 </div>
             </div>
         </section>
@@ -482,12 +367,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="logo">
-                        <img src="images/logo/logo.png?v=8" 
-                            alt="El Oso Cerveza Artesanal" 
-                            class="logo-img"
-                            loading="lazy"
-                            width="32" 
-                            height="32">
+                        <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" class="logo-img" loading="lazy" width="32" height="32">
                         <span class="logo-text">EL OSO</span>
                     </div>
                     <p>Cerveza Artesanal.<br>Buenos Aires, Argentina.</p>
@@ -496,11 +376,11 @@
                 <div class="footer-section">
                     <h4>Explorar</h4>
                     <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="beers.html">Cervezas</a></li>
-                        <li><a href="sauces.html">Picantes</a></li>
-                        <li><a href="preserves.html">Conservas</a></li>
-                        <li><a href="combos.html">Combos</a></li>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#cervezas">Cervezas</a></li>
+                        <li><a href="#picantes">Picantes</a></li>
+                        <li><a href="#conservas">Conservas</a></li>
+                        <li><a href="#combos">Combos</a></li>
                     </ul>
                 </div>
                 
@@ -543,7 +423,7 @@
         <i class="fas fa-whatsapp"></i>
     </a>
 
-    <!-- JavaScript optimizado -->
-    <script src="scripts.min.js?v=40"></script>
+    <!-- JavaScript optimizado para landing page -->
+    <script src="scripts.js?v=41"></script>
 </body>
 </html>
