@@ -422,6 +422,8 @@ function renderMinimalCarousel() {
                      alt="${cerveza.name}" 
                      class="slide-image"
                      loading="lazy"
+                     width="400"
+                     height="400"
                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
             </div>
             
@@ -506,6 +508,8 @@ function renderConservasCarousel() {
                      alt="${conserva.name}" 
                      class="slide-image"
                      loading="lazy"
+                     width="400"
+                     height="400"
                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
             </div>
             
@@ -587,6 +591,8 @@ function renderPicantesCarousel() {
                      alt="${picante.name}" 
                      class="slide-image"
                      loading="lazy"
+                     width="400"
+                     height="400"
                      onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
             </div>
             

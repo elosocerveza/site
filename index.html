@@ -42,20 +42,21 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     
     <!-- Preconnect optimizado -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://wa.me">
-    <link rel="preconnect" href="https://script.google.com">
+    <link rel="preconnect" href="https://www.clarity.ms">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
     <!-- Preload para imágenes críticas -->
     <link rel="preload" href="images/logo/logo.png?v=8" as="image">
 
     <title>Home | El Oso</title>
     
     <!-- Estilos principales -->
-    <link rel="stylesheet" href="style.min.css?v=4">
+    <link rel="stylesheet" href="style.min.css?v=5">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -127,11 +128,16 @@
                 <span class="logo-text">EL OSO</span>
             </div>
             
-            <div class="mobile-toggle" id="mobile-toggle" aria-label="Menú de navegación" aria-expanded="false">
+            <!-- Botón de menú móvil corregido -->
+            <button class="mobile-toggle" id="mobile-toggle" 
+                    aria-label="Menú de navegación" 
+                    aria-expanded="false"
+                    aria-controls="main-menu">
                 <i class="fas fa-bars"></i>
-            </div>
+            </button>
             
-            <ul class="nav-links" role="menubar">
+            <!-- Menú principal con estructura ARIA correcta -->
+            <ul class="nav-links" id="main-menu" role="menubar">
                 <li role="none"><a href="#cervezas" role="menuitem"><i class="fas fa-beer"></i> Cervezas</a></li>
                 <li role="none"><a href="#conservas" role="menuitem"><i class="fas fa-jar"></i> Conservas</a></li>
                 <li role="none"><a href="#picantes" role="menuitem"><i class="fas fa-pepper-hot"></i> Picantes</a></li>
@@ -331,7 +337,7 @@
                         <p>Hoy seguimos creciendo, manteniendo la esencia artesanal y la calidad que nos identifica.</p>
                     </div>
                     <div class="story-image">
-                        <img src="images/banners/nosotros.jpg?v=9" alt="El equipo de El Oso trabajando en la cervecería artesanal en Quilmes">
+                        <img src="images/banners/nosotros.jpg?v=9" alt="El equipo de El Oso trabajando en la cervecería artesanal en Quilmes" loading="lazy" width="400" height="400">
                     </div>
                 </div>
             </div>
@@ -379,6 +385,6 @@
         </div>
     </footer>
 
-    <script src="script.min.js?v=4"></script>
+    <script src="script.min.js?v=5"></script>
 </body>
 </html>
