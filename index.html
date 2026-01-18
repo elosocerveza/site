@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
-    <!-- Meta tags optimizados para SEO -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -13,7 +12,7 @@
     <link rel="manifest" href="images/favicon/site.webmanifest" />
 
     <!-- Meta Description mejorada -->
-    <meta name="description" content="El Oso es una cervecería artesanal de Quilmes, Buenos Aires. Cervezas artesanales en lotes limitados, salsas picantes y conservas sin conservantes ni químicos. Venta directa y envíos.">
+    <meta name="description" content="El Oso es una cervecería artesanal de Quilmes, Buenos Aires. Hacemos cervezas artesanales en lotes limitados, salsas picantes y conservas sin conservantes ni químicos. Venta directa y envíos a toda Argentina.">
 
     <!-- Keywords para SEO -->
     <meta name="keywords" content="cerveza artesanal quilmes, cervecería artesanal buenos aires, cerveza artesanal argentina, cervezas artesanales, salsas picantes artesanales, conservas artesanales, el oso cervecería">
@@ -22,7 +21,7 @@
     <link rel="canonical" href="https://eloso.ar/">
 
     <!-- Open Graph mejorado -->
-    <meta property="og:title" content="El Oso | Cerveza Artesanal, Picantes y Conservas - Quilmes">
+    <meta property="og:title" content="El Oso | Cerveza Artesanal, Picantes y Conservas">
     <meta property="og:description" content="Cervezas artesanales en lotes limitados, picantes y conservas hechas a mano. Sin conservantes ni químicos. Desde Quilmes a toda Argentina.">
     <meta property="og:image" content="https://eloso.ar/images/logo/logo-blanco.png?v=8">
     <meta property="og:url" content="https://eloso.ar/">
@@ -30,8 +29,36 @@
     <meta property="og:locale" content="es_AR">
     <meta property="og:site_name" content="El Oso Cerveza Artesanal">
 
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="AR-B">
+    <meta name="geo.placename" content="Buenos Aires">
+    <meta name="geo.position" content="-34.6037;-58.3816">
+    <meta name="ICBM" content="-34.6037, -58.3816">
+
+    <!-- Author -->
+    <meta name="author" content="El Oso">
+
+    <!-- Robots mejorado -->
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <!-- Preconnect optimizado -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://wa.me">
+    <link rel="preconnect" href="https://script.google.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Preload para fuentes críticas -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Preload para imágenes críticas -->
+    <link rel="preload" href="images/logo/logo.png?v=8" as="image">
+
+    <title>Home | El Oso</title>
+    
     <!-- Estilos principales -->
-    <link rel="stylesheet" href="styles.css?v=41">
+    <link rel="stylesheet" href="style.min.css?v=1">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -65,365 +92,288 @@
     }
     </script>
     
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - Carga asincrónica -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K21FSGK2ZY"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-K21FSGK2ZY');
+        gtag('config', 'G-K21FSGK2ZY', {
+            'debug_mode': false,
+            'transport_type': 'beacon',
+            'page_title': document.title,
+            'page_location': window.location.href,
+            'allow_google_signals': true,
+            'allow_ad_personalization_signals': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
     </script>
 
-    <title>El Oso | Cerveza Artesanal, Picantes y Conservas - Quilmes</title>
+    <!-- Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "uruxvp2ghy");
+    </script>
+
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
 </head>
 <body>
-    <!-- Banner de envío -->
-    <div class="shipping-banner">
-        <strong>ENVÍOS:</strong> Jueves y Viernes <strong>GRATIS</strong> en Quilmes y alrededores en compras mayores a $15.000
-    </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <a href="#inicio" class="logo">
-                    <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" class="logo-img" loading="lazy" width="32" height="32">
-                    <span class="logo-text">EL OSO</span>
-                </a>
-                
-                <div class="nav-links">
-                    <a href="#inicio" class="nav-link active">Inicio</a>
-                    <a href="#cervezas" class="nav-link">Cervezas</a>
-                    <a href="#picantes" class="nav-link">Picantes</a>
-                    <a href="#conservas" class="nav-link">Conservas</a>
-                    <a href="#combos" class="nav-link">Combos</a>
-                    <a href="#contacto" class="nav-link">Contacto</a>
-                </div>
-                
-                <div class="nav-actions">
-                    <button class="cart-btn" id="cart-btn" aria-label="Carrito">
-                        <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">0</span>
-                    </button>
-                    <button class="menu-toggle" id="menu-toggle" aria-label="Menú">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </nav>
+    <!-- Navegación mejorada -->
+    <nav id="main-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" width="32" height="32">
+                <span class="logo-text">EL OSO</span>
+            </div>
+            
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#cervezas"><i class="fas fa-beer"></i> Cervezas</a></li>
+                <li><a href="#conservas"><i class="fas fa-jar"></i> Conservas</a></li>
+                <li><a href="#picantes"><i class="fas fa-pepper-hot"></i> Picantes</a></li>
+                <li><a href="#nuestra-historia"><i class="fas fa-question-circle"></i> Nuestra Historia</a></li>
+                <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero section con imagen local -->
+    <header class="hero">
+        <!-- Overlay reducido para aclarar imagen -->
+        <div class="hero-overlay" style="background: rgba(0, 0, 0, 0.4);"></div>
+        <div class="hero-content">
+            <h1>EL OSO CERVEZA ARTESANAL</h1>
+            <p class="hero-subtitle">Lotes chicos. Recetas propias. Venta directa desde la cervecería. No industrial. No masiva. Hecha como antes.</p>
+            <div class="hero-cta">
+                <a href="#cervezas" class="btn-primary">EXPLORAR CERVEZAS</a>
+                <a href="https://wa.me/5491123495971" class="btn-secondary" target="_blank">PEDIR POR WHATSAPP</a>
+            </div>
+        </div>
+        
+        <div class="hero-scroll-indicator">
+            <span>Conocé más</span>
+            <div class="scroll-line"></div>
         </div>
     </header>
 
-    <!-- Menú móvil -->
-    <div class="mobile-menu" id="mobile-menu">
-        <div class="mobile-menu-header">
-            <div class="logo">
-                <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" class="logo-img" loading="lazy" width="32" height="32">
-                <span class="logo-text">EL OSO</span>
-            </div>
-            <button class="menu-close" id="menu-close" aria-label="Cerrar menú">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="mobile-menu-links">
-            <a href="#inicio" class="mobile-link active">Inicio</a>
-            <a href="#cervezas" class="mobile-link">Cervezas</a>
-            <a href="#picantes" class="mobile-link">Picantes</a>
-            <a href="#conservas" class="mobile-link">Conservas</a>
-            <a href="#combos" class="mobile-link">Combos</a>
-            <a href="#contacto" class="mobile-link">Contacto</a>
-        </div>
-    </div>
-
-    <!-- Carrito -->
-    <div class="cart-overlay" id="cart-overlay"></div>
-    <div class="cart-sidebar" id="cart-sidebar">
-        <div class="cart-header">
-            <h3>Carrito</h3>
-            <button class="cart-close" id="cart-close" aria-label="Cerrar carrito">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="cart-content">
-            <div class="cart-empty" id="cart-empty">
-                <i class="fas fa-shopping-cart"></i>
-                <p>Tu carrito está vacío</p>
-            </div>
-            
-            <div class="cart-items" id="cart-items">
-                <!-- Items del carrito -->
+    <!-- Barra de características mejorada -->
+    <section class="features-bar">
+        <div class="feature">
+            <i class="fas fa-box"></i>
+            <div>
+                <h3>PRODUCCIÓN POR MICRO-LOTES</h3>
+                <p>No hacemos stock masivo. Cada cerveza se elabora en cantidades limitadas para garantizar frescura, calidad y carácter único en cada botella.</p>
             </div>
         </div>
-        
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cart-total">$0</span>
-            </div>
-            <button class="btn btn-whatsapp-checkout" id="checkout-btn">
-                <i class="fas fa-whatsapp"></i> Finalizar por WhatsApp
-            </button>
-            <div style="text-align: center; margin-top: 10px;">
-                <small>
-                    O escribí directamente al <a href="https://wa.me/5491123495971" style="color: var(--color-gold);">+54 9 11 2349-5971</a>
-                </small>
+        <div class="feature">
+            <i class="fas fa-clock"></i>
+            <div>
+                <h3>FRESCURA GARANTIZADA</h3>
+                <p>Rotación constante. Cada lote es nuevo, recién elaborado.</p>
             </div>
         </div>
-    </div>
-
-    <!-- Contenido Principal -->
-    <main id="main-content" role="main">
-        <!-- Hero Section -->
-        <section class="hero" id="inicio">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">Cerveza Artesanal Quilmes</h1>
-                    <p class="hero-subtitle">
-                    Lotes chicos. Recetas propias. Venta directa desde la cervecería.<br>
-                    No industrial. No masiva. Hecha como antes.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="#cervezas" class="btn btn-primary">Ver cervezas disponibles</a>
-                        <a href="https://wa.me/5491123495971" class="btn btn-outline" target="_blank">Pedir por WhatsApp</a>
-                    </div>
-                </div>
+        <div class="feature">
+            <i class="fas fa-award"></i>
+            <div>
+                <h3>CALIDAD ARTESANAL</h3>
+                <p>Atención al detalle en cada etapa, sin producción en masa.</p>
             </div>
-        </section>
-
-        <!-- Cervezas Section -->
-        <section class="products-page" id="cervezas">
-            <div class="container">
-                <div class="page-header editorial-header">
-                    <h2>Cervezas Artesanales</h2>
-                    <p class="lead">Más de 10 estilos distintos, de IPA a Stout. Recetas propias, lotes limitados y cerveza hecha como corresponde.</p>
-                </div>
-                
-                <!-- Filtros para cervezas -->
-                <div class="filters">
-                    <div class="filter-group">
-                        <button class="filter-btn active" data-filter="all" data-category="cerveza">Todas</button>
-                        <button class="filter-btn" data-filter="ipa" data-category="cerveza">IPA</button>
-                        <button class="filter-btn" data-filter="negra" data-category="cerveza">Negra</button>
-                        <button class="filter-btn" data-filter="roja" data-category="cerveza">Roja</button>
-                        <button class="filter-btn" data-filter="trigo" data-category="cerveza">Trigo</button>
-                        <button class="filter-btn" data-filter="rubia" data-category="cerveza">Rubia</button>
-                        <button class="filter-btn" data-filter="especial" data-category="cerveza">Especial</button>
-                    </div>
-                </div>
-                
-                <!-- Grid de cervezas -->
-                <div class="products-grid" id="beers-container">
-                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
-                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
-                        <p>Cargando cervezas...</p>
-                    </div>
-                </div>
+        </div>
+        <div class="feature">
+            <i class="fas fa-exclamation-circle"></i>
+            <div>
+                <h3>DISPONIBILIDAD LIMITADA</h3>
+                <p>Cuando se acaba, hay que esperar al próximo lote.</p>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Picantes Section -->
-        <section class="products-page" id="picantes" style="background-color: var(--color-dark-gray); padding: var(--space-xl) 0;">
-            <div class="container">
-                <div class="page-header editorial-header">
-                    <h2>Salsas Picantes Artesanales</h2>
-                    <p class="lead">Salsas picantes hechas a mano, con sabor real y picor en serio. Para acompañar comidas y subirle el carácter.</p>
-                </div>
-                
-                <!-- Grid de picantes -->
-                <div class="products-grid" id="sauces-container">
-                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
-                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
-                        <p>Cargando salsas picantes...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Conservas Section -->
-        <section class="products-page" id="conservas">
-            <div class="container">
-                <div class="page-header editorial-header">
-                    <h2>Conservas Artesanales</h2>
-                    <p class="lead">Conservas hechas en casa, con ingredientes naturales. Ideales para la picada o para resolver una comida.</p>
-                </div>
-                
-                <!-- Grid de conservas -->
-                <div class="products-grid" id="preserves-container">
-                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
-                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
-                        <p>Cargando conservas...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Combos Section -->
-        <section class="products-page" id="combos" style="background-color: var(--color-dark-gray); padding: var(--space-xl) 0;">
-            <div class="container">
-                <div class="page-header editorial-header">
-                    <h2>Combos Artesanales</h2>
-                    <p class="lead">Packs armados con lo mejor de El Oso. Para regalar, compartir o stockearse bien.</p>
-                </div>
-                
-                <!-- Grid de combos -->
-                <div class="products-grid" id="combos-container">
-                    <div class="loading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 1rem;">
-                        <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: #C9A96E; margin-bottom: 1rem;"></i>
-                        <p>Cargando combos...</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección Micro-lotes -->
-        <section class="micro-lotes editorial">
-            <div class="container">
-                <div class="editorial-header">
-                    <h2>Producción por micro-lotes</h2>
-                    <p class="lead">
-                        No hacemos stock masivo. Cada producto se elabora en cantidades limitadas<br>
-                        para garantizar frescura, calidad y carácter único.
-                    </p>
-                </div>
-
-                <div class="editorial-grid">
-                    <div class="editorial-item">
-                        <span class="editorial-number">01</span>
-                        <h3>Frescura garantizada</h3>
-                        <p>
-                            Rotación constante. Cada lote es nuevo, recién elaborado.
-                        </p>
-                    </div>
-
-                    <div class="editorial-item">
-                        <span class="editorial-number">02</span>
-                        <h3>Calidad artesanal</h3>
-                        <p>
-                            Atención al detalle en cada etapa, sin producción en masa.
-                        </p>
-                    </div>
-
-                    <div class="editorial-item">
-                        <span class="editorial-number">03</span>
-                        <h3>Disponibilidad limitada</h3>
-                        <p>
-                            Cuando se acaba, hay que esperar al próximo lote.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección Cómo comprar -->
-        <section class="how-to-buy editorial light">
-            <div class="container">
-                <div class="editorial-header">
-                    <h2>Cómo comprar</h2>
-                    <p class="lead">
-                        Directo desde la cervecería.<br>
-                        Sin vueltas.
-                    </p>
-                </div>
-
-                <div class="editorial-grid">
-                    <div class="editorial-item">
-                        <span class="editorial-number">01</span>
-                        <h3>Elegí tus productos</h3>
-                        <p>
-                            Mirá el catálogo y armá tu pedido con tranquilidad.
-                        </p>
-                    </div>
-
-                    <div class="editorial-item">
-                        <span class="editorial-number">02</span>
-                        <h3>Mandanos WhatsApp</h3>
-                        <p>
-                            El pedido se envía automáticamente y lo confirmamos.
-                        </p>
-                    </div>
-
-                    <div class="editorial-item">
-                        <span class="editorial-number">03</span>
-                        <h3>Coordinamos entrega</h3>
-                        <p>
-                            Retiro o entrega, como te quede mejor.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="editorial-cta">
-                    <a href="#cervezas" class="btn btn-primary">
-                        Ver productos disponibles
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer" id="contacto">
+    <!-- Sección de Carrusel Minimalista -->
+    <section class="carousel-section minimal-carousel" id="cervezas">
+        <div class="section-background"></div>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="logo">
-                        <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" class="logo-img" loading="lazy" width="32" height="32">
-                        <span class="logo-text">EL OSO</span>
+            <div class="section-header">
+                <h2>Cervezas</h2>
+                <p class="section-subtitle">Nuestra selección premium de lotes limitados</p>
+            </div>
+            
+            <!-- Carrusel minimalista -->
+            <div class="minimal-carousel-container">
+                <!-- Flechas de navegación -->
+                <button class="carousel-nav prev" aria-label="Producto anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="carousel-nav next" aria-label="Producto siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <!-- Contenedor de diapositivas -->
+                <div class="carousel-slides-container">
+                    <div class="carousel-slides" id="cervezas-slides">
+                        <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
                     </div>
-                    <p>Cerveza Artesanal.<br>Buenos Aires, Argentina.</p>
                 </div>
                 
-                <div class="footer-section">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="#inicio">Inicio</a></li>
-                        <li><a href="#cervezas">Cervezas</a></li>
-                        <li><a href="#picantes">Picantes</a></li>
-                        <li><a href="#conservas">Conservas</a></li>
-                        <li><a href="#combos">Combos</a></li>
-                    </ul>
+                <!-- Indicadores de posición -->
+                <div class="carousel-dots" id="cervezas-dots">
+                    <!-- Los puntos se generarán dinámicamente -->
                 </div>
                 
-                <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <ul>
-                        <li>
-                            <a href="mailto:elosocerveza@gmail.com" target="_blank" class="social-link">
-                                <i class="fas fa-envelope"></i> elosocerveza@gmail.com
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://wa.me/5491123495971" target="_blank" class="social-link">
-                                <i class="fas fa-whatsapp"></i> +54 9 11 2349-5971
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://instagram.com/elosocerveza" target="_blank" class="social-link" rel="noopener noreferrer">
-                                <i class="fas fa-instagram"></i> @elosocerveza
-                            </a>
-                        </li>
-                    </ul>
+                <!-- Contador de posición -->
+                <div class="carousel-counter">
+                    <span id="current-slide">1</span> / <span id="total-slides">5</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Conservas como Carrusel -->
+    <section class="carousel-section minimal-carousel" id="conservas">
+        <div class="section-background"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2>Conservas</h2>
+                <p class="section-subtitle">Naturales sin conservantes ni químicos</p>
+            </div>
+            
+            <!-- Carrusel minimalista para conservas -->
+            <div class="minimal-carousel-container">
+                <!-- Flechas de navegación -->
+                <button class="carousel-nav prev" aria-label="Producto anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="carousel-nav next" aria-label="Producto siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <!-- Contenedor de diapositivas -->
+                <div class="carousel-slides-container">
+                    <div class="carousel-slides" id="conservas-slides">
+                        <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Indicadores de posición -->
+                <div class="carousel-dots" id="conservas-dots">
+                    <!-- Los puntos se generarán dinámicamente -->
+                </div>
+                
+                <!-- Contador de posición -->
+                <div class="carousel-counter">
+                    <span id="conservas-current">1</span> / <span id="conservas-total">3</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Picantes como Carrusel -->
+    <section class="carousel-section minimal-carousel" id="picantes">
+        <div class="section-background"></div>
+        <div class="container">
+            <div class="section-header">
+                <h2>Salsas Picantes</h2>
+                <p class="section-subtitle">Elaboradas con ingredientes naturales y mucho carácter</p>
+            </div>
+            
+            <!-- Carrusel minimalista para picantes -->
+            <div class="minimal-carousel-container">
+                <!-- Flechas de navegación -->
+                <button class="carousel-nav prev" aria-label="Producto anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <button class="carousel-nav next" aria-label="Producto siguiente">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                
+                <!-- Contenedor de diapositivas -->
+                <div class="carousel-slides-container">
+                    <div class="carousel-slides" id="picantes-slides">
+                        <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Indicadores de posición -->
+                <div class="carousel-dots" id="picantes-dots">
+                    <!-- Los puntos se generarán dinámicamente -->
+                </div>
+                
+                <!-- Contador de posición -->
+                <div class="carousel-counter">
+                    <span id="picantes-current">1</span> / <span id="picantes-total">2</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección: Nuestra historia -->
+    <section class="story-section" id="nuestra-historia">
+        <div class="container">
+            <div class="story-content">
+                <div class="story-text">
+                    <h2>Nuestra Historia</h2>
+                    <p>El Oso nace en Quilmes, Buenos Aires, con la pasión por crear productos artesanales de alta calidad. Comenzamos elaborando cervezas artesanales en lotes limitados, respetando los procesos tradicionales pero con un toque innovador.</p>
+                    <p>Con el tiempo, ampliamos nuestra propuesta incluyendo salsas picantes y conservas artesanales, siempre manteniendo nuestra filosofía: ingredientes naturales de calidad, sin conservantes ni químicos, y el sabor casero que nos caracteriza.</p>
+                    <p>Hoy seguimos creciendo, manteniendo la esencia artesanal y la calidad que nos identifica.</p>
+                </div>
+                <div class="story-image">
+                    <img src="images/banners/nosotros.jpg" alt="El Oso Cerveza Artesanal - Quilmes">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer mejorado -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" width="32" height="32">
+                    <span>EL OSO</span>
+                </div>
+                <p class="footer-tagline">Nacida en la montaña. Forjada por el fuego.</p>
+                <div class="social-icons">
+                    <a href="https://instagram.com/elosocerveza" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/5491123495971" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
             
-            <div class="footer-bottom">
-                <p>© 2026 El Oso. Venta exclusiva para mayores de 18 años. Beber con moderación.</p>
+            <div class="footer-section">
+                <h3>Enlaces rápidos</h3>
+                <ul class="footer-links">
+                    <li><a href="#cervezas">Cervezas</a></li>
+                    <li><a href="#conservas">Conservas</a></li>
+                    <li><a href="#picantes">Picantes</a></li>
+                    <li><a href="#nuestra-historia">Nuestra historia</a></li>
+                </ul>
             </div>
+            
+            <div class="footer-section" id="contacto">
+                <h3>Contacto</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> Quilmes, Buenos Aires, Argentina</li>
+                    <li><i class="fas fa-phone"></i> +54 9 11 2349-5971</li>
+                    <li><i class="fas fa-envelope"></i> elosocerveza@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>BEBER CON MODERACIÓN. PROHIBIDA SU VENTA A MENORES DE 18 AÑOS.</p>
+            <p>&copy; 2026 El Oso. Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- Botón flotante Carrito -->
-    <a href="#" class="cart-float" id="cart-float" aria-label="Carrito">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-count">0</span>
-    </a>
-
-    <!-- Botón flotante WhatsApp -->
-    <a href="https://wa.me/5491123495971" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
-        <i class="fas fa-whatsapp"></i>
-    </a>
-
-    <!-- JavaScript optimizado para landing page -->
-    <script src="scripts.js?v=41"></script>
+    <script src="script.min.js?v=1"></script>
 </body>
 </html>
