@@ -89,7 +89,6 @@ h3 {
 p {
     margin-bottom: 1rem;
     font-size: 1.1rem;
-    font-weight: 300;
 }
 
 /* ===== BOTONES ===== */
@@ -649,7 +648,6 @@ footer {
 }
 
 .footer-section h3 {
-    color: var(--accent-light);
     margin-bottom: 20px;
     font-size: 1.2rem;
 }
@@ -723,11 +721,6 @@ footer {
     gap: 10px;
     margin-bottom: 15px;
     color: var(--text-gray);
-}
-
-.contact-info i {
-    color: var(--accent-gold);
-    margin-top: 3px;
 }
 
 .footer-bottom {
@@ -1320,113 +1313,18 @@ img, video {
     background-color: #4caf50 !important; /* Verde */
 }
 
-#conservas .section-header h2 {
-    color: #fff !important; /* Blanco para contraste */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-#conservas .section-subtitle {
-    color: rgba(255, 255, 255, 0.9) !important; /* Blanco semitransparente */
-}
-
-#conservas .product-title h3,
-#conservas .product-subtitle,
-#conservas .product-description,
-#conservas .product-size,
-#conservas .product-stock {
-    color: #fff !important; /* Blanco para todo el texto */
-}
-
-#conservas .carousel-nav {
-    background-color: rgba(255, 255, 255, 0.2); /* Blanco para contraste */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff; /* Iconos blancos */
-}
-
-#conservas .carousel-nav:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-#conservas .carousel-dot {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-#conservas .carousel-dot:hover,
-#conservas .carousel-dot.active {
-    background-color: #fff;
-}
-
-#conservas .carousel-counter {
-    color: #fff;
-}
-
 /* Picantes - Color rojo */
 #picantes.minimal-carousel {
     background-color: #f44336 !important; /* Rojo */
 }
 
-#picantes .section-header h2 {
-    color: #fff !important; /* Blanco para contraste */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-#picantes .section-subtitle {
-    color: rgba(255, 255, 255, 0.9) !important; /* Blanco semitransparente */
-}
-
-#picantes .product-title h3,
-#picantes .product-subtitle,
-#picantes .product-description,
-#picantes .product-size,
-#picantes .product-stock {
-    color: #fff !important; /* Blanco para todo el texto */
-}
-
-#picantes .carousel-nav {
-    background-color: rgba(255, 255, 255, 0.2); /* Blanco para contraste */
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff; /* Iconos blancos */
-}
-
-#picantes .carousel-nav:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-#picantes .carousel-dot {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-#picantes .carousel-dot:hover,
-#picantes .carousel-dot.active {
-    background-color: #fff;
-}
-
-#picantes .carousel-counter {
-    color: #fff;
-}
-
-/* Estilos para etiquetas de stock en carruseles */
-.product-stock.agotado {
-    color: #ffcccc !important;
-    font-weight: bold;
-}
-
-.product-stock.disponible {
-    color: #ccffcc !important;
-    font-weight: bold;
-}
-
 /* Ajustar estilos de product-style para conservas y picantes */
-#conservas .product-style,
+#conservas .product-style {
+    color: #4caf50;
+}
+
 #picantes .product-style {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    color: #f44336;
 }
 
 /* Ajustar detalles del producto en carruseles */
@@ -1617,6 +1515,7 @@ img, video {
 .contact-info i {
     width: 1.2em;
     height: 1.2em;
+    margin-top: 3px;
 }
 
 /* ===== HERO SECTION - MEJORAR NITIDEZ DE TEXTO ===== */
@@ -1667,3 +1566,33 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+/* ===== ESTILOS PARA ACCESIBILIDAD ===== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Mejorar estructura de encabezados en carruseles */
+.carousel-section .section-header h2 {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 0.5rem;
+}
+
+.carousel-section .product-title h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Estructura jerárquica correcta */
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
