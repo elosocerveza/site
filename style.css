@@ -421,11 +421,11 @@ p {
 }
 
 .sauces-section .section-background {
-    background-color: #f44336;
+    background-color: #F4695D;
 }
 
 .sauces-section .section-header h2 {
-    color: #f44336;
+    color: #F4695D;
 }
 
 .section-header {
@@ -567,7 +567,7 @@ p {
 }
 
 .sauces-section .product-minimal-card {
-    border-left: 3px solid #f44336;
+    border-left: 3px solid #F4695D;
 }
 
 /* ===== STORY SECTION ===== */
@@ -1092,7 +1092,7 @@ img, video {
 }
 
 .product-description {
-    color: #333; /* Gris oscuro para mejor legibilidad */
+    color: #000; /* Color negro */
     font-size: 1.1rem; /* Aumentado el tamaño */
     line-height: 1.6;
     margin-bottom: 25px;
@@ -1119,8 +1119,8 @@ img, video {
 
 .product-stock-indicator.agotado {
     background-color: rgba(244, 67, 54, 0.2);
-    color: #f44336;
-    border: 1px solid #f44336;
+    color: #F4695D;
+    border: 1px solid #F4695D;
 }
 
 .carousel-dots {
@@ -1162,12 +1162,12 @@ img, video {
 
 /* Ajustar colores de texto para el carrusel en fondo amarillo */
 .minimal-carousel .section-header h2 {
-    color: #000 !important; /* Color negro para el título */
+    color: #000; /* Color negro */
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .minimal-carousel .section-subtitle {
-    color: #333 !important; /* Gris oscuro para subtítulo */
+    color: #000; /* Color negro */
 }
 
 /* ===== MENSAJE CUANDO NO HAY PRODUCTOS ===== */
@@ -1200,7 +1200,7 @@ img, video {
 }
 
 .sauces-section .no-products-message {
-    border-left: 3px solid #f44336;
+    border-left: 3px solid #F4695D;
 }
 
 /* ===== RESPONSIVE PARA CARRUSEL MINIMALISTA ===== */
@@ -1315,7 +1315,7 @@ img, video {
 
 /* Picantes - Color rojo */
 #picantes.minimal-carousel {
-    background-color: #f44336 !important; /* Rojo */
+    background-color: #F4695D !important; /* Rojo */
 }
 
 /* Ajustar estilos de product-style para conservas y picantes */
@@ -1324,7 +1324,7 @@ img, video {
 }
 
 #picantes .product-style {
-    color: #f44336;
+    color: #F4695D;
 }
 
 /* Ajustar detalles del producto en carruseles */
@@ -1596,3 +1596,48 @@ h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
 h2 { font-size: clamp(2rem, 4vw, 3rem); }
 h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
 h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
+
+/* ===== MEJORAR BOTONES DE NAVEGACIÓN DEL CARRUSEL ===== */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px; /* Aumentar para mejor área táctil */
+    height: 56px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.3);
+    color: #000;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 10;
+    padding: 0;
+    min-width: 56px; /* Prevenir compresión */
+}
+
+.carousel-nav:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    transform: translateY(-50%) scale(1.1);
+    border-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+    .carousel-nav {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-nav {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+    }
+}

@@ -49,16 +49,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     
-    <!-- Preload para fuentes críticas -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
-    
     <!-- Preload para imágenes críticas -->
     <link rel="preload" href="images/logo/logo.png?v=8" as="image">
 
     <title>Home | El Oso</title>
     
     <!-- Estilos principales -->
-    <link rel="stylesheet" href="style.min.css?v=3">
+    <link rel="stylesheet" href="style.min.css?v=4">
     
     <!-- Schema Markup -->
     <script type="application/ld+json">
@@ -122,31 +119,30 @@
     <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
 </head>
 <body>
-
     <!-- Navegación mejorada -->
-    <nav id="main-nav">
+    <nav id="main-nav" role="navigation" aria-label="Navegación principal">
         <div class="nav-container">
             <div class="logo">
                 <img src="images/logo/logo.png?v=8" alt="El Oso Cerveza Artesanal" width="32" height="32">
                 <span class="logo-text">EL OSO</span>
             </div>
             
-            <div class="mobile-toggle" id="mobile-toggle">
+            <div class="mobile-toggle" id="mobile-toggle" aria-label="Menú de navegación" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </div>
             
-            <ul class="nav-links">
-                <li><a href="#cervezas"><i class="fas fa-beer"></i> Cervezas</a></li>
-                <li><a href="#conservas"><i class="fas fa-jar"></i> Conservas</a></li>
-                <li><a href="#picantes"><i class="fas fa-pepper-hot"></i> Picantes</a></li>
-                <li><a href="#nuestra-historia"><i class="fas fa-question-circle"></i> Nuestra Historia</a></li>
-                <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
+            <ul class="nav-links" role="menubar">
+                <li role="none"><a href="#cervezas" role="menuitem"><i class="fas fa-beer"></i> Cervezas</a></li>
+                <li role="none"><a href="#conservas" role="menuitem"><i class="fas fa-jar"></i> Conservas</a></li>
+                <li role="none"><a href="#picantes" role="menuitem"><i class="fas fa-pepper-hot"></i> Picantes</a></li>
+                <li role="none"><a href="#nuestra-historia" role="menuitem"><i class="fas fa-question-circle"></i> Nuestra Historia</a></li>
+                <li role="none"><a href="#contacto" role="menuitem"><i class="fas fa-envelope"></i> Contacto</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero section con imagen local -->
-    <header class="hero">
+    <header class="hero" role="banner">
         <!-- Overlay reducido para aclarar imagen -->
         <div class="hero-overlay" style="background: rgba(0, 0, 0, 0.4);"></div>
         <div class="hero-content">
@@ -154,7 +150,7 @@
             <p class="hero-subtitle">Lotes chicos. Recetas propias. Venta directa desde la cervecería. No industrial. No masiva. Hecha como antes.</p>
             <div class="hero-cta">
                 <a href="#cervezas" class="btn-primary">EXPLORAR CERVEZAS</a>
-                <a href="https://wa.me/5491123495971" class="btn-secondary" target="_blank">PEDIR POR WHATSAPP</a>
+                <a href="https://wa.me/5491123495971" class="btn-secondary" target="_blank" rel="noopener noreferrer">PEDIR POR WHATSAPP</a>
             </div>
         </div>
         
@@ -164,178 +160,186 @@
         </div>
     </header>
 
-    <!-- Barra de características mejorada -->
-    <section class="features-bar">
-        <h2 id="features-heading" class="sr-only">Características de El Oso</h2>
-        <div class="feature">
-            <i class="fas fa-box"></i>
-            <div>
-                <h3>PRODUCCIÓN POR MICRO-LOTES</h3>
-                <p>No hacemos stock masivo. Cada cerveza se elabora en cantidades limitadas para garantizar frescura, calidad y carácter único en cada botella.</p>
-            </div>
-        </div>
-        <div class="feature">
-            <i class="fas fa-clock"></i>
-            <div>
-                <h3>FRESCURA GARANTIZADA</h3>
-                <p>Rotación constante. Cada lote es nuevo, recién elaborado.</p>
-            </div>
-        </div>
-        <div class="feature">
-            <i class="fas fa-award"></i>
-            <div>
-                <h3>CALIDAD ARTESANAL</h3>
-                <p>Atención al detalle en cada etapa, sin producción en masa.</p>
-            </div>
-        </div>
-        <div class="feature">
-            <i class="fas fa-exclamation-circle"></i>
-            <div>
-                <h3>DISPONIBILIDAD LIMITADA</h3>
-                <p>Cuando se acaba, hay que esperar al próximo lote.</p>
-            </div>
-        </div>
-    </section>
+    <!-- Contenido principal - PUNTO DE REFERENCIA PRINCIPAL -->
+    <main id="main-content" role="main" aria-label="Contenido principal">
 
-    <!-- Sección de Carrusel Minimalista -->
-    <section class="carousel-section minimal-carousel" id="cervezas">
-        <div class="section-background"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2>Cervezas</h2>
-                <p class="section-subtitle">Nuestra selección premium de lotes limitados</p>
+        <!-- Barra de características mejorada -->
+        <section class="features-bar" aria-labelledby="features-heading">
+            <h2 id="features-heading" class="sr-only">Características de El Oso</h2>
+            <div class="feature">
+                <i class="fas fa-box" aria-hidden="true"></i>
+                <div>
+                    <h3>PRODUCCIÓN POR MICRO-LOTES</h3>
+                    <p>No hacemos stock masivo. Cada cerveza se elabora en cantidades limitadas para garantizar frescura, calidad y carácter único en cada botella.</p>
+                </div>
             </div>
-            
-            <!-- Carrusel minimalista -->
-            <div class="minimal-carousel-container">
-                <!-- Flechas de navegación -->
-                <button class="carousel-nav prev" aria-label="Producto anterior">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+            <div class="feature">
+                <i class="fas fa-clock" aria-hidden="true"></i>
+                <div>
+                    <h3>FRESCURA GARANTIZADA</h3>
+                    <p>Rotación constante. Cada lote es nuevo, recién elaborado.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-award" aria-hidden="true"></i>
+                <div>
+                    <h3>CALIDAD ARTESANAL</h3>
+                    <p>Atención al detalle en cada etapa, sin producción en masa.</p>
+                </div>
+            </div>
+            <div class="feature">
+                <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                <div>
+                    <h3>DISPONIBILIDAD LIMITADA</h3>
+                    <p>Cuando se acaba, hay que esperar al próximo lote.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Carrusel Minimalista -->
+        <section class="carousel-section minimal-carousel" id="cervezas" 
+                 aria-labelledby="cervezas-heading" aria-describedby="cervezas-description">
+            <div class="section-background"></div>
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="cervezas-heading">Cervezas</h2>
+                    <p id="cervezas-description" class="section-subtitle">Nuestra selección premium de lotes limitados</p>
+                </div>
                 
-                <button class="carousel-nav next" aria-label="Producto siguiente">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                
-                <!-- Contenedor de diapositivas -->
-                <div class="carousel-slides-container">
-                    <div class="carousel-slides" id="cervezas-slides">
-                        <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                <!-- Carrusel minimalista -->
+                <div class="minimal-carousel-container">
+                    <!-- Flechas de navegación -->
+                    <button class="carousel-nav prev" aria-label="Producto anterior">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    
+                    <button class="carousel-nav next" aria-label="Producto siguiente">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                    
+                    <!-- Contenedor de diapositivas -->
+                    <div class="carousel-slides-container">
+                        <div class="carousel-slides" id="cervezas-slides" role="list" aria-live="polite">
+                            <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Indicadores de posición -->
+                    <div class="carousel-dots" id="cervezas-dots" role="tablist" aria-label="Navegación del carrusel de cervezas">
+                        <!-- Los puntos se generarán dinámicamente -->
+                    </div>
+                    
+                    <!-- Contador de posición -->
+                    <div class="carousel-counter">
+                        <span id="current-slide">1</span> / <span id="total-slides">5</span>
                     </div>
                 </div>
-                
-                <!-- Indicadores de posición -->
-                <div class="carousel-dots" id="cervezas-dots">
-                    <!-- Los puntos se generarán dinámicamente -->
-                </div>
-                
-                <!-- Contador de posición -->
-                <div class="carousel-counter">
-                    <span id="current-slide">1</span> / <span id="total-slides">5</span>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Sección de Conservas como Carrusel -->
-    <section class="carousel-section minimal-carousel" id="conservas">
-        <div class="section-background"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2>Conservas</h2>
-                <p class="section-subtitle">Naturales sin conservantes ni químicos</p>
-            </div>
-            
-            <!-- Carrusel minimalista para conservas -->
-            <div class="minimal-carousel-container">
-                <!-- Flechas de navegación -->
-                <button class="carousel-nav prev" aria-label="Producto anterior">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+        <!-- Sección de Conservas como Carrusel -->
+        <section class="carousel-section minimal-carousel" id="conservas" 
+                 aria-labelledby="conservas-heading" aria-describedby="conservas-description">
+            <div class="section-background"></div>
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="conservas-heading">Conservas</h2>
+                    <p id="conservas-description" class="section-subtitle">Naturales sin conservantes ni químicos</p>
+                </div>
                 
-                <button class="carousel-nav next" aria-label="Producto siguiente">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                
-                <!-- Contenedor de diapositivas -->
-                <div class="carousel-slides-container">
-                    <div class="carousel-slides" id="conservas-slides">
-                        <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                <!-- Carrusel minimalista para conservas -->
+                <div class="minimal-carousel-container">
+                    <!-- Flechas de navegación -->
+                    <button class="carousel-nav prev" aria-label="Conserva anterior">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    
+                    <button class="carousel-nav next" aria-label="Conserva siguiente">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                    
+                    <!-- Contenedor de diapositivas -->
+                    <div class="carousel-slides-container">
+                        <div class="carousel-slides" id="conservas-slides" role="list" aria-live="polite">
+                            <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Indicadores de posición -->
+                    <div class="carousel-dots" id="conservas-dots" role="tablist" aria-label="Navegación del carrusel de conservas">
+                        <!-- Los puntos se generarán dinámicamente -->
+                    </div>
+                    
+                    <!-- Contador de posición -->
+                    <div class="carousel-counter">
+                        <span id="conservas-current">1</span> / <span id="conservas-total">3</span>
                     </div>
                 </div>
-                
-                <!-- Indicadores de posición -->
-                <div class="carousel-dots" id="conservas-dots">
-                    <!-- Los puntos se generarán dinámicamente -->
-                </div>
-                
-                <!-- Contador de posición -->
-                <div class="carousel-counter">
-                    <span id="conservas-current">1</span> / <span id="conservas-total">3</span>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Sección de Picantes como Carrusel -->
-    <section class="carousel-section minimal-carousel" id="picantes">
-        <div class="section-background"></div>
-        <div class="container">
-            <div class="section-header">
-                <h2>Salsas Picantes</h2>
-                <p class="section-subtitle">Elaboradas con ingredientes naturales y mucho carácter</p>
-            </div>
-            
-            <!-- Carrusel minimalista para picantes -->
-            <div class="minimal-carousel-container">
-                <!-- Flechas de navegación -->
-                <button class="carousel-nav prev" aria-label="Producto anterior">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+        <!-- Sección de Picantes como Carrusel -->
+        <section class="carousel-section minimal-carousel" id="picantes" 
+                 aria-labelledby="picantes-heading" aria-describedby="picantes-description">
+            <div class="section-background"></div>
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="picantes-heading">Salsas Picantes</h2>
+                    <p id="picantes-description" class="section-subtitle">Elaboradas con ingredientes naturales y mucho carácter</p>
+                </div>
                 
-                <button class="carousel-nav next" aria-label="Producto siguiente">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-                
-                <!-- Contenedor de diapositivas -->
-                <div class="carousel-slides-container">
-                    <div class="carousel-slides" id="picantes-slides">
-                        <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                <!-- Carrusel minimalista para picantes -->
+                <div class="minimal-carousel-container">
+                    <!-- Flechas de navegación -->
+                    <button class="carousel-nav prev" aria-label="Picante anterior">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    
+                    <button class="carousel-nav next" aria-label="Picante siguiente">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                    
+                    <!-- Contenedor de diapositivas -->
+                    <div class="carousel-slides-container">
+                        <div class="carousel-slides" id="picantes-slides" role="list" aria-live="polite">
+                            <!-- Las diapositivas se generarán dinámicamente con JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Indicadores de posición -->
+                    <div class="carousel-dots" id="picantes-dots" role="tablist" aria-label="Navegación del carrusel de salsas picantes">
+                        <!-- Los puntos se generarán dinámicamente -->
+                    </div>
+                    
+                    <!-- Contador de posición -->
+                    <div class="carousel-counter">
+                        <span id="picantes-current">1</span> / <span id="picantes-total">2</span>
                     </div>
                 </div>
-                
-                <!-- Indicadores de posición -->
-                <div class="carousel-dots" id="picantes-dots">
-                    <!-- Los puntos se generarán dinámicamente -->
-                </div>
-                
-                <!-- Contador de posición -->
-                <div class="carousel-counter">
-                    <span id="picantes-current">1</span> / <span id="picantes-total">2</span>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Sección: Nuestra historia -->
-    <section class="story-section" id="nuestra-historia">
-        <div class="container">
-            <div class="story-content">
-                <div class="story-text">
-                    <h2>Nuestra Historia</h2>
-                    <p>El Oso nace en Quilmes, Buenos Aires, con la pasión por crear productos artesanales de alta calidad. Comenzamos elaborando cervezas artesanales en lotes limitados, respetando los procesos tradicionales pero con un toque innovador.</p>
-                    <p>Con el tiempo, ampliamos nuestra propuesta incluyendo salsas picantes y conservas artesanales, siempre manteniendo nuestra filosofía: ingredientes naturales de calidad, sin conservantes ni químicos, y el sabor casero que nos caracteriza.</p>
-                    <p>Hoy seguimos creciendo, manteniendo la esencia artesanal y la calidad que nos identifica.</p>
-                </div>
-                <div class="story-image">
-                    <img src="images/banners/nosotros.jpg" alt="El Oso Cerveza Artesanal - Quilmes">
+        <!-- Sección: Nuestra historia -->
+        <section class="story-section" id="nuestra-historia" 
+                 aria-labelledby="historia-heading">
+            <div class="container">
+                <div class="story-content">
+                    <div class="story-text">
+                        <h2 id="historia-heading">Nuestra Historia</h2>
+                        <p>El Oso nace en Quilmes, Buenos Aires, con la pasión por crear productos artesanales de alta calidad. Comenzamos elaborando cervezas artesanales en lotes limitados, respetando los procesos tradicionales pero con un toque innovador.</p>
+                        <p>Con el tiempo, ampliamos nuestra propuesta incluyendo salsas picantes y conservas artesanales, siempre manteniendo nuestra filosofía: ingredientes naturales de calidad, sin conservantes ni químicos, y el sabor casero que nos caracteriza.</p>
+                        <p>Hoy seguimos creciendo, manteniendo la esencia artesanal y la calidad que nos identifica.</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="images/banners/nosotros.jpg?v=9" alt="El equipo de El Oso trabajando en la cervecería artesanal en Quilmes">
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- Footer mejorado -->
-    <footer>
+    <footer role="contentinfo" aria-label="Pie de página">
         <div class="footer-content">
             <div class="footer-section">
                 <div class="footer-logo">
@@ -344,8 +348,8 @@
                 </div>
                 <p class="footer-tagline">Nacida en la montaña. Forjada por el fuego.</p>
                 <div class="social-icons">
-                    <a href="https://instagram.com/elosocerveza" aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://wa.me/5491123495971" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/elosocerveza" aria-label="Instagram de El Oso" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                    <a href="https://wa.me/5491123495971" aria-label="WhatsApp de El Oso" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i></a>
                 </div>
             </div>
             
@@ -362,9 +366,9 @@
             <div class="footer-section" id="contacto">
                 <h3>Contacto</h3>
                 <ul class="contact-info">
-                    <li><i class="fas fa-map-marker-alt"></i> Quilmes, Buenos Aires, Argentina</li>
-                    <li><i class="fas fa-phone"></i> +54 9 11 2349-5971</li>
-                    <li><i class="fas fa-envelope"></i> elosocerveza@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Quilmes, Buenos Aires, Argentina</li>
+                    <li><i class="fas fa-phone" aria-hidden="true"></i> +54 9 11 2349-5971</li>
+                    <li><i class="fas fa-envelope" aria-hidden="true"></i> elosocerveza@gmail.com</li>
                 </ul>
             </div>
         </div>
@@ -375,6 +379,6 @@
         </div>
     </footer>
 
-    <script src="script.min.js?v=3"></script>
+    <script src="script.min.js?v=4"></script>
 </body>
 </html>
