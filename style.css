@@ -1127,7 +1127,6 @@ img, video {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 40px;
 }
 
 .carousel-dot {
@@ -1639,5 +1638,73 @@ h4 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
         width: 44px;
         height: 44px;
         min-width: 44px;
+    }
+}
+
+/* ===== CORRECCIÓN PARA CENTRAR PRODUCT-TITLE EN DESKTOP ===== */
+.minimal-carousel .slide-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.minimal-carousel .product-header {
+    justify-content: center !important;
+    width: 100%;
+}
+
+.minimal-carousel .product-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.minimal-carousel .product-title h3 {
+    text-align: center;
+    width: 100%;
+}
+
+.minimal-carousel .product-style {
+    text-align: center;
+    display: inline-block;
+}
+
+/* Asegurar que el subtítulo y descripción también estén centrados */
+.minimal-carousel .product-subtitle,
+.minimal-carousel .product-description {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Para carruseles específicos */
+#cervezas .slide-content,
+#conservas .slide-content,
+#picantes .slide-content {
+    align-items: center;
+}
+
+#cervezas .product-header,
+#conservas .product-header,
+#picantes .product-header {
+    justify-content: center;
+}
+
+/* Eliminar el espacio-between que causa desalineación */
+.carousel-slide .product-header {
+    justify-content: center;
+}
+
+/* Para móviles mantener el diseño actual */
+@media (max-width: 768px) {
+    .minimal-carousel .product-title {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 }
