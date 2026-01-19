@@ -415,6 +415,7 @@ function renderMinimalCarousel() {
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
         slide.dataset.index = index;
+        slide.setAttribute('role', 'listitem'); // ← CORRECCIÓN ARIA
         
         slide.innerHTML = `
             <div class="slide-image-wrapper">
@@ -448,6 +449,7 @@ function renderMinimalCarousel() {
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
         dot.dataset.index = index;
         dot.setAttribute('aria-label', `Ir a producto ${index + 1}`);
+        dot.setAttribute('role', 'tab'); // ← CORRECCIÓN ARIA
         
         dotsContainer.appendChild(dot);
     });
@@ -501,6 +503,7 @@ function renderConservasCarousel() {
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
         slide.dataset.index = index;
+        slide.setAttribute('role', 'listitem'); // ← CORRECCIÓN ARIA
         
         slide.innerHTML = `
             <div class="slide-image-wrapper">
@@ -534,6 +537,7 @@ function renderConservasCarousel() {
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
         dot.dataset.index = index;
         dot.setAttribute('aria-label', `Ir a conserva ${index + 1}`);
+        dot.setAttribute('role', 'tab'); // ← CORRECCIÓN ARIA
         
         dotsContainer.appendChild(dot);
     });
@@ -584,6 +588,7 @@ function renderPicantesCarousel() {
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
         slide.dataset.index = index;
+        slide.setAttribute('role', 'listitem'); // ← CORRECCIÓN ARIA
         
         slide.innerHTML = `
             <div class="slide-image-wrapper">
@@ -617,6 +622,7 @@ function renderPicantesCarousel() {
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
         dot.dataset.index = index;
         dot.setAttribute('aria-label', `Ir a picante ${index + 1}`);
+        dot.setAttribute('role', 'tab'); // ← CORRECCIÓN ARIA
         
         dotsContainer.appendChild(dot);
     });
