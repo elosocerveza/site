@@ -7,7 +7,7 @@ const productosData = [
       "description": "Espesa y balanceada. Picor medio, sabor fresco. Para sumar picante sin tapar la comida.",
       "price": 6000,
       "category": "picante",
-      "image": "images/products/sauces/picate-verde-100.png?v=9",
+      "image": "images/products/sauces/picate-verde-100.png?v=14",
       "stock": 6,
       "sold": 84,
       "rating": 4.5,
@@ -25,7 +25,7 @@ const productosData = [
       "description": "Espesa y directa. Picante intenso, sin vueltas. Para los que siempre quieren un poco más.",
       "price": 6000,
       "category": "picante",
-      "image": "images/products/sauces/picate-rojo-100.png?v=9",
+      "image": "images/products/sauces/picate-rojo-100.png?v=14",
       "stock": 15,
       "sold": 69,
       "rating": 4.4,
@@ -43,7 +43,7 @@ const productosData = [
       "description": "Suaves y bien sabrosas. Clásicas para picar o acompañar cualquier plato.",
       "price": 6000,
       "category": "conserva",
-      "image": "images/products/preserves/beren-330.png?v=9",
+      "image": "images/products/preserves/beren-330.png?v=14",
       "stock": 15,
       "sold": 172,
       "rating": 5,
@@ -61,7 +61,7 @@ const productosData = [
       "description": "Crujientes y bien equilibrados. Dulce y ácido en su punto. Van con todo. O solos.",
       "price": 6000,
       "category": "conserva",
-      "image": "images/products/preserves/peppi-330.png?v=9",
+      "image": "images/products/preserves/peppi-330.png?v=14",
       "stock": 7,
       "sold": 35,
       "rating": 4.2,
@@ -79,7 +79,7 @@ const productosData = [
       "description": "Intenso y bien criollo. El clásico argentino. Para asado, milanesas o lo que pinte.",
       "price": 6000,
       "category": "conserva",
-      "image": "images/products/preserves/chimi-330.png?v=9",
+      "image": "images/products/preserves/chimi-330.png?v=14",
       "stock": 2,
       "sold": 3,
       "rating": 4,
@@ -98,7 +98,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/arun-330.png?v=9",
+      "image": "images/products/beers/arun-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -116,7 +116,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/bennu-330.png?v=9",
+      "image": "images/products/beers/bennu-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -134,7 +134,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "roja",
-      "image": "images/products/beers/ember-330.png?v=9",
+      "image": "images/products/beers/ember-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": true,
@@ -152,7 +152,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/kuma-330.png?v=9",
+      "image": "images/products/beers/kuma-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": true,
@@ -170,7 +170,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "ipa",
-      "image": "images/products/beers/vika-330.png?v=9",
+      "image": "images/products/beers/vika-330.png?v=14",
       "stock": 35,
       "sold": 15,
       "rating": 4.1,
@@ -189,7 +189,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/zora-330.png?v=9",
+      "image": "images/products/beers/zora-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": true,
@@ -207,7 +207,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "negra",
-      "image": "images/products/beers/onyx-330.png?v=9",
+      "image": "images/products/beers/onyx-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -225,7 +225,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/mizu-330.png?v=9",
+      "image": "images/products/beers/mizu-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -243,7 +243,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "negra",
-      "image": "images/products/beers/ndala-330.png?v=9",
+      "image": "images/products/beers/ndala-330.png?v=14",
       "stock": 42,
       "sold": 8,
       "rating": 4,
@@ -262,7 +262,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "roja",
-      "image": "images/products/beers/riad-330.png?v=9",
+      "image": "images/products/beers/riad-330.png?v=14",
       "stock": 28,
       "sold": 22,
       "rating": 4.1,
@@ -281,7 +281,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/tsia-330.png?v=9",
+      "image": "images/products/beers/tsia-330.png?v=14",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -299,7 +299,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/wendy-330.png?v=9",
+      "image": "images/products/beers/wendy-330.png?v=14",
       "stock": 14,
       "sold": 36,
       "rating": 4.2,
@@ -318,7 +318,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/clara-330.png?v=9",
+      "image": "images/products/beers/clara-330.png?v=14",
       "stock": 14,
       "sold": 36,
       "rating": 4.2,
@@ -337,7 +337,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/dalma-330.png?v=9",
+      "image": "images/products/beers/dalma-330.png?v=14",
       "stock": 50,
       "sold": 0,
       "active": true,
@@ -446,7 +446,7 @@ function renderMinimalCarousel() {
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
         slide.dataset.index = index;
-        slide.setAttribute('role', 'listitem'); // ← CORRECCIÓN ARIA
+        slide.setAttribute('role', 'listitem');
         
         slide.innerHTML = `
             <div class="slide-image-wrapper">
@@ -480,7 +480,7 @@ function renderMinimalCarousel() {
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
         dot.dataset.index = index;
         dot.setAttribute('aria-label', `Ir a producto ${index + 1}`);
-        dot.setAttribute('role', 'tab'); // ← CORRECCIÓN ARIA
+        dot.setAttribute('role', 'tab');
         
         dotsContainer.appendChild(dot);
     });
@@ -532,7 +532,7 @@ function renderConservasCarousel() {
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
         slide.dataset.index = index;
-        slide.setAttribute('role', 'listitem'); // ← CORRECCIÓN ARIA
+        slide.setAttribute('role', 'listitem');
         
         slide.innerHTML = `
             <div class="slide-image-wrapper">
@@ -566,7 +566,7 @@ function renderConservasCarousel() {
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
         dot.dataset.index = index;
         dot.setAttribute('aria-label', `Ir a conserva ${index + 1}`);
-        dot.setAttribute('role', 'tab'); // ← CORRECCIÓN ARIA
+        dot.setAttribute('role', 'tab');
         
         dotsContainer.appendChild(dot);
     });
@@ -615,7 +615,7 @@ function renderPicantesCarousel() {
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
         slide.dataset.index = index;
-        slide.setAttribute('role', 'listitem'); // ← CORRECCIÓN ARIA
+        slide.setAttribute('role', 'listitem');
         
         slide.innerHTML = `
             <div class="slide-image-wrapper">
@@ -649,7 +649,7 @@ function renderPicantesCarousel() {
         dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
         dot.dataset.index = index;
         dot.setAttribute('aria-label', `Ir a picante ${index + 1}`);
-        dot.setAttribute('role', 'tab'); // ← CORRECCIÓN ARIA
+        dot.setAttribute('role', 'tab');
         
         dotsContainer.appendChild(dot);
     });
@@ -690,7 +690,10 @@ function initCarousel(section) {
         currentSlideElement = document.getElementById(`${section}-current`);
     }
     
-    if (!slidesContainer || slides.length === 0) return;
+    if (!slidesContainer || slides.length === 0) {
+        console.log(`No hay slides para ${section}`);
+        return;
+    }
     
     let currentSlide = 0;
     const totalSlides = slides.length;
@@ -756,18 +759,21 @@ function initCarousel(section) {
     
     // Event listeners para los botones de navegación
     if (prevBtn) {
-        prevBtn.removeEventListener('click', prevSlide); // Limpiar listener previo
-        prevBtn.addEventListener('click', prevSlide);
+        // Remover listeners previos para evitar duplicados
+        prevBtn.replaceWith(prevBtn.cloneNode(true));
+        const newPrevBtn = document.querySelector(`#${section} .carousel-nav.prev`);
+        newPrevBtn.addEventListener('click', prevSlide);
     }
     
     if (nextBtn) {
-        nextBtn.removeEventListener('click', nextSlide); // Limpiar listener previo
-        nextBtn.addEventListener('click', nextSlide);
+        // Remover listeners previos para evitar duplicados
+        nextBtn.replaceWith(nextBtn.cloneNode(true));
+        const newNextBtn = document.querySelector(`#${section} .carousel-nav.next`);
+        newNextBtn.addEventListener('click', nextSlide);
     }
     
     // Event listeners para los puntos
     dots.forEach((dot, index) => {
-        dot.removeEventListener('click', () => {}); // Limpiar listener previo
         dot.addEventListener('click', () => {
             goToSlide(index);
         });
@@ -833,6 +839,8 @@ function initCarousel(section) {
     
     // Inicializar posición
     goToSlide(0);
+    
+    console.log(`Carrusel ${section} inicializado con ${totalSlides} slides`);
 }
 
 // ===== FUNCIONALIDAD PRINCIPAL DE LA PÁGINA =====
@@ -944,6 +952,19 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             initializeCarouselsAfterLoad();
         }, 500);
+    });
+    
+    // Re-inicializar carruseles al cambiar de sección (para SPA-like behavior)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId.startsWith('#cervezas') || targetId.startsWith('#conservas') || targetId.startsWith('#picantes')) {
+                setTimeout(() => {
+                    const section = targetId.substring(1);
+                    initCarousel(section);
+                }, 100);
+            }
+        });
     });
 });
 
