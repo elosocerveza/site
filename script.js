@@ -7,7 +7,7 @@ const productosData = [
       "description": "Espesa y balanceada. Picor medio, sabor fresco. Para sumar picante sin tapar la comida.",
       "price": 6000,
       "category": "picante",
-      "image": "images/products/sauces/picate-verde-100.png?v=14",
+      "image": "images/products/sauces/picate-verde-100.png?v=15",
       "stock": 6,
       "sold": 84,
       "rating": 4.5,
@@ -25,7 +25,7 @@ const productosData = [
       "description": "Espesa y directa. Picante intenso, sin vueltas. Para los que siempre quieren un poco más.",
       "price": 6000,
       "category": "picante",
-      "image": "images/products/sauces/picate-rojo-100.png?v=14",
+      "image": "images/products/sauces/picate-rojo-100.png?v=15",
       "stock": 15,
       "sold": 69,
       "rating": 4.4,
@@ -43,7 +43,7 @@ const productosData = [
       "description": "Suaves y bien sabrosas. Clásicas para picar o acompañar cualquier plato.",
       "price": 6000,
       "category": "conserva",
-      "image": "images/products/preserves/beren-330.png?v=14",
+      "image": "images/products/preserves/beren-330.png?v=15",
       "stock": 15,
       "sold": 172,
       "rating": 5,
@@ -61,7 +61,7 @@ const productosData = [
       "description": "Crujientes y bien equilibrados. Dulce y ácido en su punto. Van con todo. O solos.",
       "price": 6000,
       "category": "conserva",
-      "image": "images/products/preserves/peppi-330.png?v=14",
+      "image": "images/products/preserves/peppi-330.png?v=15",
       "stock": 7,
       "sold": 35,
       "rating": 4.2,
@@ -79,7 +79,7 @@ const productosData = [
       "description": "Intenso y bien criollo. El clásico argentino. Para asado, milanesas o lo que pinte.",
       "price": 6000,
       "category": "conserva",
-      "image": "images/products/preserves/chimi-330.png?v=14",
+      "image": "images/products/preserves/chimi-330.png?v=15",
       "stock": 2,
       "sold": 3,
       "rating": 4,
@@ -98,7 +98,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/arun-330.png?v=14",
+      "image": "images/products/beers/arun-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -116,7 +116,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/bennu-330.png?v=14",
+      "image": "images/products/beers/bennu-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -134,7 +134,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "roja",
-      "image": "images/products/beers/ember-330.png?v=14",
+      "image": "images/products/beers/ember-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": true,
@@ -152,7 +152,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/kuma-330.png?v=14",
+      "image": "images/products/beers/kuma-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": true,
@@ -170,7 +170,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "ipa",
-      "image": "images/products/beers/vika-330.png?v=14",
+      "image": "images/products/beers/vika-330.png?v=15",
       "stock": 35,
       "sold": 15,
       "rating": 4.1,
@@ -189,7 +189,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/zora-330.png?v=14",
+      "image": "images/products/beers/zora-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": true,
@@ -207,7 +207,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "negra",
-      "image": "images/products/beers/onyx-330.png?v=14",
+      "image": "images/products/beers/onyx-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -225,7 +225,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/mizu-330.png?v=14",
+      "image": "images/products/beers/mizu-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -243,7 +243,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "negra",
-      "image": "images/products/beers/ndala-330.png?v=14",
+      "image": "images/products/beers/ndala-330.png?v=15",
       "stock": 42,
       "sold": 8,
       "rating": 4,
@@ -262,7 +262,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "roja",
-      "image": "images/products/beers/riad-330.png?v=14",
+      "image": "images/products/beers/riad-330.png?v=15",
       "stock": 28,
       "sold": 22,
       "rating": 4.1,
@@ -281,7 +281,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "trigo",
-      "image": "images/products/beers/tsia-330.png?v=14",
+      "image": "images/products/beers/tsia-330.png?v=15",
       "stock": 0,
       "sold": 0,
       "active": false,
@@ -299,7 +299,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/wendy-330.png?v=14",
+      "image": "images/products/beers/wendy-330.png?v=15",
       "stock": 14,
       "sold": 36,
       "rating": 4.2,
@@ -318,7 +318,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/clara-330.png?v=14",
+      "image": "images/products/beers/clara-330.png?v=15",
       "stock": 14,
       "sold": 36,
       "rating": 4.2,
@@ -337,7 +337,7 @@ const productosData = [
       "price": 5000,
       "category": "cerveza",
       "subcategory": "rubia",
-      "image": "images/products/beers/dalma-330.png?v=14",
+      "image": "images/products/beers/dalma-330.png?v=15",
       "stock": 50,
       "sold": 0,
       "active": true,
@@ -386,19 +386,121 @@ const productosData = [
     }
 ];
 
-// ===== FUNCIÓN PARA INICIALIZAR CARRUSELES DESPUÉS DE CARGAR PRODUCTOS =====
-function initializeCarouselsAfterLoad() {
-    // Pequeño retraso para asegurar que el DOM esté listo
-    setTimeout(() => {
-        renderMinimalCarousel();
-        renderConservasCarousel();
-        renderPicantesCarousel();
-        
-        // Forzar un redibujado para móviles
-        if (window.innerWidth <= 768) {
-            forceCarouselRedraw();
+// ===== VARIABLES GLOBALES PARA CONTROL DE CARGAS =====
+let carouselsInitialized = {
+    cervezas: false,
+    conservas: false,
+    picantes: false
+};
+
+// ===== SISTEMA DE CACHÉ PARA IMÁGENES =====
+const imageCache = new Map();
+const MAX_CACHE_SIZE = 20;
+
+function cacheImage(url) {
+    return new Promise((resolve, reject) => {
+        if (imageCache.has(url)) {
+            resolve(imageCache.get(url));
+            return;
         }
-    }, 100);
+
+        if (imageCache.size >= MAX_CACHE_SIZE) {
+            // Eliminar la primera entrada del caché si está lleno
+            const firstKey = imageCache.keys().next().value;
+            imageCache.delete(firstKey);
+        }
+
+        const img = new Image();
+        img.src = url;
+        
+        img.onload = () => {
+            imageCache.set(url, img);
+            resolve(img);
+        };
+        
+        img.onerror = () => {
+            // Usar imagen de fallback
+            const fallbackUrl = 'https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+            const fallbackImg = new Image();
+            fallbackImg.src = fallbackUrl;
+            
+            fallbackImg.onload = () => {
+                imageCache.set(url, fallbackImg);
+                resolve(fallbackImg);
+            };
+            
+            fallbackImg.onerror = () => {
+                reject(new Error(`No se pudo cargar la imagen: ${url}`));
+            };
+        };
+    });
+}
+
+// ===== FUNCIÓN PARA INICIALIZAR CARRUSELES CON RETRASO INTELIGENTE =====
+function initializeCarouselsAfterLoad() {
+    // Precachear imágenes críticas primero
+    precacheCriticalImages().then(() => {
+        // Inicializar carrusel de cervezas inmediatamente (es el más importante)
+        setTimeout(() => {
+            if (!carouselsInitialized.cervezas) {
+                renderMinimalCarousel();
+                carouselsInitialized.cervezas = true;
+            }
+        }, 100);
+        
+        // Inicializar otros carruseles con retraso escalonado
+        setTimeout(() => {
+            if (!carouselsInitialized.conservas) {
+                renderConservasCarousel();
+                carouselsInitialized.conservas = true;
+            }
+        }, 300);
+        
+        setTimeout(() => {
+            if (!carouselsInitialized.picantes) {
+                renderPicantesCarousel();
+                carouselsInitialized.picantes = true;
+            }
+        }, 500);
+        
+        // Forzar redibujado para móviles después de un tiempo
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                forceCarouselRedraw();
+            }, 1000);
+        }
+    }).catch(() => {
+        // Fallback: inicializar de todos modos aunque falle el precaché
+        setTimeout(() => {
+            renderMinimalCarousel();
+            renderConservasCarousel();
+            renderPicantesCarousel();
+        }, 500);
+    });
+}
+
+// ===== PRECACHÉ DE IMÁGENES CRÍTICAS =====
+function precacheCriticalImages() {
+    const criticalImages = [];
+    
+    // Agregar primeras imágenes de cada categoría
+    const cervezas = productosData.filter(p => p.category === 'cerveza' && p.active !== false);
+    const conservas = productosData.filter(p => p.category === 'conserva' && p.active !== false);
+    const picantes = productosData.filter(p => p.category === 'picante' && p.active !== false);
+    
+    if (cervezas.length > 0) criticalImages.push(cervezas[0].image);
+    if (conservas.length > 0) criticalImages.push(conservas[0].image);
+    if (picantes.length > 0) criticalImages.push(picantes[0].image);
+    
+    // Precaché paralelo con límite de tiempo
+    const promises = criticalImages.map(url => 
+        Promise.race([
+            cacheImage(url),
+            new Promise(resolve => setTimeout(resolve, 2000)) // Timeout de 2 segundos
+        ])
+    );
+    
+    return Promise.all(promises);
 }
 
 // ===== FUNCIÓN PARA FORZAR REDIBUJADO DE CARRUSELES EN MÓVILES =====
@@ -407,7 +509,7 @@ function forceCarouselRedraw() {
     
     carousels.forEach(section => {
         const slidesContainer = document.querySelector(`#${section}-slides`);
-        if (slidesContainer) {
+        if (slidesContainer && slidesContainer.children.length > 0) {
             // Forzar reflow para asegurar que se renderice correctamente
             slidesContainer.style.display = 'none';
             setTimeout(() => {
@@ -419,7 +521,7 @@ function forceCarouselRedraw() {
     });
 }
 
-// ===== FUNCIÓN PARA RENDERIZAR CARRUSEL DE CERVEZAS =====
+// ===== RENDERIZADO CON LAZY LOADING MEJORADO =====
 function renderMinimalCarousel() {
     const slidesContainer = document.getElementById('cervezas-slides');
     const dotsContainer = document.getElementById('cervezas-dots');
@@ -435,68 +537,6 @@ function renderMinimalCarousel() {
     slidesContainer.innerHTML = '';
     dotsContainer.innerHTML = '';
     
-    // Generar diapositivas
-    cervezas.forEach((cerveza, index) => {
-        // Determinar estilo de cerveza
-        const estiloCerveza = cerveza.subcategory ? 
-            cerveza.subcategory.charAt(0).toUpperCase() + cerveza.subcategory.slice(1) : 
-            'Especial';
-        
-        // Crear diapositiva
-        const slide = document.createElement('div');
-        slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
-        slide.dataset.index = index;
-        slide.setAttribute('role', 'listitem');
-        
-        slide.innerHTML = `
-            <div class="slide-image-wrapper">
-                <img src="${cerveza.image}" 
-                     alt="${cerveza.name}" 
-                     class="slide-image"
-                     loading="lazy"
-                     width="400"
-                     height="400"
-                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-            </div>
-            
-            <div class="slide-content">
-                <div class="product-header">
-                    <div class="product-title">
-                        <h3>${cerveza.name}</h3>
-                        <span class="product-style">${estiloCerveza}</span>
-                    </div>
-                </div>
-                
-                <p class="product-subtitle">${cerveza.subname || ''}</p>
-                
-                <p class="product-description">${cerveza.description}</p>
-            </div>
-        `;
-        
-        slidesContainer.appendChild(slide);
-        
-        // Crear punto indicador
-        const dot = document.createElement('button');
-        dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-        dot.dataset.index = index;
-        dot.setAttribute('aria-label', `Ir a producto ${index + 1}`);
-        dot.setAttribute('role', 'tab');
-        
-        dotsContainer.appendChild(dot);
-    });
-    
-    // Actualizar contador
-    const currentSlideElement = document.getElementById('current-slide');
-    const totalSlidesElement = document.getElementById('total-slides');
-    
-    if (currentSlideElement && totalSlidesElement) {
-        currentSlideElement.textContent = '1';
-        totalSlidesElement.textContent = cervezas.length;
-    }
-    
-    // Inicializar funcionalidad del carrusel
-    initCarousel('cervezas');
-    
     // Si no hay cervezas, mostrar mensaje
     if (cervezas.length === 0) {
         slidesContainer.innerHTML = `
@@ -505,10 +545,103 @@ function renderMinimalCarousel() {
                 <p>Pronto tendremos nuevas cervezas artesanales.</p>
             </div>
         `;
+        return;
     }
+    
+    // Generar diapositivas
+    const slidePromises = cervezas.map((cerveza, index) => {
+        return new Promise((resolve) => {
+            const slide = document.createElement('div');
+            slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
+            slide.dataset.index = index;
+            slide.setAttribute('role', 'listitem');
+            
+            const estiloCerveza = cerveza.subcategory ? 
+                cerveza.subcategory.charAt(0).toUpperCase() + cerveza.subcategory.slice(1) : 
+                'Especial';
+            
+            slide.innerHTML = `
+                <div class="slide-image-wrapper">
+                    <div class="image-placeholder" style="width: 400px; height: 400px; background: #f0f0f0;"></div>
+                    <img src="" 
+                         data-src="${cerveza.image}" 
+                         alt="${cerveza.name}" 
+                         class="slide-image lazy"
+                         width="400"
+                         height="400">
+                </div>
+                
+                <div class="slide-content">
+                    <div class="product-header">
+                        <div class="product-title">
+                            <h3>${cerveza.name}</h3>
+                            <span class="product-style">${estiloCerveza}</span>
+                        </div>
+                    </div>
+                    
+                    <p class="product-subtitle">${cerveza.subname || ''}</p>
+                    
+                    <p class="product-description">${cerveza.description}</p>
+                </div>
+            `;
+            
+            slidesContainer.appendChild(slide);
+            
+            // Crear punto indicador
+            const dot = document.createElement('button');
+            dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+            dot.dataset.index = index;
+            dot.setAttribute('aria-label', `Ir a producto ${index + 1}`);
+            dot.setAttribute('role', 'tab');
+            
+            dotsContainer.appendChild(dot);
+            
+            // Precargar imagen
+            const img = slide.querySelector('img');
+            if (img) {
+                const loadImage = () => {
+                    const src = img.getAttribute('data-src');
+                    cacheImage(src).then(cachedImg => {
+                        img.src = cachedImg.src;
+                        img.classList.remove('lazy');
+                        img.previousElementSibling?.remove(); // Remover placeholder
+                    }).catch(() => {
+                        // Usar fallback
+                        img.src = 'https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                        img.classList.remove('lazy');
+                        img.previousElementSibling?.remove();
+                    }).finally(() => {
+                        resolve();
+                    });
+                };
+                
+                // Cargar imagen con retraso escalonado para evitar saturación
+                setTimeout(loadImage, index * 200);
+            } else {
+                resolve();
+            }
+        });
+    });
+    
+    // Actualizar contadores
+    const currentSlideElement = document.getElementById('current-slide');
+    const totalSlidesElement = document.getElementById('total-slides');
+    
+    if (currentSlideElement && totalSlidesElement) {
+        currentSlideElement.textContent = '1';
+        totalSlidesElement.textContent = cervezas.length;
+    }
+    
+    // Inicializar carrusel después de que todas las imágenes estén listas o timeout
+    Promise.race([
+        Promise.all(slidePromises),
+        new Promise(resolve => setTimeout(resolve, 3000)) // Timeout de 3 segundos
+    ]).then(() => {
+        initCarousel('cervezas');
+    });
 }
 
-// ===== FUNCIÓN PARA RENDERIZAR CARRUSEL DE CONSERVAS =====
+// ===== RENDERIZADO DE CONSERVAS CON LAZY LOADING =====
 function renderConservasCarousel() {
     const slidesContainer = document.getElementById('conservas-slides');
     const dotsContainer = document.getElementById('conservas-dots');
@@ -526,60 +659,6 @@ function renderConservasCarousel() {
     slidesContainer.innerHTML = '';
     dotsContainer.innerHTML = '';
     
-    // Generar diapositivas
-    conservas.forEach((conserva, index) => {
-        // Crear diapositiva
-        const slide = document.createElement('div');
-        slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
-        slide.dataset.index = index;
-        slide.setAttribute('role', 'listitem');
-        
-        slide.innerHTML = `
-            <div class="slide-image-wrapper">
-                <img src="${conserva.image}" 
-                     alt="${conserva.name}" 
-                     class="slide-image"
-                     loading="lazy"
-                     width="400"
-                     height="400"
-                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-            </div>
-            
-            <div class="slide-content">
-                <div class="product-header">
-                    <div class="product-title">
-                        <h3>${conserva.name}</h3>
-                        <span class="product-style">${conserva.spec1value || 'Natural'}</span>
-                    </div>
-                </div>
-                
-                <p class="product-subtitle">${conserva.subname || ''}</p>
-                
-                <p class="product-description">${conserva.description}</p>
-            </div>
-        `;
-        
-        slidesContainer.appendChild(slide);
-        
-        // Crear punto indicador
-        const dot = document.createElement('button');
-        dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-        dot.dataset.index = index;
-        dot.setAttribute('aria-label', `Ir a conserva ${index + 1}`);
-        dot.setAttribute('role', 'tab');
-        
-        dotsContainer.appendChild(dot);
-    });
-    
-    // Actualizar contador
-    if (currentSlideElement && totalSlidesElement) {
-        currentSlideElement.textContent = '1';
-        totalSlidesElement.textContent = conservas.length;
-    }
-    
-    // Inicializar carrusel de conservas
-    initCarousel('conservas');
-    
     // Si no hay conservas, mostrar mensaje
     if (conservas.length === 0) {
         slidesContainer.innerHTML = `
@@ -588,10 +667,94 @@ function renderConservasCarousel() {
                 <p>Pronto tendremos nuevas conservas artesanales.</p>
             </div>
         `;
+        return;
     }
+    
+    // Generar diapositivas
+    const slidePromises = conservas.map((conserva, index) => {
+        return new Promise((resolve) => {
+            const slide = document.createElement('div');
+            slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
+            slide.dataset.index = index;
+            slide.setAttribute('role', 'listitem');
+            
+            slide.innerHTML = `
+                <div class="slide-image-wrapper">
+                    <div class="image-placeholder" style="width: 400px; height: 400px; background: #f0f0f0;"></div>
+                    <img src="" 
+                         data-src="${conserva.image}" 
+                         alt="${conserva.name}" 
+                         class="slide-image lazy"
+                         width="400"
+                         height="400">
+                </div>
+                
+                <div class="slide-content">
+                    <div class="product-header">
+                        <div class="product-title">
+                            <h3>${conserva.name}</h3>
+                            <span class="product-style">${conserva.spec1value || 'Natural'}</span>
+                        </div>
+                    </div>
+                    
+                    <p class="product-subtitle">${conserva.subname || ''}</p>
+                    
+                    <p class="product-description">${conserva.description}</p>
+                </div>
+            `;
+            
+            slidesContainer.appendChild(slide);
+            
+            // Crear punto indicador
+            const dot = document.createElement('button');
+            dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+            dot.dataset.index = index;
+            dot.setAttribute('aria-label', `Ir a conserva ${index + 1}`);
+            dot.setAttribute('role', 'tab');
+            
+            dotsContainer.appendChild(dot);
+            
+            // Precargar imagen
+            const img = slide.querySelector('img');
+            if (img) {
+                const loadImage = () => {
+                    const src = img.getAttribute('data-src');
+                    cacheImage(src).then(cachedImg => {
+                        img.src = cachedImg.src;
+                        img.classList.remove('lazy');
+                        img.previousElementSibling?.remove();
+                    }).catch(() => {
+                        img.src = 'https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                        img.classList.remove('lazy');
+                        img.previousElementSibling?.remove();
+                    }).finally(() => {
+                        resolve();
+                    });
+                };
+                
+                setTimeout(loadImage, index * 200);
+            } else {
+                resolve();
+            }
+        });
+    });
+    
+    // Actualizar contadores
+    if (currentSlideElement && totalSlidesElement) {
+        currentSlideElement.textContent = '1';
+        totalSlidesElement.textContent = conservas.length;
+    }
+    
+    // Inicializar carrusel con timeout
+    Promise.race([
+        Promise.all(slidePromises),
+        new Promise(resolve => setTimeout(resolve, 3000))
+    ]).then(() => {
+        initCarousel('conservas');
+    });
 }
 
-// ===== FUNCIÓN PARA RENDERIZAR CARRUSEL DE PICANTES =====
+// ===== RENDERIZADO DE PICANTES CON LAZY LOADING =====
 function renderPicantesCarousel() {
     const slidesContainer = document.getElementById('picantes-slides');
     const dotsContainer = document.getElementById('picantes-dots');
@@ -609,60 +772,6 @@ function renderPicantesCarousel() {
     slidesContainer.innerHTML = '';
     dotsContainer.innerHTML = '';
     
-    // Generar diapositivas
-    picantes.forEach((picante, index) => {
-        // Crear diapositiva
-        const slide = document.createElement('div');
-        slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
-        slide.dataset.index = index;
-        slide.setAttribute('role', 'listitem');
-        
-        slide.innerHTML = `
-            <div class="slide-image-wrapper">
-                <img src="${picante.image}" 
-                     alt="${picante.name}" 
-                     class="slide-image"
-                     loading="lazy"
-                     width="400"
-                     height="400"
-                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
-            </div>
-            
-            <div class="slide-content">
-                <div class="product-header">
-                    <div class="product-title">
-                        <h3>${picante.name}</h3>
-                        <span class="product-style">${picante.spec1value || 'Picante'}</span>
-                    </div>
-                </div>
-                
-                <p class="product-subtitle">${picante.subname || ''}</p>
-                
-                <p class="product-description">${picante.description}</p>
-            </div>
-        `;
-        
-        slidesContainer.appendChild(slide);
-        
-        // Crear punto indicador
-        const dot = document.createElement('button');
-        dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-        dot.dataset.index = index;
-        dot.setAttribute('aria-label', `Ir a picante ${index + 1}`);
-        dot.setAttribute('role', 'tab');
-        
-        dotsContainer.appendChild(dot);
-    });
-    
-    // Actualizar contador
-    if (currentSlideElement && totalSlidesElement) {
-        currentSlideElement.textContent = '1';
-        totalSlidesElement.textContent = picantes.length;
-    }
-    
-    // Inicializar carrusel de picantes
-    initCarousel('picantes');
-    
     // Si no hay picantes, mostrar mensaje
     if (picantes.length === 0) {
         slidesContainer.innerHTML = `
@@ -671,320 +780,308 @@ function renderPicantesCarousel() {
                 <p>Pronto tendremos nuevas salsas picantes artesanales.</p>
             </div>
         `;
+        return;
     }
+    
+    // Generar diapositivas
+    const slidePromises = picantes.map((picante, index) => {
+        return new Promise((resolve) => {
+            const slide = document.createElement('div');
+            slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
+            slide.dataset.index = index;
+            slide.setAttribute('role', 'listitem');
+            
+            slide.innerHTML = `
+                <div class="slide-image-wrapper">
+                    <div class="image-placeholder" style="width: 400px; height: 400px; background: #f0f0f0;"></div>
+                    <img src="" 
+                         data-src="${picante.image}" 
+                         alt="${picante.name}" 
+                         class="slide-image lazy"
+                         width="400"
+                         height="400">
+                </div>
+                
+                <div class="slide-content">
+                    <div class="product-header">
+                        <div class="product-title">
+                            <h3>${picante.name}</h3>
+                            <span class="product-style">${picante.spec1value || 'Picante'}</span>
+                        </div>
+                    </div>
+                    
+                    <p class="product-subtitle">${picante.subname || ''}</p>
+                    
+                    <p class="product-description">${picante.description}</p>
+                </div>
+            `;
+            
+            slidesContainer.appendChild(slide);
+            
+            // Crear punto indicador
+            const dot = document.createElement('button');
+            dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+            dot.dataset.index = index;
+            dot.setAttribute('aria-label', `Ir a picante ${index + 1}`);
+            dot.setAttribute('role', 'tab');
+            
+            dotsContainer.appendChild(dot);
+            
+            // Precargar imagen
+            const img = slide.querySelector('img');
+            if (img) {
+                const loadImage = () => {
+                    const src = img.getAttribute('data-src');
+                    cacheImage(src).then(cachedImg => {
+                        img.src = cachedImg.src;
+                        img.classList.remove('lazy');
+                        img.previousElementSibling?.remove();
+                    }).catch(() => {
+                        img.src = 'https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                        img.classList.remove('lazy');
+                        img.previousElementSibling?.remove();
+                    }).finally(() => {
+                        resolve();
+                    });
+                };
+                
+                setTimeout(loadImage, index * 200);
+            } else {
+                resolve();
+            }
+        });
+    });
+    
+    // Actualizar contadores
+    if (currentSlideElement && totalSlidesElement) {
+        currentSlideElement.textContent = '1';
+        totalSlidesElement.textContent = picantes.length;
+    }
+    
+    // Inicializar carrusel con timeout
+    Promise.race([
+        Promise.all(slidePromises),
+        new Promise(resolve => setTimeout(resolve, 3000))
+    ]).then(() => {
+        initCarousel('picantes');
+    });
 }
 
-// ===== FUNCIÓN GENERAL PARA INICIALIZAR CARRUSELES MEJORADA =====
+// ===== INIT CARRUSEL CON FALLBACKS MEJORADOS =====
 function initCarousel(section) {
+    // Si ya está inicializado, no hacer nada
+    if (document.querySelector(`#${section}.carousel-initialized`)) return;
+    
     const slidesContainer = document.querySelector(`#${section}-slides`);
     const slides = document.querySelectorAll(`#${section}-slides .carousel-slide`);
     const dots = document.querySelectorAll(`#${section}-dots .carousel-dot`);
     const prevBtn = document.querySelector(`#${section} .carousel-nav.prev`);
     const nextBtn = document.querySelector(`#${section} .carousel-nav.next`);
     
-    // Para cervezas usar IDs diferentes
-    let currentSlideElement;
-    if (section === 'cervezas') {
-        currentSlideElement = document.getElementById('current-slide');
-    } else {
-        currentSlideElement = document.getElementById(`${section}-current`);
-    }
-    
     if (!slidesContainer || slides.length === 0) {
-        console.log(`No hay slides para ${section}`);
+        // Intentar de nuevo después de un tiempo
+        setTimeout(() => {
+            if (!document.querySelector(`#${section}.carousel-initialized`)) {
+                initCarousel(section);
+            }
+        }, 500);
         return;
     }
+    
+    // Marcar como inicializado
+    document.querySelector(`#${section}`).classList.add('carousel-initialized');
     
     let currentSlide = 0;
     const totalSlides = slides.length;
     let isTransitioning = false;
     
-    // Inicializar el ancho del contenedor de slides
+    // Inicializar ancho
     slidesContainer.style.width = `${totalSlides * 100}%`;
     
-    // Función para actualizar la diapositiva activa
-    function goToSlide(index, direction = 'next') {
-        if (isTransitioning || index === currentSlide) return;
+    function goToSlide(index) {
+        if (isTransitioning || index === currentSlide || index < 0 || index >= totalSlides) return;
         
         isTransitioning = true;
-        
-        // Asegurar que el índice esté dentro del rango
-        index = (index + totalSlides) % totalSlides;
-        
-        // Usar transformación porcentual en lugar de píxeles
-        slidesContainer.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
         slidesContainer.style.transform = `translateX(-${index * 100}%)`;
         
-        // Actualizar clases activas después de la transición
         setTimeout(() => {
-            // Quitar clase activa a todas las diapositivas y puntos
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
             
-            // Agregar clase activa a la diapositiva y punto actual
-            if (slides[index]) {
-                slides[index].classList.add('active');
-            }
-            if (dots[index]) {
-                dots[index].classList.add('active');
-            }
+            if (slides[index]) slides[index].classList.add('active');
+            if (dots[index]) dots[index].classList.add('active');
             
             // Actualizar contador
-            if (currentSlideElement) {
-                currentSlideElement.textContent = index + 1;
-            }
+            const currentSlideElement = section === 'cervezas' 
+                ? document.getElementById('current-slide')
+                : document.getElementById(`${section}-current`);
+            if (currentSlideElement) currentSlideElement.textContent = index + 1;
             
             currentSlide = index;
             isTransitioning = false;
         }, 500);
     }
     
-    // Asegurar que la primera diapositiva esté activa
-    if (slides.length > 0) {
-        slides[0].classList.add('active');
-    }
-    if (dots.length > 0) {
-        dots[0].classList.add('active');
-    }
+    function nextSlide() { goToSlide((currentSlide + 1) % totalSlides); }
+    function prevSlide() { goToSlide((currentSlide - 1 + totalSlides) % totalSlides); }
     
-    // Función para ir a la siguiente diapositiva
-    function nextSlide() {
-        goToSlide(currentSlide + 1, 'next');
-    }
-    
-    // Función para ir a la diapositiva anterior
-    function prevSlide() {
-        goToSlide(currentSlide - 1, 'prev');
-    }
-    
-    // Event listeners para los botones de navegación
+    // Botones
     if (prevBtn) {
-        // Remover listeners previos para evitar duplicados
-        prevBtn.replaceWith(prevBtn.cloneNode(true));
-        const newPrevBtn = document.querySelector(`#${section} .carousel-nav.prev`);
-        newPrevBtn.addEventListener('click', prevSlide);
+        prevBtn.onclick = prevSlide;
+        prevBtn.style.pointerEvents = 'auto'; // Asegurar que sea clickeable
     }
     
     if (nextBtn) {
-        // Remover listeners previos para evitar duplicados
-        nextBtn.replaceWith(nextBtn.cloneNode(true));
-        const newNextBtn = document.querySelector(`#${section} .carousel-nav.next`);
-        newNextBtn.addEventListener('click', nextSlide);
+        nextBtn.onclick = nextSlide;
+        nextBtn.style.pointerEvents = 'auto'; // Asegurar que sea clickeable
     }
     
-    // Event listeners para los puntos
+    // Dots
     dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            goToSlide(index);
-        });
+        dot.onclick = () => goToSlide(index);
+        dot.style.pointerEvents = 'auto';
     });
     
-    // Navegación con teclado (solo en escritorio)
-    if (window.innerWidth > 768) {
-        document.addEventListener('keydown', (e) => {
-            const activeSection = document.activeElement.closest(`#${section}`);
-            if (activeSection || document.activeElement === document.body) {
-                if (e.key === 'ArrowLeft') prevSlide();
-                if (e.key === 'ArrowRight') nextSlide();
-            }
-        });
-    }
-    
-    // Navegación táctil para móviles mejorada
+    // Touch para móviles
     let touchStartX = 0;
-    let touchEndX = 0;
-    let isTouchMoving = false;
-    
     slidesContainer.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-        isTouchMoving = true;
-    }, { passive: true });
-    
-    slidesContainer.addEventListener('touchmove', (e) => {
-        if (!isTouchMoving) return;
-        touchEndX = e.changedTouches[0].screenX;
+        touchStartX = e.touches[0].clientX;
     }, { passive: true });
     
     slidesContainer.addEventListener('touchend', (e) => {
-        if (!isTouchMoving) return;
-        isTouchMoving = false;
-        handleSwipe();
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) nextSlide();
+            else prevSlide();
+        }
     }, { passive: true });
     
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const swipeDistance = touchEndX - touchStartX;
-        
-        if (Math.abs(swipeDistance) > swipeThreshold) {
-            if (swipeDistance > 0) {
-                // Swipe hacia la derecha = ir a la anterior
-                prevSlide();
-            } else {
-                // Swipe hacia la izquierda = ir a la siguiente
-                nextSlide();
-            }
-        }
-    }
+    // Inicializar primera diapositiva
+    goToSlide(0);
     
-    // Ajustar al cambiar el tamaño de la ventana
-    let resizeTimeout;
+    // Ajustar en resize
+    let resizeTimer;
     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            // Recalcular el ancho del contenedor
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
             slidesContainer.style.width = `${totalSlides * 100}%`;
             goToSlide(currentSlide);
         }, 250);
     });
-    
-    // Inicializar posición
-    goToSlide(0);
-    
-    console.log(`Carrusel ${section} inicializado con ${totalSlides} slides`);
 }
 
-// ===== FUNCIONALIDAD PRINCIPAL DE LA PÁGINA =====
+// ===== FUNCIONALIDAD PRINCIPAL MEJORADA =====
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM cargado, iniciando carruseles...');
+    
+    // Elementos de navegación
     const nav = document.getElementById('main-nav');
     const mobileToggle = document.getElementById('mobile-toggle');
     const navLinks = document.querySelector('.nav-links');
     
-    // Inicializar carruseles después de que todo esté cargado
+    // Inicializar carruseles inmediatamente
     initializeCarouselsAfterLoad();
     
-    // También inicializar cuando todas las imágenes estén cargadas
-    window.addEventListener('load', function() {
-        setTimeout(() => {
+    // Reintentar inicialización después de 2 segundos por si falla
+    setTimeout(() => {
+        if (!carouselsInitialized.cervezas || !carouselsInitialized.conservas || !carouselsInitialized.picantes) {
+            console.log('Reintentando inicialización de carruseles...');
             initializeCarouselsAfterLoad();
-        }, 500);
-    });
-    
-    // Cambiar estilo de navegación al hacer scroll
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            nav.classList.add('scrolled');
-        } else {
-            nav.classList.remove('scrolled');
         }
+    }, 2000);
+    
+    // Navegación scroll
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 50);
     });
     
-    // Toggle del menú móvil
-    mobileToggle.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-        mobileToggle.querySelector('i').classList.toggle('fa-bars');
-        mobileToggle.querySelector('i').classList.toggle('fa-times');
-    });
+    // Menú móvil
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const icon = mobileToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
+        });
+    }
     
-    // Cerrar menú móvil al hacer clic en un enlace
+    // Cerrar menú al hacer clic en enlace
     document.querySelectorAll('.nav-links a').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
-            mobileToggle.querySelector('i').classList.remove('fa-times');
-            mobileToggle.querySelector('i').classList.add('fa-bars');
+            const icon = mobileToggle?.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
         });
     });
     
-    // Efecto parallax para el hero (desactivado en móviles para mejor rendimiento)
-    if (window.innerWidth > 768) {
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero && scrolled < hero.offsetHeight) {
-                hero.style.backgroundPosition = `center ${scrolled * 0.5}px`;
-            }
-        });
-    }
-    
-    // Prevenir desbordamiento horizontal en toda la página
-    function checkHorizontalScroll() {
-        const bodyWidth = document.body.scrollWidth;
-        const windowWidth = window.innerWidth;
-        
-        if (bodyWidth > windowWidth) {
-            console.warn('Desplazamiento horizontal detectado. Ajustando...');
-            // Forzar el ancho del body
-            document.body.style.width = '100%';
-            document.body.style.overflowX = 'hidden';
-            
-            // Ajustar todos los elementos hijos
-            document.querySelectorAll('*').forEach(el => {
-                if (el.scrollWidth > windowWidth) {
-                    el.style.maxWidth = '100%';
-                    el.style.overflowX = 'hidden';
-                }
-            });
-        }
-    }
-    
-    // Verificar después de cargar la página y en redimensionamientos
-    window.addEventListener('load', checkHorizontalScroll);
-    window.addEventListener('resize', checkHorizontalScroll);
-    
-    // Verificar después de que todas las imágenes carguen
-    window.addEventListener('load', function() {
-        const images = document.querySelectorAll('img');
-        let imagesLoaded = 0;
-        
-        images.forEach(img => {
-            if (img.complete) {
-                imagesLoaded++;
-            } else {
-                img.addEventListener('load', function() {
-                    imagesLoaded++;
-                    if (imagesLoaded === images.length) {
-                        checkHorizontalScroll();
-                        // Re-inicializar carruseles después de cargar imágenes
-                        setTimeout(() => {
-                            initializeCarouselsAfterLoad();
-                        }, 100);
-                    }
-                });
-            }
-        });
-        
-        if (imagesLoaded === images.length) {
-            checkHorizontalScroll();
-        }
-    });
-    
-    // Inicializar carruseles cuando se detecte un cambio de orientación en móviles
-    window.addEventListener('orientationchange', function() {
+    // Inicializar cuando las imágenes críticas cargan
+    window.addEventListener('load', () => {
         setTimeout(() => {
+            if (!carouselsInitialized.cervezas || !carouselsInitialized.conservas || !carouselsInitialized.picantes) {
+                console.log('Window loaded, verificando carruseles...');
+                initializeCarouselsAfterLoad();
+            }
+        }, 1000);
+    });
+    
+    // Reintentar en orientación change
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            console.log('Orientación cambiada, reinicializando...');
+            carouselsInitialized = { cervezas: false, conservas: false, picantes: false };
             initializeCarouselsAfterLoad();
         }, 500);
     });
     
-    // Re-inicializar carruseles al cambiar de sección (para SPA-like behavior)
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            if (targetId.startsWith('#cervezas') || targetId.startsWith('#conservas') || targetId.startsWith('#picantes')) {
-                setTimeout(() => {
-                    const section = targetId.substring(1);
-                    initCarousel(section);
-                }, 100);
+    // Detectar conexión lenta
+    if ('connection' in navigator) {
+        const connection = navigator.connection;
+        if (connection) {
+            if (connection.saveData || connection.effectiveType.includes('2g') || connection.effectiveType.includes('slow-2g')) {
+                console.log('Conexión lenta detectada, optimizando...');
+                // Deshabilitar precaché para conexiones lentas
+                window.precacheDisabled = true;
+            }
+        }
+    }
+});
+
+// ===== DETECCIÓN DE VISIBILIDAD PARA CARGAS DIFERIDAS =====
+if ('IntersectionObserver' in window) {
+    const lazyImageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.classList.contains('lazy')) {
+                    const src = img.getAttribute('data-src');
+                    if (src) {
+                        cacheImage(src).then(cachedImg => {
+                            img.src = cachedImg.src;
+                            img.classList.remove('lazy');
+                        });
+                    }
+                }
             }
         });
     });
-});
+    
+    // Observar imágenes lazy después de que el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('img.lazy').forEach(img => {
+            lazyImageObserver.observe(img);
+        });
+    });
+}
 
 // ===== MANEJO DE ERRORES GLOBALES =====
-
-// Prevenir comportamientos por defecto que puedan causar scroll horizontal
-document.addEventListener('touchstart', function(e) {
-    if (e.touches.length > 1) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-document.addEventListener('wheel', function(e) {
-    if (e.deltaX !== 0) {
-        e.preventDefault();
-    }
-}, { passive: false });
-
-// Función para manejar errores de imágenes globalmente
-window.addEventListener('error', function(e) {
+window.addEventListener('error', (e) => {
     if (e.target.tagName === 'IMG') {
         e.target.src = 'https://images.unsplash.com/photo-1608270586620-248524c67de9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
         e.target.onerror = null;
