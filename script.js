@@ -386,6 +386,39 @@ const productosData = [
     }
 ];
 
+// ===== FUNCIÓN PARA INICIALIZAR CARRUSELES DESPUÉS DE CARGAR PRODUCTOS =====
+function initializeCarouselsAfterLoad() {
+    // Pequeño retraso para asegurar que el DOM esté listo
+    setTimeout(() => {
+        renderMinimalCarousel();
+        renderConservasCarousel();
+        renderPicantesCarousel();
+        
+        // Forzar un redibujado para móviles
+        if (window.innerWidth <= 768) {
+            forceCarouselRedraw();
+        }
+    }, 100);
+}
+
+// ===== FUNCIÓN PARA FORZAR REDIBUJADO DE CARRUSELES EN MÓVILES =====
+function forceCarouselRedraw() {
+    const carousels = ['cervezas', 'conservas', 'picantes'];
+    
+    carousels.forEach(section => {
+        const slidesContainer = document.querySelector(`#${section}-slides`);
+        if (slidesContainer) {
+            // Forzar reflow para asegurar que se renderice correctamente
+            slidesContainer.style.display = 'none';
+            setTimeout(() => {
+                slidesContainer.style.display = 'flex';
+                // Re-inicializar el carrusel
+                initCarousel(section);
+            }, 50);
+        }
+    });
+}
+
 // ===== FUNCIÓN PARA RENDERIZAR CARRUSEL DE CERVEZAS =====
 function renderMinimalCarousel() {
     const slidesContainer = document.getElementById('cervezas-slides');
@@ -404,8 +437,6 @@ function renderMinimalCarousel() {
     
     // Generar diapositivas
     cervezas.forEach((cerveza, index) => {
-        const agotado = cerveza.stock === 0;
-        
         // Determinar estilo de cerveza
         const estiloCerveza = cerveza.subcategory ? 
             cerveza.subcategory.charAt(0).toUpperCase() + cerveza.subcategory.slice(1) : 
@@ -497,8 +528,6 @@ function renderConservasCarousel() {
     
     // Generar diapositivas
     conservas.forEach((conserva, index) => {
-        const agotado = conserva.stock === 0;
-        
         // Crear diapositiva
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
@@ -582,8 +611,6 @@ function renderPicantesCarousel() {
     
     // Generar diapositivas
     picantes.forEach((picante, index) => {
-        const agotado = picante.stock === 0;
-        
         // Crear diapositiva
         const slide = document.createElement('div');
         slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
@@ -647,7 +674,7 @@ function renderPicantesCarousel() {
     }
 }
 
-// ===== FUNCIÓN GENERAL PARA INICIALIZAR CARRUSELES =====
+// ===== FUNCIÓN GENERAL PARA INICIALIZAR CARRUSELES MEJORADA =====
 function initCarousel(section) {
     const slidesContainer = document.querySelector(`#${section}-slides`);
     const slides = document.querySelectorAll(`#${section}-slides .carousel-slide`);
@@ -669,6 +696,9 @@ function initCarousel(section) {
     const totalSlides = slides.length;
     let isTransitioning = false;
     
+    // Inicializar el ancho del contenedor de slides
+    slidesContainer.style.width = `${totalSlides * 100}%`;
+    
     // Función para actualizar la diapositiva activa
     function goToSlide(index, direction = 'next') {
         if (isTransitioning || index === currentSlide) return;
@@ -689,8 +719,12 @@ function initCarousel(section) {
             dots.forEach(dot => dot.classList.remove('active'));
             
             // Agregar clase activa a la diapositiva y punto actual
-            slides[index].classList.add('active');
-            dots[index].classList.add('active');
+            if (slides[index]) {
+                slides[index].classList.add('active');
+            }
+            if (dots[index]) {
+                dots[index].classList.add('active');
+            }
             
             // Actualizar contador
             if (currentSlideElement) {
@@ -700,6 +734,14 @@ function initCarousel(section) {
             currentSlide = index;
             isTransitioning = false;
         }, 500);
+    }
+    
+    // Asegurar que la primera diapositiva esté activa
+    if (slides.length > 0) {
+        slides[0].classList.add('active');
+    }
+    if (dots.length > 0) {
+        dots[0].classList.add('active');
     }
     
     // Función para ir a la siguiente diapositiva
@@ -714,39 +756,52 @@ function initCarousel(section) {
     
     // Event listeners para los botones de navegación
     if (prevBtn) {
+        prevBtn.removeEventListener('click', prevSlide); // Limpiar listener previo
         prevBtn.addEventListener('click', prevSlide);
     }
     
     if (nextBtn) {
+        nextBtn.removeEventListener('click', nextSlide); // Limpiar listener previo
         nextBtn.addEventListener('click', nextSlide);
     }
     
     // Event listeners para los puntos
     dots.forEach((dot, index) => {
+        dot.removeEventListener('click', () => {}); // Limpiar listener previo
         dot.addEventListener('click', () => {
             goToSlide(index);
         });
     });
     
-    // Navegación con teclado
-    document.addEventListener('keydown', (e) => {
-        const activeSection = document.activeElement.closest(`#${section}`);
-        if (activeSection || document.activeElement === document.body) {
-            if (e.key === 'ArrowLeft') prevSlide();
-            if (e.key === 'ArrowRight') nextSlide();
-        }
-    });
+    // Navegación con teclado (solo en escritorio)
+    if (window.innerWidth > 768) {
+        document.addEventListener('keydown', (e) => {
+            const activeSection = document.activeElement.closest(`#${section}`);
+            if (activeSection || document.activeElement === document.body) {
+                if (e.key === 'ArrowLeft') prevSlide();
+                if (e.key === 'ArrowRight') nextSlide();
+            }
+        });
+    }
     
-    // Navegación táctil para móviles
+    // Navegación táctil para móviles mejorada
     let touchStartX = 0;
     let touchEndX = 0;
+    let isTouchMoving = false;
     
     slidesContainer.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
+        isTouchMoving = true;
+    }, { passive: true });
+    
+    slidesContainer.addEventListener('touchmove', (e) => {
+        if (!isTouchMoving) return;
+        touchEndX = e.changedTouches[0].screenX;
     }, { passive: true });
     
     slidesContainer.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
+        if (!isTouchMoving) return;
+        isTouchMoving = false;
         handleSwipe();
     }, { passive: true });
     
@@ -770,9 +825,14 @@ function initCarousel(section) {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
+            // Recalcular el ancho del contenedor
+            slidesContainer.style.width = `${totalSlides * 100}%`;
             goToSlide(currentSlide);
         }, 250);
     });
+    
+    // Inicializar posición
+    goToSlide(0);
 }
 
 // ===== FUNCIONALIDAD PRINCIPAL DE LA PÁGINA =====
@@ -781,12 +841,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const mobileToggle = document.getElementById('mobile-toggle');
     const navLinks = document.querySelector('.nav-links');
     
-    // Cargar carrusel de cervezas
-    renderMinimalCarousel();
+    // Inicializar carruseles después de que todo esté cargado
+    initializeCarouselsAfterLoad();
     
-    // Cargar carruseles de conservas y picantes
-    renderConservasCarousel();
-    renderPicantesCarousel();
+    // También inicializar cuando todas las imágenes estén cargadas
+    window.addEventListener('load', function() {
+        setTimeout(() => {
+            initializeCarouselsAfterLoad();
+        }, 500);
+    });
     
     // Cambiar estilo de navegación al hacer scroll
     window.addEventListener('scroll', function() {
@@ -862,6 +925,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     imagesLoaded++;
                     if (imagesLoaded === images.length) {
                         checkHorizontalScroll();
+                        // Re-inicializar carruseles después de cargar imágenes
+                        setTimeout(() => {
+                            initializeCarouselsAfterLoad();
+                        }, 100);
                     }
                 });
             }
@@ -872,10 +939,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Verificar periódicamente (solo en desarrollo)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        setInterval(checkHorizontalScroll, 2000);
-    }
+    // Inicializar carruseles cuando se detecte un cambio de orientación en móviles
+    window.addEventListener('orientationchange', function() {
+        setTimeout(() => {
+            initializeCarouselsAfterLoad();
+        }, 500);
+    });
 });
 
 // ===== MANEJO DE ERRORES GLOBALES =====
