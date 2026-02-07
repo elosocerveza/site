@@ -4502,6 +4502,233 @@
             }
         }
 
+        // ====== ANALYTICS Y CONVERSION TRACKING ======
+        class AnalyticsSystem {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.trackPageView();
+            }
+
+            trackPageView() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'page_view', {
+                        page_title: document.title,
+                        page_location: window.location.href,
+                        page_path: window.location.pathname
+                    });
+                }
+            }
+
+            trackEvent(eventName, eventParams = {}) {
+                // Google Analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', eventName, eventParams);
+                }
+                
+                // Microsoft Clarity
+                if (typeof clarity !== 'undefined') {
+                    clarity('set', eventName, eventParams);
+                }
+                
+                console.log(`📊 Analytics Event: ${eventName}`, eventParams);
+            }
+
+            setupEventListeners() {
+                // 1. Categorías de productos
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.btn-white-border[data-filter]')) {
+                        const button = e.target.closest('.btn-white-border[data-filter]');
+                        const filter = button.getAttribute('data-filter');
+                        
+                        this.trackEvent('select_filter', {
+                            filter_category: filter,
+                            button_text: button.textContent.trim()
+                        });
+                    }
+                });
+
+                // 2. Vista de producto en modal
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('product-image')) {
+                        const productId = e.target.dataset.id;
+                        const product = window.productSystem?.products?.find(p => p.id == productId);
+                        
+                        if (product) {
+                            this.trackEvent('view_product', {
+                                product_id: product.id,
+                                product_name: product.name,
+                                product_category: product.category,
+                                product_price: product.price
+                            });
+                        }
+                    }
+                });
+
+                // 3. Agregar al carrito
+                document.addEventListener('click', (e) => {
+                    const addToCartBtn = e.target.closest('.btn-add-cart');
+                    if (addToCartBtn && !addToCartBtn.disabled) {
+                        const productId = addToCartBtn.dataset.id;
+                        const product = window.productSystem?.products?.find(p => p.id == productId);
+                        
+                        if (product) {
+                            this.trackEvent('add_to_cart', {
+                                product_id: product.id,
+                                product_name: product.name,
+                                product_category: product.category,
+                                product_price: product.price,
+                                currency: 'ARS',
+                                quantity: parseInt(document.getElementById(`quantity-${productId}`)?.textContent) || 1
+                            });
+                        }
+                    }
+                });
+
+                // 4. Abrir carrito
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('#cartToggle')) {
+                        this.trackEvent('view_cart', {
+                            cart_count: window.cartSystem?.cart?.length || 0,
+                            cart_value: window.cartSystem?.calculateSubtotal() || 0
+                        });
+                    }
+                });
+
+                // 5. Inicio de checkout
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('#checkoutBtn') && !e.target.closest('#checkoutBtn').disabled) {
+                        this.trackEvent('begin_checkout', {
+                            cart_count: window.cartSystem?.cart?.length || 0,
+                            subtotal: window.cartSystem?.calculateSubtotal() || 0,
+                            shipping: window.cartSystem?.calculateShipping() || 0,
+                            total: window.cartSystem?.calculateTotal() || 0
+                        });
+                    }
+                });
+
+                // 6. Pedido completado
+                // Esto se disparará cuando se muestre la confirmación del pedido
+                const originalShowOrderConfirmation = window.cartSystem?.showOrderConfirmation;
+                if (originalShowOrderConfirmation) {
+                    window.cartSystem.showOrderConfirmation = function(order, response) {
+                        // Track purchase event
+                        if (window.analyticsSystem) {
+                            window.analyticsSystem.trackEvent('purchase', {
+                                transaction_id: order.orderNumber,
+                                value: order.total,
+                                currency: 'ARS',
+                                tax: 0,
+                                shipping: order.shipping,
+                                items: order.items.map(item => ({
+                                    item_id: item.id,
+                                    item_name: item.name,
+                                    item_category: item.category,
+                                    price: item.price,
+                                    quantity: item.quantity
+                                }))
+                            });
+                        }
+                        
+                        // Call original function
+                        return originalShowOrderConfirmation.call(this, order, response);
+                    };
+                }
+
+                // 7. Clics en WhatsApp
+                document.addEventListener('click', (e) => {
+                    const whatsappBtn = e.target.closest('a[href*="wa.me"]');
+                    if (whatsappBtn) {
+                        this.trackEvent('contact_whatsapp', {
+                            source: whatsappBtn.textContent.trim(),
+                            href: whatsappBtn.getAttribute('href')
+                        });
+                    }
+                });
+
+                // 8. Clics en redes sociales
+                document.addEventListener('click', (e) => {
+                    const socialBtn = e.target.closest('a[href*="instagram.com"], a[href*="facebook.com"]');
+                    if (socialBtn) {
+                        const platform = socialBtn.getAttribute('href').includes('instagram.com') ? 'instagram' : 'facebook';
+                        this.trackEvent('social_click', {
+                            platform: platform,
+                            button_text: socialBtn.textContent.trim()
+                        });
+                    }
+                });
+
+                // 9. Clics en reseñas de Google Maps
+                document.addEventListener('click', (e) => {
+                    const reviewsBtn = e.target.closest('a[href*="maps.app.goo.gl"]');
+                    if (reviewsBtn) {
+                        this.trackEvent('view_reviews', {
+                            source: 'google_maps'
+                        });
+                    }
+                });
+
+                // 10. Scroll por secciones (Intersection Observer)
+                this.setupSectionTracking();
+            }
+
+            setupSectionTracking() {
+                const sections = ['#tienda', '#resenas', '#somos', '#contacto'];
+                
+                const observerOptions = {
+                    root: null,
+                    rootMargin: '0px',
+                    threshold: 0.3
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const sectionId = entry.target.id;
+                            this.trackEvent('view_section', {
+                                section_name: sectionId,
+                                section_title: entry.target.querySelector('h1')?.textContent || sectionId
+                            });
+                            
+                            // Dejar de observar después de que se haya visto
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+
+                sections.forEach(sectionId => {
+                    const section = document.querySelector(sectionId);
+                    if (section) observer.observe(section);
+                });
+            }
+
+            // Método para tracking de errores de formulario
+            trackFormError(field, error) {
+                this.trackEvent('form_error', {
+                    field_name: field,
+                    error_message: error
+                });
+            }
+
+            // Método para tracking de tiempo en página
+            setupTimeTracking() {
+                let startTime = Date.now();
+                
+                window.addEventListener('beforeunload', () => {
+                    const timeSpent = Date.now() - startTime;
+                    const timeInSeconds = Math.round(timeSpent / 1000);
+                    
+                    this.trackEvent('time_on_page', {
+                        time_seconds: timeInSeconds,
+                        page_path: window.location.pathname
+                    });
+                });
+            }
+        }
+
         // ====== INICIALIZACIÓN ======
         document.addEventListener('DOMContentLoaded', async function() {
             var swiperReviews = new Swiper('.mySwiperReviews', {
@@ -4552,6 +4779,48 @@
             
             // Inicializar carrito
             window.cartSystem = new CartSystem();
+            
+            // Inicializar sistema de analytics
+            window.analyticsSystem = new AnalyticsSystem();
+            
+            // Configurar tracking de tiempo
+            window.analyticsSystem.setupTimeTracking();
+            
+            // Track initial page view with some delay to ensure GA is loaded
+            setTimeout(() => {
+                window.analyticsSystem.trackPageView();
+            }, 1000);
+            
+            // Track product load
+            if (window.productSystem) {
+                const productLoadInterval = setInterval(() => {
+                    if (window.productSystem.products && window.productSystem.products.length > 0) {
+                        window.analyticsSystem.trackEvent('products_loaded', {
+                            product_count: window.productSystem.products.length,
+                            active_products: window.productSystem.products.filter(p => p.active).length
+                        });
+                        clearInterval(productLoadInterval);
+                    }
+                }, 500);
+            }
+            
+            // Track form validation errors
+            if (window.cartSystem) {
+                const originalValidateField = window.cartSystem.validateField;
+                if (originalValidateField) {
+                    window.cartSystem.validateField = function(fieldId, value) {
+                        const result = originalValidateField.call(this, fieldId, value);
+                        
+                        // Si hay un error, trackearlo
+                        const errorElement = document.getElementById(`${fieldId}Error`);
+                        if (errorElement && errorElement.classList.contains('show')) {
+                            window.analyticsSystem?.trackFormError(fieldId, errorElement.textContent);
+                        }
+                        
+                        return result;
+                    };
+                }
+            }
             
             // Configurar eventos del carrito
             document.getElementById('cartToggle').addEventListener('click', () => window.cartSystem.openCart());
