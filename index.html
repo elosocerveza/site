@@ -2092,79 +2092,6 @@
             }
         }
 
-        @media (max-width: 480px) {
-            .ticket-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            
-            .item-controls {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .ticket-header h2 {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 1rem;
-            }
-            
-            .checkout-btn {
-                padding: 14px;
-                font-size: 1rem;
-                letter-spacing: 1px;
-            }
-            
-            .review-header {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .review-date {
-                align-self: flex-start;
-            }
-            
-            .cart-button {
-                bottom: 15px;
-                right: 15px;
-                width: 55px;
-                height: 55px;
-            }
-            
-            .cart-count {
-                width: 22px;
-                height: 22px;
-                font-size: 0.75rem;
-            }
-            
-            /* Grid para móviles muy pequeños */
-            .products-grid {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .btn-add-cart{
-                padding: 10px 20px;
-                font-size: 0.8rem;
-            }
-
-            /* Modal mobile */
-            .product-modal {
-                padding: 10px;
-            }
-            
-            .product-modal-title {
-                font-size: 1.5rem;
-            }
-            
-            .product-modal-price {
-                font-size: 1.5rem;
-            }
-        }
-        
         /* Estilos para desktop - 4 columnas */
         @media (min-width: 1200px) {
             .products-grid {
@@ -2365,7 +2292,6 @@
             .product-item-price,
             .product-item-total {
                 align-self: flex-end;
-                text-align: left;
             }
         }
 
@@ -2951,7 +2877,7 @@
                         <div class="ticket-section">
                             <div class="summary-row">
                                 <span>Subtotal:</span>
-                                <span id="cartSubtotal">$ 0,00</span>
+                                <span id="cartSubtotal">$ 0</span>
                             </div>
                         </div>
 
@@ -2960,7 +2886,7 @@
                         <div class="ticket-section">
                             <div class="summary-row shipping">
                                 <span>Envío a: <strong><span id="deliveryCity"></span></strong></span>
-                                <span id="cartShipping">$ 0,00</span>
+                                <span id="cartShipping">$ 0</span>
                             </div>
                             <div class="summary-row shipping">
                                 <span>El día: <strong><span id="deliveryDay"></span></strong></span>
@@ -2985,7 +2911,7 @@
                         
                         <div class="summary-row total">
                             <span>TOTAL:</span>
-                            <span id="cartTotal">$ 0,00</span>
+                            <span id="cartTotal">$ 0</span>
                         </div>
 
                         <div class="ticket-divider"></div>
@@ -3101,15 +3027,15 @@
                             <div class="order-summary">
                                 <div class="summary-item">
                                     <span>Subtotal:</span>
-                                    <span id="confirmationSubtotal">$ 15.000,00</span>
+                                    <span id="confirmationSubtotal">$ 15.000</span>
                                 </div>
                                 <div class="summary-item">
                                     <span>Envío:</span>
-                                    <span id="confirmationShipping">$ 5.000,00</span>
+                                    <span id="confirmationShipping">$ 5.000</span>
                                 </div>
                                 <div class="summary-item total">
                                     <span>TOTAL:</span>
-                                    <span id="confirmationTotal">$ 20.000,00</span>
+                                    <span id="confirmationTotal">$ 20.000</span>
                                 </div>
                             </div>
                         </div>
@@ -3393,7 +3319,7 @@
                 
                 // Convertir a número
                 if (price.includes(',')) {
-                    // Formato europeo/latino: 1.000,00
+                    // Formato europeo/latino: 1.000
                     price = price.replace(/\./g, '').replace(',', '.');
                 }
                 
@@ -3470,7 +3396,7 @@
                         <div class="product-modal-subtitle">${product.info}</div>
                         
                         <div class="product-modal-price">
-                            <b>$ ${product.price.toLocaleString('es-AR')},00</b> ${presentation}
+                            <b>$ ${product.price.toLocaleString('es-AR')}</b> ${presentation}
                         </div>
                         
                         <div class="product-modal-description">
@@ -3605,6 +3531,19 @@
                     
                     window.cartSystem.addToCartFromModal(productToAdd, button);
                     
+                    // Track add_to_cart event desde modal
+                    if (window.analyticsSystem) {
+                        window.analyticsSystem.trackEvent('add_to_cart', {
+                            product_id: product.id,
+                            product_name: product.name,
+                            product_category: product.category,
+                            product_price: product.price,
+                            currency: 'ARS',
+                            quantity: quantity,
+                            source: 'modal'
+                        });
+                    }
+                    
                     setTimeout(() => {
                         this.closeModal();
                     }, 800);
@@ -3672,7 +3611,7 @@
                             <div class="shop-article--info">${product.info}</div>
                         </div>
                         <div class="shop-article--precio">
-                            <b>$ ${product.price.toLocaleString('es-AR')},00</b> ${presentation}
+                            <b>$ ${product.price.toLocaleString('es-AR')}</b> ${presentation}
                         </div>
                         
                         <div class="shop-article--quantity">
@@ -3962,7 +3901,9 @@
             updateQuantity(id, change) {
                 const item = this.cart.find(item => item.id == id);
                 if (item) {
+                    const oldQuantity = item.quantity;
                     item.quantity += change;
+                    
                     if (item.quantity < 1) {
                         this.removeFromCart(id);
                     } else {
@@ -3970,16 +3911,50 @@
                         this.renderCart();
                         this.updateCartCount();
                         this.validateForm();
+                        
+                        // Track quantity change event
+                        if (window.analyticsSystem && item) {
+                            const product = window.productSystem?.products?.find(p => p.id == id);
+                            if (product) {
+                                window.analyticsSystem.trackEvent(change > 0 ? 'increase_quantity' : 'decrease_quantity', {
+                                    product_id: id,
+                                    product_name: product.name,
+                                    product_category: product.category,
+                                    product_price: product.price,
+                                    old_quantity: oldQuantity,
+                                    new_quantity: item.quantity,
+                                    change: change
+                                });
+                            }
+                        }
                     }
                 }
             }
 
             removeFromCart(id) {
-                this.cart = this.cart.filter(item => item.id != id);
-                this.saveCart();
-                this.renderCart();
-                this.updateCartCount();
-                this.validateForm();
+                const item = this.cart.find(item => item.id == id);
+                if (item) {
+                    // Track remove_from_cart event antes de eliminar
+                    if (window.analyticsSystem) {
+                        const product = window.productSystem?.products?.find(p => p.id == id);
+                        if (product) {
+                            window.analyticsSystem.trackEvent('remove_from_cart', {
+                                product_id: id,
+                                product_name: product.name,
+                                product_category: product.category,
+                                product_price: product.price,
+                                quantity: item.quantity,
+                                total_value: item.price * item.quantity
+                            });
+                        }
+                    }
+                    
+                    this.cart = this.cart.filter(item => item.id != id);
+                    this.saveCart();
+                    this.renderCart();
+                    this.updateCartCount();
+                    this.validateForm();
+                }
             }
 
             saveCart() {
@@ -4036,7 +4011,7 @@
                             <div class="item-info">
                                 <div class="item-header">
                                     <div class="item-name">${index+1}. ${item.name.split(' - ')[0]} / ${presentation}</div>
-                                    <div class="item-price">$ ${item.price.toLocaleString('es-AR')},00 /U.</div>
+                                    <div class="item-price">$ ${item.price.toLocaleString('es-AR')} /U.</div>
                                 </div>
                                 <div class="item-controls">
                                     <div class="item-details">CANTIDAD: </div>
@@ -4069,9 +4044,9 @@
                 const shipping = this.calculateShipping();
                 const total = this.calculateTotal();
                 
-                document.getElementById('cartSubtotal').textContent = `$ ${subtotal.toLocaleString('es-AR')},00`;
-                document.getElementById('cartShipping').textContent = shipping === 0 ? '$ 0,00' : `$ ${shipping.toLocaleString('es-AR')},00`;
-                document.getElementById('cartTotal').textContent = `$ ${total.toLocaleString('es-AR')},00`;
+                document.getElementById('cartSubtotal').textContent = `$ ${subtotal.toLocaleString('es-AR')}`;
+                document.getElementById('cartShipping').textContent = shipping === 0 ? '$ 0' : `$ ${shipping.toLocaleString('es-AR')}`;
+                document.getElementById('cartTotal').textContent = `$ ${total.toLocaleString('es-AR')}`;
                 
                 const freeShippingNotice = document.getElementById('freeShippingNotice');
                 if (subtotal < this.freeShippingThreshold) {
@@ -4409,7 +4384,7 @@
                                     <div class="product-item-name">${index + 1}. ${item.name.split(' - ')[0]} (${presentation}) x ${item.quantity}</div>
                                 </div>
                                 <div class="product-item-total">
-                                    $ ${itemTotal.toLocaleString('es-AR')},00
+                                    $ ${itemTotal.toLocaleString('es-AR')}
                                 </div>
                             </div>
                         `;
@@ -4426,9 +4401,9 @@
                 document.getElementById('confirmationAddress').textContent = customerData.address;
                 document.getElementById('confirmationCity').textContent = customerData.city;
                 document.getElementById('confirmationDelivery').textContent = `${customerData.deliveryDay} (${customerData.deliveryTime})`;
-                document.getElementById('confirmationSubtotal').textContent = `$ ${order.subtotal.toLocaleString('es-AR')},00`;
-                document.getElementById('confirmationShipping').textContent = order.shipping === 0 ? '$ 0,00' : `$ ${order.shipping.toLocaleString('es-AR')},00`;
-                document.getElementById('confirmationTotal').textContent = `$ ${order.total.toLocaleString('es-AR')},00`;
+                document.getElementById('confirmationSubtotal').textContent = `$ ${order.subtotal.toLocaleString('es-AR')}`;
+                document.getElementById('confirmationShipping').textContent = order.shipping === 0 ? '$ 0' : `$ ${order.shipping.toLocaleString('es-AR')}`;
+                document.getElementById('confirmationTotal').textContent = `$ ${order.total.toLocaleString('es-AR')}`;
 
                 const whatsappBtn = document.getElementById('whatsappConfirmBtn');
                 if (whatsappBtn) {
@@ -4568,21 +4543,24 @@
                     }
                 });
 
-                // 3. Agregar al carrito
+                // 3. Agregar al carrito DESDE LISTADO DE PRODUCTOS
                 document.addEventListener('click', (e) => {
                     const addToCartBtn = e.target.closest('.btn-add-cart');
-                    if (addToCartBtn && !addToCartBtn.disabled) {
+                    if (addToCartBtn && !addToCartBtn.disabled && !addToCartBtn.classList.contains('modal-add-to-cart-btn')) {
                         const productId = addToCartBtn.dataset.id;
                         const product = window.productSystem?.products?.find(p => p.id == productId);
                         
                         if (product) {
+                            const quantity = parseInt(document.getElementById(`quantity-${productId}`)?.textContent) || 1;
+                            
                             this.trackEvent('add_to_cart', {
                                 product_id: product.id,
                                 product_name: product.name,
                                 product_category: product.category,
                                 product_price: product.price,
                                 currency: 'ARS',
-                                quantity: parseInt(document.getElementById(`quantity-${productId}`)?.textContent) || 1
+                                quantity: quantity,
+                                source: 'list'
                             });
                         }
                     }
@@ -4605,13 +4583,17 @@
                             cart_count: window.cartSystem?.cart?.length || 0,
                             subtotal: window.cartSystem?.calculateSubtotal() || 0,
                             shipping: window.cartSystem?.calculateShipping() || 0,
-                            total: window.cartSystem?.calculateTotal() || 0
+                            total: window.cartSystem?.calculateTotal() || 0,
+                            items: window.cartSystem?.cart?.map(item => ({
+                                item_id: item.id,
+                                item_name: item.name,
+                                quantity: item.quantity
+                            })) || []
                         });
                     }
                 });
 
-                // 6. Pedido completado
-                // Esto se disparará cuando se muestre la confirmación del pedido
+                // 6. Pedido completado - Modificado para incluir eventos de carrito
                 const originalShowOrderConfirmation = window.cartSystem?.showOrderConfirmation;
                 if (originalShowOrderConfirmation) {
                     window.cartSystem.showOrderConfirmation = function(order, response) {
