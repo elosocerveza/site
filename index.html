@@ -4468,20 +4468,22 @@
 
                     const response = await fetch(this.APPS_SCRIPT_URL, {
                         method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
+                        mode: 'cors',
+                        //headers: { 'Content-Type': 'application/json', },
                         body: JSON.stringify(formData)
                     });
-                    
-                    return {
-                        success: true,
-                        orderId: orderData.orderNumber,
-                        noCorsMode: true,
-                        message: 'Pedido enviado (modo no-cors)',
-                        assumedSuccess: true
-                    };
+
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+            
+                    if (!result.success) {
+                        throw new Error(result.message || 'Error del servidor al procesar el pedido');
+                    }
+            
+                    return result;
                 } catch (error) {
                     console.error('❌ Error enviando pedido a Google Apps Script:', error);
                     
@@ -4532,29 +4534,89 @@
                 
                 try {
                     const result = await this.submitOrderToGoogleForm(order);
-                    this.saveOrderToLocalStorage(order);
-                    this.showOrderConfirmation(order, result);
-                    this.cart = [];
-                    this.saveCart();
-                    this.updateCartCount();
-                    this.resetForm();
-                    cartItems.innerHTML = `
-                        <div class="cart-empty">
-                            <p>Tu carrito está vacío</p>
-                            <p>¡Agrega algunos productos para comenzar!</p>
-                        </div>
-                    `;
+
+                    if (result.success) {
+                        this.saveOrderToLocalStorage(order);
+                        this.showOrderConfirmation(order, result);
+                        this.cart = [];
+                        this.saveCart();
+                        this.updateCartCount();
+                        this.resetForm();
+                        cartItems.innerHTML = `
+                            <div class="cart-empty">
+                                <p>Tu carrito está vacío</p>
+                                <p>¡Agrega algunos productos para comenzar!</p>
+                            </div>
+                        `;
+                    } else {
+                        this.showOrderError(result);
+                        checkoutBtn.textContent = originalText;
+                        checkoutBtn.disabled = false;
+                        return;
+                    }
                 } catch (error) {
-                    console.error('❌ Error inesperado en checkout:', error);
-                    this.saveOrderToLocalStorage(order);
-                    this.showOrderConfirmation(order, {
-                        success: true,
-                        message: 'Pedido guardado localmente debido a error de red'
-                    });
-                } finally {
+                    this.showConnectionError(error);
                     checkoutBtn.textContent = originalText;
                     checkoutBtn.disabled = false;
+                    return; // No continuar con el proceso
                 }
+            }
+
+            // Método para mostrar errores de conexión
+            showConnectionError(error) {
+                const cartItemsContainer = document.getElementById('cartItemsContainer');
+                const errorHTML = `
+                    <div class="ticket-section" style="text-align: center; padding: 40px 20px;">
+                        <div style="color: #ff3131; font-size: 4rem; margin-bottom: 20px;">⚠️</div>
+                        <h3 style="color: #333; margin-bottom: 15px;">Error de conexión</h3>
+                        <p style="color: #666; margin-bottom: 20px;">
+                            No pudimos conectar con el servidor. Por favor, verifica tu conexión a internet e inténtalo de nuevo.
+                        </p>
+                        <p style="color: #888; font-size: 0.9rem; margin-bottom: 25px;">
+                            <strong>Detalles técnicos:</strong> ${error.message || 'Error de red'}
+                        </p>
+                        <button id="retryCheckoutBtn" class="checkout-btn" style="background: #ff3131;">
+                            REINTENTAR ENVÍO
+                        </button>
+                        <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                            O puedes contactarnos directamente por WhatsApp para completar tu pedido.
+                        </p>
+                    </div>
+                `;
+                
+                cartItemsContainer.innerHTML = errorHTML;
+                
+                // Configurar botón de reintento
+                document.getElementById('retryCheckoutBtn').addEventListener('click', () => {
+                    this.checkout();
+                });
+            }
+
+            // Método para mostrar errores del servidor
+            showOrderError(result) {
+                const cartItemsContainer = document.getElementById('cartItemsContainer');
+                const errorHTML = `
+                    <div class="ticket-section" style="text-align: center; padding: 40px 20px;">
+                        <div style="color: #ff3131; font-size: 4rem; margin-bottom: 20px;">❌</div>
+                        <h3 style="color: #333; margin-bottom: 15px;">Error al procesar el pedido</h3>
+                        <p style="color: #666; margin-bottom: 20px;">
+                            ${result.message || 'Hubo un problema al procesar tu pedido. Por favor, inténtalo de nuevo.'}
+                        </p>
+                        <button id="retryCheckoutBtn" class="checkout-btn" style="background: #ff3131;">
+                            REINTENTAR
+                        </button>
+                        <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                            Si el problema persiste, contáctanos por WhatsApp para ayudarte con tu pedido.
+                        </p>
+                    </div>
+                `;
+                
+                cartItemsContainer.innerHTML = errorHTML;
+                
+                // Configurar botón de reintento
+                document.getElementById('retryCheckoutBtn').addEventListener('click', () => {
+                    this.checkout();
+                });
             }
 
             saveOrderToLocalStorage(order) {
@@ -4728,7 +4790,7 @@
                     clarity('set', eventName, eventParams);
                 }
                 
-                console.log(`📊 Analytics Event: ${eventName}`, eventParams);
+                //console.log(`📊 Analytics Event: ${eventName}`, eventParams);
             }
 
             setupEventListeners() {
