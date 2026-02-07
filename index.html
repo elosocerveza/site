@@ -671,7 +671,6 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 20px;
         }
 
         .reviewer-info {
@@ -682,18 +681,18 @@
             font-size: 1.1rem;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #777;
+            color: #222;
         }
 
         .reviewer-details {
             font-size: 0.85rem;
-            color: #aaa;
+            color: #555;
             margin-bottom: 8px;
         }
 
         .review-date {
             font-size: 0.8rem;
-            color: #777;
+            color: #666;
         }
 
         .review-stars {
@@ -711,7 +710,7 @@
             flex: 1;
             line-height: 1.6;
             font-size: 0.95rem;
-            color: #777;
+            color: #333;
         }
 
         .reviews-button {
@@ -2437,23 +2436,23 @@
         <div class="main-header--container">
             <div class="header-left"></div>
             <div class="header-right">
-                <a class="logo" href="#"></a>
+                <a class="logo" href="#" aria-label="El Oso - Inicio"></a>
             </div>
         </div>
     </header>
 
     <!-- Sidebar -->
     <aside id="main-sidebar" class="main-sidebar sidebar-active">
-        <div class="main-sidebar--logo">
+        <div class="main-sidebar--logo" aria-label="El Oso - Inicio">
             <a href="#">
                 <img src="images/logo/logo-64x64.png" alt="mapaches">
             </a>
         </div>
         <nav class="main-sidebar--nav">
-            <a href="#tienda">Tienda</a>
-            <a href="#resenas">Reseñas</a>
-            <a href="#somos">¿Qué somos?</a>
-            <a href="#contacto">Contacto</a>
+            <a href="#tienda" aria-label="Ir a la sección de tienda">Tienda</a>
+            <a href="#resenas" aria-label="Ir a la sección de reseñas">Reseñas</a>
+            <a href="#somos" aria-label="Ir a la sección ¿Qué somos?">¿Qué somos?</a>
+            <a href="#contacto" aria-label="Ir a la sección de contacto">Contacto</a>
         </nav>
     </aside>
 
@@ -2500,12 +2499,12 @@
                 </div>
                 <div class="home-section--right side-nav">
                     <!-- Botones de navegación lateral (mantenidos para consistencia) -->
-                    <button class="swiper-next">
+                    <button class="swiper-next" aria-label="Siguiente diapositiva en tienda">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
                     </button>
-                    <button class="swiper-prev disabled">
+                    <button class="swiper-prev disabled" aria-label="Diapositiva anterior en tienda">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
@@ -2761,12 +2760,12 @@
                     </div>
                 </div>
                 <div class="home-section--right side-nav">
-                    <button class="swiper-next">
+                    <button class="swiper-next" aria-label="Siguiente reseña">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
                     </button>
-                    <button class="swiper-prev disabled">
+                    <button class="swiper-prev disabled" aria-label="Reseña anterior">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
@@ -2811,12 +2810,12 @@
                     </div>
                 </div>
                 <div class="home-section--right side-nav">
-                    <button class="swiper-next">
+                    <button class="swiper-next" aria-label="Siguiente información">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
                     </button>
-                    <button class="swiper-prev disabled">
+                    <button class="swiper-prev disabled" aria-label="Información anterior">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
@@ -2832,9 +2831,9 @@
                     <div class="home-section--header">
                         <h1>Contacto</h1>
                         <div class="btn-container">
-                            <a href="https://wa.me/5491123495971" target="_blank" class="btn-white-border"><span>Whatsapp</span></a>
-                            <a href="https://instagram.com/elosocerveza" target="_blank" class="btn-white-border"><span>Instagram</span></a>
-                            <a href="https://www.facebook.com/profile.php?id=61574456096960" target="_blank" class="btn-white-border"><span>Facebook</span></a>
+                            <a href="https://wa.me/5491123495971" target="_blank" class="btn-white-border" aria-label="Hablar por WhatsApp"><span>Whatsapp</span></a>
+                            <a href="https://instagram.com/elosocerveza" target="_blank" class="btn-white-border" aria-label="Síguenos en Instagram"><span>Instagram</span></a>
+                            <a href="https://www.facebook.com/profile.php?id=61574456096960" target="_blank" class="btn-white-border" aria-label="Síguenos en Facebook"><span>Facebook</span></a>
                         </div>
                     </div>
                     <div class="home-contacto--content">
@@ -2868,12 +2867,12 @@
                     </div>
                 </div>
                 <div class="home-section--right side-nav">
-                    <button class="swiper-next">
+                    <button class="swiper-next" aria-label="Siguiente información de contacto">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
                     </button>
-                    <button class="swiper-prev disabled">
+                    <button class="swiper-prev disabled" aria-label="Información de contacto anterior">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
                             <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
                         </svg>
@@ -2887,10 +2886,10 @@
     <footer id="main-footer">
         <div class="container">
             <div class="main-footer--top">
-                <div class="columna"><a href="#tienda">Tienda</a></div>
-                <div class="columna"><a href="#resenas">Reseñas</a></div>
-                <div class="columna"><a href="#somos">¿Qué Somos?</a></div>
-                <div class="columna"><a href="#contacto">Contacto</a></div>
+                <div class="columna"><a href="#tienda" aria-label="Ir a la sección de tienda">Tienda</a></div>
+                <div class="columna"><a href="#resenas" aria-label="Ir a la sección de reseñas">Reseñas</a></div>
+                <div class="columna"><a href="#somos" aria-label="Ir a la sección ¿Qué somos?">¿Qué Somos?</a></div>
+                <div class="columna"><a href="#contacto" aria-label="Ir a la sección de contacto">Contacto</a></div>
             </div>
             <div class="main-footer--bottom">
                 <div class="right">
@@ -3172,8 +3171,6 @@
 
             async loadProductsFromGoogleSheet() {
                 try {
-                    console.log('📡 Intentando cargar productos desde Google Sheets...');
-                    
                     // Mostrar estado de carga
                     this.productsGrid.innerHTML = `
                         <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
@@ -3194,8 +3191,7 @@
                     }
 
                     const data = await response.json();
-                    console.log('✅ Productos cargados desde Google Sheets:', data);
-
+                    
                     if (data.success && Array.isArray(data.products)) {
                         // Procesar productos desde Google Sheets
                         this.products = data.products.map(item => ({
@@ -3211,8 +3207,6 @@
                             stock: parseInt(item.stock) || 0
                         }));
                         
-                        console.log(`✅ ${this.products.filter(p => p.active).length} productos activos cargados desde Google Sheets`);
-                        
                         // Guardar en cache local
                         this.saveToCache();
                     } else {
@@ -3220,12 +3214,10 @@
                     }
                 } catch (error) {
                     console.error('❌ Error cargando productos desde Google Sheets:', error);
-                    console.log('🔄 Intentando cargar desde cache local...');
                     this.loadFromCache();
                     
                     // Si no hay cache, usar productos locales
                     if (this.products.length === 0) {
-                        console.log('📋 Usando productos locales como respaldo...');
                         this.loadLocalProducts();
                     }
                 }
@@ -3235,7 +3227,6 @@
                 try {
                     localStorage.setItem('elOsoProductsCache', JSON.stringify(this.products));
                     localStorage.setItem('elOsoProductsCacheTime', Date.now().toString());
-                    console.log('💾 Productos guardados en cache local');
                 } catch (error) {
                     console.error('Error guardando en cache:', error);
                 }
@@ -3250,7 +3241,6 @@
                         const cachedProducts = localStorage.getItem('elOsoProductsCache');
                         if (cachedProducts) {
                             this.products = JSON.parse(cachedProducts);
-                            console.log('📦 Productos cargados desde cache local');
                             return true;
                         }
                     }
@@ -3363,7 +3353,6 @@
                         presentation: "Botella 330ml"
                     }
                 ];
-                console.log(`📋 Usando ${this.products.filter(p => p.active).length} productos locales como respaldo`);
             }
             
             // Helper functions para procesar datos de Google Sheets
@@ -4248,7 +4237,6 @@
             }
 
             async submitOrderToGoogleForm(orderData) {
-                console.log('🚀 Enviando pedido a Google Apps Script...', orderData);
                 
                 try {
                     const formData = {
@@ -4264,8 +4252,6 @@
                         },
                         body: JSON.stringify(formData)
                     });
-
-                    console.log('📨 Solicitud enviada (no-cors mode)');
                     
                     return {
                         success: true,
@@ -4287,7 +4273,6 @@
             }
 
             async checkout() {
-                console.log('🛒 Iniciando checkout (modo no-cors)...');
                 
                 if (!this.validateAllFields()) {
                     return;
@@ -4317,8 +4302,6 @@
                     shippingType: 'delivery',
                     status: 'pending'
                 };
-                
-                console.log('📋 Orden creada:', order);
                 
                 const checkoutBtn = document.getElementById('checkoutBtn');
                 const originalText = checkoutBtn.textContent;
@@ -4362,7 +4345,6 @@
                     });
                     localStorage.setItem('elOsoSentOrders', JSON.stringify(sentOrders));
                     
-                    console.log('📝 Pedido guardado localmente:', order.orderNumber);
                     return true;
                 } catch (error) {
                     console.error('Error guardando pedido:', error);
