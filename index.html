@@ -2575,8 +2575,8 @@
                 <p>Llegaste al refugio de El Oso. Detrás de este umbral solo hay lúpulo indomable, maltas oscuras y cervezas que muerden. Si tienes la garganta seca y ya soplaste más de 18 velitas, adelante.</p>
             </div>
             <div class="portal-actions">
-                <button class="portal-btn portal-btn-primary" id="portalConfirmBtn">¡ESTOY LISTO PARA EL RUGIDO! <br><small>(Soy mayor de 18 años)</small></button>
-                <button class="portal-btn portal-btn-secondary" id="portalDenyBtn">ME FALTA PELO EN EL PECHO</button>
+                <button class="portal-btn portal-btn-primary" id="portalConfirmBtn">ENTRAR AL REFUGIO <br><small>(Soy mayor de 18 años)</small></button>
+                <button class="portal-btn portal-btn-secondary" id="portalDenyBtn">VOLVER A LA MANADA</button>
             </div>
         </div>
     </div>
@@ -5272,19 +5272,6 @@
 
         // Inicializar cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar sistemas
-            if (typeof ProductSystem !== 'undefined') {
-                window.productSystem = new ProductSystem();
-            }
-            
-            if (typeof CartSystem !== 'undefined') {
-                window.cartSystem = new CartSystem();
-            }
-            
-            if (typeof AnalyticsSystem !== 'undefined') {
-                window.analyticsSystem = new AnalyticsSystem();
-            }
-            
             // Inicializar portal con nieve
             window.welcomePortal = new WelcomePortal();
         });
