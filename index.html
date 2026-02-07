@@ -3741,6 +3741,8 @@
                 this.cart = JSON.parse(localStorage.getItem('elOsoCart')) || [];
                 this.shippingCost = 5000;
                 this.freeShippingThreshold = 30000;
+                this.deliveryDays = [4, 5]; // 4 = jueves, 5 = viernes
+                this.deliveryTimeRange = '11 a 20 hrs';
                 this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyryWq34WXvVv6GefFRe6MenO2-hDzp0juf8whyyOe94rwNPjCc8hbykGcKp3CJCP_XJw/exec';
                 
                 this.init();
@@ -3812,17 +3814,31 @@
 
             calculateDeliveryDate() {
                 const today = new Date();
-                const currentDay = today.getDay();
+                const currentDay = today.getDay(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
                 
-                let deliveryDate = new Date(today);
+                // Encontrar el próximo día de entrega disponible
+                let daysToAdd = 0;
                 
-                if (currentDay <= 3) {
-                    const daysUntilThursday = (4 - currentDay + 7) % 7;
-                    deliveryDate.setDate(today.getDate() + daysUntilThursday);
-                } else {
-                    const daysUntilFriday = (5 - currentDay + 7) % 7;
-                    deliveryDate.setDate(today.getDate() + daysUntilFriday);
+                // Buscar el próximo jueves (4) o viernes (5)
+                for (let i = 1; i <= 7; i++) {
+                    const nextDay = (currentDay + i) % 7;
+                    if (this.deliveryDays.includes(nextDay)) {
+                        daysToAdd = i;
+                        break;
+                    }
                 }
+                
+                // Si hoy es jueves o viernes y todavía estamos en horario de entrega
+                // Podríamos ofrecer entrega para hoy mismo
+                const currentHour = today.getHours();
+                const canDeliverToday = this.deliveryDays.includes(currentDay) && currentHour < 20;
+                
+                if (canDeliverToday) {
+                    daysToAdd = 0;
+                }
+                
+                const deliveryDate = new Date(today);
+                deliveryDate.setDate(today.getDate() + daysToAdd);
                 
                 return deliveryDate;
             }
@@ -3840,12 +3856,19 @@
                     
                     const deliveryDate = this.calculateDeliveryDate();
                     const dayNames = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+                    const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
+                                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+                    
                     const dayName = dayNames[deliveryDate.getDay()];
                     const dayNumber = deliveryDate.getDate();
+                    const monthName = monthNames[deliveryDate.getMonth()];
+                    
+                    // Formato más amigable: "jueves 15 de abril"
+                    const formattedDate = `${dayName} ${dayNumber} de ${monthName}`;
                     
                     deliveryCity.textContent = cityName.toUpperCase();
-                    deliveryDay.textContent = `${dayName} ${dayNumber}`.toUpperCase();
-                    deliveryTime.textContent = '11 a 20 hrs'.toUpperCase();
+                    deliveryDay.textContent = formattedDate.toUpperCase();
+                    deliveryTime.textContent = this.deliveryTimeRange.toUpperCase();
                     
                     if (customerCity) {
                         customerCity.value = cityName;
