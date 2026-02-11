@@ -520,8 +520,9 @@
         }
 
         .product-modal-close:hover {
-            background: var(--color-accent);
-            transform: rotate(90deg);
+            background: var(--color-white);
+            color: var(--color-black);
+            border: 2px solid var(--color-black);
         }
 
         .product-modal-content {
@@ -2497,6 +2498,37 @@
             height: 100%;
             display: block;
         }
+
+        /* ====== BANNER PROMOCIONAL DE ENVÍOS (NUEVO) ====== */
+        .shipping-banner {
+            color: var(--color-white);
+            text-align: center;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            width: 100%;
+            background-color: #205c40;
+        }
+
+        .shipping-banner span {
+            color: var(--color-accent);
+            padding: 4px 12px;
+            border-radius: 30px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .shipping-banner {
+                font-size: 0.95rem;
+                padding: 12px 15px;
+            }
+            .shipping-banner span {
+                padding: 3px 8px;
+            }
+        }
     </style>
     
     <!-- Schema Markup -->
@@ -2641,6 +2673,11 @@
             <img class="bg" src="images/banners/hero.jpg" alt="strange mapaches">
         </section>
 
+        <!-- ====== NUEVO: BANNER DE ENVÍO GRATIS ====== -->
+        <div class="shipping-banner">
+            <span>Envío gratis jueves y viernes desde $30.000 (Solo Quilmes, Bernal, Ezpeleta, Don Bosco y Berazategui)</span>
+        </div>
+
         <!-- Shop Section - ACTUALIZADA CON GRID DE PRODUCTOS -->
         <section class="home-section home-shop" id="tienda">
             <div class="container">
@@ -2651,11 +2688,8 @@
                             <button class="btn-white-border active" data-filter="cerveza">
                                 <span>CERVEZAS</span><sup id="count-cerveza">0</sup>
                             </button>
-                            <button class="btn-white-border" data-filter="combo">
-                                <span>PACKS</span><sup id="count-combo">0</sup>
-                            </button>
-                            <button class="btn-white-border" data-filter="mixto">
-                                <span>MIXTOS</span><sup id="count-mixto">0</sup>
+                            <button class="btn-white-border" data-filter="pack">
+                                <span>PACKS</span><sup id="count-pack">0</sup>
                             </button>
                         </div>
                     </div>
@@ -3383,10 +3417,9 @@
                         // Guardar en cache local
                         this.saveToCache();
                     } else {
-                        throw new Error('Formato de datos inválido desde Google Sheets');
+                        throw new Error('Formato de datos inválido');
                     }
                 } catch (error) {
-                    console.error('❌ Error cargando productos desde Google Sheets:', error);
                     this.loadFromCache();
                     
                     // Si no hay cache, usar productos locales
@@ -3401,7 +3434,6 @@
                     localStorage.setItem('elOsoProductsCache', JSON.stringify(this.products));
                     localStorage.setItem('elOsoProductsCacheTime', Date.now().toString());
                 } catch (error) {
-                    console.error('Error guardando en cache:', error);
                 }
             }
 
@@ -3418,7 +3450,6 @@
                         }
                     }
                 } catch (error) {
-                    console.error('Error cargando desde cache:', error);
                 }
                 return false;
             }
@@ -3536,9 +3567,9 @@
                     'cerveza': 'cerveza',
                     'Cerveza': 'cerveza',
                     'CERVEZA': 'cerveza',
-                    'combo': 'combo',
-                    'Combo': 'combo',
-                    'COMBO': 'combo',
+                    'pack': 'pack',
+                    'pack': 'pack',
+                    'pack': 'pack',
                     'mixto': 'mixto',
                     'Mixto': 'mixto',
                     'MIXTO': 'mixto',
@@ -3578,7 +3609,7 @@
             getDefaultImage(category) {
                 const defaultImages = {
                     'cerveza': 'images/products/beers/default-beer.png',
-                    'combo': 'images/products/combos/default-combo.png',
+                    'pack': 'images/products/packs/default-pack.png',
                     'mixto': 'images/products/mixtos/default-mixto.png',
                     'picante': 'images/products/picantes/default-picante.png',
                     'conserva': 'images/products/conservas/default-conserva.png'
@@ -3594,8 +3625,8 @@
                         return 'Botella 100ml';
                     case 'conserva':
                         return 'Frasco 330ml';
-                    case 'combo':
-                        return 'Combo especial';
+                    case 'pack':
+                        return 'Pack Especial';
                     case 'mixto':
                         return 'Pack mixto';
                     default:
@@ -3684,6 +3715,18 @@
                 
                 this.modalOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
+
+                // --- NUEVO: Track ViewContent para Meta Pixel ---
+                if (typeof fbq !== 'undefined' && product) {
+                    fbq('track', 'ViewContent', {
+                        content_ids: [String(product.id)],
+                        content_type: 'product',
+                        content_name: product.name,
+                        content_category: product.category,
+                        value: product.price,
+                        currency: 'ARS'
+                    });
+                }
             }
 
             closeModal() {
@@ -3805,7 +3848,7 @@
                     'cerveza': 'Cerveza Artesanal',
                     'picante': 'Salsa Picante',
                     'conserva': 'Conserva Artesanal',
-                    'combo': 'Combo Especial',
+                    'pack': 'Pack Especial',
                     'mixto': 'Pack Mixto'
                 };
                 return categories[category] || 'Producto';
@@ -3897,7 +3940,7 @@
                 const counts = {
                     all: this.products.filter(p => p.active).length,
                     cerveza: this.products.filter(p => p.active && p.category === 'cerveza').length,
-                    combo: this.products.filter(p => p.active && p.category === 'combo').length,
+                    pack: this.products.filter(p => p.active && p.category === 'pack').length,
                     mixto: this.products.filter(p => p.active && p.category === 'mixto').length
                 };
 
@@ -4086,6 +4129,19 @@
                     }, 1000);
                 }
 
+                // --- NUEVO: Track AddToCart para Meta Pixel (desde modal) ---
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'AddToCart', {
+                        content_ids: [String(product.id)],
+                        content_type: 'product',
+                        content_name: product.name,
+                        content_category: product.category,
+                        value: product.price * product.quantity,
+                        currency: 'ARS',
+                        quantity: product.quantity
+                    });
+                }
+
                 this.saveCart();
                 this.renderCart();
                 this.updateCartCount();
@@ -4126,6 +4182,19 @@
                         button.textContent = 'Agregar al Carrito';
                         button.classList.remove('added');
                     }, 1000);
+                }
+
+                // --- NUEVO: Track AddToCart para Meta Pixel (desde listado) ---
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'AddToCart', {
+                        content_ids: [String(product.id)],
+                        content_type: 'product',
+                        content_name: product.name,
+                        content_category: product.category,
+                        value: product.price * product.quantity,
+                        currency: 'ARS',
+                        quantity: product.quantity
+                    });
                 }
 
                 this.saveCart();
@@ -4508,8 +4577,6 @@
             
                     return result;
                 } catch (error) {
-                    console.error('❌ Error enviando pedido a Google Apps Script:', error);
-                    
                     return {
                         success: false,
                         orderId: orderData.orderNumber,
@@ -4524,6 +4591,22 @@
                 if (!this.validateAllFields()) {
                     return;
                 }
+
+                // --- NUEVO: Track InitiateCheckout para Meta Pixel ---
+                if (typeof fbq !== 'undefined' && this.cart.length > 0) {
+                    fbq('track', 'InitiateCheckout', {
+                        content_ids: this.cart.map(item => String(item.id)),
+                        content_type: 'product',
+                        value: this.calculateTotal(),
+                        currency: 'ARS',
+                        num_items: this.cart.reduce((a, i) => a + i.quantity, 0),
+                        contents: this.cart.map(item => ({
+                            id: String(item.id),
+                            quantity: item.quantity,
+                            item_price: item.price
+                        }))
+                    });
+                }
                 
                 const customerData = {
                     name: document.getElementById('customerName').value.trim(),
@@ -4537,10 +4620,15 @@
                     deliveryTime: '11 a 20 hrs',
                     notes: document.getElementById('orderNotes').value.trim()
                 };
+
+                // === MEJORA: GENERAR NÚMERO DE PEDIDO ÚNICO ===
+                const timestamp = Date.now(); // milisegundos únicos
+                const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase(); // 3 caracteres aleatorios
+                const orderNumber = 'ELO-' + timestamp + '-' + randomSuffix;
                 
                 const order = {
                     timestamp: new Date().toISOString(),
-                    orderNumber: 'ELO-' + Date.now().toString().slice(-8),
+                    orderNumber: orderNumber,
                     customer: customerData,
                     items: this.cart,
                     subtotal: this.calculateSubtotal(),
@@ -4654,7 +4742,6 @@
                     
                     return true;
                 } catch (error) {
-                    console.error('Error guardando pedido:', error);
                     return false;
                 }
             }
@@ -4803,10 +4890,8 @@
                                 eventID: order.orderNumber,
                                 advancedMatching: Object.keys(advancedMatching).length > 1 ? advancedMatching : undefined
                             });
-                            console.log('✅ Meta Pixel Purchase enviado');
                             return true;
                         } catch (e) {
-                            console.error('❌ Error al enviar a Meta Pixel:', e);
                             return false;
                         }
                     }
@@ -4814,10 +4899,7 @@
                     // Si no está definido, reintentar
                     attempts++;
                     if (attempts <= maxAttempts) {
-                        console.log(`⏳ Meta Pixel no disponible, reintento ${attempts}/${maxAttempts}...`);
                         setTimeout(trySend, 500);
-                    } else {
-                        console.error('❌ Meta Pixel no cargó después de varios intentos');
                     }
                 };
 
@@ -4871,8 +4953,6 @@
                 if (typeof clarity !== 'undefined') {
                     clarity('set', eventName, eventParams);
                 }
-                
-                //console.log(`📊 Analytics Event: ${eventName}`, eventParams);
             }
 
             setupEventListeners() {
