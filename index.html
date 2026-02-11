@@ -4671,48 +4671,7 @@
                     deliveryTime: '11 a 20 hrs'
                 };
 
-                // --- META PIXEL: Purchase con Advanced Matching ---
-                if (typeof fbq !== 'undefined') {
-                    try {
-                        // Preparar IDs y contenido de productos
-                        const content_ids = order.items.map(item => item.id.toString());
-                        const contents = order.items.map(item => ({
-                            id: item.id.toString(),
-                            quantity: item.quantity,
-                            item_price: item.price
-                        }));
-
-                        // Dividir nombre completo en nombre y apellido
-                        const nameParts = customerData.name.trim().split(' ');
-                        const firstName = nameParts[0] || '';
-                        const lastName = nameParts.slice(1).join(' ') || '';
-
-                        // Disparar evento Purchase con Advanced Matching
-                        fbq('track', 'Purchase', {
-                            value: order.total,
-                            currency: 'ARS',
-                            content_ids: content_ids,
-                            content_type: 'product',
-                            num_items: order.items.reduce((acc, i) => acc + i.quantity, 0),
-                            contents: contents,
-                            order_id: order.orderNumber
-                        }, {
-                            eventID: order.orderNumber, // Deduplicación
-                            advancedMatching: {
-                                em: customerData.email,
-                                ph: customerData.phone,
-                                fn: firstName,
-                                ln: lastName,
-                                ct: customerData.city,
-                                country: 'AR'
-                            }
-                        });
-
-                        console.log('✅ Meta Pixel Purchase enviado con advanced matching');
-                    } catch (e) {
-                        console.error('Error enviando Purchase a Meta Pixel:', e);
-                    }
-                }
+                this.sendFacebookPurchase(order, customerData);
 
                 document.getElementById('cartItemsContainer').classList.add('hidden');
                 document.getElementById('orderConfirmation').classList.add('active');
@@ -4806,6 +4765,63 @@
                 }
 
                 document.querySelector('.order-confirmation').scrollTop = 0;
+            }
+
+            sendFacebookPurchase(order, customerData, maxAttempts = 10) {
+                let attempts = 0;
+
+                const trySend = () => {
+                    if (typeof fbq !== 'undefined') {
+                        // --- Normalización de datos ---
+                        const cleanPhone = customerData.phone.replace(/\D/g, '');
+                        const phoneE164 = cleanPhone.startsWith('54') ? cleanPhone : `54${cleanPhone}`;
+                        const nameParts = customerData.name.trim().split(' ');
+                        const firstName = nameParts[0] || '';
+                        const lastName = nameParts.slice(1).join(' ') || '';
+
+                        const advancedMatching = { country: 'AR' };
+                        if (customerData.email) advancedMatching.em = customerData.email;
+                        if (cleanPhone) advancedMatching.ph = phoneE164;
+                        if (firstName) advancedMatching.fn = firstName;
+                        if (lastName) advancedMatching.ln = lastName;
+                        if (customerData.city) advancedMatching.ct = customerData.city;
+
+                        try {
+                            fbq('track', 'Purchase', {
+                                value: order.total,
+                                currency: 'ARS',
+                                content_ids: order.items.map(i => i.id.toString()),
+                                content_type: 'product',
+                                num_items: order.items.reduce((a, i) => a + i.quantity, 0),
+                                contents: order.items.map(i => ({
+                                    id: i.id.toString(),
+                                    quantity: i.quantity,
+                                    item_price: i.price
+                                })),
+                                order_id: order.orderNumber
+                            }, {
+                                eventID: order.orderNumber,
+                                advancedMatching: Object.keys(advancedMatching).length > 1 ? advancedMatching : undefined
+                            });
+                            console.log('✅ Meta Pixel Purchase enviado');
+                            return true;
+                        } catch (e) {
+                            console.error('❌ Error al enviar a Meta Pixel:', e);
+                            return false;
+                        }
+                    }
+
+                    // Si no está definido, reintentar
+                    attempts++;
+                    if (attempts <= maxAttempts) {
+                        console.log(`⏳ Meta Pixel no disponible, reintento ${attempts}/${maxAttempts}...`);
+                        setTimeout(trySend, 500);
+                    } else {
+                        console.error('❌ Meta Pixel no cargó después de varios intentos');
+                    }
+                };
+
+                trySend();
             }
 
             resetForm() {
