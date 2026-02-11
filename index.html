@@ -2557,7 +2557,7 @@
         })(window, document, "clarity", "script", "uruxvp2ghy");
     </script>
 
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code con Coincidencias Avanzadas Automáticas -->
     <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -2567,12 +2567,17 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1566148354629656');
+
+        // Inicialización con Automatic Advanced Matching
+        fbq('init', '1566148354629656', {
+            automaticConfig: true
+        });
+
         fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=1566148354629656&ev=PageView&noscript=1"
-    /></noscript>
+    <noscript>
+        <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1566148354629656&ev=PageView&noscript=1" />
+    </noscript>
     <!-- End Meta Pixel Code -->
 
     <!-- Google Search Console Verification -->
@@ -4665,6 +4670,49 @@
                     deliveryDay: document.getElementById('deliveryDay').textContent,
                     deliveryTime: '11 a 20 hrs'
                 };
+
+                // --- META PIXEL: Purchase con Advanced Matching ---
+                if (typeof fbq !== 'undefined') {
+                    try {
+                        // Preparar IDs y contenido de productos
+                        const content_ids = order.items.map(item => item.id.toString());
+                        const contents = order.items.map(item => ({
+                            id: item.id.toString(),
+                            quantity: item.quantity,
+                            item_price: item.price
+                        }));
+
+                        // Dividir nombre completo en nombre y apellido
+                        const nameParts = customerData.name.trim().split(' ');
+                        const firstName = nameParts[0] || '';
+                        const lastName = nameParts.slice(1).join(' ') || '';
+
+                        // Disparar evento Purchase con Advanced Matching
+                        fbq('track', 'Purchase', {
+                            value: order.total,
+                            currency: 'ARS',
+                            content_ids: content_ids,
+                            content_type: 'product',
+                            num_items: order.items.reduce((acc, i) => acc + i.quantity, 0),
+                            contents: contents,
+                            order_id: order.orderNumber
+                        }, {
+                            eventID: order.orderNumber, // Deduplicación
+                            advancedMatching: {
+                                em: customerData.email,
+                                ph: customerData.phone,
+                                fn: firstName,
+                                ln: lastName,
+                                ct: customerData.city,
+                                country: 'AR'
+                            }
+                        });
+
+                        console.log('✅ Meta Pixel Purchase enviado con advanced matching');
+                    } catch (e) {
+                        console.error('Error enviando Purchase a Meta Pixel:', e);
+                    }
+                }
 
                 document.getElementById('cartItemsContainer').classList.add('hidden');
                 document.getElementById('orderConfirmation').classList.add('active');
