@@ -18,7 +18,6 @@ function logError(error, context = '', additionalData = {}) {
     const ss = SpreadsheetApp.openById(CONFIG.SHEET_ID);
     let logsSheet = ss.getSheetByName(CONFIG.LOGS_SHEET_NAME);
     
-    // Crear hoja de logs si no existe
     if (!logsSheet) {
       logsSheet = ss.insertSheet(CONFIG.LOGS_SHEET_NAME);
       const headers = ['Fecha', 'Hora', 'Tipo', 'Contexto', 'Mensaje', 'URL', 'UserAgent', 'IP', 'Datos Adicionales'];
@@ -30,20 +29,15 @@ function logError(error, context = '', additionalData = {}) {
     const formattedDate = Utilities.formatDate(now, CONFIG.TIMEZONE, 'dd/MM/yyyy');
     const formattedTime = Utilities.formatDate(now, CONFIG.TIMEZONE, 'HH:mm:ss');
     
-    // Obtener información del request
     const request = ScriptApp.getRequest ? ScriptApp.getRequest() : null;
     const url = request ? request.url : 'N/A';
     const userAgent = request ? request.userAgent : 'N/A';
     const ip = request ? request.sourceIp : 'N/A';
     
-    // Preparar el mensaje de error
     const errorMessage = error.message || error.toString();
     const errorType = error.name || 'Error';
-    
-    // Preparar datos adicionales como JSON
     const additionalDataJson = JSON.stringify(additionalData) || '{}';
     
-    // Escribir en la hoja de logs
     const lastRow = logsSheet.getLastRow() + 1;
     logsSheet.getRange(lastRow, 1, 1, 9).setValues([[
       formattedDate,
@@ -57,7 +51,6 @@ function logError(error, context = '', additionalData = {}) {
       additionalDataJson
     ]]);
     
-    // Aplicar formato a las filas de error
     if (errorType.includes('Error') || errorType.includes('Exception')) {
       logsSheet.getRange(lastRow, 1, 1, 9).setBackground('#ffcccc');
     }
@@ -165,7 +158,7 @@ function doPost(e) {
     
   } catch (error) {
     logError(error, 'doPost', { 
-      postData: e ? e.postData.contents.substring(0, 500) : 'N/A' // Primeros 500 chars
+      postData: e ? e.postData.contents.substring(0, 500) : 'N/A'
     });
     return createJsonResponse({
       success: false,
@@ -182,7 +175,6 @@ function handleGetProducts() {
     const cache = CacheService.getScriptCache();
     const cacheKey = 'eloso_products';
     
-    // Verificar cache
     const cachedData = cache.get(cacheKey);
     if (cachedData) {
       const parsed = JSON.parse(cachedData);
@@ -191,7 +183,6 @@ function handleGetProducts() {
       return parsed;
     }
     
-    // Obtener datos frescos
     const products = getProductsFromSheet();
     
     const result = {
@@ -202,7 +193,6 @@ function handleGetProducts() {
       timestamp: new Date().toISOString()
     };
     
-    // Guardar en cache
     cache.put(cacheKey, JSON.stringify(result), CONFIG.CACHE_DURATION);
     
     return result;
@@ -236,69 +226,66 @@ function getProductsFromSheet() {
       return [];
     }
     
-    const headers = data[0].map(function(h) { return h.toString().trim(); });
+    const headers = data[0].map(h => h.toString().trim());
     const products = [];
     
-    // Columnas actualizadas con las nuevas columnas
+    // Definir índices de columnas (se admiten nombres en español e inglés)
     const colIndex = {
-      id: headers.indexOf('ID'),
-      name: headers.indexOf('Nombre'),
-      category: headers.indexOf('Categoría'),
-      price: headers.indexOf('Precio'),
-      image: headers.indexOf('Imagen'),
-      info: headers.indexOf('Info'),
-      stock: headers.indexOf('Stock'),
-      description: headers.indexOf('Descripción'),
-      active: headers.indexOf('Disponible'),
-      presentation: headers.indexOf('Presentación')
+      id: headers.indexOf('ID') !== -1 ? headers.indexOf('ID') : -1,
+      name: headers.indexOf('Nombre') !== -1 ? headers.indexOf('Nombre') : headers.indexOf('Name'),
+      category: headers.indexOf('Categoría') !== -1 ? headers.indexOf('Categoría') : headers.indexOf('Category'),
+      price: headers.indexOf('Precio') !== -1 ? headers.indexOf('Precio') : headers.indexOf('Price'),
+      image: headers.indexOf('Imagen') !== -1 ? headers.indexOf('Imagen') : headers.indexOf('Image'),
+      info: headers.indexOf('Info') !== -1 ? headers.indexOf('Info') : -1,
+      stock: headers.indexOf('Stock') !== -1 ? headers.indexOf('Stock') : -1,
+      description: headers.indexOf('Descripción') !== -1 ? headers.indexOf('Descripción') : headers.indexOf('Description'),
+      active: headers.indexOf('Disponible') !== -1 ? headers.indexOf('Disponible') : headers.indexOf('Active'),
+      presentation: headers.indexOf('Presentación') !== -1 ? headers.indexOf('Presentación') : headers.indexOf('Presentation')
     };
     
     for (var i = 1; i < data.length; i++) {
       var row = data[i];
       
-      // Si la fila está vacía, continuar
       if (row.every(cell => !cell || cell.toString().trim() === '')) {
         continue;
       }
       
-      // Usar la columna 'Info' si existe, si no usar 'Descripción'
-      const infoColumn = colIndex.info >= 0 ? colIndex.info : colIndex.description;
-      const infoValue = infoColumn >= 0 ? (row[infoColumn] || '').toString().trim() : '';
-      
-      // Usar 'Descripción' como descripción detallada
-      const descriptionColumn = colIndex.description >= 0 ? colIndex.description : -1;
-      const descriptionValue = descriptionColumn >= 0 ? (row[descriptionColumn] || '').toString().trim() : '';
-      
       const productId = colIndex.id >= 0 ? parseInt(row[colIndex.id]) || i : i;
-      const productPrice = colIndex.price >= 0 ? parseFloat(row[colIndex.price]) || 0 : 0;
+      const productName = colIndex.name >= 0 ? (row[colIndex.name] || '').toString().trim() : 'Producto ' + i;
+      const category = colIndex.category >= 0 ? (row[colIndex.category] || 'cerveza').toString().trim().toLowerCase() : 'cerveza';
+      const price = colIndex.price >= 0 ? parseFloat(row[colIndex.price]) || 0 : 0;
+      const image = colIndex.image >= 0 ? (row[colIndex.image] || '').toString().trim() : '';
+      const info = colIndex.info >= 0 ? (row[colIndex.info] || '').toString().trim() : (colIndex.description >= 0 ? (row[colIndex.description] || '').toString().trim() : '');
+      const stock = colIndex.stock >= 0 ? parseInt(row[colIndex.stock]) || 0 : 0;
+      const description = colIndex.description >= 0 ? (row[colIndex.description] || '').toString().trim() : '';
       
-      var product = {
+      // Parsear disponibilidad (acepta TRUE, true, Sí, SI, 1, etc.)
+      let active = true; // por defecto, si no se especifica, asumimos activo
+      if (colIndex.active >= 0) {
+        const activeVal = row[colIndex.active];
+        if (activeVal === false || activeVal === 'FALSE' || activeVal === 'false' || activeVal === 'NO' || activeVal === 'No' || activeVal === 'no' || activeVal === '0') {
+          active = false;
+        } else if (activeVal === true || activeVal === 'TRUE' || activeVal === 'true' || activeVal === 'SI' || activeVal === 'Sí' || activeVal === 'sí' || activeVal === '1') {
+          active = true;
+        } else {
+          active = true; // cualquier otro valor, asumimos activo
+        }
+      }
+      
+      const presentation = colIndex.presentation >= 0 ? (row[colIndex.presentation] || '').toString().trim() : 'Unidad';
+      
+      products.push({
         id: productId,
-        name: colIndex.name >= 0 ? (row[colIndex.name] || '').toString().trim() : 'Producto ' + i,
-        category: colIndex.category >= 0 ? 
-                  ((row[colIndex.category] || 'cerveza').toString().trim().toLowerCase()) : 
-                  'cerveza',
-        price: productPrice,
-        image: colIndex.image >= 0 ? (row[colIndex.image] || '').toString().trim() : '',
-        info: infoValue,
-        stock: colIndex.stock >= 0 ? parseInt(row[colIndex.stock]) || 0 : 0,
-        description: descriptionValue,
-        active: colIndex.active >= 0 ? 
-                (row[colIndex.active] === true || 
-                 row[colIndex.active] === "TRUE" || 
-                 row[colIndex.active] === "true" || 
-                 row[colIndex.active] == 1 || 
-                 row[colIndex.active] === "1" ||
-                 row[colIndex.active] === "SI" ||
-                 row[colIndex.active] === "Sí" ||
-                 row[colIndex.active] === "sí") : 
-                false,
-        presentation: colIndex.presentation >= 0 ? 
-                      (row[colIndex.presentation] || '').toString().trim() : 
-                      'Unidad'
-      };
-      
-      products.push(product);
+        name: productName,
+        category: category,
+        price: price,
+        image: image,
+        info: info,
+        stock: stock,
+        description: description,
+        active: active,
+        presentation: presentation
+      });
     }
     
     return products;
@@ -307,6 +294,57 @@ function getProductsFromSheet() {
     logError(error, 'getProductsFromSheet');
     return [];
   }
+}
+
+// ====== ASEGURAR QUE LA HOJA DE PEDIDOS TENGA LAS COLUMNAS NECESARIAS ======
+function ensureOrderSheetColumns() {
+  const ss = SpreadsheetApp.openById(CONFIG.SHEET_ID);
+  let sheet = ss.getSheetByName(CONFIG.ORDERS_SHEET_NAME);
+  
+  if (!sheet) {
+    sheet = ss.insertSheet(CONFIG.ORDERS_SHEET_NAME);
+    const headers = [
+      'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'DNI', 'Email', 'Teléfono',
+      'Dirección', 'Localidad', 'Día Entrega', 'Horario',
+      'Productos', 'Subtotal', 'Descuento', 'Cupón', 'Envío', 'Total', 'Notas'
+    ];
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.setFrozenRows(1);
+    return { sheet, added: headers };
+  }
+  
+  // Verificar columnas existentes y agregar las que falten
+  const headersRow = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const currentHeaders = headersRow.map(h => h.toString().trim());
+  
+  const requiredHeaders = [
+    'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'DNI', 'Email', 'Teléfono',
+    'Dirección', 'Localidad', 'Día Entrega', 'Horario',
+    'Productos', 'Subtotal', 'Descuento', 'Cupón', 'Envío', 'Total', 'Notas'
+  ];
+  
+  const newColumns = [];
+  requiredHeaders.forEach((header, index) => {
+    if (!currentHeaders.includes(header)) {
+      // Insertar en la posición correcta
+      // Para simplificar, agregamos al final pero luego reordenaremos
+      newColumns.push(header);
+    }
+  });
+  
+  if (newColumns.length > 0) {
+    // Agregar nuevas columnas al final
+    const lastCol = sheet.getLastColumn();
+    sheet.insertColumnsAfter(lastCol, newColumns.length);
+    // Escribir los nuevos encabezados
+    for (let i = 0; i < newColumns.length; i++) {
+      sheet.getRange(1, lastCol + 1 + i).setValue(newColumns[i]);
+    }
+    // Nota: No reordenamos para mantener compatibilidad, pero las columnas nuevas estarán al final.
+    // Para lectura posterior usaremos índices por nombre de columna.
+  }
+  
+  return { sheet, added: newColumns };
 }
 
 // ====== GUARDAR PEDIDO ======
@@ -319,79 +357,78 @@ function submitOrderToSheet(orderData) {
       throw error;
     }
     
-    var ss = SpreadsheetApp.openById(CONFIG.SHEET_ID);
-    var sheet = ss.getSheetByName(CONFIG.ORDERS_SHEET_NAME);
+    const { sheet } = ensureOrderSheetColumns();
     
-    // Crear hoja si no existe
-    if (!sheet) {
-      sheet = ss.insertSheet(CONFIG.ORDERS_SHEET_NAME);
-      var headers = [
-        'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'DNI', 'Email', 'Teléfono',
-        'Dirección', 'Localidad', 'Día Entrega', 'Horario',
-        'Productos', 'Subtotal', 'Envío', 'Total', 'Notas'
-      ];
-      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
-      sheet.setFrozenRows(1);
-    }
+    // Obtener encabezados actuales para saber en qué columna escribir cada campo
+    const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0].map(h => h.toString().trim());
     
-    // Preparar fila
-    var now = new Date();
-    var formattedDate = Utilities.formatDate(now, CONFIG.TIMEZONE, 'dd/MM/yyyy');
-    var formattedTime = Utilities.formatDate(now, CONFIG.TIMEZONE, 'HH:mm:ss');
-
-    // Crear listas detalladas
-    var productNames = [];
-    var productQuantities = [];
-    var productPrices = [];
-    var productSubtotals = [];
-    var productsSummary = [];
+    // Mapeo de campo a índice de columna (base 1)
+    const colIndex = {
+      fecha: headers.indexOf('Fecha') + 1,
+      hora: headers.indexOf('Hora') + 1,
+      pedido: headers.indexOf('Pedido') + 1,
+      estado: headers.indexOf('Estado') + 1,
+      cliente: headers.indexOf('Cliente') + 1,
+      dni: headers.indexOf('DNI') + 1,
+      email: headers.indexOf('Email') + 1,
+      telefono: headers.indexOf('Teléfono') + 1,
+      direccion: headers.indexOf('Dirección') + 1,
+      localidad: headers.indexOf('Localidad') + 1,
+      diaEntrega: headers.indexOf('Día Entrega') + 1,
+      horario: headers.indexOf('Horario') + 1,
+      productos: headers.indexOf('Productos') + 1,
+      subtotal: headers.indexOf('Subtotal') + 1,
+      descuento: headers.indexOf('Descuento') + 1,
+      cupon: headers.indexOf('Cupón') + 1,
+      envio: headers.indexOf('Envío') + 1,
+      total: headers.indexOf('Total') + 1,
+      notas: headers.indexOf('Notas') + 1
+    };
     
-    for (var i = 0; i < orderData.items.length; i++) {
-      var item = orderData.items[i];
-      var itemName = item.name || 'Sin nombre';
-      var itemQuantity = item.quantity || 1;
-      var itemPrice = item.price || 0;
-      var itemSubtotal = itemPrice * itemQuantity;
-      var presentation = item.presentation || 'Unidad';
-      
-      productNames.push(itemName);
-      productQuantities.push(itemQuantity);
-      productPrices.push('$' + itemPrice.toLocaleString('es-AR'));
-      productSubtotals.push('$' + itemSubtotal.toLocaleString('es-AR'));
-      
-      // Resumen completo para nueva columna
-      productsSummary.push(
-        `${itemName} (${presentation}) - ${itemQuantity} x $${itemPrice.toLocaleString('es-AR')} = $${itemSubtotal.toLocaleString('es-AR')}`
-      );
-    }
+    // Preparar datos
+    const now = new Date();
+    const formattedDate = Utilities.formatDate(now, CONFIG.TIMEZONE, 'dd/MM/yyyy');
+    const formattedTime = Utilities.formatDate(now, CONFIG.TIMEZONE, 'HH:mm:ss');
     
-    var row = [
-      formattedDate,
-      formattedTime,
-      orderData.orderNumber,
-      'PENDIENTE',
-      orderData.customer.name || '',
-      orderData.customer.dni || '',
-      orderData.customer.email || '',
-      orderData.customer.phone || '',
-      orderData.customer.address || '',
-      orderData.customer.location || '',
-      orderData.customer.deliveryDay || '',
-      orderData.customer.deliveryTime || '',
-      productsSummary.join('\n'),
-      orderData.subtotal || 0,
-      orderData.shipping || 0,
-      orderData.total || 0,
-      orderData.customer.notes || ''
-    ];
+    // Crear resumen de productos
+    const productsSummary = orderData.items.map(item => {
+      const presentation = item.presentation || 'Unidad';
+      const price = item.price || 0;
+      const quantity = item.quantity || 1;
+      const subtotal = price * quantity;
+      return `${item.name} (${presentation}) - ${quantity} x $${price.toLocaleString('es-AR')} = $${subtotal.toLocaleString('es-AR')}`;
+    }).join('\n');
     
-    // Guardar en la hoja
-    var lastRow = sheet.getLastRow() + 1;
-    sheet.getRange(lastRow, 1, 1, row.length).setValues([row]);
+    // Preparar fila (array con la longitud total de columnas)
+    const row = new Array(headers.length).fill('');
     
-    // Enviar notificación por email si está configurado
+    // Asignar valores según índices
+    if (colIndex.fecha) row[colIndex.fecha - 1] = formattedDate;
+    if (colIndex.hora) row[colIndex.hora - 1] = formattedTime;
+    if (colIndex.pedido) row[colIndex.pedido - 1] = orderData.orderNumber;
+    if (colIndex.estado) row[colIndex.estado - 1] = 'PENDIENTE';
+    if (colIndex.cliente) row[colIndex.cliente - 1] = orderData.customer.name || '';
+    if (colIndex.dni) row[colIndex.dni - 1] = orderData.customer.dni || '';
+    if (colIndex.email) row[colIndex.email - 1] = orderData.customer.email || '';
+    if (colIndex.telefono) row[colIndex.telefono - 1] = orderData.customer.phone || '';
+    if (colIndex.direccion) row[colIndex.direccion - 1] = orderData.customer.address || '';
+    if (colIndex.localidad) row[colIndex.localidad - 1] = orderData.customer.location || '';
+    if (colIndex.diaEntrega) row[colIndex.diaEntrega - 1] = orderData.customer.deliveryDay || '';
+    if (colIndex.horario) row[colIndex.horario - 1] = orderData.customer.deliveryTime || '';
+    if (colIndex.productos) row[colIndex.productos - 1] = productsSummary;
+    if (colIndex.subtotal) row[colIndex.subtotal - 1] = orderData.subtotal || 0;
+    if (colIndex.descuento) row[colIndex.descuento - 1] = orderData.discount || 0;
+    if (colIndex.cupon) row[colIndex.cupon - 1] = orderData.appliedCoupon ? JSON.stringify(orderData.appliedCoupon) : '';
+    if (colIndex.envio) row[colIndex.envio - 1] = orderData.shipping || 0;
+    if (colIndex.total) row[colIndex.total - 1] = orderData.total || 0;
+    if (colIndex.notas) row[colIndex.notas - 1] = orderData.customer.notes || '';
+    
+    // Agregar fila
+    sheet.appendRow(row);
+    
+    // Enviar notificación por email
     if (orderData.customer.email && CONFIG.ADMIN_EMAIL) {
-      sendEmailNotification(orderData, lastRow);
+      sendEmailNotification(orderData);
     }
     
     // Invalidar cache de productos
@@ -401,7 +438,6 @@ function submitOrderToSheet(orderData) {
       success: true,
       orderId: orderData.orderNumber,
       message: 'Pedido registrado exitosamente',
-      sheetRow: lastRow,
       timestamp: now.toISOString()
     };
     
@@ -428,18 +464,16 @@ function submitOrderToSheet(orderData) {
 }
 
 // ====== ENVIAR NOTIFICACIÓN POR EMAIL (CLIENTE Y ADMIN) ======
-function sendEmailNotification(orderData, rowNumber) {
+function sendEmailNotification(orderData) {
   try {
     var customer = orderData.customer || {};
     var items = orderData.items || [];
     
-    // Verificar que haya un email válido
     if (!customer.email || customer.email.trim() === '') {
       console.warn('No se pudo enviar email al cliente: email no proporcionado');
       return;
     }
     
-    // Construir mensaje para el CLIENTE
     var customerSubject = '✅ Confirmación de pedido #' + orderData.orderNumber + ' - El Oso';
     var customerMessage = '<html><body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;">';
     customerMessage += '<div style="background-color: #000; color: #fff; padding: 20px; text-align: center;">';
@@ -483,6 +517,9 @@ function sendEmailNotification(orderData, rowNumber) {
     customerMessage += '<h3 style="color: #000; margin-top: 25px;">💰 TOTAL DEL PEDIDO</h3>';
     customerMessage += '<table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">';
     customerMessage += '<tr><td style="padding: 10px; text-align: right;">Subtotal:</td><td style="padding: 10px; text-align: right; width: 100px;">$' + (orderData.subtotal || 0).toLocaleString('es-AR') + '</td></tr>';
+    if (orderData.discount) {
+      customerMessage += '<tr><td style="padding: 10px; text-align: right;">Descuento:</td><td style="padding: 10px; text-align: right;">-$' + (orderData.discount || 0).toLocaleString('es-AR') + '</td></tr>';
+    }
     customerMessage += '<tr><td style="padding: 10px; text-align: right;">Envío:</td><td style="padding: 10px; text-align: right;">$' + (orderData.shipping || 0).toLocaleString('es-AR') + '</td></tr>';
     customerMessage += '<tr style="font-weight: bold; font-size: 18px;">';
     customerMessage += '<td style="padding: 15px 10px; text-align: right; border-top: 2px solid #000;">TOTAL:</td>';
@@ -511,7 +548,6 @@ function sendEmailNotification(orderData, rowNumber) {
 
     var recipients = customer.email + ', ' + CONFIG.ADMIN_EMAIL;
 
-    // Enviar email al CLIENTE
     MailApp.sendEmail({
       to: recipients,
       subject: customerSubject,
@@ -521,7 +557,6 @@ function sendEmailNotification(orderData, rowNumber) {
     });
   } catch (error) {
     console.error('❌ Error enviando email:', error);
-    // No lanzamos el error para no interrumpir el flujo del pedido
   }
 }
 
@@ -531,24 +566,18 @@ function createJsonResponse(data) {
     const output = ContentService.createTextOutput();
     output.setContent(JSON.stringify(data));
     output.setMimeType(ContentService.MimeType.JSON);
-    
     return output;
-    
   } catch (error) {
     logError(error, 'createJsonResponse', { dataType: typeof data });
-    
-    // Respuesta de error básica si falla createJsonResponse
     const errorData = {
       success: false,
       message: 'Error creando respuesta JSON',
       error: error.message,
       timestamp: new Date().toISOString()
     };
-    
     const errorOutput = ContentService.createTextOutput();
     errorOutput.setContent(JSON.stringify(errorData));
     errorOutput.setMimeType(ContentService.MimeType.JSON);
-    
     return errorOutput;
   }
 }
@@ -565,26 +594,22 @@ function initializeSystem() {
       var headers = ['ID', 'Nombre', 'Categoría', 'Precio', 'Imagen', 'Descripción', 'Disponible', 'Presentación', 'Info', 'Stock'];
       productsSheet.getRange(1, 1, 1, headers.length).setValues([headers]);
       productsSheet.setFrozenRows(1);
-      
-      // Agregar algunos productos de ejemplo
-      const sampleProducts = [
-        [1, 'VIKA - New England IPA', 'cerveza', 5000, 'images/products/beers/vika-330.png', 'IPA estilo New England', 'SI', 'Botella 330ml', 'New England IPA | Alc. 5.0%', 10],
-        [2, 'NDALA - Chocolate Stout', 'cerveza', 5000, 'images/products/beers/ndala-330.png', 'Stout con chocolate', 'SI', 'Botella 330ml', 'Chocolate Stout | Alc. 6.0%', 8]
-      ];
-      productsSheet.getRange(2, 1, sampleProducts.length, headers.length).setValues(sampleProducts);
     }
     
-    // Crear hoja de pedidos si no existe
+    // Crear o actualizar hoja de pedidos con las nuevas columnas
     var ordersSheet = ss.getSheetByName(CONFIG.ORDERS_SHEET_NAME);
     if (!ordersSheet) {
       ordersSheet = ss.insertSheet(CONFIG.ORDERS_SHEET_NAME);
       var headers = [
         'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'DNI', 'Email', 'Teléfono',
         'Dirección', 'Localidad', 'Día Entrega', 'Horario',
-        'Productos', 'Subtotal', 'Envío', 'Total', 'Notas'
+        'Productos', 'Subtotal', 'Descuento', 'Cupón', 'Envío', 'Total', 'Notas'
       ];
       ordersSheet.getRange(1, 1, 1, headers.length).setValues([headers]);
       ordersSheet.setFrozenRows(1);
+    } else {
+      // Asegurar que tenga las columnas necesarias
+      ensureOrderSheetColumns();
     }
     
     // Crear hoja de logs si no existe
@@ -594,23 +619,6 @@ function initializeSystem() {
       var headers = ['Fecha', 'Hora', 'Tipo', 'Contexto', 'Mensaje', 'URL', 'UserAgent', 'IP', 'Datos Adicionales'];
       logsSheet.getRange(1, 1, 1, headers.length).setValues([headers]);
       logsSheet.setFrozenRows(1);
-      
-      // Agregar un log inicial
-      const now = new Date();
-      const formattedDate = Utilities.formatDate(now, CONFIG.TIMEZONE, 'dd/MM/yyyy');
-      const formattedTime = Utilities.formatDate(now, CONFIG.TIMEZONE, 'HH:mm:ss');
-      
-      logsSheet.getRange(2, 1, 1, 9).setValues([[
-        formattedDate,
-        formattedTime,
-        'INFO',
-        'initializeSystem',
-        'Sistema inicializado exitosamente',
-        ScriptApp.getService().getUrl(),
-        'Google Apps Script',
-        'N/A',
-        JSON.stringify({ version: '1.0', sheets: ['products', 'orders', 'logs'] })
-      ]]);
     }
     
     return {
@@ -659,18 +667,17 @@ function cleanupOldLogs(daysToKeep = 30) {
     
     for (let i = data.length - 1; i >= 1; i--) {
       const row = data[i];
-      const dateStr = row[0]; // Fecha en columna A
-      const timeStr = row[1]; // Hora en columna B
+      const dateStr = row[0];
+      const timeStr = row[1];
       
       try {
         const logDate = new Date(`${dateStr} ${timeStr}`);
         
         if (logDate < cutoffDate) {
-          rowsToDelete.push(i + 1); // +1 porque las filas en Google Sheets empiezan en 1
+          rowsToDelete.push(i + 1);
           deletedCount++;
         }
       } catch (dateError) {
-        // Si hay error parseando la fecha, no borrar
         logError(dateError, 'cleanupOldLogs', { 
           rowIndex: i,
           date: dateStr,
@@ -679,7 +686,6 @@ function cleanupOldLogs(daysToKeep = 30) {
       }
     }
     
-    // Borrar filas (de abajo hacia arriba para mantener índices correctos)
     rowsToDelete.sort((a, b) => b - a).forEach(rowIndex => {
       logsSheet.deleteRow(rowIndex);
     });
@@ -716,7 +722,6 @@ function testConnection() {
       }
     };
     
-    // Probar acceso a hojas
     try {
       const ss = SpreadsheetApp.openById(CONFIG.SHEET_ID);
       const sheets = ss.getSheets();
@@ -729,7 +734,6 @@ function testConnection() {
       result.sheetsError = sheetError.message;
     }
     
-    // Probar cache
     try {
       const cache = CacheService.getScriptCache();
       cache.put('test', 'ok', 10);

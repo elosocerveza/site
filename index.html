@@ -2686,8 +2686,8 @@
 
         .floating-logo .logo {
             display: block;
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background-image: url('images/logo/logo-64x64.png');
             background-size: contain;
             background-repeat: no-repeat;
@@ -2707,8 +2707,8 @@
             }
             
             .floating-logo .logo {
-                width: 50px;
-                height: 50px;
+                width: 60px;
+                height: 60px;
             }
         }
 
@@ -3502,6 +3502,10 @@
                                     <span>Subtotal:</span>
                                     <span id="confirmationSubtotal">$ 15.000</span>
                                 </div>
+                                <div class="summary-item" style="display: none;" id="confirmationDiscountRow">
+                                    <span>Descuento:</span>
+                                    <span id="confirmationDiscount">$ 0</span>
+                                </div>
                                 <div class="summary-item">
                                     <span>Envío:</span>
                                     <span id="confirmationShipping">$ 5.000</span>
@@ -3574,7 +3578,7 @@
                 this.productsGrid = document.getElementById('productsGrid');
                 this.filterButtons = document.querySelectorAll('#tienda .btn-white-border[data-filter]');
                 this.products = [];
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOBXWuErPOTFmjyrxqqU6-298uURKhTkWAsCWtzIOtkMsvSwAmYJG42_VZ-V6r5XGkAA/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyd1GSk8YPLpJA5PF4FkYxMNHuvaTE96v_dg_wbwpcY_ojrRPnxce5wAwrT0Zole8F1rQ/exec';
                 this.init();
                 this.setupGlobalEventListeners();
             }
@@ -4158,7 +4162,7 @@
                 this.freeShippingThreshold = 30000;
                 this.deliveryDays = [4, 5];
                 this.deliveryTimeRange = '11 a 20 hrs';
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOBXWuErPOTFmjyrxqqU6-298uURKhTkWAsCWtzIOtkMsvSwAmYJG42_VZ-V6r5XGkAA/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyd1GSk8YPLpJA5PF4FkYxMNHuvaTE96v_dg_wbwpcY_ojrRPnxce5wAwrT0Zole8F1rQ/exec';
                 
                 // Cupones válidos
                 this.validCoupons = {
@@ -5007,7 +5011,7 @@
                                 localStorage.setItem('elOsoUsedCoupons', JSON.stringify(this.usedCoupons));
                             }
                         }
-                        this.removeCoupon(); // Eliminar cupón después de compra
+                        this.removeCoupon(true); // Eliminar cupón después de compra
                     } else {
                         this.showOrderError(result);
                         checkoutBtn.textContent = originalText;
@@ -5140,6 +5144,15 @@
                 document.getElementById('confirmationCity').textContent = customerData.city;
                 document.getElementById('confirmationDelivery').textContent = `${customerData.deliveryDay} (${customerData.deliveryTime})`;
                 document.getElementById('confirmationSubtotal').textContent = `$ ${order.subtotal.toLocaleString('es-AR')}`;
+                const discountRow = document.getElementById('confirmationDiscountRow');
+                const discountSpan = document.getElementById('confirmationDiscount');
+                if (order.discount > 0) {
+                    discountRow.style.display = 'flex';
+                    discountSpan.textContent = `- $ ${order.discount.toLocaleString('es-AR')}`;
+                } else {
+                    discountRow.style.display = 'none';
+                    discountSpan.textContent = '$ 0';
+                }
                 document.getElementById('confirmationShipping').textContent = order.shipping === 0 ? '$ 0' : `$ ${order.shipping.toLocaleString('es-AR')}`;
                 document.getElementById('confirmationTotal').textContent = `$ ${order.total.toLocaleString('es-AR')}`;
 
@@ -5877,12 +5890,12 @@
                 toast.classList.add('show');
                 setTimeout(() => {
                     toast.classList.remove('show');
-                }, 15000);
+                }, 5000);
             }
 
             // Mostrar primer toast después de 5 segundos, luego cada 20 segundos
             setTimeout(showRandomPurchase, 5000);
-            setInterval(showRandomPurchase, 20000);
+            setInterval(showRandomPurchase, 30000);
         });
 
         const style = document.createElement('style');
