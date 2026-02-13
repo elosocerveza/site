@@ -44,6 +44,7 @@
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
+        /* (todo el estilo original, sin cambios) */
         :root {
             --color-black: #000000;
             --color-white: #ffffff;
@@ -509,6 +510,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             z-index: 10;
+            border: 2px solid var(--color-white);
             transition: all 0.3s;
         }
 
@@ -1401,37 +1403,78 @@
             font-size: 0.95rem;
         }
 
+        /* Sección de cupón en el carrito */
         .coupon-section {
-            margin: 15px 0;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 8px;
+            border: 1px solid #ddd;
         }
-
         .coupon-form {
             display: flex;
             gap: 10px;
             margin-top: 10px;
         }
-
         .coupon-input {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 0.9rem;
         }
-
         .coupon-btn {
-            padding: 10px 15px;
+            padding: 12px 20px;
             background: #333;
             color: white;
             border: none;
-            border-radius: 4px;
-            cursor: pointer;
+            border-radius: 6px;
             font-weight: bold;
-            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s;
         }
-
         .coupon-btn:hover {
-            background: #444;
+            background: #555;
+        }
+        .coupon-message {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: none;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .coupon-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .coupon-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .coupon-applied {
+            background: #e8f5e9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        .coupon-applied button {
+            background: none;
+            border: none;
+            color: #2e7d32;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: 0.85rem;
         }
 
         .free-shipping-notice {
@@ -1956,6 +1999,95 @@
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+
+        /* Pop-up de salida (Exit Intent) */
+        .exit-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-primary);
+        }
+        .exit-popup.active {
+            display: flex;
+        }
+        .exit-popup-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        .exit-popup-content {
+            position: relative;
+            background: #fff;
+            color: #333;
+            max-width: 500px;
+            width: 90%;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            z-index: 2;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        .exit-popup-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+        .exit-popup-close:hover {
+            color: #333;
+        }
+        .exit-popup h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--color-black);
+        }
+        .exit-popup p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .exit-popup .cupon-destacado {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #2e7d32;
+            border: 2px dashed #4CAF50;
+        }
+        .exit-popup-btn {
+            background: var(--color-black);
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            text-transform: uppercase;
+        }
+        .exit-popup-btn:hover {
+            background: #4CAF50;
+            transform: scale(1.05);
         }
 
         @media (max-width: 1200px) {
@@ -3199,6 +3331,19 @@
                     </div>
                     
                     <div class="ticket-summary" id="ticketSummary" style="display: none;">
+                        <!-- SECCIÓN DE CUPÓN (nueva) -->
+                        <div class="ticket-section" id="couponSection">
+                            <div class="coupon-form">
+                                <input type="text" id="couponInput" class="coupon-input" placeholder="Agregar cupón" autocomplete="off">
+                                <button type="button" id="applyCouponBtn" class="coupon-btn">APLICAR</button>
+                            </div>
+                            <div id="couponMessage" class="coupon-message"></div>
+                            <div id="appliedCouponInfo" class="coupon-applied" style="display: none;">
+                                <span>Cupón <strong id="appliedCouponCode"></strong> aplicado</span>
+                                <button id="removeCouponBtn">Quitar</button>
+                            </div>
+                        </div>
+
                         <div class="ticket-section">
                             <div class="summary-row">
                                 <span>Subtotal:</span>
@@ -3213,7 +3358,7 @@
                             </div>
                             <div class="progress-message" id="freeShippingMessage"></div>
                         </div>
-
+                        
                         <div class="ticket-section">
                             <div class="summary-row shipping">
                                 <span>Envío a: <strong><span id="deliveryCity"></span></strong></span>
@@ -3399,6 +3544,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Pop-up de salida (Exit Intent) -->
+    <div class="exit-popup" id="exitPopup">
+        <div class="exit-popup-overlay" id="exitPopupOverlay"></div>
+        <div class="exit-popup-content">
+            <span class="exit-popup-close" id="exitPopupClose">&times;</span>
+            <h2>¡Esperá!</h2>
+            <p>Llevate un <strong>10% de descuento</strong> en tu primer compra.</p>
+            <div class="cupon-destacado">OSO10</div>
+            <p>Usá el código <strong>OSO10</strong> al finalizar tu compra.</p>
+            <button class="exit-popup-btn" id="applyExitCouponBtn">APLICAR CUPÓN</button>
         </div>
     </div>
 
@@ -4002,15 +4160,112 @@
                 this.deliveryTimeRange = '11 a 20 hrs';
                 this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOBXWuErPOTFmjyrxqqU6-298uURKhTkWAsCWtzIOtkMsvSwAmYJG42_VZ-V6r5XGkAA/exec';
                 
+                // Cupones válidos
+                this.validCoupons = {
+                    'OSO10': { type: 'percentage', value: 10 },        // 10% de descuento
+                    'BIENVENIDO': { type: 'fixed', value: 1000 }        // $1000 de descuento
+                };
+                this.appliedCoupon = null; // { code, type, value }
+                this.usedCoupons = JSON.parse(localStorage.getItem('elOsoUsedCoupons')) || [];
+
                 this.init();
                 this.setupCartEventListeners();
-                this.updateShippingBanner(); // Actualizar banner al iniciar
+                this.updateShippingBanner();
             }
 
             init() {
                 this.updateCartCount();
                 this.renderCart();
                 this.validateForm();
+                this.initCouponListeners();
+            }
+
+            // Inicializar listeners de cupón
+            initCouponListeners() {
+                document.getElementById('applyCouponBtn').addEventListener('click', () => this.applyCoupon());
+                document.getElementById('removeCouponBtn').addEventListener('click', () => this.removeCoupon());
+                // También permitir aplicar con Enter
+                document.getElementById('couponInput').addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.applyCoupon();
+                    }
+                });
+            }
+
+            // Aplicar cupón
+            applyCoupon() {
+                const input = document.getElementById('couponInput');
+                const code = input.value.trim().toUpperCase();
+                const messageDiv = document.getElementById('couponMessage');
+
+                if (!code) {
+                    messageDiv.textContent = 'Ingresá un código';
+                    messageDiv.className = 'coupon-message error';
+                    return;
+                }
+
+                if (this.appliedCoupon) {
+                    messageDiv.textContent = 'Ya tenés un cupón aplicado. Quitalo primero.';
+                    messageDiv.className = 'coupon-message error';
+                    return;
+                }
+
+                // Verificar si el cupón ya fue usado
+                if (this.usedCoupons.includes(code)) {
+                    messageDiv.textContent = 'Este cupón ya fue utilizado';
+                    messageDiv.className = 'coupon-message error';
+                    return;
+                }
+
+                const coupon = this.validCoupons[code];
+                if (!coupon) {
+                    messageDiv.textContent = 'Cupón inválido';
+                    messageDiv.className = 'coupon-message error';
+                    return;
+                }
+
+                // Aplicar cupón
+                this.appliedCoupon = { code, ...coupon };
+                localStorage.setItem('elOsoAppliedCoupon', JSON.stringify(this.appliedCoupon));
+                
+                // Mostrar info
+                document.getElementById('appliedCouponCode').textContent = code;
+                document.getElementById('appliedCouponInfo').style.display = 'flex';
+                input.value = '';
+                messageDiv.style.display = 'none';
+
+                // Actualizar resumen
+                this.renderCart(); // Re-render para mostrar descuento
+
+                if (window.analyticsSystem) {
+                    window.analyticsSystem.trackEvent('apply_coupon', {
+                        coupon_code: code,
+                        coupon_type: coupon.type,
+                        coupon_value: coupon.value
+                    });
+                }
+            }
+
+            // Quitar cupón
+            removeCoupon(skipRender = false) {
+                this.appliedCoupon = null;
+                localStorage.removeItem('elOsoAppliedCoupon');
+                document.getElementById('appliedCouponInfo').style.display = 'none';
+                if (!skipRender) {
+                    this.renderCart();
+                }
+            }
+
+            // Calcular descuento basado en subtotal
+            calculateDiscount(subtotal) {
+                if (!this.appliedCoupon) return 0;
+                if (this.appliedCoupon.type === 'percentage') {
+                    return subtotal * (this.appliedCoupon.value / 100);
+                } else if (this.appliedCoupon.type === 'fixed') {
+                    return Math.min(this.appliedCoupon.value, subtotal); // no puede superar subtotal
+                }
+                return 0;
             }
 
             setupCartEventListeners() {
@@ -4301,6 +4556,21 @@
                 return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
             }
 
+            calculateDiscount() {
+                const subtotal = this.calculateSubtotal();
+                return this.calculateDiscountFromSubtotal(subtotal);
+            }
+
+            calculateDiscountFromSubtotal(subtotal) {
+                if (!this.appliedCoupon) return 0;
+                if (this.appliedCoupon.type === 'percentage') {
+                    return subtotal * (this.appliedCoupon.value / 100);
+                } else if (this.appliedCoupon.type === 'fixed') {
+                    return Math.min(this.appliedCoupon.value, subtotal);
+                }
+                return 0;
+            }
+
             calculateShipping() {
                 const subtotal = this.calculateSubtotal();
                 if (subtotal >= this.freeShippingThreshold) {
@@ -4310,7 +4580,10 @@
             }
 
             calculateTotal() {
-                return this.calculateSubtotal() + this.calculateShipping();
+                const subtotal = this.calculateSubtotal();
+                const discount = this.calculateDiscount();
+                const shipping = this.calculateShipping();
+                return subtotal - discount + shipping;
             }
 
             renderCart() {
@@ -4328,8 +4601,9 @@
                     ticketSummary.style.display = 'none';
                     document.getElementById('checkoutBtn').disabled = true;
                     cartItemsContainer.classList.remove('hidden');
-                    // Ocultar barra de progreso si está vacío
                     document.getElementById('freeShippingProgress').style.display = 'none';
+                    // Ocultar cupón aplicado
+                    this.removeCoupon(true); // Quitar cupón si el carrito se vacía
                     return;
                 }
 
@@ -4365,7 +4639,7 @@
                 cartItemsContainer.classList.remove('hidden');
                 
                 this.updateSummary();
-                this.updateFreeShippingProgress(); // Actualizar barra de progreso
+                this.updateFreeShippingProgress();
                 this.validateForm();
                 
                 if (document.getElementById('deliveryLocation').value) {
@@ -4375,10 +4649,31 @@
 
             updateSummary() {
                 const subtotal = this.calculateSubtotal();
+                const discount = this.calculateDiscount();
                 const shipping = this.calculateShipping();
                 const total = this.calculateTotal();
                 
                 document.getElementById('cartSubtotal').textContent = `$ ${subtotal.toLocaleString('es-AR')}`;
+                
+                // Mostrar línea de descuento si aplica
+                let discountRow = document.getElementById('discountRow');
+                if (!discountRow && discount > 0) {
+                    discountRow = document.createElement('div');
+                    discountRow.id = 'discountRow';
+                    discountRow.className = 'summary-row discount';
+                    discountRow.innerHTML = '<span>Descuento:</span><span id="cartDiscount">-$ 0</span>';
+                    const subtotalRow = document.querySelector('.summary-row:first-child');
+                    subtotalRow.parentNode.insertBefore(discountRow, subtotalRow.nextSibling);
+                }
+                if (discountRow) {
+                    if (discount > 0) {
+                        discountRow.style.display = 'flex';
+                        document.getElementById('cartDiscount').textContent = `-$ ${discount.toLocaleString('es-AR')}`;
+                    } else {
+                        discountRow.style.display = 'none';
+                    }
+                }
+
                 document.getElementById('cartShipping').textContent = shipping === 0 ? '$ 0' : `$ ${shipping.toLocaleString('es-AR')}`;
                 document.getElementById('cartTotal').textContent = `$ ${total.toLocaleString('es-AR')}`;
             }
@@ -4676,8 +4971,10 @@
                     customer: customerData,
                     items: this.cart,
                     subtotal: this.calculateSubtotal(),
+                    discount: this.calculateDiscount(),
                     shipping: this.calculateShipping(),
                     total: this.calculateTotal(),
+                    appliedCoupon: this.appliedCoupon,
                     shippingType: 'delivery',
                     status: 'pending'
                 };
@@ -4703,6 +5000,14 @@
                                 <p>¡Agrega algunos productos para comenzar!</p>
                             </div>
                         `;
+                        // Registrar cupón usado si corresponde
+                        if (this.appliedCoupon) {
+                            if (!this.usedCoupons.includes(this.appliedCoupon.code)) {
+                                this.usedCoupons.push(this.appliedCoupon.code);
+                                localStorage.setItem('elOsoUsedCoupons', JSON.stringify(this.usedCoupons));
+                            }
+                        }
+                        this.removeCoupon(); // Eliminar cupón después de compra
                     } else {
                         this.showOrderError(result);
                         checkoutBtn.textContent = originalText;
@@ -5354,6 +5659,73 @@
             }
         }
 
+        // Clase para manejar el pop-up de salida (Exit Intent)
+        class ExitIntentPopup {
+            constructor() {
+                this.popup = document.getElementById('exitPopup');
+                this.overlay = document.getElementById('exitPopupOverlay');
+                this.closeBtn = document.getElementById('exitPopupClose');
+                this.applyBtn = document.getElementById('applyExitCouponBtn');
+                this.shown = false;
+                this.init();
+            }
+
+            init() {
+                if (!this.popup) return;
+
+                // Verificar si ya se mostró en esta sesión
+                if (localStorage.getItem('exitIntentShown')) {
+                    return;
+                }
+
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                // Detectar intento de salida (mouse sale por arriba)
+                document.addEventListener('mouseleave', (e) => {
+                    if (this.shown) return;
+                    // Solo cuando el mouse sale por la parte superior (y)
+                    if (e.clientY <= 0) {
+                        this.show();
+                    }
+                });
+
+                // Cerrar al hacer clic en overlay o botón cerrar
+                this.overlay.addEventListener('click', () => this.hide());
+                this.closeBtn.addEventListener('click', () => this.hide());
+
+                // Botón aplicar cupón
+                this.applyBtn.addEventListener('click', () => {
+                    // Aplicar cupón OSO10 al carrito
+                    if (window.cartSystem) {
+                        const couponInput = document.getElementById('couponInput');
+                        couponInput.value = 'OSO10';
+                        window.cartSystem.applyCoupon();
+                        // También podemos abrir el carrito para que vea
+                        window.cartSystem.openCart();
+                    }
+                    this.hide();
+                });
+            }
+
+            show() {
+                if (this.shown) return;
+                this.shown = true;
+                this.popup.classList.add('active');
+                localStorage.setItem('exitIntentShown', 'true');
+                
+                // Analytics
+                if (window.analyticsSystem) {
+                    window.analyticsSystem.trackEvent('exit_intent_shown', {});
+                }
+            }
+
+            hide() {
+                this.popup.classList.remove('active');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', async function() {
             var swiperReviews = new Swiper('.mySwiperReviews', {
                 slidesPerView: 2,
@@ -5470,6 +5842,9 @@
 
             document.getElementById('checkoutBtn').addEventListener('click', () => window.cartSystem.checkout());
 
+            // Inicializar pop-up de salida
+            window.exitIntentPopup = new ExitIntentPopup();
+
             // ===== PRUEBA SOCIAL DINÁMICA =====
             // Toast de compras recientes
             const toast = document.getElementById('socialToast');
@@ -5502,7 +5877,7 @@
                 toast.classList.add('show');
                 setTimeout(() => {
                     toast.classList.remove('show');
-                }, 5000);
+                }, 15000);
             }
 
             // Mostrar primer toast después de 5 segundos, luego cada 20 segundos
