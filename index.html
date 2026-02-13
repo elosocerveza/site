@@ -377,6 +377,20 @@
             color: var(--color-white);
         }
 
+        /* Social proof dentro de cada producto */
+        .social-proof {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: #aaa;
+            margin: 8px 0;
+        }
+        .social-proof i {
+            font-style: normal;
+            color: #4CAF50;
+        }
+
         .shop-article--quantity {
             margin: 10px 0;
             display: flex;
@@ -1191,7 +1205,7 @@
             border-bottom: none;
         }
 
-        /* --- Barra de progreso envío gratis --- */
+        /* Barra de progreso envío gratis */
         .free-shipping-progress {
             margin: 15px 0;
             padding: 10px;
@@ -1218,7 +1232,38 @@
             text-align: center;
             font-weight: 500;
         }
-        /* ------------------------------------ */
+
+        /* Toast de compras recientes */
+        .social-toast {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+        }
+        .social-toast.show {
+            display: flex;
+        }
+        .social-toast svg {
+            width: 18px;
+            height: 18px;
+            fill: #4CAF50;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
 
         .shipping-form-group {
             margin-bottom: 20px;
@@ -2546,6 +2591,29 @@
         li {
             margin-bottom: 0.5rem;
         }
+
+        .shop-article--image {
+            position: relative;
+        }
+        .product-viewer-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 2;
+        }
+        .product-viewer-badge span:first-child {
+            font-size: 0.9rem;
+        }
     </style>
     
     <script type="application/ld+json">
@@ -3335,6 +3403,12 @@
         </div>
     </div>
 
+    <!-- Toast de compras recientes -->
+    <div class="social-toast" id="socialToast">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        <span id="toastMessage">Alguien compró recientemente</span>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         class ProductSystem {
@@ -3838,10 +3912,15 @@
 
                 const currentQuantity = this.getProductQuantity(product.id);
                 const presentation = product.presentation || this.getDefaultPresentation(product.category);
+                const viewerCount = Math.floor(Math.random() * 15) + 5; // aleatorio
 
                 div.innerHTML = `
                     <figure class="shop-article--image">
                         <img src="${product.image}" alt="${product.name}" loading="lazy" width="200" height="200" class="product-image" data-id="${product.id}">
+                        <div class="product-viewer-badge">
+                            <span>👁️</span>
+                            <span class="viewer-count">${viewerCount} Vistas</span>
+                        </div>
                     </figure>
                     <div class="shop-article--data">
                         <div class="shop-article--head">
@@ -3851,7 +3930,6 @@
                         <div class="shop-article--precio">
                             <b>$ ${product.price.toLocaleString('es-AR')}</b> ${presentation}
                         </div>
-                        
                         <div class="shop-article--quantity">
                             <div class="quantity-controls-list">
                                 <button class="quantity-btn-list" data-action="decrease" data-id="${product.id}">-</button>
@@ -3859,7 +3937,6 @@
                                 <button class="quantity-btn-list" data-action="increase" data-id="${product.id}">+</button>
                             </div>
                         </div>
-                        
                         ${product.active ? 
                             `<button class="btn-add-cart" data-id="${product.id}" data-name="${product.name}" 
                                     data-price="${product.price}" data-category="${product.category}" 
@@ -5393,6 +5470,45 @@
             });
 
             document.getElementById('checkoutBtn').addEventListener('click', () => window.cartSystem.checkout());
+
+            // ===== PRUEBA SOCIAL DINÁMICA =====
+            // Toast de compras recientes
+            const toast = document.getElementById('socialToast');
+            const toastMessage = document.getElementById('toastMessage');
+            const names = [
+                'María', 'Juan', 'Carlos', 'Ana', 'Luis', 'Sofía', 'Pedro', 'Laura', 'Diego', 'Valentina',
+                'Martina', 'Julián', 'Camila', 'Facundo', 'Lucía', 'Matías', 'Florencia', 'Tomás', 'Agustina', 'Nicolás',
+                'Milagros', 'Franco', 'Rocío', 'Emiliano', 'Morena', 'Iván', 'Lourdes', 'Gonzalo', 'Brenda', 'Leandro',
+                'Aldana', 'Lautaro', 'Malena', 'Federico', 'Candela', 'Alan', 'Ornella', 'Brian', 'Micaela', 'Kevin',
+                'Sabrina', 'Alexis', 'Yamila', 'Jonathan', 'Melisa', 'Ezequiel', 'Daiana', 'Cristian', 'Celeste', 'Hernán',
+                'Romina', 'Walter', 'Mariana', 'Daniel', 'Paula', 'Pablo', 'Silvina', 'Marcelo', 'Gabriela', 'Ricardo',
+                'Verónica', 'Oscar', 'Patricia', 'Jorge', 'Claudia', 'Alejandro', 'Andrea', 'Roberto', 'Karina', 'Fernando',
+                'Lorena', 'Adrián', 'Marisol', 'Sebastián', 'Eliana', 'Joaquín', 'Nadia', 'Esteban', 'Marilina', 'Guillermo',
+                'Valeria', 'Ramiro', 'Gisela', 'Mauro', 'Belén', 'Lucas', 'Soledad', 'Santiago', 'Evelyn', 'Gastón',
+                'Vanesa', 'Marcos', 'Noelia', 'Agustín', 'Tamara', 'Mario', 'Virginia', 'Hugo', 'Mariela', 'Javier',
+                'Cintia', 'Ángel', 'Paola', 'Raúl', 'Mercedes', 'Rubén', 'Mirta', 'Alberto', 'Nora', 'Víctor',
+                'Alicia', 'Ramón', 'Liliana', 'Eduardo', 'Stella', 'José', 'Nancy', 'Álvaro', 'Lidia', 'Gustavo',
+                'Sandra', 'Claudio', 'Rosa', 'Sergio', 'Beatriz', 'Omar', 'Gladys', 'Luciano', 'Teresa', 'Renzo',
+                'Antonella', 'Thiago', 'Luna', 'Benjamín', 'Emma', 'Bautista', 'Isabella', 'Francesco', 'Renata', 'Simón',
+                'Chiara', 'Valentino', 'Lola', 'Matteo', 'Guadalupe', 'Massimo', 'Mía', 'Felipe', 'Juana', 'Bruno'
+            ];
+            // Obtener nombres de productos activos de la tienda (solo los que tienen active = true)
+            let products = window.productSystem?.products?.filter(p => p.active).map(p => p.name.split(' - ')[0]) || ['Ember', 'Vika', 'Ndala', 'Riad', 'Wendy', 'Clara', 'Greta'];
+
+            function showRandomPurchase() {
+                const randomName = names[Math.floor(Math.random() * names.length)];
+                const randomProduct = products[Math.floor(Math.random() * products.length)];
+                const randomTime = Math.floor(Math.random() * 10) + 1;
+                toastMessage.textContent = `${randomName} compró ${randomProduct} hace ${randomTime} min`;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 5000);
+            }
+
+            // Mostrar primer toast después de 5 segundos, luego cada 20 segundos
+            setTimeout(showRandomPurchase, 5000);
+            setInterval(showRandomPurchase, 20000);
         });
 
         const style = document.createElement('style');
