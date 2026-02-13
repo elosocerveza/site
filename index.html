@@ -5029,7 +5029,6 @@
                 this.portal = document.getElementById('welcomePortal');
                 this.confirmBtn = document.getElementById('portalConfirmBtn');
                 this.denyBtn = document.getElementById('portalDenyBtn');
-                this.ageVerified = localStorage.getItem('elOsoAgeVerified');
                 this.snowCanvas = document.getElementById('snowCanvas');
                 this.snowParticles = [];
                 this.mouseX = 0;
@@ -5039,14 +5038,9 @@
             }
 
             init() {
-                if (!this.ageVerified) {
-                    this.showPortal();
-                    this.initSnow();
-                    this.setupMouseTracking();
-                } else {
-                    this.hidePortal();
-                }
-
+                this.showPortal();
+                this.initSnow();
+                this.setupMouseTracking();
                 this.setupEventListeners();
             }
 
@@ -5178,7 +5172,6 @@
 
             verifyAge(isAdult) {
                 if (isAdult) {
-                    localStorage.setItem('elOsoAgeVerified', 'true');
                     this.hidePortal();
                     
                     if (window.analyticsSystem) {
