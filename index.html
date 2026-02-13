@@ -1195,7 +1195,7 @@
         .free-shipping-progress {
             margin: 15px 0;
             padding: 10px;
-            background: #f0f0f0;
+            background-color: #e8f5e9;
             border-radius: 8px;
         }
         .progress-bar-container {
@@ -1214,7 +1214,7 @@
         }
         .progress-message {
             font-size: 0.9rem;
-            color: #333;
+            color: #2e7d32;
             text-align: center;
             font-weight: 500;
         }
@@ -3138,9 +3138,7 @@
                                 <span id="cartSubtotal">$ 0</span>
                             </div>
                         </div>
-
-                        <div class="free-shipping-notice" id="freeShippingNotice"></div>
-
+                        
                         <!-- BARRA DE PROGRESO MOTIVACIONAL -->
                         <div class="free-shipping-progress" id="freeShippingProgress" style="display: none;">
                             <div class="progress-bar-container">
@@ -3937,7 +3935,6 @@
                 this.updateCartCount();
                 this.renderCart();
                 this.validateForm();
-                this.updateFreeShippingNotice();
             }
 
             setupCartEventListeners() {
@@ -3988,14 +3985,7 @@
                     }
                 });
             }
-
-            updateFreeShippingNotice() {
-                const freeShippingNotice = document.getElementById('freeShippingNotice');
-                if (freeShippingNotice) {
-                    freeShippingNotice.textContent = `Envío bonificado a partir de: $${this.freeShippingThreshold.toLocaleString('es-AR')}`;
-                }
-            }
-
+            
             /** Actualiza el monto del banner de envío gratis */
             updateShippingBanner() {
                 const bannerSpan = document.getElementById('shippingBannerThreshold');
@@ -4315,13 +4305,6 @@
                 document.getElementById('cartSubtotal').textContent = `$ ${subtotal.toLocaleString('es-AR')}`;
                 document.getElementById('cartShipping').textContent = shipping === 0 ? '$ 0' : `$ ${shipping.toLocaleString('es-AR')}`;
                 document.getElementById('cartTotal').textContent = `$ ${total.toLocaleString('es-AR')}`;
-                
-                const freeShippingNotice = document.getElementById('freeShippingNotice');
-                if (subtotal < this.freeShippingThreshold) {
-                    freeShippingNotice.style.display = 'block';
-                } else {
-                    freeShippingNotice.style.display = 'none';
-                }
             }
 
             /** Actualiza la barra de progreso de envío gratis */
