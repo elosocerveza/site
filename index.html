@@ -1206,9 +1206,8 @@
         .shipping-select {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--color-black);
             border-radius: 6px;
-            background-color: var(--color-black);
+            background-color: #0a8800;
             font-size: 0.95rem;
             color: var(--color-white);
             appearance: none;
@@ -1218,7 +1217,6 @@
             background-size: 12px;
             cursor: pointer;
             transition: border-color 0.3s;
-            text-transform: uppercase;
         }
 
         .shipping-select:focus {
@@ -1406,11 +1404,10 @@
         }
 
         .checkout-btn:hover:not(:disabled) {
-            background: var(--color-white);
-            border: 1px solid var(--color-black);
+            background: #0a8800;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-            color: var(--color-black);
+            color: var(--color-white);
         }
 
         .checkout-btn:active:not(:disabled) {
@@ -1601,6 +1598,7 @@
             color: #333;
             background: #fff;
             transition: all 0.3s;
+            font-family: var(--font-primary);
         }
 
         .form-input:focus,
@@ -3296,7 +3294,7 @@
                 this.productsGrid = document.getElementById('productsGrid');
                 this.filterButtons = document.querySelectorAll('#tienda .btn-white-border[data-filter]');
                 this.products = [];
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwAiNXwXMsQCipyaAQB-QGTzBrS3PDRWF63m_SkcmCykfWnZjbcuLQm0VScFzy1VZ0FFg/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOBXWuErPOTFmjyrxqqU6-298uURKhTkWAsCWtzIOtkMsvSwAmYJG42_VZ-V6r5XGkAA/exec';
                 this.init();
                 this.setupGlobalEventListeners();
             }
@@ -3877,7 +3875,7 @@
                 this.freeShippingThreshold = 30000;
                 this.deliveryDays = [4, 5];
                 this.deliveryTimeRange = '11 a 20 hrs';
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwAiNXwXMsQCipyaAQB-QGTzBrS3PDRWF63m_SkcmCykfWnZjbcuLQm0VScFzy1VZ0FFg/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOBXWuErPOTFmjyrxqqU6-298uURKhTkWAsCWtzIOtkMsvSwAmYJG42_VZ-V6r5XGkAA/exec';
                 
                 this.init();
                 this.setupCartEventListeners();
