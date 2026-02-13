@@ -1191,6 +1191,35 @@
             border-bottom: none;
         }
 
+        /* --- Barra de progreso envío gratis --- */
+        .free-shipping-progress {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 8px;
+        }
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        .progress-message {
+            font-size: 0.9rem;
+            color: #333;
+            text-align: center;
+            font-weight: 500;
+        }
+        /* ------------------------------------ */
+
         .shipping-form-group {
             margin-bottom: 20px;
         }
@@ -1380,7 +1409,7 @@
             margin: 15px 0;
             color: #0a8800;
             font-weight: bold;
-            border: 1px solid #0a8800;
+            background-color: #e8f5e9;
         }
 
         .checkout-btn {
@@ -2652,7 +2681,7 @@
         </section>
 
         <div class="shipping-banner">
-            <span>Envío gratis Jueves y Viernes desde $30.000 (Solo Quilmes, Bernal, Ezpeleta, Don Bosco y Berazategui)</span>
+            <span id="shippingBannerThreshold">Envío gratis Jueves y Viernes desde $30.000 (Solo Quilmes, Bernal, Ezpeleta, Don Bosco y Berazategui)</span>
         </div>
 
         <section class="home-section home-shop" id="tienda">
@@ -3111,6 +3140,14 @@
                         </div>
 
                         <div class="free-shipping-notice" id="freeShippingNotice"></div>
+
+                        <!-- BARRA DE PROGRESO MOTIVACIONAL -->
+                        <div class="free-shipping-progress" id="freeShippingProgress" style="display: none;">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar-fill" id="freeShippingProgressFill" style="width: 0%;"></div>
+                            </div>
+                            <div class="progress-message" id="freeShippingMessage"></div>
+                        </div>
 
                         <div class="ticket-section">
                             <div class="summary-row shipping">
@@ -3893,6 +3930,7 @@
                 
                 this.init();
                 this.setupCartEventListeners();
+                this.updateShippingBanner(); // Actualizar banner al iniciar
             }
 
             init() {
@@ -3955,6 +3993,14 @@
                 const freeShippingNotice = document.getElementById('freeShippingNotice');
                 if (freeShippingNotice) {
                     freeShippingNotice.textContent = `Envío bonificado a partir de: $${this.freeShippingThreshold.toLocaleString('es-AR')}`;
+                }
+            }
+
+            /** Actualiza el monto del banner de envío gratis */
+            updateShippingBanner() {
+                const bannerSpan = document.getElementById('shippingBannerThreshold');
+                if (bannerSpan) {
+                    bannerSpan.textContent = `Envío gratis Jueves y Viernes desde $${this.freeShippingThreshold.toLocaleString('es-AR')} (Solo Quilmes, Bernal, Ezpeleta, Don Bosco y Berazategui)`;
                 }
             }
 
@@ -4216,6 +4262,8 @@
                     ticketSummary.style.display = 'none';
                     document.getElementById('checkoutBtn').disabled = true;
                     cartItemsContainer.classList.remove('hidden');
+                    // Ocultar barra de progreso si está vacío
+                    document.getElementById('freeShippingProgress').style.display = 'none';
                     return;
                 }
 
@@ -4251,6 +4299,7 @@
                 cartItemsContainer.classList.remove('hidden');
                 
                 this.updateSummary();
+                this.updateFreeShippingProgress(); // Actualizar barra de progreso
                 this.validateForm();
                 
                 if (document.getElementById('deliveryLocation').value) {
@@ -4273,6 +4322,36 @@
                 } else {
                     freeShippingNotice.style.display = 'none';
                 }
+            }
+
+            /** Actualiza la barra de progreso de envío gratis */
+            updateFreeShippingProgress() {
+                const subtotal = this.calculateSubtotal();
+                const progressContainer = document.getElementById('freeShippingProgress');
+                const progressFill = document.getElementById('freeShippingProgressFill');
+                const progressMessage = document.getElementById('freeShippingMessage');
+
+                if (!progressContainer || !progressFill || !progressMessage) return;
+
+                if (this.cart.length === 0) {
+                    progressContainer.style.display = 'none';
+                    return;
+                }
+
+                progressContainer.style.display = 'block';
+
+                let percentage = (subtotal / this.freeShippingThreshold) * 100;
+                if (percentage > 100) percentage = 100;
+                progressFill.style.width = percentage + '%';
+
+                let message = '';
+                if (subtotal >= this.freeShippingThreshold) {
+                    message = '¡FELICIDADES! Tenés envío gratis.';
+                } else {
+                    const remaining = this.freeShippingThreshold - subtotal;
+                    message = `¡Te faltan $${remaining.toLocaleString('es-AR')} para envío gratis.`;
+                }
+                progressMessage.textContent = message;
             }
 
             validateField(fieldId, value) {
