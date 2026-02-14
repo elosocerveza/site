@@ -3819,7 +3819,7 @@
 
             openModal(product) {
                 const quantity = this.getProductQuantity(product.id) || 1;
-                const presentation = product.presentation || this.getDefaultPresentation(product.category);
+                const presentation = product.presentation || '';
                 
                 this.modalContent.innerHTML = `
                     <div class="product-modal-image">
@@ -3955,7 +3955,7 @@
                         name: product.name,
                         price: product.price,
                         category: product.category,
-                        presentation: button.dataset.presentation || this.getDefaultPresentation(product.category),
+                        presentation: button.dataset.presentation || '',
                         quantity: quantity
                     };
                     
@@ -4028,8 +4028,8 @@
                 div.dataset.category = product.category;
 
                 const currentQuantity = this.getProductQuantity(product.id);
-                const presentation = product.presentation || this.getDefaultPresentation(product.category);
-                const viewerCount = Math.floor(Math.random() * 15) + 5; // aleatorio
+                const presentation = product.presentation || '';
+                const viewerCount = Math.floor(Math.random() * 15); // aleatorio
 
                 div.innerHTML = `
                     <figure class="shop-article--image">
@@ -4360,7 +4360,7 @@
                 } else {
                     this.cart.push({
                         ...product,
-                        presentation: product.presentation || window.productSystem.getDefaultPresentation(product.category)
+                        presentation: product.presentation || ''
                     });
                     button.textContent = '✓ Agregado';
                     button.classList.add('added');
@@ -4400,7 +4400,7 @@
                     name: button.dataset.name,
                     price: parseInt(button.dataset.price),
                     category: button.dataset.category,
-                    presentation: button.dataset.presentation || window.productSystem.getDefaultPresentation(button.dataset.category),
+                    presentation: button.dataset.presentation || '',
                     quantity: quantity
                 };
 
@@ -4573,7 +4573,7 @@
                 
                 this.cart.forEach((item, index) => {
                     const itemTotal = item.price * item.quantity;
-                    const presentation = item.presentation || window.productSystem.getDefaultPresentation(item.category);
+                    const presentation = item.presentation || '';
                     
                     itemsHTML += `
                         <div class="ticket-item" data-id="${item.id}">
@@ -5071,7 +5071,7 @@
                     
                     order.items.forEach((item, index) => {
                         const itemTotal = item.price * item.quantity;
-                        const presentation = item.presentation || window.productSystem.getDefaultPresentation(item.category);
+                        const presentation = item.presentation || '';
                         
                         productsHTML += `
                             <div class="confirmation-product-item">
@@ -5112,7 +5112,7 @@
                 const whatsappBtn = document.getElementById('whatsappConfirmBtn');
                 if (whatsappBtn) {
                     const itemsList = order.items.map(item => 
-                        `${item.name} (${item.presentation || window.productSystem.getDefaultPresentation(item.category)}) x${item.quantity} - $${(item.price * item.quantity).toLocaleString('es-AR')}`
+                        `${item.name} (${item.presentation || ''}) x${item.quantity} - $${(item.price * item.quantity).toLocaleString('es-AR')}`
                     ).join('%0A');
                     
                     const message = `*NUEVO PEDIDO EL OSO*%0A%0A` +
