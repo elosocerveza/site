@@ -510,7 +510,6 @@
             font-size: 1.5rem;
             cursor: pointer;
             z-index: 10;
-            border: 2px solid var(--color-white);
             transition: all 0.3s;
         }
 
@@ -2895,6 +2894,12 @@
                             <button class="btn-white-border active" data-filter="cerveza">
                                 <span>CERVEZAS</span><sup id="count-cerveza">0</sup>
                             </button>
+                            <button class="btn-white-border" data-filter="picante">
+                                <span>PICANTES</span><sup id="count-picante">0</sup>
+                            </button>
+                            <button class="btn-white-border" data-filter="conserva">
+                                <span>CONSERVAS</span><sup id="count-conserva">0</sup>
+                            </button>
                             <button class="btn-white-border" data-filter="pack">
                                 <span>PACKS</span><sup id="count-pack">0</sup>
                             </button>
@@ -3619,13 +3624,13 @@
                         this.products = data.products.map(item => ({
                             id: parseInt(item.id) || 0,
                             name: item.name || '',
-                            category: this.normalizeCategory(item.category || ''),
+                            category: item.category || '',
                             price: this.parsePrice(item.price || '0'),
-                            image: item.image || this.getDefaultImage(this.normalizeCategory(item.category || '')),
+                            image: item.image || '',
                             info: item.info || '',
                             active: item.active,
-                            description: item.description || 'Sin descripción disponible',
-                            presentation: item.presentation || this.getDefaultPresentation(this.normalizeCategory(item.category || '')),
+                            description: item.description || '',
+                            presentation: item.presentation || '',
                             stock: parseInt(item.stock) || 0
                         }));
                         
@@ -3771,30 +3776,6 @@
                 ];
             }
             
-            normalizeCategory(category) {
-                if (!category) return 'cerveza';
-                
-                const categoryMap = {
-                    'cerveza': 'cerveza',
-                    'Cerveza': 'cerveza',
-                    'CERVEZA': 'cerveza',
-                    'pack': 'pack',
-                    'pack': 'pack',
-                    'pack': 'pack',
-                    'mixto': 'mixto',
-                    'Mixto': 'mixto',
-                    'MIXTO': 'mixto',
-                    'picante': 'picante',
-                    'Picante': 'picante',
-                    'PICANTE': 'picante',
-                    'conserva': 'conserva',
-                    'Conserva': 'conserva',
-                    'CONSERVA': 'conserva'
-                };
-                
-                return categoryMap[category.toString().toLowerCase()] || 'cerveza';
-            }
-
             parsePrice(priceString) {
                 if (!priceString) return 0;
                 
@@ -3814,34 +3795,6 @@
                 return lower === 'si' || lower === 'sí' || lower === 'yes' || lower === 'true' || lower === '1' || lower === 'verdadero';
             }
 
-            getDefaultImage(category) {
-                const defaultImages = {
-                    'cerveza': 'images/products/beers/default-beer.png',
-                    'pack': 'images/products/packs/default-pack.png',
-                    'mixto': 'images/products/mixtos/default-mixto.png',
-                    'picante': 'images/products/picantes/default-picante.png',
-                    'conserva': 'images/products/conservas/default-conserva.png'
-                };
-                return defaultImages[category] || 'images/products/default.png';
-            }
-
-            getDefaultPresentation(category) {
-                switch(category) {
-                    case 'cerveza':
-                        return 'Botella 330ml';
-                    case 'picante':
-                        return 'Botella 100ml';
-                    case 'conserva':
-                        return 'Frasco 330ml';
-                    case 'pack':
-                        return 'Pack Especial';
-                    case 'mixto':
-                        return 'Pack mixto';
-                    default:
-                        return 'Unidad';
-                }
-            }
-            
             setupModal() {
                 this.modalOverlay = document.getElementById('productModalOverlay');
                 this.modalContent = document.getElementById('productModalContent');
@@ -4134,6 +4087,8 @@
                 const counts = {
                     all: this.products.filter(p => p.active).length,
                     cerveza: this.products.filter(p => p.active && p.category === 'cerveza').length,
+                    picante: this.products.filter(p => p.active && p.category === 'picante').length,
+                    conserva: this.products.filter(p => p.active && p.category === 'conserva').length,
                     pack: this.products.filter(p => p.active && p.category === 'pack').length,
                     mixto: this.products.filter(p => p.active && p.category === 'mixto').length
                 };
