@@ -2745,6 +2745,9 @@
         .product-viewer-badge span:first-child {
             font-size: 0.9rem;
         }
+        .hidden {
+            display: none !important;
+        }
     </style>
     
     <script type="application/ld+json">
@@ -4080,7 +4083,7 @@
                         <img src="${product.image}" alt="${product.name}" loading="lazy" width="200" height="200" class="product-image" data-id="${product.id}">
                         <div class="product-viewer-badge">
                             <span>👁️</span>
-                            <span class="viewer-count">${viewerCount} Vistas</span>
+                            <span class="viewer-count">${viewerCount}</span>
                         </div>
                     </figure>
                     <div class="shop-article--data">
@@ -4997,13 +5000,6 @@
                         this.cart = [];
                         this.saveCart();
                         this.updateCartCount();
-                        this.resetForm();
-                        cartItems.innerHTML = `
-                            <div class="cart-empty">
-                                <p>Tu carrito está vacío</p>
-                                <p>¡Agrega algunos productos para comenzar!</p>
-                            </div>
-                        `;
                         // Registrar cupón usado si corresponde
                         if (this.appliedCoupon) {
                             if (!this.usedCoupons.includes(this.appliedCoupon.code)) {
@@ -5011,7 +5007,9 @@
                                 localStorage.setItem('elOsoUsedCoupons', JSON.stringify(this.usedCoupons));
                             }
                         }
-                        this.removeCoupon(true); // Eliminar cupón después de compra
+                        this.renderCart();
+                        this.resetForm();
+                        document.getElementById('cartItemsContainer').classList.add('hidden');
                     } else {
                         this.showOrderError(result);
                         checkoutBtn.textContent = originalText;
@@ -5894,8 +5892,8 @@
             }
 
             // Mostrar primer toast después de 5 segundos, luego cada 20 segundos
-            setTimeout(showRandomPurchase, 5000);
-            setInterval(showRandomPurchase, 30000);
+            setTimeout(showRandomPurchase, 10000);
+            setInterval(showRandomPurchase, 40000);
         });
 
         const style = document.createElement('style');
