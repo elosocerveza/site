@@ -4832,6 +4832,8 @@
                                 this.usedCoupons.push(this.appliedCoupon.code);
                                 localStorage.setItem('elOsoUsedCoupons', JSON.stringify(this.usedCoupons));
                             }
+                        } else {
+                            localStorage.setItem('exitIntentShown', 'true');
                         }
                         this.renderCart();
                         this.resetForm();
@@ -5522,6 +5524,7 @@
                 // Detectar intento de salida (mouse sale por arriba)
                 document.addEventListener('mouseleave', (e) => {
                     if (this.shown) return;
+                    if (localStorage.getItem('exitIntentShown')) return;
                     // Solo cuando el mouse sale por la parte superior (y)
                     if (e.clientY <= 0) {
                         this.show();
@@ -5595,7 +5598,7 @@
                     prevEl: '.swiper-button-prev',
                 }
             });
-            
+
             window.productSystem = new ProductSystem();
             
             await window.productSystem.init();
