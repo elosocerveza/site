@@ -105,73 +105,7 @@
             position: relative;
             z-index: 1;
         }
-
-        #main-header {
-            padding-left: 80px;
-            transition: padding-left 0.3s;
-        }
-
-        #main-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px 0;
-        }
-
-        .main-header--container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .header-left nav {
-            display: flex;
-            gap: 25px;
-        }
-
-        .header-left nav a {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-        }
-
-        .top-menu {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            position: relative;
-        }
-
-        .social {
-            display: flex;
-            gap: 15px;
-        }
-
-        .social a {
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        .header-right .logo {
-            display: block;
-            width: 60px;
-            height: 60px;
-            background-image: url('images/logo/logo-64x64.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
+        
         .home-hero {
             height: 100vh;
             display: flex;
@@ -200,12 +134,6 @@
             border-radius: 10px;
         }
 
-        .home-hero--content .logo {
-            width: 200px;
-            margin: 0 auto 30px;
-            display: block;
-        }
-
         .home-hero--text h1 {
             font-size: 2rem;
             margin-bottom: 40px;
@@ -217,34 +145,6 @@
             font-size: 1.5rem;
             margin-top: 15px;
             font-style: italic;
-        }
-
-        .home-hero--content input[type="email"] {
-            width: 100%;
-            max-width: 400px;
-            padding: 15px 20px;
-            background: transparent;
-            border: 1px solid var(--color-white);
-            color: var(--color-white);
-            border-radius: 30px;
-            margin-bottom: 20px;
-            font-size: 1rem;
-        }
-
-        .home-hero--content button {
-            background-color: var(--color-white);
-            color: var(--color-black);
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            transition: all 0.3s;
-        }
-
-        .home-hero--content button:hover {
-            background-color: var(--color-accent);
-            color: var(--color-white);
         }
 
         .home-section {
@@ -2106,14 +2006,6 @@
         }
 
         @media (max-width: 992px) {
-            .main-header--container {
-                padding: 0 20px;
-            }
-            
-            .header-left nav {
-                display: none;
-            }
-            
             .home-section {
                 flex-direction: column;
                 padding: 30px 0;
@@ -2167,10 +2059,6 @@
             
             #main-wrapper {
                 margin-left: 0;
-            }
-            
-            #main-header {
-                padding-left: 0;
             }
             
             .home-hero {
@@ -3789,12 +3677,6 @@
                 return isNaN(numericPrice) ? 0 : Math.round(numericPrice);
             }
 
-            parseActive(availableString) {
-                if (!availableString) return true;
-                const lower = availableString.toString().toLowerCase().trim();
-                return lower === 'si' || lower === 'sí' || lower === 'yes' || lower === 'true' || lower === '1' || lower === 'verdadero';
-            }
-
             setupModal() {
                 this.modalOverlay = document.getElementById('productModalOverlay');
                 this.modalContent = document.getElementById('productModalContent');
@@ -3985,17 +3867,6 @@
                     return itemInCart ? itemInCart.quantity : 1;
                 }
                 return 1;
-            }
-
-            getCategoryName(category) {
-                const categories = {
-                    'cerveza': 'Cerveza Artesanal',
-                    'picante': 'Salsa Picante',
-                    'conserva': 'Conserva Artesanal',
-                    'pack': 'Pack Especial',
-                    'mixto': 'Pack Mixto'
-                };
-                return categories[category] || 'Producto';
             }
 
             renderProducts() {
@@ -5724,15 +5595,7 @@
                     prevEl: '.swiper-button-prev',
                 }
             });
-
-            document.querySelectorAll('form').forEach(form => {
-                if (!form.classList.contains('card-mail')) {
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                    });
-                }
-            });
-
+            
             window.productSystem = new ProductSystem();
             
             await window.productSystem.init();
