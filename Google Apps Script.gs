@@ -3,15 +3,15 @@
 // ============================================
 
 const CONFIG = {
-  SHEET_ID: 'XXX',
+  SHEET_ID: 'xxx',
   ORDERS_SHEET_NAME: 'Web - Pedidos',
   PRODUCTS_SHEET_NAME: 'Web - Productos',
   LOGS_SHEET_NAME: 'Web - Logs',
-  ADMIN_EMAIL: 'XXX@gmail.com',
+  ADMIN_EMAIL: 'xxx@gmail.com',
   TIMEZONE: 'America/Argentina/Buenos_Aires',
   CACHE_DURATION: 1800,
-  META_PIXEL_ID: 'XXX',
-  META_ACCESS_TOKEN: 'XXX'
+  META_PIXEL_ID: 'xxx',
+  META_ACCESS_TOKEN: 'xxx'
 };
 
 // ====== SISTEMA DE LOGS ======
@@ -564,6 +564,7 @@ function sendEmailNotification(orderData) {
   }
 }
 
+// ====== ENVIAR EVENTO PURCHASE A META (ACTUALIZADO) ======
 function sendPurchaseToFacebook(orderData) {
   try {
     const pixelId = CONFIG.META_PIXEL_ID;
@@ -572,6 +573,7 @@ function sendPurchaseToFacebook(orderData) {
 
     const customer = orderData.customer || {};
     const items = orderData.items || [];
+    const metaData = orderData.metaData || {};   // <-- NUEVO: datos de fbc/fbp
 
     // Preparar productos
     const contents = items.map(item => ({
@@ -585,7 +587,7 @@ function sendPurchaseToFacebook(orderData) {
     const clientIp = request ? request.sourceIp : '0.0.0.0';
     const userAgent = request ? request.userAgent : '';
 
-    // Datos del cliente con hash SHA256
+    // Datos del cliente con hash SHA256 (los campos tradicionales)
     const userData = {
       em: hashSha256((customer.email || '').trim().toLowerCase()),
       ph: hashSha256((customer.phone || '').replace(/\D/g, '')),
@@ -594,8 +596,16 @@ function sendPurchaseToFacebook(orderData) {
       ct: hashSha256((customer.city || '').toLowerCase()),
       country: hashSha256('ar'),
       client_ip_address: clientIp,
-      client_user_agent: userAgent
+      client_user_agent: userAgent,
+      // NUEVO: fbc y fbp se envían sin hashear, tal como vienen del frontend
+      fbc: metaData.fbc || undefined,
+      fbp: metaData.fbp || undefined
     };
+
+    // Limpiar propiedades undefined para no enviar campos vacíos
+    Object.keys(userData).forEach(key => {
+      if (userData[key] === undefined) delete userData[key];
+    });
 
     const payload = {
       data: [{
@@ -636,7 +646,7 @@ function sendPurchaseToFacebook(orderData) {
   }
 }
 
-// Función auxiliar para hashear en SHA256 (corregida para Apps Script)
+// ====== FUNCIÓN AUXILIAR PARA HASH SHA256 ======
 function hashSha256(str) {
   if (!str) return '';
   // Utilities.computeDigest devuelve array de bytes con signo

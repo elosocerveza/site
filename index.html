@@ -3437,13 +3437,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        // ==================== FUNCIONES AUXILIARES PARA META ====================
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // ==================== CLASES EXISTENTES ====================
         class ProductSystem {
             constructor() {
                 this.currentFilter = 'cerveza';
                 this.productsGrid = document.getElementById('productsGrid');
                 this.filterButtons = document.querySelectorAll('#tienda .btn-white-border[data-filter]');
                 this.products = [];
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyl1-AtlkOUcib9nRpsBA04zqYa-RYrcn5t6_adzJqTcCP_fIOC9moDlwgLKwHSbQDvrQ/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaOTXGmQ9uPhVe1CS0rH9Geyu0oUeHI-L9oTbTTyCiaQX7dfrybkBxVa9Dv3Jy47wc8g/exec';
                 this.init();
                 this.setupGlobalEventListeners();
             }
@@ -3962,7 +3977,7 @@
                 this.freeShippingThreshold = 30000;
                 this.deliveryDays = [4, 5];
                 this.deliveryTimeRange = '11 a 20 hrs';
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyl1-AtlkOUcib9nRpsBA04zqYa-RYrcn5t6_adzJqTcCP_fIOC9moDlwgLKwHSbQDvrQ/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwaOTXGmQ9uPhVe1CS0rH9Geyu0oUeHI-L9oTbTTyCiaQX7dfrybkBxVa9Dv3Jy47wc8g/exec';
                 
                 // Cupones válidos
                 this.validCoupons = {
@@ -4765,6 +4780,12 @@
                     notes: document.getElementById('orderNotes').value.trim()
                 };
 
+                // Capturar datos de Meta (fbc y fbp) - NUEVO
+                const metaData = {
+                    fbc: getCookie('_fbc') || getUrlParameter('fbclid'),
+                    fbp: getCookie('_fbp')
+                };
+
                 const timestamp = Date.now();
                 const randomSuffix = Math.random().toString(36).substring(2, 5).toUpperCase();
                 const orderNumber = 'ELO-' + timestamp + '-' + randomSuffix;
@@ -4780,7 +4801,8 @@
                     total: this.calculateTotal(),
                     appliedCoupon: this.appliedCoupon,
                     shippingType: 'delivery',
-                    status: 'pending'
+                    status: 'pending',
+                    metaData: metaData   // <-- NUEVO
                 };
                 
                 const checkoutBtn = document.getElementById('checkoutBtn');
