@@ -3,13 +3,15 @@
 // ============================================
 
 const CONFIG = {
-  SHEET_ID: 'xxx',
+  SHEET_ID: 'XXX',
   ORDERS_SHEET_NAME: 'Web - Pedidos',
   PRODUCTS_SHEET_NAME: 'Web - Productos',
   LOGS_SHEET_NAME: 'Web - Logs',
-  ADMIN_EMAIL: 'xxx@gmail.com',
+  ADMIN_EMAIL: 'XXX@gmail.com',
   TIMEZONE: 'America/Argentina/Buenos_Aires',
-  CACHE_DURATION: 1800
+  CACHE_DURATION: 1800,
+  META_PIXEL_ID: 'XXX',
+  META_ACCESS_TOKEN: 'XXX'
 };
 
 // ====== SISTEMA DE LOGS ======
@@ -430,6 +432,8 @@ function submitOrderToSheet(orderData) {
     if (orderData.customer.email && CONFIG.ADMIN_EMAIL) {
       sendEmailNotification(orderData);
     }
+
+    sendPurchaseToFacebook(orderData);
     
     // Invalidar cache de productos
     CacheService.getScriptCache().remove('eloso_products');
@@ -558,6 +562,90 @@ function sendEmailNotification(orderData) {
   } catch (error) {
     console.error('❌ Error enviando email:', error);
   }
+}
+
+function sendPurchaseToFacebook(orderData) {
+  try {
+    const pixelId = CONFIG.META_PIXEL_ID;
+    const accessToken = CONFIG.META_ACCESS_TOKEN;
+    const apiUrl = `https://graph.facebook.com/v21.0/${pixelId}/events`;
+
+    const customer = orderData.customer || {};
+    const items = orderData.items || [];
+
+    // Preparar productos
+    const contents = items.map(item => ({
+      id: item.id.toString(),
+      quantity: item.quantity,
+      item_price: item.price
+    }));
+
+    // Obtener IP y User Agent del request (si está disponible)
+    const request = ScriptApp.getRequest ? ScriptApp.getRequest() : null;
+    const clientIp = request ? request.sourceIp : '0.0.0.0';
+    const userAgent = request ? request.userAgent : '';
+
+    // Datos del cliente con hash SHA256
+    const userData = {
+      em: hashSha256((customer.email || '').trim().toLowerCase()),
+      ph: hashSha256((customer.phone || '').replace(/\D/g, '')),
+      fn: hashSha256((customer.name || '').split(' ')[0].toLowerCase()),
+      ln: hashSha256((customer.name || '').split(' ').slice(1).join(' ').toLowerCase()),
+      ct: hashSha256((customer.city || '').toLowerCase()),
+      country: hashSha256('ar'),
+      client_ip_address: clientIp,
+      client_user_agent: userAgent
+    };
+
+    const payload = {
+      data: [{
+        event_name: 'Purchase',
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: orderData.orderNumber, // Importante para deduplicar con el píxel
+        action_source: 'website',
+        user_data: userData,
+        custom_data: {
+          currency: 'ARS',
+          value: orderData.total || 0,
+          content_ids: items.map(i => i.id.toString()),
+          content_type: 'product',
+          num_items: items.reduce((sum, i) => sum + i.quantity, 0),
+          contents: contents
+        }
+      }],
+      access_token: accessToken
+    };
+
+    const options = {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    };
+
+    const response = UrlFetchApp.fetch(apiUrl, options);
+    const result = JSON.parse(response.getContentText());
+
+    if (response.getResponseCode() === 200) {
+      logInfo('Evento Purchase enviado a Meta OK', 'sendPurchaseToFacebook', result);
+    } else {
+      logError(new Error('Error al enviar a Meta'), 'sendPurchaseToFacebook', result);
+    }
+  } catch (error) {
+    logError(error, 'sendPurchaseToFacebook');
+  }
+}
+
+// Función auxiliar para hashear en SHA256 (corregida para Apps Script)
+function hashSha256(str) {
+  if (!str) return '';
+  // Utilities.computeDigest devuelve array de bytes con signo
+  const rawBytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, str);
+  // Convertir cada byte a hexadecimal, manejando valores negativos
+  return rawBytes.map(byte => {
+    const normalized = byte < 0 ? byte + 256 : byte;
+    return ('0' + normalized.toString(16)).slice(-2);
+  }).join('');
 }
 
 // ====== CREAR RESPUESTA JSON ======
