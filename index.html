@@ -38,7 +38,7 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://script.google.com">
 
-    <link rel="preload" href="images/banners/hero.jpg" as="image">
+    <link rel="preload" href="images/banners/hero-mobile.jpg" as="image">
 
     <title>El Oso</title>
     
@@ -2741,7 +2741,10 @@
                     <h1>"Es curioso cómo a veces uno simplemente encuentra cosas" <span>- Ted Mosby</span></h1>
                 </div>
             </form>
-            <img class="bg" src="images/banners/hero.jpg" alt="El Oso - Hero Banner" width="1920" height="1080">
+            <picture>
+                <source media="(max-width: 768px)" srcset="images/banners/hero-mobile.jpg">
+                <img class="bg" src="images/banners/hero.jpg" alt="El Oso - Hero Banner" width="1920" height="1080" loading="eager">
+            </picture>
         </section>
 
         <div class="shipping-banner">
@@ -5301,6 +5304,7 @@
                 this.mouseX = 0;
                 this.mouseY = 0;
                 this.mouseRadius = 100;
+                this.isMobile = window.innerWidth < 768;
                 this.init();
             }
 
@@ -5312,8 +5316,10 @@
             }
 
             initSnow() {
+                if (this.isMobile) return;
+
                 if (!this.snowCanvas) return;
-                
+
                 const canvas = this.snowCanvas;
                 const ctx = canvas.getContext('2d');
                 
@@ -5391,7 +5397,7 @@
             }
 
             setupMouseTracking() {
-                if (!this.snowCanvas) return;
+                if (this.isMobile || !this.snowCanvas) return;
                 
                 const canvas = this.snowCanvas;
                 
@@ -5522,16 +5528,14 @@
 
         document.addEventListener('DOMContentLoaded', async function() {
             var swiperReviews = new Swiper('.mySwiperReviews', {
-                slidesPerView: 2,
-                spaceBetween: 30,
+                slidesPerView: 1, // Siempre 1 en móvil (ya lo tenías en breakpoints)
+                spaceBetween: 15,
                 navigation: {
                     nextEl: '.swiper-button-next',
                     prevEl: '.swiper-button-prev',
                 },
                 breakpoints: {
-                    320: { slidesPerView: 1, spaceBetween: 15 },
-                    768: { slidesPerView: 1, spaceBetween: 20 },
-                    1024: { slidesPerView: 2, spaceBetween: 30 }
+                    768: { slidesPerView: 2 }
                 }
             });
 
