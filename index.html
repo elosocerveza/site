@@ -1592,7 +1592,6 @@
         }
 
         .form-group label[for*="Name"]::after,
-        .form-group label[for*="DNI"]::after,
         .form-group label[for*="Email"]::after,
         .form-group label[for*="Phone"]::after,
         .form-group label[for*="Address"]::after {
@@ -3268,12 +3267,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="customerDNI">DNI</label>
-                                <input type="text" id="customerDNI" class="form-input" placeholder="Ej: 12345678" required>
-                                <div id="customerDNIError" class="error-message"></div>
-                            </div>
-                            
-                            <div class="form-group">
                                 <label for="customerEmail">Email</label>
                                 <input type="email" id="customerEmail" class="form-input" placeholder="ejemplo@email.com" required>
                                 <div id="customerEmailError" class="error-message"></div>
@@ -3332,10 +3325,6 @@
                                 <div class="summary-item">
                                     <span>Email</span>
                                     <span id="confirmationEmail"></span>
-                                </div>
-                                <div class="summary-item">
-                                    <span>DNI</span>
-                                    <span id="confirmationDNI"></span>
                                 </div>
                                 <div class="summary-item">
                                     <span>Dirección</span>
@@ -4559,20 +4548,6 @@
                         }
                         break;
                         
-                    case 'customerDNI':
-                        const dniDigits = value.replace(/\D/g, '');
-                        if (!value.trim()) {
-                            isValid = false;
-                            errorMessage = 'El DNI es requerido';
-                        } else if (dniDigits.length < 7 || dniDigits.length > 8) {
-                            isValid = false;
-                            errorMessage = 'El DNI debe tener 7 u 8 dígitos';
-                        } else if (!/^\d+$/.test(dniDigits)) {
-                            isValid = false;
-                            errorMessage = 'El DNI debe contener solo números';
-                        }
-                        break;
-                        
                     case 'customerEmail':
                         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                         if (!value.trim()) {
@@ -4631,7 +4606,6 @@
             validateAllFields() {
                 const fields = [
                     { id: 'customerName', value: document.getElementById('customerName').value },
-                    { id: 'customerDNI', value: document.getElementById('customerDNI').value },
                     { id: 'customerEmail', value: document.getElementById('customerEmail').value },
                     { id: 'customerPhone', value: document.getElementById('customerPhone').value },
                     { id: 'customerAddress', value: document.getElementById('customerAddress').value },
@@ -4769,7 +4743,6 @@
                 
                 const customerData = {
                     name: document.getElementById('customerName').value.trim(),
-                    dni: document.getElementById('customerDNI').value.trim(),
                     email: document.getElementById('customerEmail').value.trim(),
                     phone: document.getElementById('customerPhone').value.trim(),
                     address: document.getElementById('customerAddress').value.trim(),
@@ -4917,7 +4890,6 @@
             showOrderConfirmation(order, response) {
                 const customerData = {
                     name: document.getElementById('customerName').value.trim(),
-                    dni: document.getElementById('customerDNI').value.trim(),
                     email: document.getElementById('customerEmail').value.trim(),
                     phone: document.getElementById('customerPhone').value.trim(),
                     address: document.getElementById('customerAddress').value.trim(),
@@ -4958,7 +4930,6 @@
                 document.getElementById('confirmationName').textContent = customerData.name;
                 document.getElementById('confirmationPhone').textContent = customerData.phone;
                 document.getElementById('confirmationEmail').textContent = customerData.email;
-                document.getElementById('confirmationDNI').textContent = customerData.dni;
                 document.getElementById('confirmationAddress').textContent = customerData.address;
                 document.getElementById('confirmationCity').textContent = customerData.city;
                 document.getElementById('confirmationDelivery').textContent = `${customerData.deliveryDay} (${customerData.deliveryTime})`;
@@ -4985,7 +4956,6 @@
                                 `*Pedido:* ${order.orderNumber}%0A` +
                                 `*Cliente:* ${customerData.name}%0A` +
                                 `*Teléfono:* ${customerData.phone}%0A` +
-                                `*DNI:* ${customerData.dni}%0A` +
                                 `*Dirección:* ${customerData.address}, ${customerData.city}%0A` +
                                 `*Entrega:* ${customerData.deliveryDay} (11 a 20 hrs)%0A%0A` +
                                 `*Productos:*%0A${itemsList}%0A%0A` +
@@ -5087,7 +5057,6 @@
                 document.getElementById('deliveryDay').textContent = '';
                 document.getElementById('deliveryTime').textContent = '';
                 document.getElementById('customerName').value = '';
-                document.getElementById('customerDNI').value = '';
                 document.getElementById('customerEmail').value = '';
                 document.getElementById('customerPhone').value = '';
                 document.getElementById('customerAddress').value = '';
@@ -5625,7 +5594,7 @@
                 window.cartSystem.validateForm();
             });
 
-            const formFields = ['customerName', 'customerDNI', 'customerEmail', 'customerPhone', 'customerAddress'];
+            const formFields = ['customerName', 'customerEmail', 'customerPhone', 'customerAddress'];
             
             formFields.forEach(fieldId => {
                 const field = document.getElementById(fieldId);
