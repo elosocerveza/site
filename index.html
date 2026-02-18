@@ -5477,7 +5477,6 @@
                 this.popup = document.getElementById('exitPopup');
                 this.overlay = document.getElementById('exitPopupOverlay');
                 this.closeBtn = document.getElementById('exitPopupClose');
-                this.applyBtn = document.getElementById('applyExitCouponBtn');
                 this.shown = false;
                 this.init();
             }
@@ -5502,19 +5501,6 @@
                 // Cerrar al hacer clic en overlay o botón cerrar
                 this.overlay.addEventListener('click', () => this.hide());
                 this.closeBtn.addEventListener('click', () => this.hide());
-
-                // Botón aplicar cupón
-                this.applyBtn.addEventListener('click', () => {
-                    // Aplicar cupón OSO10 al carrito
-                    if (window.cartSystem) {
-                        const couponInput = document.getElementById('couponInput');
-                        couponInput.value = 'OSO10';
-                        window.cartSystem.applyCoupon();
-                        // También podemos abrir el carrito para que vea
-                        window.cartSystem.openCart();
-                    }
-                    this.hide();
-                });
             }
 
             show() {
