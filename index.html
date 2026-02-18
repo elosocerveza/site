@@ -151,6 +151,8 @@
             padding: 100px 0;
             display: flex;
             align-items: center;
+            background-color: #efece9;
+            color: #1c1c19;
         }
 
         .home-section--left {
@@ -201,8 +203,9 @@
         }
 
         .btn-add-cart {
-            border: 1px solid var(--color-accent);
-            color: var(--color-accent);
+            border: 1px solid #1c1c19;
+            color: #efece9;
+            background-color: #1c1c19;
             padding: 12px 25px;
             border-radius: 30px;
             font-size: 0.9rem;
@@ -216,8 +219,8 @@
 
         .btn-add-cart:hover,
         .btn-add-cart.added {
-            background-color: var(--color-accent);
-            color: var(--color-black);
+            background-color: #efece9;
+            color: #1c1c19;
         }
 
         .products-grid {
@@ -240,7 +243,7 @@
         }
 
         .shop-article--image {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             overflow: hidden;
             border-radius: 5px;
             position: relative;
@@ -250,11 +253,15 @@
             width: 100%;
             transition: transform 0.5s;
             cursor: pointer;
-            background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+            background-color: white;
         }
 
         .shop-article:hover .shop-article--image img {
             transform: scale(1.05);
+        }
+
+        .shop-article--data {
+            border-top: 1px solid #1c1c19;
         }
 
         .shop-article--title {
@@ -264,8 +271,7 @@
 
         .shop-article--info {
             font-size: 0.9rem;
-            color: #aaa;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .shop-article--precio {
@@ -275,7 +281,6 @@
 
         .shop-article--precio b {
             font-size: 1.2rem;
-            color: var(--color-white);
         }
 
         /* Social proof dentro de cada producto */
@@ -308,19 +313,19 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: rgba(255, 255, 255, 0.1);
             padding: 8px 10px;
             border-radius: 20px;
             justify-content: space-between;
             width: 100%;
+            border: 1px solid #1c1c19;
         }
 
         .quantity-btn-list {
             width: 28px;
             height: 28px;
             border-radius: 50%;
-            background: var(--color-black);
-            color: var(--color-white);
+            background: #1c1c19;
+            color: #efece9;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -331,9 +336,9 @@
         }
 
         .quantity-btn-list:hover {
-            background: var(--color-black);
-            color: var(--color-white);
-            border: 1px solid var(--color-white);
+            background: #1c1c19;
+            color: #efece9;
+            border: 1px solid #efece9;
         }
 
         .quantity-display-list {
@@ -439,7 +444,7 @@
             justify-content: center;
             padding: 40px;
             min-height: 300px;
-            background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+            background: white;
         }
 
         .product-modal-image img {
@@ -451,6 +456,8 @@
             flex: 1;
             padding: 40px;
             overflow-y: auto;
+            background-color: #efece9;
+            color: #1c1c19;
         }
 
         .product-modal-title {
@@ -513,20 +520,11 @@
             margin-bottom: 30px;
         }
 
-        .product-modal-quantity .quantity-label {
-            color: #333;
-            font-weight: bold;
-        }
-
-        .product-modal-quantity .quantity-controls-list {
-            background: #f0f0f0;
-        }
-
         .product-modal-btn {
             width: 100%;
             padding: 16px;
-            background: var(--color-black);
-            color: var(--color-white);
+            background: #1c1c19;
+            color: #efece9;
             border: none;
             border-radius: 30px;
             font-size: 1.1rem;
@@ -538,7 +536,9 @@
         }
 
         .product-modal-btn:hover {
-            background: #333;
+            background: #efece9;
+            color: #1c1c19;
+            border: 1px solid #1c1c19;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
@@ -606,9 +606,9 @@
         }
 
         .reviews-button {
-            background-color: var(--color-black);
-            color: var(--color-white);
-            border: 1px solid var(--color-white);
+            background-color: #1c1c19;
+            color: #efece9;
+            border: 1px solid #efece9;
             padding: 12px 25px;
             border-radius: 30px;
             font-size: 0.9rem;
@@ -621,9 +621,10 @@
         }
 
         .reviews-button:hover {
-            background-color: var(--color-white);
+            background-color: #efece9;
             transform: translateY(-2px);
-            color: var(--color-black);
+            color: #1c1c19;
+            border: 1px solid #1c1c19;
         }
 
         .card-somos {
@@ -821,10 +822,9 @@
 
         .swiper-button-next,
         .swiper-button-prev {
-            color: var(--color-white) !important;
+            color: #1c1c19 !important;
             width: 50px !important;
             height: 50px !important;
-            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 50%;
             backdrop-filter: blur(5px);
             transition: all 0.3s;
@@ -832,7 +832,6 @@
 
         .swiper-button-next:hover,
         .swiper-button-prev:hover {
-            background-color: rgba(0, 0, 0, 0.5);
             transform: scale(1.1);
         }
 
@@ -2153,8 +2152,8 @@
         }
 
         .btn-white-border {
-            border: 1px solid var(--color-white);
-            color: var(--color-white);
+            border: 1px solid #1c1c19;
+            color: #1c1c19;
             padding: 12px 25px;
             border-radius: 30px;
             font-size: 0.9rem;
@@ -2169,17 +2168,16 @@
             margin-left: 5px;
             font-size: 0.9em;
             font-weight: bold;
-            color: var(--color-accent);
         }
 
         .btn-white-border.active sup {
-            color: var(--color-black);
+            color: #efece9;
         }
 
         .btn-white-border:hover,
         .btn-white-border.active {
-            background-color: var(--color-white);
-            color: var(--color-black);
+            background-color: #1c1c19;
+            color: #efece9;
         }
 
         .delivery-row {
@@ -2781,12 +2779,6 @@
                         <div class="btn-container">
                             <button class="btn-white-border active" data-filter="cerveza">
                                 <span>CERVEZAS</span><sup id="count-cerveza">0</sup>
-                            </button>
-                            <button class="btn-white-border" data-filter="picante">
-                                <span>PICANTES</span><sup id="count-picante">0</sup>
-                            </button>
-                            <button class="btn-white-border" data-filter="conserva">
-                                <span>CONSERVAS</span><sup id="count-conserva">0</sup>
                             </button>
                             <button class="btn-white-border" data-filter="pack">
                                 <span>PACKS</span><sup id="count-pack">0</sup>
@@ -3905,10 +3897,12 @@
                 div.innerHTML = `
                     <figure class="shop-article--image">
                         <img src="${product.image}" alt="${product.name}" loading="lazy" width="200" height="200" class="product-image" data-id="${product.id}">
-                        <div class="product-viewer-badge">
+                        ${false ? 
+                        `<div class="product-viewer-badge">
                             <span>👁️</span>
                             <span class="viewer-count">${viewerCount}</span>
-                        </div>
+                        </div>` : ``
+                        }
                     </figure>
                     <div class="shop-article--data">
                         <div class="shop-article--head">
@@ -5517,20 +5511,15 @@
                     return;
                 }
 
+                // Mostrar después de 30 segundos
+                setTimeout(() => {
+                    this.show();
+                }, 30000); // 30 segundos
+
                 this.setupEventListeners();
             }
 
             setupEventListeners() {
-                // Detectar intento de salida (mouse sale por arriba)
-                document.addEventListener('mouseleave', (e) => {
-                    if (this.shown) return;
-                    if (localStorage.getItem('exitIntentShown')) return;
-                    // Solo cuando el mouse sale por la parte superior (y)
-                    if (e.clientY <= 0) {
-                        this.show();
-                    }
-                });
-
                 // Cerrar al hacer clic en overlay o botón cerrar
                 this.overlay.addEventListener('click', () => this.hide());
                 this.closeBtn.addEventListener('click', () => this.hide());
@@ -5713,7 +5702,7 @@
             }
 
             // Mostrar primer toast después de 5 segundos, luego cada 20 segundos
-            setInterval(showRandomPurchase, 30000);
+            //setInterval(showRandomPurchase, 30000);
         });
 
         const style = document.createElement('style');
