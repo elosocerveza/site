@@ -487,6 +487,7 @@ function sendEmailNotification(orderData) {
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Teléfono:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.phone || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Dirección:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.address || 'No especificado') + ', ' + (customer.city || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Entrega:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.deliveryDay || 'No especificado') + ' ' + (customer.deliveryTime || 'No especificado') + '</td></tr>';
+    customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Notas:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.notes || 'Sin notas') + '</td></tr>';
     customerMessage += '</table>';
     customerMessage += '<h3 style="color: #000; margin-top: 25px;">🛒 PRODUCTOS</h3>';
     customerMessage += '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">';

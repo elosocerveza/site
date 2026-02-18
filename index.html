@@ -3338,6 +3338,10 @@
                                     <span>Entrega</span>
                                     <span id="confirmationDelivery"></span>
                                 </div>
+                                <div class="summary-item" id="confirmationNotesRow" style="display: none;">
+                                    <span>Notas:</span>
+                                    <span id="confirmationNotes"></span>
+                                </div>
                             </div>
                         </div>
                         
@@ -3447,7 +3451,7 @@
                 this.productsGrid = document.getElementById('productsGrid');
                 this.filterButtons = document.querySelectorAll('#tienda .btn-white-border[data-filter]');
                 this.products = [];
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYFT9scuYENQQwktoycxrJ-giD2F4I8IhyUOViDS4L1m6b9IrPyB5l8AWEj-IfvPYBpg/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6DeirGd98KqgeE5RMTm8aWJQqaA2XwgC-k4BeiPfzgJN3zwoKwzW8dGqnoAjxYxVxwQ/exec';
                 this.init();
                 this.setupGlobalEventListeners();
             }
@@ -3966,7 +3970,7 @@
                 this.freeShippingThreshold = 30000;
                 this.deliveryDays = [4, 5];
                 this.deliveryTimeRange = '11 a 20 hrs';
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYFT9scuYENQQwktoycxrJ-giD2F4I8IhyUOViDS4L1m6b9IrPyB5l8AWEj-IfvPYBpg/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6DeirGd98KqgeE5RMTm8aWJQqaA2XwgC-k4BeiPfzgJN3zwoKwzW8dGqnoAjxYxVxwQ/exec';
                 
                 // Cupones válidos
                 this.validCoupons = {
@@ -4895,7 +4899,8 @@
                     address: document.getElementById('customerAddress').value.trim(),
                     city: document.getElementById('customerCity').value.trim(),
                     deliveryDay: document.getElementById('deliveryDay').textContent,
-                    deliveryTime: '11 a 20 hrs'
+                    deliveryTime: '11 a 20 hrs',
+                    notes: document.getElementById('orderNotes').value.trim()
                 };
 
                 this.sendFacebookPurchase(order, customerData);
@@ -4933,6 +4938,12 @@
                 document.getElementById('confirmationAddress').textContent = customerData.address;
                 document.getElementById('confirmationCity').textContent = customerData.city;
                 document.getElementById('confirmationDelivery').textContent = `${customerData.deliveryDay} (${customerData.deliveryTime})`;
+                if (customerData.notes) {
+                    document.getElementById('confirmationNotesRow').style.display = 'flex';
+                    document.getElementById('confirmationNotes').textContent = customerData.notes;
+                } else {
+                    document.getElementById('confirmationNotesRow').style.display = 'none';
+                }
                 document.getElementById('confirmationSubtotal').textContent = `$ ${order.subtotal.toLocaleString('es-AR')}`;
                 const discountRow = document.getElementById('confirmationDiscountRow');
                 const discountSpan = document.getElementById('confirmationDiscount');
