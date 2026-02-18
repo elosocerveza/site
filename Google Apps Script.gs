@@ -306,7 +306,7 @@ function ensureOrderSheetColumns() {
   if (!sheet) {
     sheet = ss.insertSheet(CONFIG.ORDERS_SHEET_NAME);
     const headers = [
-      'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'DNI', 'Email', 'Teléfono',
+      'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'Email', 'Teléfono',
       'Dirección', 'Localidad', 'Día Entrega', 'Horario',
       'Productos', 'Subtotal', 'Descuento', 'Cupón', 'Envío', 'Total', 'Notas'
     ];
@@ -320,7 +320,7 @@ function ensureOrderSheetColumns() {
   const currentHeaders = headersRow.map(h => h.toString().trim());
   
   const requiredHeaders = [
-    'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'DNI', 'Email', 'Teléfono',
+    'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'Email', 'Teléfono',
     'Dirección', 'Localidad', 'Día Entrega', 'Horario',
     'Productos', 'Subtotal', 'Descuento', 'Cupón', 'Envío', 'Total', 'Notas'
   ];
@@ -328,22 +328,16 @@ function ensureOrderSheetColumns() {
   const newColumns = [];
   requiredHeaders.forEach((header, index) => {
     if (!currentHeaders.includes(header)) {
-      // Insertar en la posición correcta
-      // Para simplificar, agregamos al final pero luego reordenaremos
       newColumns.push(header);
     }
   });
   
   if (newColumns.length > 0) {
-    // Agregar nuevas columnas al final
     const lastCol = sheet.getLastColumn();
     sheet.insertColumnsAfter(lastCol, newColumns.length);
-    // Escribir los nuevos encabezados
     for (let i = 0; i < newColumns.length; i++) {
       sheet.getRange(1, lastCol + 1 + i).setValue(newColumns[i]);
     }
-    // Nota: No reordenamos para mantener compatibilidad, pero las columnas nuevas estarán al final.
-    // Para lectura posterior usaremos índices por nombre de columna.
   }
   
   return { sheet, added: newColumns };
@@ -371,7 +365,6 @@ function submitOrderToSheet(orderData) {
       pedido: headers.indexOf('Pedido') + 1,
       estado: headers.indexOf('Estado') + 1,
       cliente: headers.indexOf('Cliente') + 1,
-      dni: headers.indexOf('DNI') + 1,
       email: headers.indexOf('Email') + 1,
       telefono: headers.indexOf('Teléfono') + 1,
       direccion: headers.indexOf('Dirección') + 1,
@@ -410,7 +403,6 @@ function submitOrderToSheet(orderData) {
     if (colIndex.pedido) row[colIndex.pedido - 1] = orderData.orderNumber;
     if (colIndex.estado) row[colIndex.estado - 1] = 'PENDIENTE';
     if (colIndex.cliente) row[colIndex.cliente - 1] = orderData.customer.name || '';
-    if (colIndex.dni) row[colIndex.dni - 1] = orderData.customer.dni || '';
     if (colIndex.email) row[colIndex.email - 1] = orderData.customer.email || '';
     if (colIndex.telefono) row[colIndex.telefono - 1] = orderData.customer.phone || '';
     if (colIndex.direccion) row[colIndex.direccion - 1] = orderData.customer.address || '';
@@ -492,7 +484,6 @@ function sendEmailNotification(orderData) {
     customerMessage += '<h3 style="color: #000; margin-top: 25px;">👤 TUS DATOS</h3>';
     customerMessage += '<table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Nombre:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.name || 'No especificado') + '</td></tr>';
-    customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>DNI:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.dni || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Teléfono:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.phone || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Dirección:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.address || 'No especificado') + ', ' + (customer.city || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Entrega:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.deliveryDay || 'No especificado') + ' ' + (customer.deliveryTime || 'No especificado') + '</td></tr>';
@@ -699,7 +690,7 @@ function initializeSystem() {
     if (!ordersSheet) {
       ordersSheet = ss.insertSheet(CONFIG.ORDERS_SHEET_NAME);
       var headers = [
-        'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'DNI', 'Email', 'Teléfono',
+        'Fecha', 'Hora', 'Pedido', 'Estado', 'Cliente', 'Email', 'Teléfono',
         'Dirección', 'Localidad', 'Día Entrega', 'Horario',
         'Productos', 'Subtotal', 'Descuento', 'Cupón', 'Envío', 'Total', 'Notas'
       ];
