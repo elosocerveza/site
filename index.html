@@ -1904,10 +1904,6 @@
             #main-wrapper {
                 margin-left: 0;
             }
-            .home-hero {
-                margin-left: 0;
-                width: 100%;
-            }
             #main-footer {
                 margin-left: 0;
                 z-index: 999;
@@ -1963,6 +1959,20 @@
             }
             .product-modal-title {
                 font-size: 1.8rem;
+            }
+            .home-hero {
+                height: 70vh;
+            }
+            .home-hero--content {
+                padding: 20px;
+            }
+            .home-hero--text h1 {
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+            }
+            .home-hero--text h1 span {
+                font-size: 1.2rem;
+                margin-top: 10px;
             }
         }
         @media (min-width: 1200px) {
@@ -2560,8 +2570,8 @@
                 </div>
             </div>
             <picture>
-                <source media="(max-width: 768px)" srcset="images/banners/hero-mobile.jpg">
-                <img class="bg" src="images/banners/hero.jpg" alt="El Oso - Hero Banner" width="1920" height="1080" loading="lazy">
+                <source media="(max-width: 768px)" srcset="images/banners/hero-mobile.jpg?v=15">
+                <img class="bg" src="images/banners/hero.jpg?v=15" alt="El Oso - Hero Banner" width="1920" height="1080" loading="lazy">
             </picture>
         </section>
 
