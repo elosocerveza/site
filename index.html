@@ -4939,31 +4939,7 @@
                         });
                     }
                 });
-
-                const originalShowOrderConfirmation = window.cartSystem?.showOrderConfirmation;
-                if (originalShowOrderConfirmation) {
-                    window.cartSystem.showOrderConfirmation = function(order, response) {
-                        if (window.analyticsSystem) {
-                            window.analyticsSystem.trackEvent('purchase', {
-                                transaction_id: order.orderNumber,
-                                value: order.total,
-                                currency: 'ARS',
-                                tax: 0,
-                                shipping: order.shipping,
-                                items: order.items.map(item => ({
-                                    item_id: item.id,
-                                    item_name: item.name,
-                                    item_category: item.category,
-                                    price: item.price,
-                                    quantity: item.quantity
-                                }))
-                            });
-                        }
-                        
-                        return originalShowOrderConfirmation.call(this, order, response);
-                    };
-                }
-
+                
                 document.addEventListener('click', (e) => {
                     const whatsappBtn = e.target.closest('a[href*="wa.me"]');
                     if (whatsappBtn) {
