@@ -4564,6 +4564,8 @@
                         }
                         this.renderCart();
                         this.resetForm();
+                        checkoutBtn.textContent = 'COMPRAR';
+                        checkoutBtn.disabled = true;
                         document.getElementById('cartItemsContainer').classList.add('hidden');
                     } else {
                         this.showOrderError(result);
