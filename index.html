@@ -35,16 +35,14 @@
     
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://script.google.com">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://www.clarity.ms">
+    <link rel="preconnect" href="https://connect.facebook.net">
 
     <link rel="preload" href="images/logo/logo-180x180.png" as="image">
-    <link rel="preload" href="images/banners/hero-mobile.jpg" as="image">
 
     <title>El Oso</title>
     
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <style>
-        /* (todo el estilo original, sin cambios) */
         :root {
             --color-black: #000000;
             --color-white: #ffffff;
@@ -55,13 +53,11 @@
             --font-primary: 'Helvetica Neue', Arial, sans-serif;
             --font-ticket: 'Courier New', monospace;
         }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: var(--font-primary);
             background-color: var(--color-black);
@@ -69,24 +65,20 @@
             overflow-x: hidden;
             line-height: 1.6;
         }
-
         a {
             color: var(--color-white);
             text-decoration: none;
             transition: color 0.3s;
         }
-
         a:hover {
             color: var(--color-accent);
         }
-
         button {
             cursor: pointer;
             border: none;
             background: none;
             font-family: inherit;
         }
-
         img {
             max-width: 100%;
             height: auto;
@@ -98,14 +90,12 @@
             margin: 0 auto;
             padding: 0 20px;
         }
-
         #main-wrapper {
             margin-left: 80px;
             transition: margin-left 0.3s;
             position: relative;
             z-index: 1;
         }
-        
         .home-hero {
             height: 100vh;
             display: flex;
@@ -114,7 +104,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .home-hero .bg {
             position: absolute;
             top: 0;
@@ -125,7 +114,6 @@
             z-index: -1;
             opacity: 0.7;
         }
-
         .home-hero--content {
             text-align: center;
             z-index: 1;
@@ -133,58 +121,45 @@
             padding: 40px;
             border-radius: 10px;
         }
-
         .home-hero--text h1 {
             font-size: 2rem;
             margin-bottom: 40px;
             line-height: 1.4;
         }
-
         .home-hero--text h1 span {
             display: block;
             font-size: 1.5rem;
             margin-top: 15px;
             font-style: italic;
         }
-
         .home-section {
-            padding: 100px 0;
+            padding: 50px 0;
             display: flex;
             align-items: center;
             background-color: #efece9;
             color: #1c1c19;
         }
-
-        .home-section--left {
-            flex: 1;
-            padding-right: 40px;
-        }
-
         .home-section--right {
-            width: 100px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 40px;
         }
-
         .home-section--header {
             margin-bottom: 30px;
         }
-
         .home-section--header h1 {
             font-size: 4rem;
             margin-bottom: 30px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-
         .btn-container {
             display: flex;
             flex-wrap: wrap;
             gap: 15px;
         }
-
         .btn-white-border {
             border: 1px solid var(--color-white);
             color: var(--color-white);
@@ -194,14 +169,13 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s;
+            font-weight: bold;
         }
-
         .btn-white-border:hover,
         .btn-white-border.active {
             background-color: var(--color-white);
             color: var(--color-black);
         }
-
         .btn-add-cart {
             border: 1px solid #1c1c19;
             color: #efece9;
@@ -215,21 +189,19 @@
             display: inline-block;
             margin-top: 10px;
             width: 100%;
+            font-weight: bold;
         }
-
         .btn-add-cart:hover,
         .btn-add-cart.added {
             background-color: #efece9;
             color: #1c1c19;
         }
-
         .products-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 30px;
             margin-top: 40px;
         }
-
         .shop-article {
             border-radius: 10px;
             transition: transform 0.3s;
@@ -237,53 +209,42 @@
             display: flex;
             flex-direction: column;
         }
-
         .shop-article:hover {
             transform: translateY(-10px);
         }
-
         .shop-article--image {
             margin-bottom: 10px;
             overflow: hidden;
             border-radius: 5px;
             position: relative;
         }
-
         .shop-article--image img {
             width: 100%;
             transition: transform 0.5s;
             cursor: pointer;
             background-color: white;
         }
-
         .shop-article:hover .shop-article--image img {
             transform: scale(1.05);
         }
-
         .shop-article--data {
             border-top: 1px solid #1c1c19;
         }
-
         .shop-article--title {
             font-size: 1.3rem;
             margin-bottom: 5px;
         }
-
         .shop-article--info {
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
-
         .shop-article--precio {
             font-size: 1rem;
             margin-bottom: 10px;
         }
-
         .shop-article--precio b {
             font-size: 1.2rem;
         }
-
-        /* Social proof dentro de cada producto */
         .social-proof {
             display: flex;
             align-items: center;
@@ -296,19 +257,16 @@
             font-style: normal;
             color: #4CAF50;
         }
-
         .shop-article--quantity {
             margin: 10px 0;
             display: flex;
             align-items: center;
             gap: 15px;
         }
-
         .quantity-label {
             font-size: 0.9rem;
             color: #aaa;
         }
-
         .quantity-controls-list {
             display: flex;
             align-items: center;
@@ -319,7 +277,6 @@
             width: 100%;
             border: 1px solid #1c1c19;
         }
-
         .quantity-btn-list {
             width: 28px;
             height: 28px;
@@ -334,25 +291,21 @@
             font-size: 1rem;
             border: none;
         }
-
         .quantity-btn-list:hover {
             background: #1c1c19;
             color: #efece9;
             border: 1px solid #efece9;
         }
-
         .quantity-display-list {
             min-width: 30px;
             text-align: center;
             font-weight: bold;
             font-size: 1rem;
         }
-
         .product-inactive {
             opacity: 0.6;
             position: relative;
         }
-
         .product-inactive::after {
             content: "NO DISPONIBLE";
             position: absolute;
@@ -368,7 +321,6 @@
             z-index: 2;
             pointer-events: none;
         }
-
         .product-modal-overlay {
             display: none;
             position: fixed;
@@ -382,11 +334,9 @@
             align-items: center;
             padding: 20px;
         }
-
         .product-modal-overlay.active {
             display: flex;
         }
-
         .product-modal {
             background: var(--color-white);
             color: var(--color-black);
@@ -399,7 +349,6 @@
             margin: 20px;
             overflow-y: auto;
         }
-
         .product-modal-close {
             position: absolute;
             top: 20px;
@@ -417,26 +366,22 @@
             z-index: 10;
             transition: all 0.3s;
         }
-
         .product-modal-close:hover {
             background: var(--color-white);
             color: var(--color-black);
             border: 2px solid var(--color-black);
         }
-
         .product-modal-content {
             display: flex;
             flex-direction: column;
             height: 100%;
             overflow: hidden;
         }
-
         @media (min-width: 992px) {
             .product-modal-content {
                 flex-direction: row;
             }
         }
-
         .product-modal-image {
             flex: 1;
             display: flex;
@@ -446,12 +391,10 @@
             min-height: 300px;
             background: white;
         }
-
         .product-modal-image img {
             max-height: 400px;
             object-fit: contain;
         }
-
         .product-modal-info {
             flex: 1;
             padding: 40px;
@@ -459,30 +402,25 @@
             background-color: #efece9;
             color: #1c1c19;
         }
-
         .product-modal-title {
             font-size: 2.2rem;
             margin-bottom: 10px;
             color: var(--color-black);
         }
-
         .product-modal-subtitle {
             font-size: 1.1rem;
             margin-bottom: 10px;
             font-style: italic;
         }
-
         .product-modal-price {
             font-size: 1.8rem;
             font-weight: bold;
             color: var(--color-black);
             margin-bottom: 10px;
         }
-
         .product-modal-price b {
             font-size: 2rem;
         }
-
         .product-modal-description {
             font-size: 1rem;
             line-height: 1.7;
@@ -491,34 +429,28 @@
             padding-bottom: 20px;
             border-bottom: 1px solid #eee;
         }
-
         .product-modal-details {
             margin-bottom: 30px;
         }
-
         .product-modal-detail-row {
             display: flex;
             margin-bottom: 10px;
         }
-
         .product-modal-detail-label {
             flex: 0 0 120px;
             font-weight: bold;
             color: #333;
         }
-
         .product-modal-detail-value {
             flex: 1;
             color: #666;
         }
-
         .product-modal-quantity {
             display: flex;
             align-items: center;
             gap: 20px;
             margin-bottom: 30px;
         }
-
         .product-modal-btn {
             width: 100%;
             padding: 16px;
@@ -533,7 +465,6 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
         .product-modal-btn:hover {
             background: #efece9;
             color: #1c1c19;
@@ -541,12 +472,10 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
-
         .product-modal-btn.added {
             background: #4CAF50;
             color: white;
         }
-
         .review-card {
             background-color: var(--color-white);
             border-radius: 10px;
@@ -557,53 +486,44 @@
             transition: transform 0.3s;
             margin-bottom: 20px;
         }
-
         .review-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
         }
-
         .reviewer-info {
             flex: 1;
         }
-
         .reviewer-name {
             font-size: 1.1rem;
             font-weight: bold;
             margin-bottom: 5px;
             color: #222;
         }
-
         .reviewer-details {
             font-size: 0.85rem;
             color: #555;
             margin-bottom: 8px;
         }
-
         .review-date {
             font-size: 0.8rem;
             color: #666;
         }
-
         .review-stars {
             display: flex;
             gap: 3px;
             margin-bottom: 10px;
         }
-
         .star {
             color: #FFD700;
             font-size: 1rem;
         }
-
         .review-content {
             flex: 1;
             line-height: 1.6;
             font-size: 0.95rem;
             color: #333;
         }
-
         .reviews-button {
             background-color: #1c1c19;
             color: #efece9;
@@ -618,92 +538,76 @@
             align-items: center;
             gap: 10px;
         }
-
         .reviews-button:hover {
             background-color: #efece9;
             transform: translateY(-2px);
             color: #1c1c19;
             border: 1px solid #1c1c19;
         }
-
         .card-somos {
             display: flex;
             gap: 40px;
             margin-bottom: 60px;
         }
-
         .card-somos--left {
             flex: 1;
         }
-
         .card-somos--content h5 {
             font-size: 1.8rem;
             margin-bottom: 20px;
             color: var(--color-accent);
         }
-
         .card-somos--text div {
             margin-bottom: 20px;
             line-height: 1.8;
         }
-
         .card-somos--text small {
             display: block;
             font-style: italic;
             color: #aaa;
         }
-
         .card-somos--right {
             flex: 1;
             overflow: hidden;
             border-radius: 10px;
         }
-
         .card-somos--right img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .card-contacto {
             display: flex;
             gap: 40px;
         }
-
         .card-contacto--left {
             flex: 1;
         }
-
         .card-contacto--left h3 {
             font-size: 1.5rem;
             margin-bottom: 20px;
             color: var(--color-accent);
         }
-
         .contacto-row {
             display: flex;
             margin-bottom: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 10px;
         }
-
         .contacto-row--left {
             flex: 1;
             font-weight: bold;
         }
-
         .card-contacto--right {
             flex: 1;
             overflow: hidden;
             border-radius: 10px;
         }
-
         .card-contacto--right img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         #main-footer {
             background-color: #111;
             padding: 60px 0 30px;
@@ -712,30 +616,25 @@
             margin-left: 80px;
             transition: margin-left 0.3s;
         }
-
         .main-footer--top {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
             margin-bottom: 60px;
         }
-
         .columna h4 {
             font-size: 1.2rem;
             margin-bottom: 20px;
             color: var(--color-accent);
         }
-
         .columna nav {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
         .columna-logo img {
             width: 100px;
         }
-
         .main-footer--bottom {
             display: flex;
             justify-content: space-between;
@@ -847,22 +746,18 @@
             left: 20px !important;
         }
 
-        .mySwiperReviews,
-        .mySwiper3,
-        .mySwiper4 {
+        .mySwiperReviews {
             position: relative;
             padding-bottom: 60px;
         }
 
         .mySwiperReviews .swiper-button-next,
-        .mySwiperReviews .swiper-button-prev,
-        .mySwiper3 .swiper-button-next,
-        .mySwiper3 .swiper-button-prev,
-        .mySwiper4 .swiper-button-next,
-        .mySwiper4 .swiper-button-prev {
+        .mySwiperReviews .swiper-button-prev {
             top: auto !important;
             bottom: 0 !important;
-            margin-top: 0;
+            margin-top: 10px;
+            margin-right: 40px;
+            margin-left: 40px;
         }
 
         .cart-overlay {
@@ -1089,7 +984,6 @@
         .summary-row:not(:last-child) {
             border-bottom: 1px dotted #ccc;
         }
-
         .summary-row.total {
             font-weight: bold;
             font-size: 1.2rem;
@@ -1098,12 +992,9 @@
             margin-top: 10px;
             border-bottom: none;
         }
-
         .summary-row.shipping {
             border-bottom: none;
         }
-
-        /* Barra de progreso envío gratis */
         .free-shipping-progress {
             margin: 15px 0;
             padding: 10px;
@@ -1130,8 +1021,6 @@
             text-align: center;
             font-weight: 500;
         }
-
-        /* Toast de compras recientes */
         .social-toast {
             position: fixed;
             bottom: 100px;
@@ -1299,8 +1188,6 @@
             color: #333;
             font-size: 0.95rem;
         }
-
-        /* Sección de cupón en el carrito */
         .coupon-section {
             margin: 20px 0;
             padding: 15px;
@@ -1896,8 +1783,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
-        /* Pop-up de salida (Exit Intent) */
         .exit-popup {
             display: none;
             position: fixed;
@@ -1971,89 +1856,66 @@
             .home-section--header h1 {
                 font-size: 3rem;
             }
-            
             .card-somos,
             .card-contacto {
                 flex-direction: column;
             }
-            
             .card-somos--right,
             .card-contacto--right {
                 height: 300px;
             }
         }
-
         @media (max-width: 992px) {
             .home-section {
                 flex-direction: column;
                 padding: 30px 0;
             }
-            
             .home-section--left {
                 padding-right: 0;
                 margin-bottom: 40px;
             }
-            
-            .home-section--right {
-                width: 100%;
-                flex-direction: row;
-                justify-content: center;
-                gap: 40px;
-            }
-            
             .main-footer--bottom {
                 flex-direction: column;
                 gap: 30px;
                 text-align: center;
             }
-            
             .main-footer--bottom form {
                 flex-direction: column;
                 width: 100%;
             }
-            
             .main-footer--bottom input[type="email"] {
                 min-width: auto;
                 width: 100%;
             }
         }
-
         @media (max-width: 768px) {
             .home-section--header h1 {
                 font-size: 2.5rem;
             }
-            
             .btn-container {
                 align-items: flex-start;
             }
-            
             .review-card {
                 padding: 20px;
             }
-            
             #main-sidebar {
                 display: none;
             }
-            
             #main-wrapper {
                 margin-left: 0;
             }
-            
             .home-hero {
                 margin-left: 0;
                 width: 100%;
             }
-            
             #main-footer {
                 margin-left: 0;
                 z-index: 999;
             }
-            
             .cart-sidebar {
                 width: 100%;
                 right: -100%;
             }
-            
             .cart-button {
                 bottom: 20px;
                 right: 20px;
@@ -2061,75 +1923,60 @@
                 height: 60px;
                 font-size: 1.5rem;
             }
-            
             .cart-button svg {
                 width: 25px;
                 height: 25px;
             }
-            
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 20px;
             }
-
             .btn-add-cart {
                 padding: 10px 20px;
                 font-size: 0.8rem;
             }
-
             .form-row {
                 flex-direction: column;
                 gap: 0;
             }
-            
             .checkout-btn {
                 padding: 16px;
                 font-size: 1.1rem;
             }
-
             .customer-info {
                 padding: 15px;
             }
-
             .product-modal {
                 max-height: 95vh;
             }
-            
             .product-modal-content {
                 flex-direction: column;
             }
-            
             .product-modal-image {
                 padding: 20px;
             }
-            
             .product-modal-image img {
                 max-height: 250px;
             }
-            
             .product-modal-info {
                 padding: 25px;
             }
-            
             .product-modal-title {
                 font-size: 1.8rem;
             }
         }
-
         @media (min-width: 1200px) {
             .products-grid {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 30px;
             }
         }
-        
         @media (min-width: 768px) and (max-width: 1199px) {
             .products-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 25px;
             }
         }
-
         .btn-white-border {
             border: 1px solid #1c1c19;
             color: #1c1c19;
@@ -2142,50 +1989,41 @@
             display: inline-flex;
             align-items: center;
         }
-
         .btn-white-border sup {
             margin-left: 5px;
             font-size: 0.9em;
             font-weight: bold;
         }
-
         .btn-white-border.active sup {
             color: #efece9;
         }
-
         .btn-white-border:hover,
         .btn-white-border.active {
             background-color: #1c1c19;
             color: #efece9;
         }
-
         .delivery-row {
             margin-bottom: 8px;
             font-size: 0.9rem;
             line-height: 1.4;
         }
-
         .delivery-row:last-child {
             margin-bottom: 0;
         }
-
         .delivery-row strong {
             display: inline-block;
             min-width: 120px;
             color: #333;
         }
-
         .delivery-row span {
             color: #666;
         }
-
         .confirmation-actions {
             display: flex;
             flex-direction: column;
             gap: 15px;
             margin-top: 30px;
         }
-
         .btn-whatsapp {
             background: #25D366;
             color: white;
@@ -2205,19 +2043,16 @@
             border: none;
             cursor: pointer;
         }
-
         .btn-whatsapp:hover {
             background: #1da851;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
         }
-
         .btn-whatsapp svg {
             width: 24px;
             height: 24px;
             fill: currentColor;
         }
-
         .btn-continue {
             background: var(--color-black);
             color: var(--color-white);
@@ -2233,16 +2068,13 @@
             cursor: pointer;
             font-size: 1.1rem;
         }
-
         .btn-continue:hover {
             background: #333;
             transform: translateY(-2px);
         }
-
         .confirmation-products-list {
             margin: 20px 0;
         }
-
         .confirmation-product-item {
             display: flex;
             justify-content: space-between;
@@ -2252,45 +2084,37 @@
             background: #f8f8f8;
             border-radius: 8px;
         }
-
         .confirmation-product-item:last-child {
             margin-bottom: 0;
         }
-
         .product-item-info {
             flex: 1;
         }
-
         .product-item-name {
             margin-bottom: 5px;
             color: #333;
             font-size: 0.95rem;
         }
-
         .product-item-details {
             display: flex;
             gap: 15px;
             font-size: 0.85rem;
             color: #666;
         }
-
         .product-item-details span {
             display: inline-flex;
             align-items: center;
         }
-
         .product-item-price {
             color: #333;
             text-align: right;
             min-width: 80px;
         }
-
         .product-item-unit {
             font-size: 0.8rem;
             color: #888;
             margin-left: 3px;
         }
-
         .product-item-total {
             font-weight: bold;
             color: var(--color-black);
@@ -2298,23 +2122,19 @@
             text-align: right;
             font-size: 1rem;
         }
-
         @media (max-width: 768px) {
             .confirmation-product-item {
                 align-items: flex-start;
                 gap: 10px;
             }
-            
             .product-item-price,
             .product-item-total {
                 align-self: flex-end;
             }
         }
-
         .h2, h2 {
             margin-bottom: 20px;
         }
-
         .welcome-portal {
             position: fixed;
             top: 0;
@@ -2327,11 +2147,9 @@
             z-index: 99999;
             font-family: 'Helvetica Neue', Arial, sans-serif;
         }
-
         .welcome-portal.active {
             display: flex;
         }
-
         .portal-background-blur {
             position: absolute;
             top: 0;
@@ -2343,7 +2161,6 @@
             background: rgba(0, 0, 0, 0.7);
             z-index: 1;
         }
-
         .portal-container {
             color: #fff;
             width: 90%;
@@ -2353,16 +2170,13 @@
             position: relative;
             z-index: 2;
         }
-
         .portal-logo {
             margin-bottom: 30px;
         }
-
         .portal-logo img {
             width: 120px;
             height: auto;
         }
-
         .portal-content h1 {
             font-size: 2.5rem;
             font-weight: 400;
@@ -2371,7 +2185,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .portal-strong {
             font-weight: 700;
             display: block;
@@ -2379,7 +2192,6 @@
             margin-top: 10px;
             letter-spacing: 1px;
         }
-
         .portal-content p {
             font-size: 1.2rem;
             line-height: 1.6;
@@ -2389,7 +2201,6 @@
             margin-left: auto;
             margin-right: auto;
         }
-
         .portal-actions {
             display: flex;
             flex-direction: column;
@@ -2399,7 +2210,6 @@
             margin-left: auto;
             margin-right: auto;
         }
-
         .portal-btn {
             padding: 18px 30px;
             font-size: 1.1rem;
@@ -2411,84 +2221,67 @@
             border: 2px solid;
             width: 100%;
         }
-
         .portal-btn-primary {
             background: #fff;
             color: #000;
             border-color: #fff;
         }
-
         .portal-btn-primary:hover {
             background: #000;
             color: #fff;
             transform: translateY(-2px);
         }
-
         .portal-btn-secondary {
             background: transparent;
             color: #fff;
             border-color: #fff;
         }
-
         .portal-btn-secondary:hover {
             background: rgba(255, 255, 255, 0.1);
             transform: translateY(-2px);
         }
-
         @media (max-width: 768px) {
             .checkout-btn {
                 margin-bottom: 80px;
             }
-
             .portal-container {
                 padding: 40px 25px;
                 width: 95%;
             }
-            
             .portal-content h1 {
                 font-size: 2rem;
             }
-            
             .portal-strong {
                 font-size: 2.5rem;
             }
-            
             .portal-content p {
                 font-size: 1.1rem;
             }
-            
             .portal-btn {
                 padding: 16px 25px;
                 font-size: 1rem;
             }
         }
-
         @media (max-width: 480px) {
             .portal-container {
                 padding: 30px 20px;
             }
-            
             .portal-content h1 {
                 font-size: 1.8rem;
             }
-            
             .portal-strong {
                 font-size: 2.2rem;
             }
-            
             .portal-content p {
                 font-size: 1rem;
             }
-            
             .portal-actions {
                 gap: 12px;
             }
         }
-
         body.portal-active {
             overflow: hidden;
         }
-
         .snow-canvas-container {
             position: absolute;
             top: 0;
@@ -2499,7 +2292,6 @@
             pointer-events: none;
             overflow: hidden;
         }
-
         #snowCanvas {
             position: absolute;
             top: 0;
@@ -2508,7 +2300,6 @@
             height: 100%;
             display: block;
         }
-
         .shipping-banner {
             color: var(--color-white);
             text-align: center;
@@ -2520,7 +2311,6 @@
             width: 100%;
             background-color: #0a8800;
         }
-
         .shipping-banner span {
             color: var(--color-accent);
             padding: 4px 12px;
@@ -2528,7 +2318,6 @@
             margin: 0 5px;
             display: inline-block;
         }
-
         @media (max-width: 768px) {
             .shipping-banner {
                 font-size: 0.95rem;
@@ -2538,7 +2327,6 @@
                 padding: 3px 8px;
             }
         }
-
         .floating-logo {
             position: fixed;
             top: 20px;
@@ -2546,7 +2334,6 @@
             z-index: 1001;
             display: block;
         }
-
         .floating-logo .logo {
             display: block;
             width: 80px;
@@ -2557,35 +2344,29 @@
             background-position: center;
             transition: transform 0.3s ease;
         }
-
         .floating-logo .logo:hover {
             transform: scale(1.05);
         }
-
         @media (max-width: 768px) {
             .floating-logo {
                 top: 15px;
                 right: 20px;
                 z-index: 1002;
             }
-            
             .floating-logo .logo {
                 width: 60px;
                 height: 60px;
             }
         }
-
         ul {
             list-style: disc;
             padding-left: 20px;
             margin-bottom: 1rem;
             margin-top: 1rem;
         }
-
         li {
             margin-bottom: 0.5rem;
         }
-
         .shop-article--image {
             position: relative;
         }
@@ -2610,6 +2391,44 @@
         }
         .hidden {
             display: none !important;
+        }
+        .mySwiperReviews {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        .swiper-wrapper {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            gap: 15px;
+            padding-bottom: 20px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .swiper-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+        .swiper-slide {
+            flex: 0 0 calc(33.333% - 10px);
+            scroll-snap-align: start;
+            box-sizing: border-box;
+        }
+        @media (max-width: 768px) {
+            .swiper-slide {
+                flex: 0 0 calc(100% - 15px);
+            }
+        }
+        @media (min-width: 769px) and (max-width: 1199px) {
+            .swiper-slide {
+                flex: 0 0 calc(50% - 15px);
+            }
+        }
+        .swiper-prev svg,
+        .swiper-button-prev svg {
+            transform: rotate(180deg);
         }
     </style>
     
@@ -2735,11 +2554,11 @@
 
     <main id="main-wrapper">
         <section class="home-hero" id="hero">
-            <form class="home-hero--content visible">
+            <div class="home-hero--content visible">
                 <div class="home-hero--text">
                     <h1>"Es curioso cómo a veces uno simplemente encuentra cosas" <span>- Ted Mosby</span></h1>
                 </div>
-            </form>
+            </div>
             <picture>
                 <source media="(max-width: 768px)" srcset="images/banners/hero-mobile.jpg">
                 <img class="bg" src="images/banners/hero.jpg" alt="El Oso - Hero Banner" width="1920" height="1080" loading="eager">
@@ -3018,22 +2837,20 @@
                                     </article>
                                 </div>
                             </div>
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
+                            <div class="home-section--right side-nav">
+                                <button class="swiper-button-prev disabled" aria-label="Reseña anterior">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
+                                        <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
+                                    </svg>
+                                </button>
+                                <button class="swiper-button-next" aria-label="Siguiente reseña">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
+                                        <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="home-section--right side-nav">
-                    <button class="swiper-next" aria-label="Siguiente reseña">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
-                            <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
-                        </svg>
-                    </button>
-                    <button class="swiper-prev disabled" aria-label="Reseña anterior">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
-                            <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
         </section>
@@ -3045,47 +2862,27 @@
                         <h1>¿Por qué elegir El Oso?</h1>
                     </div>
                     <div class="home-somos--content">
-                        <div class="swiper mySwiper3">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <article class="card-somos">
-                                        <div class="card-somos--left">
-                                            <div class="card-somos--content">
-                                                <div>
-                                                    <p>Elegir nuestra cerveza es elegir un producto vivo, honesto y local. No somos una fábrica industrial; somos dos hermanos de Quilmes obsesionados con la calidad.</p>
-                                                    <ul>
-                                                        <li><strong>Real y Natural:</strong> Sin conservantes ni procesos químicos. Nuestras cervezas son sin filtrar y cuentan con carbonatación natural, logrando una textura y un aroma que las industriales no pueden copiar.</li>
-                                                        <li><strong>Recetas de Autor en Micro-Lotes:</strong> No producimos en masa. Cada tanda es un lote pequeño cuidado personalmente, asegurando que cada botella que abrís tenga la personalidad y el frescor de nuestra receta original.</li>
-                                                        <li><strong>De Nuestra Fábrica a tu Puerta (Gratis):</strong> Si estás en Quilmes, Bernal, Ezpeleta, Berazategui o Don Bosco, te llevamos la birra a tu casa sin cargo adicional los jueves y viernes.</li>
-                                                        <li><strong>Pasión por lo Artesanal:</strong> Apoyás un proyecto local que valora el método tradicional. Hacemos la cerveza que a nosotros nos gusta tomar: con cuerpo, alma y mucha dedicación.</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card-somos--right">
-                                            <figure>
-                                                <img src="images/banners/nosotros.jpg?v=15" loading="lazy" alt="Nosotros" width="600" height="400">
-                                            </figure>
-                                        </div>
-                                    </article>
+                        <article class="card-somos">
+                            <div class="card-somos--left">
+                                <div class="card-somos--content">
+                                    <div>
+                                        <p>Elegir nuestra cerveza es elegir un producto vivo, honesto y local. No somos una fábrica industrial; somos dos hermanos de Quilmes obsesionados con la calidad.</p>
+                                        <ul>
+                                            <li><strong>Real y Natural:</strong> Sin conservantes ni procesos químicos. Nuestras cervezas son sin filtrar y cuentan con carbonatación natural, logrando una textura y un aroma que las industriales no pueden copiar.</li>
+                                            <li><strong>Recetas de Autor en Micro-Lotes:</strong> No producimos en masa. Cada tanda es un lote pequeño cuidado personalmente, asegurando que cada botella que abrís tenga la personalidad y el frescor de nuestra receta original.</li>
+                                            <li><strong>De Nuestra Fábrica a tu Puerta (Gratis):</strong> Si estás en Quilmes, Bernal, Ezpeleta, Berazategui o Don Bosco, te llevamos la birra a tu casa sin cargo adicional los jueves y viernes.</li>
+                                            <li><strong>Pasión por lo Artesanal:</strong> Apoyás un proyecto local que valora el método tradicional. Hacemos la cerveza que a nosotros nos gusta tomar: con cuerpo, alma y mucha dedicación.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                        </div>
+                            <div class="card-somos--right">
+                                <figure>
+                                    <img src="images/banners/nosotros.jpg?v=15" loading="lazy" alt="Nosotros" width="600" height="400">
+                                </figure>
+                            </div>
+                        </article>
                     </div>
-                </div>
-                <div class="home-section--right side-nav">
-                    <button class="swiper-next" aria-label="Siguiente información">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
-                            <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
-                        </svg>
-                    </button>
-                    <button class="swiper-prev disabled" aria-label="Información anterior">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
-                            <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
         </section>
@@ -3102,46 +2899,26 @@
                         </div>
                     </div>
                     <div class="home-contacto--content">
-                        <div class="swiper mySwiper4">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <article class="card-contacto">
-                                        <div class="card-contacto--left">
-                                            <div style="margin-bottom: 2rem;">
-                                                <h2><b>El Oso</b></h2>
-                                                <div class="contacto-row">
-                                                    <div class="contacto-row--left">LUNES A DOMINGOS</div>
-                                                    <div class="contacto-row--right">12 - 00HS</div>
-                                                </div>
-                                                <div class="contacto-row">
-                                                    <div class="contacto-row--left">ENVÍOS (Consultas)</div>
-                                                    <div class="contacto-row--right">11 2349 5971</div>
-                                                </div>
-                                                <div class="contacto-row">
-                                                    <div class="contacto-row--left">RETIROS</div>
-                                                    <div class="contacto-row--right">QUILMES - F. VARELA</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </article>
+                        <article class="card-contacto">
+                            <div class="card-contacto--left">
+                                <div style="margin-bottom: 2rem;">
+                                    <h2><b>El Oso</b></h2>
+                                    <div class="contacto-row">
+                                        <div class="contacto-row--left">LUNES A DOMINGOS</div>
+                                        <div class="contacto-row--right">12 - 00HS</div>
+                                    </div>
+                                    <div class="contacto-row">
+                                        <div class="contacto-row--left">ENVÍOS (Consultas)</div>
+                                        <div class="contacto-row--right">11 2349 5971</div>
+                                    </div>
+                                    <div class="contacto-row">
+                                        <div class="contacto-row--left">RETIROS</div>
+                                        <div class="contacto-row--right">QUILMES - F. VARELA</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="swiper-button-next"></div>
-                            <div class="swiper-button-prev"></div>
-                        </div>
+                        </article>
                     </div>
-                </div>
-                <div class="home-section--right side-nav">
-                    <button class="swiper-next" aria-label="Siguiente información de contacto">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
-                            <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
-                        </svg>
-                    </button>
-                    <button class="swiper-prev disabled" aria-label="Información de contacto anterior">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51.79 63.28">
-                            <path d="M51.29 26.09v11.23L.51 62.48V49.37L37.25 31.7.62 13.92.51.81z"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
         </section>
@@ -3198,7 +2975,6 @@
                     </div>
                     
                     <div class="ticket-summary" id="ticketSummary" style="display: none;">
-                        <!-- SECCIÓN DE CUPÓN (nueva) -->
                         <div class="ticket-section" id="couponSection">
                             <div class="coupon-form">
                                 <input type="text" id="couponInput" class="coupon-input" placeholder="Agregar cupón" autocomplete="off">
@@ -3218,7 +2994,6 @@
                             </div>
                         </div>
                         
-                        <!-- BARRA DE PROGRESO MOTIVACIONAL -->
                         <div class="free-shipping-progress" id="freeShippingProgress" style="display: none;">
                             <div class="progress-bar-container">
                                 <div class="progress-bar-fill" id="freeShippingProgressFill" style="width: 0%;"></div>
@@ -3412,7 +3187,6 @@
         </div>
     </div>
 
-    <!-- Pop-up de salida (Exit Intent) -->
     <div class="exit-popup" id="exitPopup">
         <div class="exit-popup-overlay" id="exitPopupOverlay"></div>
         <div class="exit-popup-content">
@@ -3424,15 +3198,12 @@
         </div>
     </div>
 
-    <!-- Toast de compras recientes -->
     <div class="social-toast" id="socialToast">
         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
         <span id="toastMessage">Alguien compró recientemente</span>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // ==================== FUNCIONES AUXILIARES PARA META ====================
         function getCookie(name) {
             const value = `; ${document.cookie}`;
             const parts = value.split(`; ${name}=`);
@@ -3446,7 +3217,6 @@
             return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
         }
 
-        // ==================== CLASES EXISTENTES ====================
         class ProductSystem {
             constructor() {
                 this.currentFilter = 'cerveza';
@@ -3879,7 +3649,7 @@
 
                 const currentQuantity = this.getProductQuantity(product.id);
                 const presentation = product.presentation || '';
-                const viewerCount = Math.floor(Math.random() * 15); // aleatorio
+                const viewerCount = Math.floor(Math.random() * 15);
 
                 div.innerHTML = `
                     <figure class="shop-article--image">
@@ -3974,12 +3744,11 @@
                 this.deliveryTimeRange = '11 a 20 hrs';
                 this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6DeirGd98KqgeE5RMTm8aWJQqaA2XwgC-k4BeiPfzgJN3zwoKwzW8dGqnoAjxYxVxwQ/exec';
                 
-                // Cupones válidos
                 this.validCoupons = {
-                    'OSO10': { type: 'percentage', value: 10 },        // 10% de descuento
-                    'BIENVENIDO': { type: 'fixed', value: 1000 }        // $1000 de descuento
+                    'OSO10': { type: 'percentage', value: 10 },
+                    'BIENVENIDO': { type: 'fixed', value: 1000 }
                 };
-                this.appliedCoupon = null; // { code, type, value }
+                this.appliedCoupon = null;
                 this.usedCoupons = JSON.parse(localStorage.getItem('elOsoUsedCoupons')) || [];
 
                 this.init();
@@ -3994,11 +3763,9 @@
                 this.initCouponListeners();
             }
 
-            // Inicializar listeners de cupón
             initCouponListeners() {
                 document.getElementById('applyCouponBtn').addEventListener('click', () => this.applyCoupon());
                 document.getElementById('removeCouponBtn').addEventListener('click', () => this.removeCoupon());
-                // También permitir aplicar con Enter
                 document.getElementById('couponInput').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -4007,7 +3774,6 @@
                 });
             }
 
-            // Aplicar cupón
             applyCoupon() {
                 const input = document.getElementById('couponInput');
                 const code = input.value.trim().toUpperCase();
@@ -4025,7 +3791,6 @@
                     return;
                 }
 
-                // Verificar si el cupón ya fue usado
                 if (this.usedCoupons.includes(code)) {
                     messageDiv.textContent = 'Este cupón ya fue utilizado';
                     messageDiv.className = 'coupon-message error';
@@ -4039,18 +3804,15 @@
                     return;
                 }
 
-                // Aplicar cupón
                 this.appliedCoupon = { code, ...coupon };
                 localStorage.setItem('elOsoAppliedCoupon', JSON.stringify(this.appliedCoupon));
                 
-                // Mostrar info
                 document.getElementById('appliedCouponCode').textContent = code;
                 document.getElementById('appliedCouponInfo').style.display = 'flex';
                 input.value = '';
                 messageDiv.style.display = 'none';
 
-                // Actualizar resumen
-                this.renderCart(); // Re-render para mostrar descuento
+                this.renderCart();
 
                 if (window.analyticsSystem) {
                     window.analyticsSystem.trackEvent('apply_coupon', {
@@ -4061,7 +3823,6 @@
                 }
             }
 
-            // Quitar cupón
             removeCoupon(skipRender = false) {
                 this.appliedCoupon = null;
                 localStorage.removeItem('elOsoAppliedCoupon');
@@ -4071,13 +3832,12 @@
                 }
             }
 
-            // Calcular descuento basado en subtotal
             calculateDiscount(subtotal) {
                 if (!this.appliedCoupon) return 0;
                 if (this.appliedCoupon.type === 'percentage') {
                     return subtotal * (this.appliedCoupon.value / 100);
                 } else if (this.appliedCoupon.type === 'fixed') {
-                    return Math.min(this.appliedCoupon.value, subtotal); // no puede superar subtotal
+                    return Math.min(this.appliedCoupon.value, subtotal);
                 }
                 return 0;
             }
@@ -4416,8 +4176,7 @@
                     document.getElementById('checkoutBtn').disabled = true;
                     cartItemsContainer.classList.remove('hidden');
                     document.getElementById('freeShippingProgress').style.display = 'none';
-                    // Ocultar cupón aplicado
-                    this.removeCoupon(true); // Quitar cupón si el carrito se vacía
+                    this.removeCoupon(true);
                     return;
                 }
 
@@ -4469,7 +4228,6 @@
                 
                 document.getElementById('cartSubtotal').textContent = `$ ${subtotal.toLocaleString('es-AR')}`;
                 
-                // Mostrar línea de descuento si aplica
                 let discountRow = document.getElementById('discountRow');
                 if (!discountRow && discount > 0) {
                     discountRow = document.createElement('div');
@@ -4701,7 +4459,6 @@
                     const response = await fetch(this.APPS_SCRIPT_URL, {
                         method: 'POST',
                         mode: 'cors',
-                        //headers: { 'Content-Type': 'application/json', },
                         body: JSON.stringify(formData)
                     });
 
@@ -4759,7 +4516,6 @@
                     notes: document.getElementById('orderNotes').value.trim()
                 };
 
-                // Capturar datos de Meta (fbc y fbp) - NUEVO
                 const metaData = {
                     fbc: getCookie('_fbc') || getUrlParameter('fbclid'),
                     fbp: getCookie('_fbp')
@@ -4781,7 +4537,7 @@
                     appliedCoupon: this.appliedCoupon,
                     shippingType: 'delivery',
                     status: 'pending',
-                    metaData: metaData   // <-- NUEVO
+                    metaData: metaData
                 };
                 
                 const checkoutBtn = document.getElementById('checkoutBtn');
@@ -4798,7 +4554,6 @@
                         this.cart = [];
                         this.saveCart();
                         this.updateCartCount();
-                        // Registrar cupón usado si corresponde
                         if (this.appliedCoupon) {
                             if (!this.usedCoupons.includes(this.appliedCoupon.code)) {
                                 this.usedCoupons.push(this.appliedCoupon.code);
@@ -5476,7 +5231,6 @@
             }
         }
 
-        // Clase para manejar el pop-up de salida (Exit Intent)
         class ExitIntentPopup {
             constructor() {
                 this.popup = document.getElementById('exitPopup');
@@ -5489,21 +5243,18 @@
             init() {
                 if (!this.popup) return;
 
-                // Verificar si ya se mostró en esta sesión
                 if (localStorage.getItem('exitIntentShown')) {
                     return;
                 }
 
-                // Mostrar después de 30 segundos
                 setTimeout(() => {
                     this.show();
-                }, 30000); // 30 segundos
+                }, 30000);
 
                 this.setupEventListeners();
             }
 
             setupEventListeners() {
-                // Cerrar al hacer clic en overlay o botón cerrar
                 this.overlay.addEventListener('click', () => this.hide());
                 this.closeBtn.addEventListener('click', () => this.hide());
             }
@@ -5514,7 +5265,6 @@
                 this.popup.classList.add('active');
                 localStorage.setItem('exitIntentShown', 'true');
                 
-                // Analytics
                 if (window.analyticsSystem) {
                     window.analyticsSystem.trackEvent('exit_intent_shown', {});
                 }
@@ -5525,37 +5275,45 @@
             }
         }
 
+        function initSimpleSlider(container) {
+            const wrapper = container.querySelector('.swiper-wrapper');
+            const nextBtn = container.querySelector('.swiper-button-next');
+            const prevBtn = container.querySelector('.swiper-button-prev');
+            let slideWidth = 0;
+
+            const scrollNext = () => {
+                if (!wrapper) return;
+                const slide = wrapper.querySelector('.swiper-slide');
+                if (!slide) return;
+                slideWidth = slide.offsetWidth + parseInt(getComputedStyle(wrapper).gap || 15);
+                wrapper.scrollBy({ left: slideWidth, behavior: 'smooth' });
+            };
+
+            const scrollPrev = () => {
+                if (!wrapper) return;
+                const slide = wrapper.querySelector('.swiper-slide');
+                if (!slide) return;
+                slideWidth = slide.offsetWidth + parseInt(getComputedStyle(wrapper).gap || 15);
+                wrapper.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+            };
+
+            if (nextBtn) nextBtn.addEventListener('click', scrollNext);
+            if (prevBtn) prevBtn.addEventListener('click', scrollPrev);
+
+            const toggleButtons = () => {
+                if (!wrapper) return;
+                const scrollLeft = wrapper.scrollLeft;
+                const maxScroll = wrapper.scrollWidth - wrapper.clientWidth;
+                if (prevBtn) prevBtn.disabled = scrollLeft <= 0;
+                if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll - 1;
+            };
+
+            wrapper.addEventListener('scroll', toggleButtons);
+            window.addEventListener('resize', toggleButtons);
+            toggleButtons();
+        }
+
         document.addEventListener('DOMContentLoaded', async function() {
-            var swiperReviews = new Swiper('.mySwiperReviews', {
-                slidesPerView: 1, // Siempre 1 en móvil (ya lo tenías en breakpoints)
-                spaceBetween: 15,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                },
-                breakpoints: {
-                    768: { slidesPerView: 2 }
-                }
-            });
-
-            var swiper3 = new Swiper('.mySwiper3', {
-                slidesPerView: 1,
-                spaceBetween: 0,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                }
-            });
-
-            var swiper4 = new Swiper('.mySwiper4', {
-                slidesPerView: 1,
-                spaceBetween: 0,
-                navigation: {
-                    nextEl: '.swiper-button-next',
-                    prevEl: '.swiper-button-prev',
-                }
-            });
-
             window.productSystem = new ProductSystem();
             
             await window.productSystem.init();
@@ -5631,11 +5389,8 @@
 
             document.getElementById('checkoutBtn').addEventListener('click', () => window.cartSystem.checkout());
 
-            // Inicializar pop-up de salida
             window.exitIntentPopup = new ExitIntentPopup();
 
-            // ===== PRUEBA SOCIAL DINÁMICA =====
-            // Toast de compras recientes
             const toast = document.getElementById('socialToast');
             const toastMessage = document.getElementById('toastMessage');
             const names = [
@@ -5655,7 +5410,6 @@
                 'Antonella', 'Thiago', 'Luna', 'Benjamín', 'Emma', 'Bautista', 'Isabella', 'Francesco', 'Renata', 'Simón',
                 'Chiara', 'Valentino', 'Lola', 'Matteo', 'Guadalupe', 'Massimo', 'Mía', 'Felipe', 'Juana', 'Bruno'
             ];
-            // Obtener nombres de productos activos de la tienda (solo los que tienen active = true)
             let products = window.productSystem?.products?.filter(p => p.active).map(p => p.name.split(' - ')[0]) || ['Ember', 'Vika', 'Ndala', 'Riad', 'Wendy', 'Clara', 'Greta'];
 
             function showRandomPurchase() {
@@ -5669,8 +5423,9 @@
                 }, 5000);
             }
 
-            // Mostrar primer toast después de 5 segundos, luego cada 20 segundos
-            //setInterval(showRandomPurchase, 30000);
+            document.querySelectorAll('.mySwiperReviews').forEach(slider => {
+                initSimpleSlider(slider);
+            });
         });
 
         const style = document.createElement('style');
