@@ -38,7 +38,8 @@
     <link rel="preconnect" href="https://www.clarity.ms">
     <link rel="preconnect" href="https://connect.facebook.net">
 
-    <link rel="preload" href="images/logo/logo-180x180.png" as="image">
+    <link rel="preload" href="images/banners/hero-mobile.jpg?v=16" as="image">
+    <link rel="preload" href="images/logo/logo-64x64.png?v=16" as="image">
 
     <title>El Oso</title>
     
@@ -1066,36 +1067,6 @@
             color: #2e7d32;
             text-align: center;
             font-weight: 500;
-        }
-        .social-toast {
-            position: fixed;
-            bottom: 100px;
-            left: 20px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            gap: 10px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            animation: slideIn 0.3s ease;
-        }
-        .social-toast.show {
-            display: flex;
-        }
-        .social-toast svg {
-            width: 18px;
-            height: 18px;
-            fill: #4CAF50;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
         }
 
         .shipping-form-group {
@@ -2163,171 +2134,6 @@
         .h2, h2 {
             margin-bottom: 20px;
         }
-        .welcome-portal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-        .welcome-portal.active {
-            display: flex;
-        }
-        .portal-background-blur {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1;
-        }
-        .portal-container {
-            color: #fff;
-            width: 90%;
-            border-radius: 12px;
-            padding: 50px 40px;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-        .portal-logo {
-            margin-bottom: 30px;
-        }
-        .portal-logo img {
-            width: 120px;
-            height: auto;
-        }
-        .portal-content h1 {
-            font-size: 2.5rem;
-            font-weight: 400;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .portal-strong {
-            font-weight: 700;
-            display: block;
-            font-size: 3.2rem;
-            margin-top: 10px;
-            letter-spacing: 1px;
-        }
-        .portal-content p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .portal-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 30px;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .portal-btn {
-            padding: 18px 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 30px;
-            border: 2px solid;
-            width: 100%;
-        }
-        .portal-btn-primary {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
-        .portal-btn-primary:hover {
-            background: #000;
-            color: #fff;
-            transform: translateY(-2px);
-        }
-        .portal-btn-secondary {
-            background: transparent;
-            color: #fff;
-            border-color: #fff;
-        }
-        .portal-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        @media (max-width: 768px) {
-            .checkout-btn {
-                margin-bottom: 80px;
-            }
-            .portal-container {
-                padding: 40px 25px;
-                width: 95%;
-            }
-            .portal-content h1 {
-                font-size: 2rem;
-            }
-            .portal-strong {
-                font-size: 2.5rem;
-            }
-            .portal-content p {
-                font-size: 1.1rem;
-            }
-            .portal-btn {
-                padding: 16px 25px;
-                font-size: 1rem;
-            }
-        }
-        @media (max-width: 480px) {
-            .portal-container {
-                padding: 30px 20px;
-            }
-            .portal-content h1 {
-                font-size: 1.8rem;
-            }
-            .portal-strong {
-                font-size: 2.2rem;
-            }
-            .portal-content p {
-                font-size: 1rem;
-            }
-            .portal-actions {
-                gap: 12px;
-            }
-        }
-        body.portal-active {
-            overflow: hidden;
-        }
-        .snow-canvas-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        #snowCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
         .shipping-banner {
             color: var(--color-white);
             text-align: center;
@@ -2366,7 +2172,6 @@
             display: block;
             width: 80px;
             height: 80px;
-            background-image: url('images/logo/logo-64x64.png');
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
@@ -2397,25 +2202,6 @@
         }
         .shop-article--image {
             position: relative;
-        }
-        .product-viewer-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border-radius: 20px;
-            padding: 4px 8px;
-            font-size: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            z-index: 2;
-        }
-        .product-viewer-badge span:first-child {
-            font-size: 0.9rem;
         }
         .hidden {
             display: none !important;
@@ -2457,6 +2243,9 @@
         .swiper-prev svg,
         .swiper-button-prev svg {
             transform: rotate(180deg);
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
     
@@ -2536,36 +2325,11 @@
     <meta name="google-site-verification" content="xL0bF1MF2lTpuOwKsNkd2PNiPxs-o35IuaLXh0v3slE">
 </head>
 <body>
-    <div id="welcomePortal" class="welcome-portal">
-        <div class="portal-background-blur"></div>
-        <div id="snowCanvasContainer" class="snow-canvas-container">
-            <canvas id="snowCanvas"></canvas>
-        </div>
-        <div class="portal-container">
-            <div class="portal-logo">
-                <img src="images/logo/logo-180x180.png" alt="El Oso Logo" width="180" height="180" loading="eager">
-            </div>
-            <div class="portal-content">
-                <h1><strong class="portal-strong">¿BUSCÁS EL REFUGIO?</strong></h1>
-                <p>Estás por entrar al territorio de El Oso.
-                <br/>
-                <br/>
-                Acá no hay procesos industriales ni conservantes; solo micro-lotes de cerveza viva, recetas originales y carbonatación natural.
-                <br/>
-                <br/>
-                Si tenés la garganta seca, valorás lo auténtico y ya soplaste más de 18 velitas, sos bienvenido al refugio.</p>
-            </div>
-            <div class="portal-actions">
-                <button class="portal-btn portal-btn-primary" id="portalConfirmBtn">ENTRAR AL REFUGIO</button>
-                <button class="portal-btn portal-btn-secondary" id="portalDenyBtn">VOLVER A LA MANADA</button>
-            </div>
-        </div>
-    </div>
 
     <aside id="main-sidebar" class="main-sidebar sidebar-active">
         <div class="main-sidebar--logo" aria-label="El Oso - Inicio">
             <a href="#">
-                <img src="images/logo/logo-64x64.png" alt="El Oso Logo" width="64" height="64">
+                <img src="images/logo/logo-64x64.png?v=16" alt="El Oso Logo" width="64" height="64">
             </a>
         </div>
         <nav class="main-sidebar--nav">
@@ -2578,7 +2342,9 @@
     </aside>
 
     <div class="floating-logo">
-        <a href="#" class="logo" aria-label="El Oso - Inicio"></a>
+        <a href="#" class="logo" aria-label="El Oso - Inicio">
+            <img src="images/logo/logo-64x64.png?v=16" alt="El Oso Logo" width="60" height="60">
+        </a>
     </div>
 
     <main id="main-wrapper">
@@ -2590,7 +2356,7 @@
             </div>
             <picture>
                 <source media="(max-width: 768px)" srcset="images/banners/hero-mobile.jpg?v=16">
-                <img class="bg" src="images/banners/hero.jpg?v=16" alt="El Oso - Hero Banner" width="1920" height="1080" loading="lazy">
+                <img class="bg" src="images/banners/hero.jpg?v=16" alt="El Oso - Hero Banner" width="1920" height="1080" fetchpriority="high">
             </picture>
         </section>
 
@@ -2598,7 +2364,6 @@
             <span id="shippingBannerThreshold">Envío gratis Jueves y Viernes desde $30.000 (Solo Quilmes, Bernal, Ezpeleta, Don Bosco y Berazategui)</span>
         </div>
 
-        <!-- SECCIÓN CERVEZAS (reemplaza a la antigua tienda con filtro) -->
         <section class="home-section home-cervezas" id="cervezas">
             <div class="container">
                 <div class="home-section--left">
@@ -2617,7 +2382,6 @@
             </div>
         </section>
 
-        <!-- SECCIÓN PACKS -->
         <section class="home-section home-packs" id="packs">
             <div class="container">
                 <div class="home-section--left">
@@ -3173,10 +2937,6 @@
         </div>
     </div>
 
-    <div class="social-toast" id="socialToast">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-        <span id="toastMessage">Alguien compró recientemente</span>
-    </div>
     <script>
         function getCookie(name) {
             const value = `; ${document.cookie}`;
@@ -4845,189 +4605,6 @@
             }
         }
 
-        class WelcomePortal {
-            constructor() {
-                this.portal = document.getElementById('welcomePortal');
-                this.confirmBtn = document.getElementById('portalConfirmBtn');
-                this.denyBtn = document.getElementById('portalDenyBtn');
-                this.snowCanvas = document.getElementById('snowCanvas');
-                this.snowParticles = [];
-                this.mouseX = 0;
-                this.mouseY = 0;
-                this.mouseRadius = 100;
-                this.isMobile = window.innerWidth < 768;
-                this.init();
-            }
-
-            init() {
-                this.showPortal();
-                this.initSnow();
-                this.setupMouseTracking();
-                this.setupEventListeners();
-            }
-
-            initSnow() {
-                if (this.isMobile) return;
-
-                if (!this.snowCanvas) return;
-
-                const canvas = this.snowCanvas;
-                const ctx = canvas.getContext('2d');
-                
-                const resizeCanvas = () => {
-                    canvas.width = canvas.parentElement.clientWidth;
-                    canvas.height = canvas.parentElement.clientHeight;
-                };
-                
-                resizeCanvas();
-                window.addEventListener('resize', resizeCanvas);
-                
-                const particleCount = Math.min(150, Math.floor((canvas.width * canvas.height) / 5000));
-                
-                for (let i = 0; i < particleCount; i++) {
-                    this.snowParticles.push({
-                        x: Math.random() * canvas.width,
-                        y: Math.random() * canvas.height,
-                        size: Math.random() * 4 + 1,
-                        speed: Math.random() * 1 + 0.5,
-                        sway: Math.random() * 0.5 + 0.1,
-                        swayAngle: Math.random() * Math.PI * 2,
-                        opacity: Math.random() * 0.5 + 0.3,
-                        wind: (Math.random() - 0.5) * 0.2
-                    });
-                }
-                
-                const animateSnow = () => {
-                    if (!this.portal || !this.portal.classList.contains('active')) {
-                        return;
-                    }
-                    
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    
-                    this.snowParticles.forEach(particle => {
-                        particle.y += particle.speed;
-                        particle.swayAngle += particle.sway * 0.05;
-                        particle.x += Math.sin(particle.swayAngle) * 0.3 + particle.wind;
-                        
-                        const dx = particle.x - this.mouseX;
-                        const dy = particle.y - this.mouseY;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        
-                        if (distance < this.mouseRadius) {
-                            const force = (this.mouseRadius - distance) / this.mouseRadius;
-                            particle.x += (dx / distance) * force * 3;
-                            particle.y += (dy / distance) * force * 3;
-                        }
-                        
-                        if (particle.y > canvas.height) {
-                            particle.y = -10;
-                            particle.x = Math.random() * canvas.width;
-                        }
-                        
-                        if (particle.x > canvas.width + 10) {
-                            particle.x = -10;
-                        } else if (particle.x < -10) {
-                            particle.x = canvas.width + 10;
-                        }
-                        
-                        ctx.beginPath();
-                        ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
-                        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                        ctx.fill();
-                        
-                        ctx.beginPath();
-                        ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity * 0.3})`;
-                        ctx.arc(particle.x, particle.y, particle.size * 1.5, 0, Math.PI * 2);
-                        ctx.fill();
-                    });
-                    
-                    requestAnimationFrame(animateSnow);
-                };
-                
-                animateSnow();
-            }
-
-            setupMouseTracking() {
-                if (this.isMobile || !this.snowCanvas) return;
-                
-                const canvas = this.snowCanvas;
-                
-                canvas.addEventListener('mousemove', (e) => {
-                    const rect = canvas.getBoundingClientRect();
-                    this.mouseX = e.clientX - rect.left;
-                    this.mouseY = e.clientY - rect.top;
-                });
-                
-                canvas.addEventListener('mouseleave', () => {
-                    this.mouseX = -1000;
-                    this.mouseY = -1000;
-                });
-                
-                canvas.addEventListener('touchmove', (e) => {
-                    e.preventDefault();
-                    const rect = canvas.getBoundingClientRect();
-                    this.mouseX = e.touches[0].clientX - rect.left;
-                    this.mouseY = e.touches[0].clientY - rect.top;
-                }, { passive: false });
-            }
-
-            showPortal() {
-                if (this.portal) {
-                    document.body.classList.add('portal-active');
-                    
-                    setTimeout(() => {
-                        this.portal.classList.add('active');
-                    }, 300);
-                }
-            }
-
-            hidePortal() {
-                if (this.portal) {
-                    this.portal.classList.remove('active');
-                    
-                    setTimeout(() => {
-                        document.body.classList.remove('portal-active');
-                        this.portal.style.display = 'none';
-                        
-                        this.snowParticles = [];
-                    }, 300);
-                }
-            }
-
-            verifyAge(isAdult) {
-                if (isAdult) {
-                    this.hidePortal();
-                    
-                    if (window.analyticsSystem) {
-                        window.analyticsSystem.trackEvent('age_verified', {
-                            verified: true,
-                            timestamp: new Date().toISOString()
-                        });
-                    }
-                }
-            }
-
-            setupEventListeners() {
-                if (this.confirmBtn) {
-                    this.confirmBtn.addEventListener('click', () => {
-                        this.verifyAge(true);
-                    });
-                }
-
-                if (this.denyBtn) {
-                    this.denyBtn.addEventListener('click', () => {
-                        this.verifyAge(false);
-                    });
-                }
-
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && this.portal.classList.contains('active')) {
-                        this.verifyAge(false);
-                    }
-                });
-            }
-        }
-
         class ExitIntentPopup {
             constructor() {
                 this.popup = document.getElementById('exitPopup');
@@ -5182,54 +4759,10 @@
 
             window.exitIntentPopup = new ExitIntentPopup();
 
-            const toast = document.getElementById('socialToast');
-            const toastMessage = document.getElementById('toastMessage');
-            const names = [
-                'María', 'Juan', 'Carlos', 'Ana', 'Luis', 'Sofía', 'Pedro', 'Laura', 'Diego', 'Valentina',
-                'Martina', 'Julián', 'Camila', 'Facundo', 'Lucía', 'Matías', 'Florencia', 'Tomás', 'Agustina', 'Nicolás',
-                'Milagros', 'Franco', 'Rocío', 'Emiliano', 'Morena', 'Iván', 'Lourdes', 'Gonzalo', 'Brenda', 'Leandro',
-                'Aldana', 'Lautaro', 'Malena', 'Federico', 'Candela', 'Alan', 'Ornella', 'Brian', 'Micaela', 'Kevin',
-                'Sabrina', 'Alexis', 'Yamila', 'Jonathan', 'Melisa', 'Ezequiel', 'Daiana', 'Cristian', 'Celeste', 'Hernán',
-                'Romina', 'Walter', 'Mariana', 'Daniel', 'Paula', 'Pablo', 'Silvina', 'Marcelo', 'Gabriela', 'Ricardo',
-                'Verónica', 'Oscar', 'Patricia', 'Jorge', 'Claudia', 'Alejandro', 'Andrea', 'Roberto', 'Karina', 'Fernando',
-                'Lorena', 'Adrián', 'Marisol', 'Sebastián', 'Eliana', 'Joaquín', 'Nadia', 'Esteban', 'Marilina', 'Guillermo',
-                'Valeria', 'Ramiro', 'Gisela', 'Mauro', 'Belén', 'Lucas', 'Soledad', 'Santiago', 'Evelyn', 'Gastón',
-                'Vanesa', 'Marcos', 'Noelia', 'Agustín', 'Tamara', 'Mario', 'Virginia', 'Hugo', 'Mariela', 'Javier',
-                'Cintia', 'Ángel', 'Paola', 'Raúl', 'Mercedes', 'Rubén', 'Mirta', 'Alberto', 'Nora', 'Víctor',
-                'Alicia', 'Ramón', 'Liliana', 'Eduardo', 'Stella', 'José', 'Nancy', 'Álvaro', 'Lidia', 'Gustavo',
-                'Sandra', 'Claudio', 'Rosa', 'Sergio', 'Beatriz', 'Omar', 'Gladys', 'Luciano', 'Teresa', 'Renzo',
-                'Antonella', 'Thiago', 'Luna', 'Benjamín', 'Emma', 'Bautista', 'Isabella', 'Francesco', 'Renata', 'Simón',
-                'Chiara', 'Valentino', 'Lola', 'Matteo', 'Guadalupe', 'Massimo', 'Mía', 'Felipe', 'Juana', 'Bruno'
-            ];
-            let products = window.productSystem?.products?.filter(p => p.active).map(p => p.name.split(' - ')[0]) || ['Ember', 'Vika', 'Ndala', 'Riad', 'Wendy', 'Clara', 'Greta'];
-
-            function showRandomPurchase() {
-                const randomName = names[Math.floor(Math.random() * names.length)];
-                const randomProduct = products[Math.floor(Math.random() * products.length)];
-                const randomTime = Math.floor(Math.random() * 10) + 1;
-                toastMessage.textContent = `${randomName} compró ${randomProduct} hace ${randomTime} min`;
-                toast.classList.add('show');
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 5000);
-            }
-
             document.querySelectorAll('.mySwiperReviews').forEach(slider => {
                 initSimpleSlider(slider);
             });
         });
-
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes spin {
-                to { transform: rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
-
-        //document.addEventListener('DOMContentLoaded', function() {
-        //    window.welcomePortal = new WelcomePortal();
-        //});
     </script>
 </body>
 </html>
