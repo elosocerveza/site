@@ -38,8 +38,9 @@
     <link rel="preconnect" href="https://www.clarity.ms">
     <link rel="preconnect" href="https://connect.facebook.net">
 
-    <link rel="preload" href="images/banners/hero-mobile.jpg?v=16" as="image">
-    <link rel="preload" href="images/logo/logo-64x64.png?v=16" as="image">
+    <link rel="preload" href="images/banners/hero.jpg?v=16" as="image" media="(min-width: 769px)" fetchpriority="high">
+    <link rel="preload" href="images/banners/hero-mobile.jpg?v=16" as="image" media="(max-width: 768px)" fetchpriority="high">
+    <link rel="preload" href="images/logo/logo-64x64.png?v=16" as="image" fetchpriority="high">
 
     <title>El Oso</title>
     
@@ -2356,7 +2357,7 @@
             </div>
             <picture>
                 <source media="(max-width: 768px)" srcset="images/banners/hero-mobile.jpg?v=16">
-                <img class="bg" src="images/banners/hero.jpg?v=16" alt="El Oso - Hero Banner" width="1920" height="1080" fetchpriority="high">
+                <img class="bg" src="images/banners/hero.jpg?v=16" alt="El Oso - Hero Banner" width="1920" height="1080">
             </picture>
         </section>
 
@@ -2954,7 +2955,7 @@
         class ProductSystem {
             constructor() {
                 this.products = [];
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZ26jpn6HLhWgy4NJ_8SNlTGQdWuKHbVaIlr-YeDV5RJuTgTN4wKhylvil31CgHcgYgw/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbze-v3rzliGKU_iqw_vONsiUrnLRQP21ce9loTJyyZcDKppITCHwayg98lq0P-YJu2urw/exec';
                 this.cervezasGrid = document.getElementById('cervezasGrid');
                 this.packsGrid = document.getElementById('packsGrid');
                 this.modalOverlay = null;
@@ -3297,7 +3298,7 @@
                 this.shippingCost = 3000;
                 this.freeShippingThreshold = 30000;
                 this.deliveryDays = [4, 5]; // 4 = jueves, 5 = viernes
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZ26jpn6HLhWgy4NJ_8SNlTGQdWuKHbVaIlr-YeDV5RJuTgTN4wKhylvil31CgHcgYgw/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbze-v3rzliGKU_iqw_vONsiUrnLRQP21ce9loTJyyZcDKppITCHwayg98lq0P-YJu2urw/exec';
                 
                 this.validCoupons = {
                     'OSO10': { type: 'percentage', value: 10 },
