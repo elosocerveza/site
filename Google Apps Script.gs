@@ -486,7 +486,7 @@ function sendEmailNotification(orderData) {
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Nombre:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.name || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Teléfono:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.phone || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Dirección:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.address || 'No especificado') + ', ' + (customer.city || 'No especificado') + '</td></tr>';
-    customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Entrega:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.deliveryDay || 'No especificado') + ' ' + (customer.deliveryTime || 'No especificado') + '</td></tr>';
+    customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Entrega:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.deliveryDay || 'No especificado') + ', ' + (customer.deliveryTime || 'No especificado') + '</td></tr>';
     customerMessage += '<tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Notas:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">' + (customer.notes || 'Sin notas') + '</td></tr>';
     customerMessage += '</table>';
     customerMessage += '<h3 style="color: #000; margin-top: 25px;">🛒 PRODUCTOS</h3>';
@@ -629,7 +629,7 @@ function sendPurchaseToFacebook(orderData) {
     const result = JSON.parse(response.getContentText());
 
     if (response.getResponseCode() === 200) {
-      logInfo('Evento Purchase enviado a Meta OK', 'sendPurchaseToFacebook', result);
+      //logInfo('Evento Purchase enviado a Meta OK', 'sendPurchaseToFacebook', result);
     } else {
       logError(new Error('Error al enviar a Meta'), 'sendPurchaseToFacebook', result);
     }
