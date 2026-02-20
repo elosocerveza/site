@@ -3176,7 +3176,7 @@
         class ProductSystem {
             constructor() {
                 this.products = [];
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6DeirGd98KqgeE5RMTm8aWJQqaA2XwgC-k4BeiPfzgJN3zwoKwzW8dGqnoAjxYxVxwQ/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZ26jpn6HLhWgy4NJ_8SNlTGQdWuKHbVaIlr-YeDV5RJuTgTN4wKhylvil31CgHcgYgw/exec';
                 this.cervezasGrid = document.getElementById('cervezasGrid');
                 this.packsGrid = document.getElementById('packsGrid');
                 this.modalOverlay = null;
@@ -3520,7 +3520,7 @@
                 this.freeShippingThreshold = 30000;
                 this.deliveryDays = [4, 5];
                 this.deliveryTimeRange = '11 a 20 hrs';
-                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6DeirGd98KqgeE5RMTm8aWJQqaA2XwgC-k4BeiPfzgJN3zwoKwzW8dGqnoAjxYxVxwQ/exec';
+                this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZ26jpn6HLhWgy4NJ_8SNlTGQdWuKHbVaIlr-YeDV5RJuTgTN4wKhylvil31CgHcgYgw/exec';
                 
                 this.validCoupons = {
                     'OSO10': { type: 'percentage', value: 10 },
@@ -4294,7 +4294,8 @@
 
                 const metaData = {
                     fbc: getCookie('_fbc') || getUrlParameter('fbclid'),
-                    fbp: getCookie('_fbp')
+                    fbp: getCookie('_fbp'),
+                    userAgent: navigator.userAgent
                 };
 
                 const timestamp = Date.now();

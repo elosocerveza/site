@@ -577,7 +577,7 @@ function sendPurchaseToFacebook(orderData) {
     // Obtener IP y User Agent del request (si está disponible)
     const request = ScriptApp.getRequest ? ScriptApp.getRequest() : null;
     const clientIp = request ? request.sourceIp : '0.0.0.0';
-    const userAgent = request ? request.userAgent : '';
+    const userAgent = metaData.userAgent || '';
 
     // Datos del cliente con hash SHA256 (los campos tradicionales)
     const userData = {
