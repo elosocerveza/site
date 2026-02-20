@@ -2949,30 +2949,30 @@
                                 <span>Subtotal:</span>
                                 <span id="cartSubtotal">$ 0</span>
                             </div>
-                        </div>
-                        
-                        <div class="free-shipping-progress" id="freeShippingProgress" style="display: none;">
-                            <div class="progress-bar-container">
-                                <div class="progress-bar-fill" id="freeShippingProgressFill" style="width: 0%;"></div>
+                            <div class="free-shipping-progress" id="freeShippingProgress" style="display: none;">
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" id="freeShippingProgressFill" style="width: 0%;"></div>
+                                </div>
+                                <div class="progress-message" id="freeShippingMessage"></div>
                             </div>
-                            <div class="progress-message" id="freeShippingMessage"></div>
-                        </div>
-                        
-                        <div class="ticket-section">
                             <div class="summary-row shipping">
-                                <span>Envío a: <strong><span id="deliveryCity"></span></strong></span>
+                                <span>Envío a domicilio:</span>
                                 <span id="cartShipping">$ 0</span>
                             </div>
-                            <div class="summary-row shipping">
-                                <span>El día: <strong><span id="deliveryDay"></span></strong></span>
+                            <div class="summary-row total">
+                                <span>TOTAL:</span>
+                                <span id="cartTotal">$ 0</span>
                             </div>
-                            <div class="summary-row shipping">
-                                <span>En el rango horario: <strong><span id="deliveryTime"></span></strong></span>
-                            </div>
+                            
+                            <div class="ticket-divider"></div>
+
+                            <div class="section-title">Entrega</div>
+
                             <div class="summary-row shipping">
                                 <div class="form-group">
+                                    <label for="deliveryLocation">Seleccioná tu localidad</label>
                                     <select id="deliveryLocation" class="shipping-select" required>
-                                        <option value="" disabled selected>Seleccioná tu localidad</option>
+                                        <option value="" disabled selected>Elegí tu localidad</option>
                                         <option value="quilmes">Quilmes</option>
                                         <option value="bernal">Bernal</option>
                                         <option value="don-bosco">Don Bosco</option>
@@ -2982,17 +2982,35 @@
                                     <div id="deliveryLocationError" class="error-message"></div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="summary-row total">
-                            <span>TOTAL:</span>
-                            <span id="cartTotal">$ 0</span>
-                        </div>
 
-                        <div class="ticket-divider"></div>
+                            <!-- Selector de día -->
+                            <div class="summary-row shipping">
+                                <div class="form-group">
+                                    <label for="deliveryDaySelect">Seleccioná el día de entrega</label>
+                                    <select id="deliveryDaySelect" class="shipping-select" required>
+                                        <option value="" disabled selected>Cargando días...</option>
+                                    </select>
+                                    <div id="deliveryDaySelectError" class="error-message"></div>
+                                </div>
+                            </div>
 
-                        <div class="ticket-section">
-                            <div class="section-title">INFORMACIÓN DEL CLIENTE</div>
+                            <!-- Selector de horario -->
+                            <div class="summary-row shipping">
+                                <div class="form-group">
+                                    <label for="deliveryTimeSelect">Seleccioná el rango horario</label>
+                                    <select id="deliveryTimeSelect" class="shipping-select" required>
+                                        <option value="" disabled selected>Elegí horario</option>
+                                        <option value="9-13">Mañana (11 a 14 hrs)</option>
+                                        <option value="14-18">Tarde (14 a 17 hrs)</option>
+                                        <option value="19-22">Noche (17 a 20 hrs)</option>
+                                    </select>
+                                    <div id="deliveryTimeSelectError" class="error-message"></div>
+                                </div>
+                            </div>
+
+                            <div class="ticket-divider"></div>
+
+                            <div class="section-title">TUS DATOS</div>
                             
                             <div class="form-group">
                                 <label for="customerName">Nombre completo</label>
@@ -3207,9 +3225,9 @@
                         this.packsGrid.innerHTML = `
                             <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
                                 <div style="display: inline-block; width: 40px; height: 40px; border: 3px solid rgba(0, 0, 0, 0.3); border-radius: 50%; border-top-color: #000000; animation: spin 1s ease-in-out infinite;"></div>
-                                <p style="margin-top: 15px;">Cargando packs...</p>
-                            </div>
-                        `;
+                                    <p style="margin-top: 15px;">Cargando packs...</p>
+                                </div>
+                            `;
                     }
 
                     const response = await fetch(this.APPS_SCRIPT_URL + '?action=getProducts', {
@@ -3518,8 +3536,7 @@
                 this.cart = JSON.parse(localStorage.getItem('elOsoCart')) || [];
                 this.shippingCost = 3000;
                 this.freeShippingThreshold = 30000;
-                this.deliveryDays = [4, 5];
-                this.deliveryTimeRange = '11 a 20 hrs';
+                this.deliveryDays = [4, 5]; // 4 = jueves, 5 = viernes
                 this.APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZ26jpn6HLhWgy4NJ_8SNlTGQdWuKHbVaIlr-YeDV5RJuTgTN4wKhylvil31CgHcgYgw/exec';
                 
                 this.validCoupons = {
@@ -3528,6 +3545,10 @@
                 };
                 this.appliedCoupon = null;
                 this.usedCoupons = JSON.parse(localStorage.getItem('elOsoUsedCoupons')) || [];
+
+                // Nuevas propiedades para almacenar selecciones de entrega
+                this.selectedDeliveryDay = null;
+                this.selectedDeliveryTime = null;
 
                 this.init();
                 this.setupCartEventListeners();
@@ -3539,6 +3560,47 @@
                 this.renderCart();
                 this.validateForm();
                 this.initCouponListeners();
+                this.populateDeliveryDays(); // Poblar días disponibles al iniciar
+            }
+
+            // Genera los próximos 3 días hábiles (jueves/viernes)
+            getAvailableDeliveryDays() {
+                const today = new Date();
+                const days = [];
+                let count = 1;
+                while (days.length < 3) {
+                    const nextDate = new Date(today);
+                    nextDate.setDate(today.getDate() + count);
+                    const dayOfWeek = nextDate.getDay();
+                    if (this.deliveryDays.includes(dayOfWeek)) {
+                        const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+                        const dayName = dayNames[dayOfWeek];
+                        const month = nextDate.toLocaleString('es-AR', { month: 'long' });
+                        const label = `${dayName} ${nextDate.getDate()} de ${month}`;
+                        const value = nextDate.toISOString().split('T')[0];
+                        days.push({ value, label });
+                    }
+                    count++;
+                }
+                return days;
+            }
+
+            // Llena el select de días con las opciones disponibles
+            populateDeliveryDays() {
+                const select = document.getElementById('deliveryDaySelect');
+                if (!select) return;
+                const days = this.getAvailableDeliveryDays();
+                select.innerHTML = '<option value="" disabled selected>Seleccioná el día</option>';
+                days.forEach(day => {
+                    const option = document.createElement('option');
+                    option.value = day.value;
+                    option.textContent = day.label;
+                    select.appendChild(option);
+                });
+                // Restaurar selección previa si existe
+                if (this.selectedDeliveryDay) {
+                    select.value = this.selectedDeliveryDay;
+                }
             }
 
             initCouponListeners() {
@@ -3667,71 +3729,34 @@
                         }
                     }
                 });
+
+                // Nuevos listeners para día y horario
+                document.getElementById('deliveryDaySelect').addEventListener('change', (e) => {
+                    this.selectedDeliveryDay = e.target.value;
+                    this.validateField('deliveryDaySelect', e.target.value);
+                    this.validateForm();
+                });
+
+                document.getElementById('deliveryTimeSelect').addEventListener('change', (e) => {
+                    this.selectedDeliveryTime = e.target.value;
+                    this.validateField('deliveryTimeSelect', e.target.value);
+                    this.validateForm();
+                });
+
+                // Listener para localidad (actualiza ciudad y repobla días si fuera necesario)
+                document.getElementById('deliveryLocation').addEventListener('change', (e) => {
+                    this.validateField('deliveryLocation', e.target.value);
+                    const selectedOption = e.target.options[e.target.selectedIndex];
+                    document.getElementById('customerCity').value = selectedOption.text;
+                    this.populateDeliveryDays();
+                    this.validateForm();
+                });
             }
             
             updateShippingBanner() {
                 const bannerSpan = document.getElementById('shippingBannerThreshold');
                 if (bannerSpan) {
                     bannerSpan.textContent = `Envío gratis Jueves y Viernes desde $${this.freeShippingThreshold.toLocaleString('es-AR')} (Solo Quilmes, Bernal, Ezpeleta, Don Bosco y Berazategui)`;
-                }
-            }
-
-            calculateDeliveryDate() {
-                const today = new Date();
-                const currentDay = today.getDay();
-                
-                let daysToAdd = 0;
-                
-                for (let i = 1; i <= 7; i++) {
-                    const nextDay = (currentDay + i) % 7;
-                    if (this.deliveryDays.includes(nextDay)) {
-                        daysToAdd = i;
-                        break;
-                    }
-                }
-                
-                const currentHour = today.getHours();
-                const canDeliverToday = this.deliveryDays.includes(currentDay) && currentHour < 20;
-                
-                if (canDeliverToday) {
-                    daysToAdd = 0;
-                }
-                
-                const deliveryDate = new Date(today);
-                deliveryDate.setDate(today.getDate() + daysToAdd);
-                
-                return deliveryDate;
-            }
-
-            updateDeliveryDetails() {
-                const deliveryLocation = document.getElementById('deliveryLocation');
-                const deliveryCity = document.getElementById('deliveryCity');
-                const deliveryDay = document.getElementById('deliveryDay');
-                const deliveryTime = document.getElementById('deliveryTime');
-                const customerCity = document.getElementById('customerCity');
-                
-                if (deliveryLocation.value) {
-                    const selectedOption = deliveryLocation.options[deliveryLocation.selectedIndex];
-                    const cityName = selectedOption.text;
-                    
-                    const deliveryDate = this.calculateDeliveryDate();
-                    const dayNames = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-                    const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
-                                    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-                    
-                    const dayName = dayNames[deliveryDate.getDay()];
-                    const dayNumber = deliveryDate.getDate();
-                    const monthName = monthNames[deliveryDate.getMonth()];
-                    
-                    const formattedDate = `${dayName} ${dayNumber} de ${monthName}`;
-                    
-                    deliveryCity.textContent = cityName.toUpperCase();
-                    deliveryDay.textContent = formattedDate.toUpperCase();
-                    deliveryTime.textContent = this.deliveryTimeRange.toUpperCase();
-                    
-                    if (customerCity) {
-                        customerCity.value = cityName;
-                    }
                 }
             }
 
@@ -3992,8 +4017,16 @@
                 this.updateFreeShippingProgress();
                 this.validateForm();
                 
+                // Actualizar selects de día y horario con posibles valores previos
+                this.populateDeliveryDays();
+                if (this.selectedDeliveryTime) {
+                    document.getElementById('deliveryTimeSelect').value = this.selectedDeliveryTime;
+                }
                 if (document.getElementById('deliveryLocation').value) {
-                    this.updateDeliveryDetails();
+                    const selectedOption = document.getElementById('deliveryLocation').selectedOptions[0];
+                    if (selectedOption) {
+                        document.getElementById('customerCity').value = selectedOption.text;
+                    }
                 }
             }
 
@@ -4126,6 +4159,20 @@
                             errorMessage = 'Seleccione una localidad';
                         }
                         break;
+
+                    case 'deliveryDaySelect':
+                        if (!value) {
+                            isValid = false;
+                            errorMessage = 'Seleccione un día de entrega';
+                        }
+                        break;
+
+                    case 'deliveryTimeSelect':
+                        if (!value) {
+                            isValid = false;
+                            errorMessage = 'Seleccione un horario de entrega';
+                        }
+                        break;
                 }
                 
                 if (!isValid && value !== '') {
@@ -4149,7 +4196,9 @@
                     { id: 'customerEmail', value: document.getElementById('customerEmail').value },
                     { id: 'customerPhone', value: document.getElementById('customerPhone').value },
                     { id: 'customerAddress', value: document.getElementById('customerAddress').value },
-                    { id: 'deliveryLocation', value: document.getElementById('deliveryLocation').value }
+                    { id: 'deliveryLocation', value: document.getElementById('deliveryLocation').value },
+                    { id: 'deliveryDaySelect', value: document.getElementById('deliveryDaySelect').value },
+                    { id: 'deliveryTimeSelect', value: document.getElementById('deliveryTimeSelect').value }
                 ];
                 
                 let allValid = true;
@@ -4225,7 +4274,6 @@
             }
 
             async submitOrderToGoogleForm(orderData) {
-                
                 try {
                     const formData = {
                         action: 'submitOrder',
@@ -4243,11 +4291,11 @@
                     }
 
                     const result = await response.json();
-            
+                
                     if (!result.success) {
                         throw new Error(result.message || 'Error del servidor al procesar el pedido');
                     }
-            
+                
                     return result;
                 } catch (error) {
                     return {
@@ -4260,7 +4308,6 @@
             }
 
             async checkout() {
-                
                 if (!this.validateAllFields()) {
                     return;
                 }
@@ -4279,7 +4326,12 @@
                         }))
                     });
                 }
-                
+
+                const daySelect = document.getElementById('deliveryDaySelect');
+                const timeSelect = document.getElementById('deliveryTimeSelect');
+                const deliveryDayText = daySelect.selectedOptions[0]?.text || '';
+                const deliveryTimeText = timeSelect.selectedOptions[0]?.text || '';
+
                 const customerData = {
                     name: document.getElementById('customerName').value.trim(),
                     email: document.getElementById('customerEmail').value.trim(),
@@ -4287,8 +4339,8 @@
                     address: document.getElementById('customerAddress').value.trim(),
                     city: document.getElementById('customerCity').value.trim(),
                     location: document.getElementById('deliveryLocation').value,
-                    deliveryDay: document.getElementById('deliveryDay').textContent,
-                    deliveryTime: '11 a 20 hrs',
+                    deliveryDay: deliveryDayText,
+                    deliveryTime: deliveryTimeText,
                     notes: document.getElementById('orderNotes').value.trim()
                 };
 
@@ -4428,18 +4480,7 @@
             }
 
             showOrderConfirmation(order, response) {
-                const customerData = {
-                    name: document.getElementById('customerName').value.trim(),
-                    email: document.getElementById('customerEmail').value.trim(),
-                    phone: document.getElementById('customerPhone').value.trim(),
-                    address: document.getElementById('customerAddress').value.trim(),
-                    city: document.getElementById('customerCity').value.trim(),
-                    deliveryDay: document.getElementById('deliveryDay').textContent,
-                    deliveryTime: '11 a 20 hrs',
-                    notes: document.getElementById('orderNotes').value.trim()
-                };
-
-                this.sendFacebookPurchase(order, customerData);
+                const customerData = order.customer;
 
                 document.getElementById('cartItemsContainer').classList.add('hidden');
                 document.getElementById('orderConfirmation').classList.add('active');
@@ -4473,7 +4514,7 @@
                 document.getElementById('confirmationEmail').textContent = customerData.email;
                 document.getElementById('confirmationAddress').textContent = customerData.address;
                 document.getElementById('confirmationCity').textContent = customerData.city;
-                document.getElementById('confirmationDelivery').textContent = `${customerData.deliveryDay} (${customerData.deliveryTime})`;
+                document.getElementById('confirmationDelivery').textContent = `${customerData.deliveryDay}, ${customerData.deliveryTime}`;
                 if (customerData.notes) {
                     document.getElementById('confirmationNotesRow').style.display = 'flex';
                     document.getElementById('confirmationNotes').textContent = customerData.notes;
@@ -4504,7 +4545,7 @@
                                 `*Cliente:* ${customerData.name}%0A` +
                                 `*Teléfono:* ${customerData.phone}%0A` +
                                 `*Dirección:* ${customerData.address}, ${customerData.city}%0A` +
-                                `*Entrega:* ${customerData.deliveryDay} (11 a 20 hrs)%0A%0A` +
+                                `*Entrega:* ${customerData.deliveryDay} (${customerData.deliveryTime})%0A%0A` +
                                 `*Productos:*%0A${itemsList}%0A%0A` +
                                 `*Subtotal:* $${order.subtotal.toLocaleString('es-AR')}%0A` +
                                 `*Envío:* $${order.shipping.toLocaleString('es-AR')}%0A` +
@@ -4600,9 +4641,10 @@
 
             resetForm() {
                 document.getElementById('deliveryLocation').value = '';
-                document.getElementById('deliveryCity').textContent = '';
-                document.getElementById('deliveryDay').textContent = '';
-                document.getElementById('deliveryTime').textContent = '';
+                document.getElementById('deliveryDaySelect').value = '';
+                document.getElementById('deliveryTimeSelect').value = '';
+                this.selectedDeliveryDay = null;
+                this.selectedDeliveryTime = null;
                 document.getElementById('customerName').value = '';
                 document.getElementById('customerEmail').value = '';
                 document.getElementById('customerPhone').value = '';
@@ -5115,12 +5157,6 @@
             document.getElementById('closeCart').addEventListener('click', () => window.cartSystem.closeCart());
             document.getElementById('cartOverlay').addEventListener('click', () => window.cartSystem.closeCart());
             
-            document.getElementById('deliveryLocation').addEventListener('change', (e) => {
-                window.cartSystem.validateField('deliveryLocation', e.target.value);
-                window.cartSystem.updateDeliveryDetails();
-                window.cartSystem.validateForm();
-            });
-
             const formFields = ['customerName', 'customerEmail', 'customerPhone', 'customerAddress'];
             
             formFields.forEach(fieldId => {
