@@ -409,15 +409,16 @@
         .product-modal-image {
             flex: 1;
             display: flex;
-            align-items: center;
+            align-items: stretch;
             justify-content: center;
-            padding: 40px;
             min-height: 300px;
             background: white;
+            overflow: hidden;
         }
         .product-modal-image img {
-            max-height: 400px;
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .product-modal-info {
             flex: 1;
@@ -613,7 +614,6 @@
             color: var(--color-accent);
         }
         .informacion-row {
-            display: flex;
             margin-bottom: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 10px;
@@ -621,6 +621,7 @@
         .informacion-row--left {
             flex: 1;
             font-weight: bold;
+            text-transform: uppercase;
         }
         .card-informacion--right {
             flex: 1;
@@ -1939,12 +1940,6 @@
             .product-modal-content {
                 flex-direction: column;
             }
-            .product-modal-image {
-                padding: 20px;
-            }
-            .product-modal-image img {
-                max-height: 250px;
-            }
             .product-modal-info {
                 padding: 25px;
             }
@@ -2353,7 +2348,7 @@
         <section class="home-hero" id="hero">
             <div class="home-hero--content visible">
                 <div class="home-hero--text">
-                    <h1>"Es curioso cómo a veces uno simplemente encuentra cosas" <span>- Ted Mosby</span></h1>
+                    <h1>Stock limitado – micro lotes artesanales <span>- El Oso</span></h1>
                 </div>
             </div>
             <picture>
@@ -2617,20 +2612,26 @@
                             <div class="card-informacion--left">
                                 <div style="margin-bottom: 2rem;">
                                     <div class="informacion-row">
-                                        <div class="informacion-row--left">LUNES A DOMINGOS</div>
-                                        <div class="informacion-row--right">12 - 00HS</div>
+                                        <div class="informacion-row--left">Horarios de atención</div>
+                                        <div class="informacion-row--right">Lunes a Sábado de 11 a 21 hs</div>
                                     </div>
                                     <div class="informacion-row">
-                                        <div class="informacion-row--left">ENVÍOS (Consultas)</div>
-                                        <div class="informacion-row--right">11 2349 5971</div>
+                                        <div class="informacion-row--left">ENTREGAS</div>
+                                        <div class="informacion-row--right">Jueves y Viernes<br/>
+                                            Quilmes, Bernal, Ezpeleta, Don Bosco y Berazategui<br/>
+                                            Envío GRATIS desde $30.000<br/>
+                                            Otras zonas: consultar por WhatsApp</div>
                                     </div>
                                     <div class="informacion-row">
                                         <div class="informacion-row--left">RETIROS</div>
-                                        <div class="informacion-row--right">QUILMES - F. VARELA</div>
+                                        <div class="informacion-row--right">Quilmes y Florencio Varela<br/>
+                                            Coordinar previamente</div>
                                     </div>
                                     <div class="informacion-row">
                                         <div class="informacion-row--left">MEDIOS DE PAGO</div>
-                                        <div class="informacion-row--right">EFECTIVO - TRANSFERENCIA</div>
+                                        <div class="informacion-row--right">Compra 100% segura<br/>
+                                            Pagás cuando recibís tu pedido<br/>
+                                            Efectivo o Transferencia</div>
                                     </div>
                                 </div>
                             </div>
@@ -3094,7 +3095,7 @@
 
                 div.innerHTML = `
                     <figure class="shop-article--image">
-                        <img src="${product.image}?v=13" alt="${product.name}" loading="lazy" width="200" height="200" class="product-image" data-id="${product.id}">
+                        <img src="${product.image}?v=14" alt="${product.name}" loading="lazy" width="200" height="200" class="product-image" data-id="${product.id}">
                         <div class="product-detail-badge">
                             <span>Ver más</span>
                         </div>
@@ -3159,7 +3160,7 @@
 
                 this.modalContent.innerHTML = `
                     <div class="product-modal-image">
-                        <img src="${product.image}?v=13" alt="${product.name}" loading="lazy" width="400" height="400">
+                        <img src="${product.image}?v=14" alt="${product.name}" loading="lazy" width="400" height="400">
                     </div>
                     <div class="product-modal-info">
                         <h2 class="product-modal-title">${product.name.split(' - ')[0]}</h2>
@@ -3167,7 +3168,12 @@
                         <div class="product-modal-price">
                             <b>$ ${product.price.toLocaleString('es-AR')}</b> ${presentation}
                         </div>
-                        <div class="product-modal-description">${product.description}</div>
+                        <div class="product-modal-description">
+                            ${product.description}</br></br>
+                            ✔️ Sin conservantes</br>
+                            ✔️ Gasificación natural en botella</br>
+                            ✔️ Micro lote · Stock limitado
+                        </div>
                         <div class="product-modal-quantity">
                             <div class="quantity-controls-list">
                                 <button class="quantity-btn-list" data-action="decrease" data-id="${product.id}">-</button>
@@ -3183,7 +3189,7 @@
                                 Agregar al Carrito
                             </button>` : 
                             `<button class="product-modal-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
-                                NO DISPONIBLE
+                                Fuera de stock
                             </button>`
                         }
                     </div>
